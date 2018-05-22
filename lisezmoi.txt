@@ -1,0 +1,77 @@
+
+ __________________________________________
+
+  Carnet de Notes version Personnelle 2.9a
+ __________________________________________
+
+
+ ------------------------------------------------------------------------
+
+ ---> Présentation
+ 
+  Carnet de Notes version Personnelle est un logiciel destiné aux 
+  enseignants. Il permet de gérer les notes de leurs élèves.
+ 
+  Il est diffusé en shareware. Ce mode de diffusion permet de tester le 
+  logiciel et vous permet de l'acheter uniquement s'il vous convient. 
+
+  La version non enregistrée de Carnet de Notes version Personnelle 2.9
+  est limitée à 3 séries de notes.
+
+  Pour être totalement fonctionnelle, une version non enregistrée nécessite 
+  une clé d'enregistrement que vous obtiendrez si vous achetez ce logiciel.
+
+ ------------------------------------------------------------------------
+
+ ---> La version Personnelle 2.9a
+
+ Une mise à jour mineure de Carnet de Notes. 
+ 
+
+  - Création des bulletins : on peut désormais choisir de ne pas afficher
+     les colonnes "Min", "Max" et "Classe" sur les bulletins.
+
+
+ ------------------------------------------------------------------------
+
+ ---> Le futur de Carnet de Notes 
+
+  Carnet de Notes est un projet qui évolue depuis plus de 10 ans. Nous 
+  estimons que la version actuelle apporte à une majorité d'enseignants 
+  les fonctionnalités dont ils ont besoin pour gérer les notes de leurs 
+  élèves. Ce programme devrait donc très peu évoluer.
+
+ ------------------------------------------------------------------------
+
+ ---> Acheter Carnet de Notes version Personnelle 
+
+  Carnet de Notes version Personnelle 2.9a est vendu 30 euros.
+
+  Un formulaire de commande est inclus avec cette version. Vous trouverez 
+  tous les détails dans l'aide et dans ce formulaire. 
+
+  L'aide et le formulaire sont accessibles après l'installation dans la 
+  rubrique 'Carnet de Notes version Personnelle' du menu 'Démarrer' de 
+  Windows.
+
+ ------------------------------------------------------------------------
+
+ ---> Si vous êtes un utilisateur déjà enregistré de Carnet de Notes
+   version Personnelle 
+
+  Votre clé d'enregistrement est bien évidemment toujours valable.
+  Si le système de clé venait à être modifié, vous recevriez une nouvelle
+  clé par courrier électronique.
+
+ ------------------------------------------------------------------------
+
+ Bonne découverte de Carnet de Notes version Personnelle 2.9a
+
+ Alexandre Boisramé 
+ Enseignant en Mathématiques dans le Morbihan
+ ------------------------------------------------------------------------
+ http://www.carnetdenotes.com
+ aboisrame@carnetdenotes.com
+ ------------------------------------------------------------------------
+
+ date de dernière modification : 08/01/2012

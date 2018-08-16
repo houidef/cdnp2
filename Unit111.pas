@@ -13,34 +13,34 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	procedure sub_004B90CC(MainMenu:TMainMenu; ItemIndex:dword);//004B90CC
 	procedure sub_004B91F0(MainMenu:TMainMenu; ItemIndex:dword; {c:dword;} DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);//004B91F0
 	function sub_004B9410:boolean;//004B9410
-	//procedure sub_004B943C(?:Boolean);//004B943C
+	procedure sub_004B943C(a:Boolean);//004B943C
 	function sub_004B9468:dword;//004B9468 nbFichiersHistorique
-	//procedure sub_004B94A4(?:Int64);//004B94A4
+	procedure sub_004B94A4(a:Int64);//004B94A4
 	procedure sub_004B94D8(MainMenu:TMainMenu; ItemIndex:dword; DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);//004B94D8
 	function sub_004B9500:TStringList;//004B9500
 	procedure sub_004B964C(a:TStrings);//004B964C
 	function sub_004B9794:TStringList;//004B9794
 	function sub_004B9840:TStringlist;//004B9840
-	//procedure sub_004B9938(?:TStrings);//004B9938
+	procedure sub_004B9938(a:TStrings);//004B9938
 	function sub_004B9A44:TStringList;//004B9A44
 	//function sub_004B9B44:?;//004B9B44
-	//procedure sub_004B9BBC(?:TColor);//004B9BBC
-	//procedure sub_004B9BF8(?:TColor);//004B9BF8
+	procedure sub_004B9BBC(a:TColor);//004B9BBC
+	procedure sub_004B9BF8(a:TColor);//004B9BF8
 	function sub_004B9C34:TColor;//004B9C34
 	function sub_004B9C80:TColor;//004B9C80
 	function sub_004B9CCC:TColor;//004B9CCC
 	function sub_004B9CD4:TColor;//004B9CD4
 	//function sub_004B9CDC:?;//004B9CDC
-	//procedure sub_004B9CE4(?:TColor);//004B9CE4
+	procedure sub_004B9CE4(a:TColor);//004B9CE4
 	function sub_004B9D24:TColor;//004B9D24
-	//procedure sub_004B9D74(?:Integer);//004B9D74
-	//procedure sub_004B9DA4(?:Integer);//004B9DA4
-	//procedure sub_004B9DE4(?:Integer);//004B9DE4
+	procedure sub_004B9D74(a:Integer);//004B9D74
+	procedure sub_004B9DA4(a:Integer);//004B9DA4
+	procedure sub_004B9DE4(a:Integer);//004B9DE4
 	function sub_004B9E10:integer;//004B9E10
 	function sub_004B9E48:integer;//004B9E48
 	function sub_004B9EA0:dword;//004B9EA0
-	//procedure sub_004B9ED4(?:Boolean);//004B9ED4
-	//procedure sub_004B9F04(?:Boolean);//004B9F04
+	procedure sub_004B9ED4(a:Boolean);//004B9ED4
+	procedure sub_004B9F04(a:Boolean);//004B9F04
 	function sub_004B9F30:boolean;//004B9F30
 	function sub_004B9F60:boolean;//004B9F60
 	function sub_004B9F8C:TColor;//004B9F8C
@@ -49,22 +49,22 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BA070:TColor;//004BA070
 	function sub_004BA0BC:TColor;//004BA0BC
 	function sub_004BA108:TColor;//004BA108
-	//procedure sub_004BA138(?:TColor);//004BA138
-	//procedure sub_004BA174(?:TColor);//004BA174
-	//procedure sub_004BA1B0(?:TColor);//004BA1B0
-	//procedure sub_004BA1EC(?:TColor);//004BA1EC
-	//procedure sub_004BA228(?:TColor);//004BA228
+	procedure sub_004BA138(a:TColor);//004BA138
+	procedure sub_004BA174(a:TColor);//004BA174
+	procedure sub_004BA1B0(a:TColor);//004BA1B0
+	procedure sub_004BA1EC(a:TColor);//004BA1EC
+	procedure sub_004BA228(a:TColor);//004BA228
 	function sub_004BA264:TColor;//004BA264
 	function sub_004BA26C:TColor;//004BA26C
 	function sub_004BA274:TColor;//004BA274
 	function sub_004BA27C:TColor;//004BA27C
 	function sub_004BA280:TColor;//004BA280
-	//procedure sub_004BA288(?:Boolean);//004BA288
+	procedure sub_004BA288(a:Boolean);//004BA288
 	function sub_004BA2B0:boolean;//004BA2B0
-	//procedure sub_004BA2D8(?:Boolean);//004BA2D8
+	procedure sub_004BA2D8(a:Boolean);//004BA2D8
 	function sub_004BA2FC:boolean;//004BA2FC
-	//procedure sub_004BA320(?:Integer);//004BA320
-	//procedure sub_004BA354(?:Integer);//004BA354
+	procedure sub_004BA320(a:Integer);//004BA320
+	procedure sub_004BA354(a:Integer);//004BA354
 	function sub_004BA384:dword;//004BA384
 	function sub_004BA3C0:dword;//004BA3C0
 	function sub_004BA3F8(a:String):TStringlist;//004BA3F8
@@ -74,44 +74,44 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BAEC4:boolean;//004BAEC4
 	procedure sub_004BAEFC(a:Boolean);//004BAEFC
 	function sub_004BAF34:boolean;//004BAF34
-	//procedure sub_004BAF64(?:Boolean);//004BAF64
-	//procedure sub_004BAF94(?:?; ?:dword);//004BAF94
+	procedure sub_004BAF64(a:Boolean);//004BAF64
+	procedure sub_004BAF94(a:byte; U:TInclureImpression);//004BAF94
 	function sub_004BB35C:boolean;//004BB35C
-	//procedure sub_004BB38C(?:Boolean);//004BB38C
-	//procedure sub_004BB3BC(?:Integer);//004BB3BC
+	procedure sub_004BB38C(a:Boolean);//004BB38C
+	procedure sub_004BB3BC(a:Integer);//004BB3BC
 	function sub_004BB3F0:byte;//004BB3F0
-	//procedure sub_004BB42C(?:Boolean);//004BB42C
+	procedure sub_004BB42C(a:Boolean);//004BB42C
 	function sub_004BB458:Boolean;//004BB458
-	//procedure sub_004BB484(?:Boolean);//004BB484
-	//procedure sub_004BB4B0(?:Boolean);//004BB4B0
-	//procedure sub_004BB4E4(?:Boolean);//004BB4E4
-	//procedure sub_004BB50C(?:Boolean);//004BB50C
-	//procedure sub_004BB534(?:Integer);//004BB534
+	procedure sub_004BB484(a:Boolean);//004BB484
+	procedure sub_004BB4B0(a:Boolean);//004BB4B0
+	procedure sub_004BB4E4(a:Boolean);//004BB4E4
+	procedure sub_004BB50C(a:Boolean);//004BB50C
+	procedure sub_004BB534(a:Integer);//004BB534
 	function sub_004BB55C:boolean;//004BB55C
 	function sub_004BB588:boolean;//004BB588
 	function sub_004BB5BC:boolean;//004BB5BC
 	function sub_004BB5E4:boolean;//004BB5E4
 	function sub_004BB60C:dword;//004BB60C
-	//procedure sub_004BB63C(?:Boolean);//004BB63C
+	procedure sub_004BB63C(a:Boolean);//004BB63C
 	function sub_004BB668:boolean;//004BB668
-	//procedure sub_004BB694(?:Boolean);//004BB694
+	procedure sub_004BB694(a:Boolean);//004BB694
 	function sub_004BB6C8:boolean;//004BB6C8
-	//procedure sub_004BB6FC(?:Integer);//004BB6FC
+	procedure sub_004BB6FC(a:Integer);//004BB6FC
 	function sub_004BB728:dword;//004BB728
 	function sub_004BB75C:dword;//004BB75C
 	procedure sub_004BB790(x:dword);//004BB790
-	//procedure sub_004BB7BC(?:Integer);//004BB7BC
+	procedure sub_004BB7BC(a:Integer);//004BB7BC
 	function sub_004BB7E8:dword;//004BB7E8
-	//procedure sub_004BB81C(?:Boolean);//004BB81C
+	procedure sub_004BB81C(a:Boolean);//004BB81C
 	function sub_004BB84C:boolean;//004BB84C
 	function sub_004BB87C:TColor;//004BB87C
 	function sub_004BB8AC:TColor;//004BB8AC
-	//procedure sub_004BB8B4(?:TColor);//004BB8B4
-	//procedure sub_004BB8E0(?:Boolean);//004BB8E0
-	//procedure sub_004BB90C(?:Boolean);//004BB90C
+	procedure sub_004BB8B4(a:TColor);//004BB8B4
+	procedure sub_004BB8E0(a:Boolean);//004BB8E0
+	procedure sub_004BB90C(a:Boolean);//004BB90C
 	function sub_004BB930:boolean;//004BB930
 	function sub_004BB95C:Boolean;//004BB95C
-	//procedure sub_004BB980(?:Boolean);//004BB980
+	procedure sub_004BB980(a:Boolean);//004BB980
 	function sub_004BB9B4:Boolean;//004BB9B4
 	procedure sub_004BB9E8(a:Boolean);//004BB9E8
 	function sub_004BBA0C:boolean;//004BBA0C
@@ -121,16 +121,16 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BBAA8:boolean;//004BBAA8
 	procedure sub_004BBAD0(a:Boolean);//004BBAD0
 	function sub_004BBAF8:boolean;//004BBAF8
-	//procedure sub_004BBB20(?:TColor);//004BBB20
-	//procedure sub_004BBB4C(?:TColor);//004BBB4C
+	procedure sub_004BBB20(a:TColor);//004BBB20
+	procedure sub_004BBB4C(a:TColor);//004BBB4C
 	function sub_004BBB78:TColor;//004BBB78
 	function sub_004BBBA8:TColor;//004BBBA8
 	function sub_004BBBD8:TColor;//004BBBD8
 	function sub_004BBBE0:TColor;//004BBBE0
-	//procedure sub_004BBBE8(?:TColor);//004BBBE8
-	//procedure sub_004BBC10(?:TColor);//004BBC10
-	//procedure sub_004BBC34(?:TColor);//004BBC34
-	//procedure sub_004BBC58(?:TColor);//004BBC58
+	procedure sub_004BBBE8(a:TColor);//004BBBE8
+	procedure sub_004BBC10(a:TColor);//004BBC10
+	procedure sub_004BBC34(a:TColor);//004BBC34
+	procedure sub_004BBC58(a:TColor);//004BBC58
 	function sub_004BBC80:TColor;//004BBC80
 	function sub_004BBCAC:TColor;//004BBCAC
 	function sub_004BBCB4:TColor;//004BBCB4
@@ -139,10 +139,10 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BBD0C:TColor;//004BBD0C
 	function sub_004BBD14:TColor;//004BBD14
 	function sub_004BBD40:TColor;//004BBD40
-	//procedure sub_004BBD48(?:TColor);//004BBD48
+	procedure sub_004BBD48(a:TColor);//004BBD48
 	function sub_004BBD70:TColor;//004BBD70
 	function sub_004BBD9C:TColor;//004BBD9C
-	//procedure sub_004BBDA4(?:TColor);//004BBDA4
+	procedure sub_004BBDA4(a:TColor);//004BBDA4
 	function sub_004BBDD0:TColor;//004BBDD0
 	procedure sub_004BBDD8(a:Boolean);//004BBDD8
 	procedure sub_004BBE04(a:Boolean);//004BBE04
@@ -152,29 +152,29 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BBEAC:boolean;//004BBEAC
 	function sub_004BBED4:boolean;//004BBED4
 	function sub_004BBEFC:boolean;//004BBEFC
-	//procedure sub_004BBF28(?:Integer);//004BBF28
+	procedure sub_004BBF28(a:Integer);//004BBF28
 	function sub_004BBF54:dword;//004BBF54
 	procedure sub_004BBF88(a:Boolean);//004BBF88
 	function sub_004BBFB8:boolean;//004BBFB8
-	//procedure sub_004BBFE8(?:Boolean);//004BBFE8
+	procedure sub_004BBFE8(a:Boolean);//004BBFE8
 	function sub_004BC01C:boolean;//004BC01C
-	//procedure sub_004BC050(?:Integer);//004BC050
+	procedure sub_004BC050(a:Integer);//004BC050
 	function sub_004BC080:byte;//004BC080
-	//procedure sub_004BC0B8(?:Boolean);//004BC0B8
+	procedure sub_004BC0B8(a:Boolean);//004BC0B8
 	function sub_004BC0EC:boolean;//004BC0EC
-	//procedure sub_004BC120(?:Boolean);//004BC120
-	//procedure sub_004BC154(?:Boolean);//004BC154
+	procedure sub_004BC120(a:Boolean);//004BC120
+	procedure sub_004BC154(a:Boolean);//004BC154
 	function sub_004BC188:boolean;//004BC188
 	function sub_004BC1BC:boolean;//004BC1BC
-	//procedure sub_004BC1F0(?:Boolean);//004BC1F0
+	procedure sub_004BC1F0(a:Boolean);//004BC1F0
 	function sub_004BC228:boolean;//004BC228
-	//procedure sub_004BC260(?:Integer);//004BC260
+	procedure sub_004BC260(a:Integer);//004BC260
 	function sub_004BC298:dword;//004BC298
-	//procedure sub_004BC2D8(?:Integer);//004BC2D8
+	procedure sub_004BC2D8(a:Integer);//004BC2D8
 	function sub_004BC30C:dword;//004BC30C
 	function sub_004BC348:TStringList;//004BC348
 	function sub_004BC3F0:TStringList;//004BC3F0
-	//procedure sub_004BC698(?:TStrings);//004BC698
+	procedure sub_004BC698(a:TStrings);//004BC698
 	//procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);//004BC7A0
 	//procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);//004BCAA0
 	procedure sub_004BCBDC(StringList:TStringList);//004BCBDC
@@ -207,7 +207,7 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	//procedure sub_004BD7D0(?:?);//004BD7D0
 	//procedure sub_004BD82C(?:Integer);//004BD82C
 	//procedure sub_004BD858(?:?);//004BD858
-	//procedure sub_004BD8D4(?:Boolean);//004BD8D4
+	procedure sub_004BD8D4(a:Boolean);//004BD8D4
 	function sub_004BD904:boolean;//004BD904
 	procedure sub_004BD934(a:Boolean);//004BD934
 	procedure sub_004BD968(a:Boolean);//004BD968
@@ -217,7 +217,17 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BDA2C:boolean;//004BDA2C
 	function sub_004BDA58:boolean;//004BDA58
 	function sub_004BDA8C:boolean;//004BDA8C
-
+    var 
+	   gvar_00617C94 : integer;
+	   gvar_00617C98 : integer;
+	   gvar_00617CB8 : boolean;
+	   gvar_00617CB9 : boolean;
+	   gvar_00617CBA : boolean;
+	   gvar_00617CBB : boolean;
+	   gvar_00617CBC : boolean;
+	   gvar_00617CBD : boolean;
+	   gvar_00617CBE : boolean;
+	   gvar_00617CBF : boolean;
 implementation
 
 //004B901C
@@ -312,8 +322,8 @@ end;//0
 
 
 //004B943C
-//procedure sub_004B943C(?:Boolean);
-//begin
+procedure sub_004B943C(a:Boolean);
+begin
 {*
  004B943C    xor         ecx,ecx
  004B943E    mov         edx,eax
@@ -321,7 +331,7 @@ end;//0
  004B9445    call        004974F0
  004B944A    ret
 *}
-//end;
+end;
 
 //004B9468
 function sub_004B9468:dword;
@@ -332,17 +342,11 @@ end;//0
 
 
 //004B94A4
-//procedure sub_004B94A4(?:Int64);
-//begin
-{*
- 004B94A4    xor         edx,edx
- 004B94A6    mov         dl,al
- 004B94A8    xor         ecx,ecx
- 004B94AA    mov         eax,4B94C0;'nbFichiersHistorique'
- 004B94AF    call        004975A8
- 004B94B4    ret
-*}
-//end;
+procedure sub_004B94A4(a:Int64);
+begin
+  sub_004975A8('nbFichiersHistorique',a{,false});
+
+end;
 
 //004B94D8  
 procedure sub_004B94D8(MainMenu:TMainMenu; ItemIndex:dword; DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);
@@ -459,8 +463,8 @@ begin//0
 end;//0
 
 //004B9938
-//procedure sub_004B9938(?:TStrings);
-//begin
+procedure sub_004B9938(a:TStrings);
+begin
 {*
  004B9938    push        ebp
  004B9939    mov         ebp,esp
@@ -540,7 +544,7 @@ end;//0
  004B9A0B    pop         ebp
  004B9A0C    ret
 *}
-//end;
+end;
 
 //004B9A44
 function sub_004B9A44:TStringlist;
@@ -595,8 +599,8 @@ end;//0
 //end;*}
 
 //004B9BBC
-//procedure sub_004B9BBC(?:TColor);
-//begin
+procedure sub_004B9BBC(a:TColor);
+begin
 {*
  004B9BBC    push        ebx
  004B9BBD    mov         ebx,eax
@@ -611,11 +615,11 @@ end;//0
  004B9BDD    pop         ebx
  004B9BDE    ret
 *}
-//end;
+end;
 
 //004B9BF8
-//procedure sub_004B9BF8(?:TColor);
-//begin
+procedure sub_004B9BF8(a:TColor);
+begin
 {*
  004B9BF8    push        ebx
  004B9BF9    mov         ebx,eax
@@ -630,7 +634,7 @@ end;//0
  004B9C19    pop         ebx
  004B9C1A    ret
 *}
-//end;
+end;
 
 //004B9C34
 function sub_004B9C34:TColor;
@@ -673,8 +677,8 @@ end;//0
 //end;*}
 
 //004B9CE4
-//procedure sub_004B9CE4(?:TColor);
-//begin
+procedure sub_004B9CE4(a:TColor);
+begin
 {*
  004B9CE4    push        ebx
  004B9CE5    mov         ebx,eax
@@ -689,7 +693,7 @@ end;//0
  004B9D05    pop         ebx
  004B9D06    ret
 *}
-//end;
+end;
 
 //004B9D24
 function sub_004B9D24:TColor;
@@ -704,8 +708,8 @@ begin//0
 end;//0
 
 //004B9D74
-//procedure sub_004B9D74(?:Integer);
-//begin
+procedure sub_004B9D74(a:Integer);
+begin
 {*
  004B9D74    xor         edx,edx
  004B9D76    mov         dl,al
@@ -714,11 +718,11 @@ end;//0
  004B9D7F    call        004975A8
  004B9D84    ret
 *}
-//end;
+end;
 
 //004B9DA4
-//procedure sub_004B9DA4(?:Integer);
-//begin
+procedure sub_004B9DA4(a:Integer);
+begin
 {*
  004B9DA4    mov         edx,dword ptr ds:[615964];^gvar_00617904
  004B9DAA    cmp         byte ptr [edx],0
@@ -734,11 +738,11 @@ end;//0
  004B9DC7    call        004975A8
  004B9DCC    ret
 *}
-//end;
+end;
 
 //004B9DE4
-//procedure sub_004B9DE4(?:Integer);
-//begin
+procedure sub_004B9DE4(a:Integer);
+begin
 {*
  004B9DE4    xor         edx,edx
  004B9DE6    mov         dl,al
@@ -747,7 +751,7 @@ end;//0
  004B9DEF    call        004975A8
  004B9DF4    ret
 *}
-//end;
+end;
 
 //004B9E10
 function sub_004B9E10:integer; //arrondirMoyennes
@@ -780,8 +784,8 @@ end;//0
 
 
 //004B9ED4
-//procedure sub_004B9ED4(?:Boolean);
-//begin
+procedure sub_004B9ED4(a:Boolean);
+begin
 {*
  004B9ED4    xor         ecx,ecx
  004B9ED6    mov         edx,eax
@@ -789,11 +793,11 @@ end;//0
  004B9EDD    call        004974F0
  004B9EE2    ret
 *}
-//end;
+end;
 
 //004B9F04
-//procedure sub_004B9F04(?:Boolean);
-//begin
+procedure sub_004B9F04(a:Boolean);
+begin
 {*
  004B9F04    xor         ecx,ecx
  004B9F06    mov         edx,eax
@@ -801,7 +805,7 @@ end;//0
  004B9F0D    call        004974F0
  004B9F12    ret
 *}
-//end;
+end;
 
 //004B9F30
 function sub_004B9F30:boolean;
@@ -819,9 +823,14 @@ end;
 function sub_004B9F8C:TColor;
 begin//0
   //004B9F8C
-  //if (gvar_00617CB8 = 0) then Exit;
-  {gvar_00617C98} Result:= sub_004970D8('couleur1Note', sub_004BA264);
-  //gvar_00617CB8 := 0;
+  if (gvar_00617CB8) then 
+  begin
+	gvar_00617C98 := sub_004970D8('couleur1Note', sub_004BA264);
+	Result := gvar_00617C98;
+	gvar_00617CB8 := false;
+  end
+  else 
+  Result := gvar_00617C98;
 end;//0
 
 
@@ -829,7 +838,7 @@ end;//0
 function sub_004B9FD8:TColor;
 begin//0
   //004B9FD8
-  //if (gvar_00617CB9 = 0) then Exit;
+  //if (gvar_00617CB9 <> 0) then 
   {gvar_00617C9C} result := sub_004970D8('couleur2Note', sub_004BA26C);
   //gvar_00617CB9 := 0;
 end;//0
@@ -877,8 +886,8 @@ begin
 end;
 
 //004BA138
-//procedure sub_004BA138(?:TColor);
-//begin
+procedure sub_004BA138(a:TColor);
+begin
 {*
  004BA138    push        ebx
  004BA139    mov         ebx,eax
@@ -893,11 +902,11 @@ end;
  004BA159    pop         ebx
  004BA15A    ret
 *}
-//end;
+end;
 
 //004BA174
-//procedure sub_004BA174(?:TColor);
-//begin
+procedure sub_004BA174(a:TColor);
+begin
 {*
  004BA174    push        ebx
  004BA175    mov         ebx,eax
@@ -912,11 +921,11 @@ end;
  004BA195    pop         ebx
  004BA196    ret
 *}
-//end;
+end;
 
 //004BA1B0
-//procedure sub_004BA1B0(?:TColor);
-//begin
+procedure sub_004BA1B0(a:TColor);
+begin
 {*
  004BA1B0    push        ebx
  004BA1B1    mov         ebx,eax
@@ -931,11 +940,11 @@ end;
  004BA1D1    pop         ebx
  004BA1D2    ret
 *}
-//end;
+end;
 
 //004BA1EC
-//procedure sub_004BA1EC(?:TColor);
-//begin
+procedure sub_004BA1EC(a:TColor);
+begin
 {*
  004BA1EC    push        ebx
  004BA1ED    mov         ebx,eax
@@ -950,11 +959,11 @@ end;
  004BA20D    pop         ebx
  004BA20E    ret
 *}
-//end;
+end;
 
 //004BA228
-//procedure sub_004BA228(?:TColor);
-//begin
+procedure sub_004BA228(a:TColor);
+begin
 {*
  004BA228    push        ebx
  004BA229    mov         ebx,eax
@@ -969,7 +978,7 @@ end;
  004BA249    pop         ebx
  004BA24A    ret
 *}
-//end;
+end;
 
 //004BA264
 function sub_004BA264:TColor;
@@ -1003,8 +1012,8 @@ begin
 end;
 
 //004BA288
-//procedure sub_004BA288(?:Boolean);
-//begin
+procedure sub_004BA288(a:Boolean);
+begin
 {*
  004BA288    xor         ecx,ecx
  004BA28A    mov         edx,eax
@@ -1012,7 +1021,7 @@ end;
  004BA291    call        004974F0
  004BA296    ret
 *}
-//end;
+end;
 
 //004BA2B0
 function sub_004BA2B0:boolean;
@@ -1022,8 +1031,8 @@ end;//0
 
 
 //004BA2D8
-//procedure sub_004BA2D8(?:Boolean);
-//begin
+procedure sub_004BA2D8(a:Boolean);
+begin
 {*
  004BA2D8    xor         ecx,ecx
  004BA2DA    mov         edx,eax
@@ -1031,7 +1040,7 @@ end;//0
  004BA2E1    call        004974F0
  004BA2E6    ret
 *}
-//end;
+end;
 
 //004BA2FC
 function sub_004BA2FC:boolean;
@@ -1042,8 +1051,8 @@ end;//0
 
 
 //004BA320
-//procedure sub_004BA320(?:Integer);
-//begin
+procedure sub_004BA320(a:Integer);
+begin
 {*
  004BA320    xor         edx,edx
  004BA322    mov         dl,al
@@ -1052,11 +1061,11 @@ end;//0
  004BA32B    call        004975A8
  004BA330    ret
 *}
-//end;
+end;
 
 //004BA354
-//procedure sub_004BA354(?:Integer);
-//begin
+procedure sub_004BA354(a:Integer);
+begin
 {*
  004BA354    xor         edx,edx
  004BA356    mov         dl,al
@@ -1065,7 +1074,7 @@ end;//0
  004BA35F    call        004975A8
  004BA364    ret
 *}
-//end;
+end;
 
 //004BA384
 function sub_004BA384:dword;
@@ -1452,8 +1461,8 @@ begin
 end;
 
 //004BAF64
-//procedure sub_004BAF64(?:Boolean);
-//begin
+procedure sub_004BAF64(a:Boolean);
+begin
 {*
 004BAF64    xor         ecx,ecx
 004BAF66    mov         edx,eax
@@ -1461,11 +1470,12 @@ end;
 004BAF6D    call        004974F0
 004BAF72    ret
 *}
-//end;
+end;
 
 //004BAF94
-{*//procedure sub_004BAF94(?:?; ?:dword);
-//begin
+procedure sub_004BAF94(a:byte; U:TInclureImpression);
+begin
+{
 004BAF94    push        ebp
 004BAF95    mov         ebp,esp
 004BAF97    add         esp,0FFFFFFE4
@@ -1701,8 +1711,8 @@ end;
 004BB285    pop         ebx
 004BB286    mov         esp,ebp
 004BB288    pop         ebp
-004BB289    ret
-//end;*}
+004BB289    ret*}
+end;
 
 //004BB35C
 function sub_004BB35C:boolean;
@@ -1712,8 +1722,8 @@ begin
 end;
 
 ///004BB38C
-//procedure sub_004BB38C(?:Boolean);
-//begin
+procedure sub_004BB38C(a:Boolean);
+begin
 {	*
 004BB38C    xor         ecx,ecx
 004BB38E    mov         edx,eax
@@ -1721,11 +1731,11 @@ end;
 004BB395    call        004974F0
 004BB39A    ret
 *}
-//end;
+end;
 
 //004BB3BC
-//procedure sub_004BB3BC(?:Integer);
-//begin
+procedure sub_004BB3BC(a:Integer);
+begin
 {	*
 004BB3BC    xor         edx,edx
 004BB3BE    mov         dl,al
@@ -1734,7 +1744,7 @@ end;
 004BB3C7    call        004975A8
 004BB3CC    ret
 *}
-//end;
+end;
 
 //004BB3F0
 function sub_004BB3F0:byte;
@@ -1744,8 +1754,8 @@ begin
 end;
 
 //004BB42C
-//procedure sub_004BB42C(?:Boolean);
-//begin
+procedure sub_004BB42C(a:Boolean);
+begin
 {	*
 004BB42C    xor         ecx,ecx
 004BB42E    mov         edx,eax
@@ -1753,7 +1763,7 @@ end;
 004BB435    call        004974F0
 004BB43A    ret
 *}
-//end;
+end;
 
 //004BB458
 function sub_004BB458:Boolean;
@@ -1762,8 +1772,8 @@ begin
 end;
 
 //004BB484
-//procedure sub_004BB484(?:Boolean);
-//begin
+procedure sub_004BB484(a:Boolean);
+begin
 {	*
 004BB484    xor         ecx,ecx
 004BB486    mov         edx,eax
@@ -1771,11 +1781,11 @@ end;
 004BB48D    call        004974F0
 004BB492    ret
 *}
-//end;
+end;
 
 //004BB4B0
-//procedure sub_004BB4B0(?:Boolean);
-//begin
+procedure sub_004BB4B0(a:Boolean);
+begin
 {	*
 004BB4B0    xor         ecx,ecx
 004BB4B2    mov         edx,eax
@@ -1783,11 +1793,11 @@ end;
 004BB4B9    call        004974F0
 004BB4BE    ret
 *}
-//end;
+end;
 
 //004BB4E4
-//procedure sub_004BB4E4(?:Boolean);
-//begin
+procedure sub_004BB4E4(a:Boolean);
+begin
 {	*
 004BB4E4    xor         ecx,ecx
 004BB4E6    mov         edx,eax
@@ -1795,11 +1805,11 @@ end;
 004BB4ED    call        004974F0
 004BB4F2    ret
 *}
-//end;
+end;
 
 //004BB50C
-//procedure sub_004BB50C(?:Boolean);
-//begin
+procedure sub_004BB50C(a:Boolean);
+begin
 {	*
 004BB50C    xor         ecx,ecx
 004BB50E    mov         edx,eax
@@ -1807,20 +1817,13 @@ end;
 004BB515    call        004974F0
 004BB51A    ret
 *}
-//end;
+end;
 
 //004BB534
-//procedure sub_004BB534(?:Integer);
-//begin
-{	*
-004BB534    xor         edx,edx
-004BB536    mov         dl,al
-004BB538    mov         cl,1
-004BB53A    mov         eax,4BB550;'auDemarrage'
-004BB53F    call        004975A8
-004BB544    ret
-*}
-//end;
+procedure sub_004BB534(a:Integer);
+begin
+	sub_004975A8('auDemarrage',a {,true});
+end;
 
 //004BB55C
 function sub_004BB55C:boolean;
@@ -1864,16 +1867,11 @@ end;//0
 
 
 //004BB63C
-//procedure sub_004BB63C(?:Boolean);
-//begin
-{	*
-004BB63C    mov         cl,1
-004BB63E    mov         edx,eax
-004BB640    mov         eax,4BB654;'rappelSauvegarde'
-004BB645    call        004974F0
-004BB64A    ret
-*}
-//end;
+procedure sub_004BB63C(a:Boolean);
+begin
+  sub_004974F0('rappelSauvegarde', a{, true});
+
+end;
 
 //004BB668
 function sub_004BB668:boolean;
@@ -1884,8 +1882,8 @@ end;//0
 
 
 //004BB694
-//procedure sub_004BB694(?:Boolean);
-//begin
+procedure sub_004BB694(a:Boolean);
+begin
 {	*
 004BB694    mov         cl,1
 004BB696    mov         edx,eax
@@ -1893,7 +1891,7 @@ end;//0
 004BB69D    call        004974F0
 004BB6A2    ret
 *}
-//end;
+end;
 
 //004BB6C8
 function sub_004BB6C8:boolean;
@@ -1904,17 +1902,10 @@ end;//0
 
 
 //004BB6FC
-//procedure sub_004BB6FC(?:Integer);
-//begin
-{	*
-004BB6FC    xor         edx,edx
-004BB6FE    mov         dl,al
-004BB700    mov         cl,1
-004BB702    mov         eax,4BB718;'frequenceRappel'
-004BB707    call        004975A8
-004BB70C    ret
-*}
-//end;
+procedure sub_004BB6FC(a:Integer);
+begin
+ sub_004975A8('frequenceRappel', a{, true});
+end;
 
 //004BB728
 function sub_004BB728:dword;
@@ -1941,8 +1932,8 @@ end;//0
 
 
 //004BB7BC
-//procedure sub_004BB7BC(?:Integer);
-//begin
+procedure sub_004BB7BC(a:Integer);
+begin
 {	*
 004BB7BC    xor         edx,edx
 004BB7BE    mov         dl,al
@@ -1951,7 +1942,7 @@ end;//0
 004BB7C7    call        004975A8
 004BB7CC    ret
 *}
-//end;
+end;
 
 //004BB7E8
 function sub_004BB7E8:dword;
@@ -1964,8 +1955,8 @@ end;//0
 //end;
 
 //004BB81C
-//procedure sub_004BB81C(?:Boolean);
-//begin
+procedure sub_004BB81C(a:Boolean);
+begin
 {	*
 004BB81C    xor         ecx,ecx
 004BB81E    mov         edx,eax
@@ -1973,7 +1964,7 @@ end;//0
 004BB825    call        004974F0
 004BB82A    ret
 *}
-//end;
+end;
 
 //004BB84C
 function sub_004BB84C:boolean;
@@ -1997,8 +1988,8 @@ result := $0C8FFC8;
 end;
 
 //004BB8B4
-//procedure sub_004BB8B4(?:TColor);
-//begin
+procedure sub_004BB8B4(a:TColor);
+begin
 {	*
 004BB8B4    xor         ecx,ecx
 004BB8B6    mov         edx,eax
@@ -2006,11 +1997,11 @@ end;
 004BB8BD    call        00497438
 004BB8C2    ret
 *}
-//end;
+end;
 
 //004BB8E0
-//procedure sub_004BB8E0(?:Boolean);
-//begin
+procedure sub_004BB8E0(a:Boolean);
+begin
 {	*
 004BB8E0    xor         ecx,ecx
 004BB8E2    mov         edx,eax
@@ -2018,11 +2009,11 @@ end;
 004BB8E9    call        004974F0
 004BB8EE    ret
 *}
-//end;
+end;
 
 //004BB90C
-//procedure sub_004BB90C(?:Boolean);
-//begin
+procedure sub_004BB90C(a:Boolean);
+begin
 {	*
 004BB90C    xor         ecx,ecx
 004BB90E    mov         edx,eax
@@ -2030,7 +2021,7 @@ end;
 004BB915    call        004974F0
 004BB91A    ret
 *}
-//end;
+end;
 
 //004BB930
 function sub_004BB930:boolean;
@@ -2049,8 +2040,8 @@ end;//0
 
 
 //004BB980
-//procedure sub_004BB980(?:Boolean);
-//begin
+procedure sub_004BB980(a:Boolean);
+begin
 {	*
 004BB980    xor         ecx,ecx
 004BB982    mov         edx,eax
@@ -2058,7 +2049,7 @@ end;//0
 004BB989    call        004974F0
 004BB98E    ret
 *}
-//end;
+end;
 
 //004BB9B4
 function sub_004BB9B4:Boolean;
@@ -2133,8 +2124,8 @@ end;//0
 
 
 //004BBB20
-//procedure sub_004BBB20(?:TColor);
-//begin
+procedure sub_004BBB20(a:TColor);
+begin
 {	*
 004BBB20    xor         ecx,ecx
 004BBB22    mov         edx,eax
@@ -2142,11 +2133,11 @@ end;//0
 004BBB29    call        00497438
 004BBB2E    ret
 *}
-//end;
+end;
 
 //004BBB4C
-//procedure sub_004BBB4C(?:TColor);
-//begin
+procedure sub_004BBB4C(a:TColor);
+begin
 {	*
 004BBB4C    xor         ecx,ecx
 004BBB4E    mov         edx,eax
@@ -2154,7 +2145,7 @@ end;//0
 004BBB55    call        00497438
 004BBB5A    ret
 *}
-//end;
+end;
 
 //004BBB78
 function sub_004BBB78:TColor;
@@ -2185,8 +2176,8 @@ result := $0FF8080;
 end;
 
 //004BBBE8
-//procedure sub_004BBBE8(?:TColor);
-//begin
+procedure sub_004BBBE8(a:TColor);
+begin
 {	*
 004BBBE8    xor         ecx,ecx
 004BBBEA    mov         edx,eax
@@ -2194,11 +2185,11 @@ end;
 004BBBF1    call        00497438
 004BBBF6    ret
 *}
-//end;
+end;
 
 //004BBC10
-//procedure sub_004BBC10(?:TColor);
-//begin
+procedure sub_004BBC10(a:TColor);
+begin
 {	*
 004BBC10    xor         ecx,ecx
 004BBC12    mov         edx,eax
@@ -2206,11 +2197,11 @@ end;
 004BBC19    call        00497438
 004BBC1E    ret
 *}
-//end;
+end;
 
 //004BBC34
-//procedure sub_004BBC34(?:TColor);
-//begin
+procedure sub_004BBC34(a:TColor);
+begin
 {	*
 004BBC34    xor         ecx,ecx
 004BBC36    mov         edx,eax
@@ -2218,11 +2209,11 @@ end;
 004BBC3D    call        00497438
 004BBC42    ret
 *}
-//end;
+end;
 
 //004BBC58
-//procedure sub_004BBC58(?:TColor);
-//begin
+procedure sub_004BBC58(a:TColor);
+begin
 {	*
 004BBC58    xor         ecx,ecx
 004BBC5A    mov         edx,eax
@@ -2230,7 +2221,7 @@ end;
 004BBC61    call        00497438
 004BBC66    ret
 *}
-//end;
+end;
 
 //004BBC80
 function sub_004BBC80:TColor;
@@ -2288,8 +2279,8 @@ result := $80FF80;
 end;
 
 //004BBD48
-//procedure sub_004BBD48(?:TColor);
-//begin
+procedure sub_004BBD48(a:TColor);
+begin
 {	*
 004BBD48    xor         ecx,ecx
 004BBD4A    mov         edx,eax
@@ -2297,7 +2288,7 @@ end;
 004BBD51    call        00497438
 004BBD56    ret
 *}
-//end;
+end;
 
 //004BBD70
 function sub_004BBD70:TColor;
@@ -2314,8 +2305,8 @@ result := $0FFFFFF;
 end;
 
 //004BBDA4
-//procedure sub_004BBDA4(?:TColor);
-//begin
+procedure sub_004BBDA4(a:TColor);
+begin
 {	*
 004BBDA4    xor         ecx,ecx
 004BBDA6    mov         edx,eax
@@ -2323,7 +2314,7 @@ end;
 004BBDAD    call        00497438
 004BBDB2    ret
 *}
-//end;
+end;
 
 //004BBDD0
 function sub_004BBDD0:TColor;
@@ -2393,8 +2384,8 @@ result := sub_004971A0('grapheLigneMoyenne', true{,0});
 end;
 
 //004BBF28
-//procedure sub_004BBF28(?:Integer);
-//begin
+procedure sub_004BBF28(a:Integer);
+begin
 {	*
 004BBF28    xor         edx,edx
 004BBF2A    mov         dl,al
@@ -2403,7 +2394,7 @@ end;
 004BBF33    call        004975A8
 004BBF38    ret
 *}
-//end;
+end;
 
 //004BBF54
 function sub_004BBF54:dword;
@@ -2427,8 +2418,8 @@ begin
 end;
 
 //004BBFE8
-//procedure sub_004BBFE8(?:Boolean);
-//begin
+procedure sub_004BBFE8(a:Boolean);
+begin
 {	*
 004BBFE8    xor         ecx,ecx
 004BBFEA    mov         edx,eax
@@ -2436,7 +2427,7 @@ end;
 004BBFF1    call        004974F0
 004BBFF6    ret
 *}
-//end;
+end;
 
 //004BC01C
 function sub_004BC01C:boolean;
@@ -2445,8 +2436,8 @@ begin
 end;
 
 //004BC050
-//procedure sub_004BC050(?:Integer);
-//begin
+procedure sub_004BC050(a:Integer);
+begin
 {	*
 004BC050    xor         edx,edx
 004BC052    mov         dl,al
@@ -2455,7 +2446,7 @@ end;
 004BC05B    call        004975A8
 004BC060    ret
 *}
-//end;
+end;
 
 //004BC080
 function sub_004BC080:byte;
@@ -2464,8 +2455,8 @@ begin
 end;
 
 //004BC0B8
-//procedure sub_004BC0B8(?:Boolean);
-//begin
+procedure sub_004BC0B8(a:Boolean);
+begin
 {	*
 004BC0B8    xor         ecx,ecx
 004BC0BA    mov         edx,eax
@@ -2473,7 +2464,7 @@ end;
 004BC0C1    call        004974F0
 004BC0C6    ret
 *}
-//end;
+end;
 
 //004BC0EC
 function sub_004BC0EC:boolean;
@@ -2482,8 +2473,8 @@ begin
 end;
 
 //004BC120
-//procedure sub_004BC120(?:Boolean);
-//begin
+procedure sub_004BC120(a:Boolean);
+begin
 {	*
 004BC120    xor         ecx,ecx
 004BC122    mov         edx,eax
@@ -2491,11 +2482,11 @@ end;
 004BC129    call        004974F0
 004BC12E    ret
 *}
-//end;
+end;
 
 //004BC154
-//procedure sub_004BC154(?:Boolean);
-//begin
+procedure sub_004BC154(a:Boolean);
+begin
 {	*
 004BC154    xor         ecx,ecx
 004BC156    mov         edx,eax
@@ -2503,7 +2494,7 @@ end;
 004BC15D    call        004974F0
 004BC162    ret
 *}
-//end;
+end;
 
 //004BC188
 function sub_004BC188:boolean;
@@ -2518,8 +2509,8 @@ begin
 end;
 
 //004BC1F0
-//procedure sub_004BC1F0(?:Boolean);
-//begin
+procedure sub_004BC1F0(a:Boolean);
+begin
 {	*
 004BC1F0    xor         ecx,ecx
 004BC1F2    mov         edx,eax
@@ -2527,7 +2518,7 @@ end;
 004BC1F9    call        004974F0
 004BC1FE    ret
 *}
-//end;
+end;
 
 //004BC228
 function sub_004BC228:boolean;
@@ -2536,8 +2527,8 @@ begin
 end;
 
 //004BC260
-//procedure sub_004BC260(?:Integer);
-//begin
+procedure sub_004BC260(a:Integer);
+begin
 {	*
 004BC260    xor         edx,edx
 004BC262    mov         dl,al
@@ -2546,7 +2537,7 @@ end;
 004BC26B    call        004975A8
 004BC270    ret
 *}
-//end;
+end;
 
 //004BC298
 function sub_004BC298:dword;
@@ -2557,8 +2548,8 @@ end;//0
 
 
 //004BC2D8
-//procedure sub_004BC2D8(?:Integer);
-//begin
+procedure sub_004BC2D8(a:Integer);
+begin
 {	*
 004BC2D8    xor         edx,edx
 004BC2DA    mov         dl,al
@@ -2567,7 +2558,7 @@ end;//0
 004BC2E3    call        004975A8
 004BC2E8    ret
 *}
-//end;
+end;
 
 //004BC30C
 function sub_004BC30C:dword;
@@ -2642,8 +2633,8 @@ end;//0
 
 
 //004BC698
-//procedure sub_004BC698(?:TStrings);
-//begin
+procedure sub_004BC698(a:TStrings);
+begin
 {	*
 004BC698    push        ebp
 004BC699    mov         ebp,esp
@@ -2723,7 +2714,7 @@ end;//0
 004BC76B    pop         ebp
 004BC76C    ret
 *}
-//end;
+end;
 
 //004BC7A0
 {	*//procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);
@@ -3562,8 +3553,8 @@ end;//0
 //end;*}
 
 //004BD8D4
-//procedure sub_004BD8D4(?:Boolean);
-//begin
+procedure sub_004BD8D4(a:Boolean);
+begin
 {	*
 004BD8D4    xor         ecx,ecx
 004BD8D6    mov         edx,eax
@@ -3571,7 +3562,7 @@ end;//0
 004BD8DD    call        004974F0
 004BD8E2    ret
 *}
-//end;
+end;
 
 //004BD904
 function sub_004BD904:boolean;
@@ -3631,43 +3622,27 @@ end;
 
 Initialization
 //004BDAF8
-{	*
-004BDAF8    sub         dword ptr ds:[617C94],1
->	004BDAFF    jae         004BDB39
-004BDB01    mov         byte ptr ds:[617CB8],1;gvar_00617CB8
-004BDB08    mov         byte ptr ds:[617CB9],1;gvar_00617CB9
-004BDB0F    mov         byte ptr ds:[617CBA],1;gvar_00617CBA
-004BDB16    mov         byte ptr ds:[617CBB],1;gvar_00617CBB
-004BDB1D    mov         byte ptr ds:[617CBC],1;gvar_00617CBC
-004BDB24    mov         byte ptr ds:[617CBD],1;gvar_00617CBD
-004BDB2B    mov         byte ptr ds:[617CBE],1;gvar_00617CBE
-004BDB32    mov         byte ptr ds:[617CBF],1;gvar_00617CBF
-004BDB39    ret
-*}
-//inisialization
-//004BDABC
-{	*
-004BDABC    push        ebp
-004BDABD    mov         ebp,esp
-004BDABF    xor         eax,eax
-004BDAC1    push        ebp
-004BDAC2    push        4BDAED
-004BDAC7    push        dword ptr fs:[eax]
-004BDACA    mov         dword ptr fs:[eax],esp
-004BDACD    inc         dword ptr ds:[617C94]
->	004BDAD3    jne         004BDADF
-004BDAD5    call        004B9500
-004BDADA    call        004B964C
-004BDADF    xor         eax,eax
-004BDAE1    pop         edx
-004BDAE2    pop         ecx
-004BDAE3    pop         ecx
-004BDAE4    mov         dword ptr fs:[eax],edx
-004BDAE7    push        4BDAF4
-004BDAEC    ret
->	004BDAED    jmp         @HandleFinally
->	004BDAF2    jmp         004BDAEC
-004BDAF4    pop         ebp
-004BDAF5    ret
-*}
+  gvar_00617C94 := gvar_00617C94 - 1;
+  if ( gvar_00617C94 <> 0 ) then
+  begin//1
+    //004BDB01
+    gvar_00617CB8 := true;
+    gvar_00617CB9 := true;
+    gvar_00617CBA := true;
+    gvar_00617CBB := true;
+    gvar_00617CBC := true;
+    gvar_00617CBD := true;
+    gvar_00617CBE := true;
+    gvar_00617CBF := true;
+  end;//1
+
+Finalization
+  //004BDABC
+
+    gvar_00617C94 := gvar_00617C94 + 1;
+    if ( gvar_00617C94 <> 0  ) then//004BDAD5 
+      sub_004B964C(sub_004B9500);
+
+
+
 end.

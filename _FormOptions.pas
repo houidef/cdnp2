@@ -507,485 +507,125 @@ end;
 
 //005055A4
 destructor TFormOptions.Destroy;
-begin
- inherited Destroy;
-{*
- 005055A4    push        ebp
- 005055A5    mov         ebp,esp
- 005055A7    add         esp,0FFFFFFF8
- 005055AA    push        ebx
- 005055AB    push        esi
- 005055AC    push        edi
- 005055AD    xor         ecx,ecx
- 005055AF    mov         dword ptr [ebp-8],ecx
- 005055B2    call        @BeforeDestruction
- 005055B7    mov         byte ptr [ebp-1],dl
- 005055BA    mov         ebx,eax
- 005055BC    xor         eax,eax
- 005055BE    push        ebp
- 005055BF    push        505D99
- 005055C4    push        dword ptr fs:[eax]
- 005055C7    mov         dword ptr fs:[eax],esp
- 005055CA    mov         eax,dword ptr [ebx+484];TFormOptions.CheckBox8:TCheckBox
- 005055D0    mov         edx,dword ptr [eax]
- 005055D2    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005055D8    call        004BB63C
- 005055DD    mov         eax,dword ptr [ebx+484];TFormOptions.CheckBox8:TCheckBox
- 005055E3    mov         edx,dword ptr [eax]
- 005055E5    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005055EB    test        al,al
->005055ED    je          0050560C
- 005055EF    mov         eax,dword ptr [ebx+48C];TFormOptions.RadioGroup2:TRadioGroup
- 005055F5    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 005055FB    cmp         eax,0FF
->00505600    jbe         00505607
- 00505602    call        @BoundErr
- 00505607    call        004BB6FC
- 0050560C    mov         eax,dword ptr [ebx+2E4];TFormOptions.optionsAuDemarrage:TRadioGroup
- 00505612    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505618    cmp         eax,0FF
->0050561D    jbe         00505624
- 0050561F    call        @BoundErr
- 00505624    call        004BB534
- 00505629    mov         eax,dword ptr [ebx+40C];TFormOptions.ListBoxUtilisateurs:TListBox
- 0050562F    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 00505635    call        00498460
- 0050563A    mov         eax,dword ptr [ebx+464];TFormOptions.CheckBox6:TCheckBox
- 00505640    mov         edx,dword ptr [eax]
- 00505642    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505648    call        00501C70
- 0050564D    mov         eax,dword ptr [ebx+62C];TFormOptions.CheckBoxVerificationMAJ:TCheckBox
- 00505653    mov         edx,dword ptr [eax]
- 00505655    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 0050565B    call        004BB694
- 00505660    mov         eax,dword ptr [ebx+5D0];TFormOptions.CouleurFondFenetreInfos:TColorPickerButton
- 00505666    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 0050566C    call        004BB8B4
- 00505671    mov         eax,dword ptr [ebx+4D8];TFormOptions.CheckBox11:TCheckBox
- 00505677    mov         edx,dword ptr [eax]
- 00505679    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 0050567F    call        004BB8E0
- 00505684    mov         eax,dword ptr [ebx+2FC];TFormOptions.afficherBarreOutils:TCheckBox
- 0050568A    mov         edx,dword ptr [eax]
- 0050568C    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505692    call        004BB484
- 00505697    mov         eax,dword ptr [ebx+300];TFormOptions.tailleMaximumAuDemarrage:TCheckBox
- 0050569D    mov         edx,dword ptr [eax]
- 0050569F    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005056A5    call        004BB4B0
- 005056AA    mov         eax,dword ptr [ebx+304];TFormOptions.afficherHeure:TCheckBox
- 005056B0    mov         edx,dword ptr [eax]
- 005056B2    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005056B8    call        004BB4E4
- 005056BD    mov         eax,dword ptr [ebx+308];TFormOptions.afficherDate:TCheckBox
- 005056C3    mov         edx,dword ptr [eax]
- 005056C5    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005056CB    call        004BB50C
- 005056D0    mov         eax,dword ptr [ebx+428];TFormOptions.CheckBox2:TCheckBox
- 005056D6    mov         edx,dword ptr [eax]
- 005056D8    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005056DE    call        004BA2D8
- 005056E3    mov         eax,dword ptr [ebx+310];TFormOptions.typesDeNotes:TListBox
- 005056E9    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 005056EF    call        004B9938
- 005056F4    mov         eax,dword ptr [ebx+56C];TFormOptions.ListBoxMatieres:TListBox
- 005056FA    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 00505700    call        004BC698
- 00505705    mov         eax,dword ptr [ebx+608];TFormOptions.CheckBoxAfficherR:TCheckBox
- 0050570B    mov         edx,dword ptr [eax]
- 0050570D    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505713    call        004BB90C
- 00505718    mov         eax,dword ptr [ebx+630];TFormOptions.CheckBoxAfficherDatesDeNaissance:TCheckBox
- 0050571E    mov         edx,dword ptr [eax]
- 00505720    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505726    call        004BB980
- 0050572B    mov         eax,dword ptr [ebx+49C];TFormOptions.historiqueDesFichiers:TCheckBox
- 00505731    mov         edx,dword ptr [eax]
- 00505733    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505739    call        004B943C
- 0050573E    mov         eax,dword ptr [ebx+5F8];TFormOptions.NombreFichiersHistorique:TRxSpinEdit
- 00505744    call        TRxSpinEdit.GetValue
- 00505749    call        @TRUNC
- 0050574E    cmp         edx,0
->00505751    jne         00505758
- 00505753    cmp         eax,0FF
->00505758    jbe         0050575F
- 0050575A    call        @BoundErr
- 0050575F    call        004B94A4
- 00505764    mov         eax,dword ptr [ebx+36C];TFormOptions.Shape2:TShape
- 0050576A    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 00505770    call        TBrush.GetColor
- 00505775    call        004B9BBC
- 0050577A    mov         eax,dword ptr [ebx+368];TFormOptions.Shape1:TShape
- 00505780    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 00505786    call        TBrush.GetColor
- 0050578B    call        004B9BF8
- 00505790    mov         eax,dword ptr [ebx+388];TFormOptions.Shape3:TShape
- 00505796    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 0050579C    call        TBrush.GetColor
- 005057A1    call        004B9CE4
- 005057A6    mov         eax,dword ptr [ebx+460];TFormOptions.CheckBox5:TCheckBox
- 005057AC    mov         edx,dword ptr [eax]
- 005057AE    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005057B4    call        004BB42C
- 005057B9    mov         eax,dword ptr [ebx+39C];TFormOptions.ListBoxFichiers:TListBox
- 005057BF    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 005057C5    call        004B964C
- 005057CA    mov         eax,dword ptr [ebx+3A0];TFormOptions.RadioGroupArrondir:TRadioGroup
- 005057D0    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 005057D6    cmp         eax,0FF
->005057DB    jbe         005057E2
- 005057DD    call        @BoundErr
- 005057E2    call        004B9D74
- 005057E7    mov         eax,dword ptr [ebx+560];TFormOptions.RadioGroupArrondirAnnuelle:TRadioGroup
- 005057ED    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 005057F3    cmp         eax,0FF
->005057F8    jbe         005057FF
- 005057FA    call        @BoundErr
- 005057FF    call        004BC260
- 00505804    mov         eax,dword ptr [ebx+3B4];TFormOptions.RadioGroupTrier:TRadioGroup
- 0050580A    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505810    cmp         eax,0FF
->00505815    jbe         0050581C
- 00505817    call        @BoundErr
- 0050581C    call        004B9DE4
- 00505821    mov         eax,dword ptr [ebx+600];TFormOptions.MoyennesSur:TRxSpinEdit
- 00505827    call        TRxSpinEdit.GetValue
- 0050582C    call        @TRUNC
- 00505831    push        eax
- 00505832    sar         eax,1F
- 00505835    cmp         eax,edx
- 00505837    pop         eax
->00505838    je          0050583F
- 0050583A    call        @BoundErr
- 0050583F    call        004B9DA4
- 00505844    mov         eax,dword ptr [ebx+3B0];TFormOptions.CheckBox3:TCheckBox
- 0050584A    mov         edx,dword ptr [eax]
- 0050584C    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505852    call        004B9ED4
- 00505857    mov         eax,dword ptr [ebx+624];TFormOptions.CheckBox34:TCheckBox
- 0050585D    mov         edx,dword ptr [eax]
- 0050585F    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505865    call        004B9F04
- 0050586A    mov         eax,dword ptr [ebx+3B8];TFormOptions.Shape4:TShape
- 00505870    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 00505876    call        TBrush.GetColor
- 0050587B    call        004BA138
- 00505880    mov         eax,dword ptr [ebx+3D0];TFormOptions.Shape5:TShape
- 00505886    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 0050588C    call        TBrush.GetColor
- 00505891    call        004BA174
- 00505896    mov         eax,dword ptr [ebx+3E0];TFormOptions.Shape6:TShape
- 0050589C    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 005058A2    call        TBrush.GetColor
- 005058A7    call        004BA1B0
- 005058AC    mov         eax,dword ptr [ebx+3FC];TFormOptions.Shape7:TShape
- 005058B2    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 005058B8    call        TBrush.GetColor
- 005058BD    call        004BA1EC
- 005058C2    mov         eax,dword ptr [ebx+474];TFormOptions.Shape8:TShape
- 005058C8    mov         eax,dword ptr [eax+12C];TShape.Brush:TBrush
- 005058CE    call        TBrush.GetColor
- 005058D3    call        004BA228
- 005058D8    mov         eax,dword ptr [ebx+3C4];TFormOptions.CheckBox4:TCheckBox
- 005058DE    mov         edx,dword ptr [eax]
- 005058E0    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005058E6    call        004BA288
- 005058EB    mov         eax,dword ptr [ebx+420];TFormOptions.RadioGroupGrilleNotes:TRadioGroup
- 005058F1    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 005058F7    cmp         eax,0FF
->005058FC    jbe         00505903
- 005058FE    call        @BoundErr
- 00505903    call        004BA354
- 00505908    mov         eax,dword ptr [ebx+424];TFormOptions.RadioGroupGrilleBilans:TRadioGroup
- 0050590E    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505914    cmp         eax,0FF
->00505919    jbe         00505920
- 0050591B    call        @BoundErr
- 00505920    call        004BA320
- 00505925    mov         eax,dword ptr [ebx+528];TFormOptions.RadioGroupGraphes:TRadioGroup
- 0050592B    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505931    cmp         eax,0FF
->00505936    jbe         0050593D
- 00505938    call        @BoundErr
- 0050593D    call        004BBF28
- 00505942    mov         eax,dword ptr [ebx+44C];TFormOptions.CheckBox1:TCheckBox
- 00505948    mov         edx,dword ptr [eax]
- 0050594A    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505950    call        004BAEFC
- 00505955    mov         eax,dword ptr [ebx+444];TFormOptions.CheckListBox1:TCheckListBox
- 0050595B    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00505961    mov         edx,dword ptr [eax]
- 00505963    call        dword ptr [edx+14];TStrings.GetCount
- 00505966    mov         edi,eax
- 00505968    sub         edi,1
->0050596B    jno         00505972
- 0050596D    call        @IntOver
- 00505972    test        edi,edi
->00505974    jl          005059A0
- 00505976    inc         edi
- 00505977    xor         esi,esi
- 00505979    mov         edx,esi
- 0050597B    mov         eax,dword ptr [ebx+444];TFormOptions.CheckListBox1:TCheckListBox
- 00505981    call        TCheckListBox.GetChecked
- 00505986    mov         edx,dword ptr [ebx+664];TFormOptions.?f664:dword
- 0050598C    mov         edx,dword ptr [edx+0C]
- 0050598F    cmp         esi,dword ptr [edx-4]
->00505992    jb          00505999
- 00505994    call        @BoundErr
- 00505999    mov         byte ptr [edx+esi],al
- 0050599C    inc         esi
- 0050599D    dec         edi
->0050599E    jne         00505979
- 005059A0    mov         edx,dword ptr [ebx+664];TFormOptions.?f664:dword
- 005059A6    xor         eax,eax
- 005059A8    call        004BAF94
- 005059AD    mov         eax,dword ptr [ebx+448];TFormOptions.CheckListBox2:TCheckListBox
- 005059B3    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 005059B9    mov         edx,dword ptr [eax]
- 005059BB    call        dword ptr [edx+14];TStrings.GetCount
- 005059BE    mov         edi,eax
- 005059C0    sub         edi,1
->005059C3    jno         005059CA
- 005059C5    call        @IntOver
- 005059CA    test        edi,edi
->005059CC    jl          005059F8
- 005059CE    inc         edi
- 005059CF    xor         esi,esi
- 005059D1    mov         edx,esi
- 005059D3    mov         eax,dword ptr [ebx+448];TFormOptions.CheckListBox2:TCheckListBox
- 005059D9    call        TCheckListBox.GetChecked
- 005059DE    mov         edx,dword ptr [ebx+668];TFormOptions.?f668:dword
- 005059E4    mov         edx,dword ptr [edx+0C]
- 005059E7    cmp         esi,dword ptr [edx-4]
->005059EA    jb          005059F1
- 005059EC    call        @BoundErr
- 005059F1    mov         byte ptr [edx+esi],al
- 005059F4    inc         esi
- 005059F5    dec         edi
->005059F6    jne         005059D1
- 005059F8    mov         edx,dword ptr [ebx+668];TFormOptions.?f668:dword
- 005059FE    mov         al,1
- 00505A00    call        004BAF94
- 00505A05    mov         eax,dword ptr [ebx+534];TFormOptions.CheckListBox3:TCheckListBox
- 00505A0B    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00505A11    mov         edx,dword ptr [eax]
- 00505A13    call        dword ptr [edx+14];TStrings.GetCount
- 00505A16    mov         edi,eax
- 00505A18    sub         edi,1
->00505A1B    jno         00505A22
- 00505A1D    call        @IntOver
- 00505A22    test        edi,edi
->00505A24    jl          00505A50
- 00505A26    inc         edi
- 00505A27    xor         esi,esi
- 00505A29    mov         edx,esi
- 00505A2B    mov         eax,dword ptr [ebx+534];TFormOptions.CheckListBox3:TCheckListBox
- 00505A31    call        TCheckListBox.GetChecked
- 00505A36    mov         edx,dword ptr [ebx+66C];TFormOptions.?f66C:dword
- 00505A3C    mov         edx,dword ptr [edx+0C]
- 00505A3F    cmp         esi,dword ptr [edx-4]
->00505A42    jb          00505A49
- 00505A44    call        @BoundErr
- 00505A49    mov         byte ptr [edx+esi],al
- 00505A4C    inc         esi
- 00505A4D    dec         edi
->00505A4E    jne         00505A29
- 00505A50    mov         edx,dword ptr [ebx+66C];TFormOptions.?f66C:dword
- 00505A56    mov         al,2
- 00505A58    call        004BAF94
- 00505A5D    mov         eax,dword ptr [ebx+454];TFormOptions.CheckBox7:TCheckBox
- 00505A63    mov         edx,dword ptr [eax]
- 00505A65    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505A6B    call        004BB38C
- 00505A70    mov         eax,dword ptr [ebx+458];TFormOptions.CheckBox9:TCheckBox
- 00505A76    mov         edx,dword ptr [eax]
- 00505A78    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505A7E    call        004BAF64
- 00505A83    mov         eax,dword ptr [ebx+540];TFormOptions.CheckBox13:TCheckBox
- 00505A89    mov         edx,dword ptr [eax]
- 00505A8B    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505A91    call        004BBFE8
- 00505A96    mov         eax,dword ptr [ebx+55C];TFormOptions.CheckBox24:TCheckBox
- 00505A9C    mov         edx,dword ptr [eax]
- 00505A9E    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505AA4    call        004BC1F0
- 00505AA9    mov         eax,dword ptr [ebx+45C];TFormOptions.RadioGroup1:TRadioGroup
- 00505AAF    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505AB5    cmp         eax,0FF
->00505ABA    jbe         00505AC1
- 00505ABC    call        @BoundErr
- 00505AC1    call        004BB3BC
- 00505AC6    mov         eax,dword ptr [ebx+490];TFormOptions.CheckBox10:TCheckBox
- 00505ACC    mov         edx,dword ptr [eax]
- 00505ACE    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505AD4    call        004BB81C
- 00505AD9    mov         eax,dword ptr [ebx+5AC];TFormOptions.CheckBox25:TCheckBox
- 00505ADF    mov         edx,dword ptr [eax]
- 00505AE1    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505AE7    call        004BCE50
- 00505AEC    mov         eax,dword ptr [ebx+634];TFormOptions.CheckBoxAfficherNomEnseignantOnglets:TCheckBox
- 00505AF2    mov         edx,dword ptr [eax]
- 00505AF4    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505AFA    call        004BCDE8
- 00505AFF    mov         eax,dword ptr [ebx+490];TFormOptions.CheckBox10:TCheckBox
- 00505B05    mov         edx,dword ptr [eax]
- 00505B07    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505B0D    test        al,al
->00505B0F    je          00505B2E
- 00505B11    mov         eax,dword ptr [ebx+494];TFormOptions.RadioGroup3:TRadioGroup
- 00505B17    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505B1D    cmp         eax,0FF
->00505B22    jbe         00505B29
- 00505B24    call        @BoundErr
- 00505B29    call        004BB7BC
- 00505B2E    mov         eax,dword ptr [ebx+4E4];TFormOptions.CheckBox14:TCheckBox
- 00505B34    mov         edx,dword ptr [eax]
- 00505B36    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505B3C    call        004BB9E8
- 00505B41    mov         eax,dword ptr [ebx+4E8];TFormOptions.CheckBox15:TCheckBox
- 00505B47    mov         edx,dword ptr [eax]
- 00505B49    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505B4F    call        004BBA30
- 00505B54    mov         eax,dword ptr [ebx+4EC];TFormOptions.CheckBox16:TCheckBox
- 00505B5A    mov         edx,dword ptr [eax]
- 00505B5C    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505B62    call        004BBA58
- 00505B67    mov         eax,dword ptr [ebx+5E4];TFormOptions.CouleurDebutDegrade:TColorPickerButton
- 00505B6D    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505B73    call        004BBB20
- 00505B78    mov         eax,dword ptr [ebx+5E8];TFormOptions.CouleurFinDegrade:TColorPickerButton
- 00505B7E    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505B84    call        004BBB4C
- 00505B89    mov         eax,dword ptr [ebx+5D4];TFormOptions.CouleurNotesEleve:TColorPickerButton
- 00505B8F    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505B95    call        004BBBE8
- 00505B9A    mov         eax,dword ptr [ebx+5D8];TFormOptions.CouleurMinimumClasse:TColorPickerButton
- 00505BA0    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505BA6    call        004BBC34
- 00505BAB    mov         eax,dword ptr [ebx+5DC];TFormOptions.CouleurMaximumClasse:TColorPickerButton
- 00505BB1    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505BB7    call        004BBC10
- 00505BBC    mov         eax,dword ptr [ebx+5E0];TFormOptions.CouleurMoyenneClasse:TColorPickerButton
- 00505BC2    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505BC8    call        004BBC58
- 00505BCD    mov         eax,dword ptr [ebx+5EC];TFormOptions.CouleurMurGauche:TColorPickerButton
- 00505BD3    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505BD9    call        004BBDA4
- 00505BDE    mov         eax,dword ptr [ebx+5F0];TFormOptions.CouleurMurBas:TColorPickerButton
- 00505BE4    mov         eax,dword ptr [eax+14C];TColorPickerButton.SelectionColor:TColor
- 00505BEA    call        004BBD48
- 00505BEF    mov         eax,dword ptr [ebx+510];TFormOptions.CheckBox17:TCheckBox
- 00505BF5    mov         edx,dword ptr [eax]
- 00505BF7    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505BFD    call        004BBDD8
- 00505C02    mov         eax,dword ptr [ebx+514];TFormOptions.CheckBox18:TCheckBox
- 00505C08    mov         edx,dword ptr [eax]
- 00505C0A    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505C10    call        004BBE2C
- 00505C15    mov         eax,dword ptr [ebx+518];TFormOptions.CheckBox19:TCheckBox
- 00505C1B    mov         edx,dword ptr [eax]
- 00505C1D    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505C23    call        004BBE04
- 00505C28    mov         eax,dword ptr [ebx+51C];TFormOptions.CheckBox20:TCheckBox
- 00505C2E    mov         edx,dword ptr [eax]
- 00505C30    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505C36    call        004BBE54
- 00505C3B    mov         eax,dword ptr [ebx+520];TFormOptions.CheckBox21:TCheckBox
- 00505C41    mov         edx,dword ptr [eax]
- 00505C43    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505C49    call        004BBAD0
- 00505C4E    mov         eax,dword ptr [ebx+4E0];TFormOptions.CheckBox12:TCheckBox
- 00505C54    mov         edx,dword ptr [eax]
- 00505C56    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505C5C    call        004BBF88
- 00505C61    lea         edx,[ebp-8]
- 00505C64    mov         eax,dword ptr [ebx+544];TFormOptions.Edit8:TEdit
- 00505C6A    call        TControl.GetText
- 00505C6F    mov         eax,dword ptr [ebp-8]
- 00505C72    call        StrToInt
- 00505C77    cmp         eax,0FF
->00505C7C    jbe         00505C83
- 00505C7E    call        @BoundErr
- 00505C83    call        004BC050
- 00505C88    mov         eax,dword ptr [ebx+550];TFormOptions.CheckBox22:TCheckBox
- 00505C8E    mov         edx,dword ptr [eax]
- 00505C90    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505C96    call        004BC0B8
- 00505C9B    mov         eax,dword ptr [ebx+554];TFormOptions.CheckBox23:TCheckBox
- 00505CA1    mov         edx,dword ptr [eax]
- 00505CA3    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505CA9    call        004BC120
- 00505CAE    mov         eax,dword ptr [ebx+564];TFormOptions.RadioGroupTypeMoyenneAnnuelle:TRadioGroup
- 00505CB4    mov         eax,dword ptr [eax+200];TRadioGroup.FItemIndex:Integer
- 00505CBA    cmp         eax,0FF
->00505CBF    jbe         00505CC6
- 00505CC1    call        @BoundErr
- 00505CC6    call        004BC2D8
- 00505CCB    mov         eax,dword ptr [ebx+5B4];TFormOptions.CheckBox26:TCheckBox
- 00505CD1    mov         edx,dword ptr [eax]
- 00505CD3    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505CD9    call        004BD334
- 00505CDE    mov         eax,dword ptr [ebx+5B8];TFormOptions.CheckBox27:TCheckBox
- 00505CE4    mov         edx,dword ptr [eax]
- 00505CE6    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505CEC    call        004BD374
- 00505CF1    mov         eax,dword ptr [ebx+5C0];TFormOptions.CheckBox28:TCheckBox
- 00505CF7    mov         edx,dword ptr [eax]
- 00505CF9    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505CFF    call        004BD2F8
- 00505D04    mov         eax,dword ptr [ebx+5C4];TFormOptions.CheckBox29:TCheckBox
- 00505D0A    mov         edx,dword ptr [eax]
- 00505D0C    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505D12    call        004BD2B8
- 00505D17    mov         eax,dword ptr [ebx+60C];TFormOptions.CheckBox30:TCheckBox
- 00505D1D    mov         edx,dword ptr [eax]
- 00505D1F    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505D25    call        004BD994
- 00505D2A    mov         eax,dword ptr [ebx+610];TFormOptions.CheckBox31:TCheckBox
- 00505D30    mov         edx,dword ptr [eax]
- 00505D32    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505D38    call        004BD9C8
- 00505D3D    mov         eax,dword ptr [ebx+618];TFormOptions.CheckBox32:TCheckBox
- 00505D43    mov         edx,dword ptr [eax]
- 00505D45    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505D4B    call        004BD968
- 00505D50    mov         eax,dword ptr [ebx+61C];TFormOptions.CheckBox33:TCheckBox
- 00505D56    mov         edx,dword ptr [eax]
- 00505D58    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505D5E    call        004BD934
- 00505D63    mov         eax,dword ptr [ebx+628];TFormOptions.CheckBox35:TCheckBox
- 00505D69    mov         edx,dword ptr [eax]
- 00505D6B    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 00505D71    call        004BC154
- 00505D76    mov         dl,byte ptr [ebp-1]
- 00505D79    and         dl,0FC
- 00505D7C    mov         eax,ebx
- 00505D7E    call        TCustomForm.Destroy
- 00505D83    xor         eax,eax
- 00505D85    pop         edx
- 00505D86    pop         ecx
- 00505D87    pop         ecx
- 00505D88    mov         dword ptr fs:[eax],edx
- 00505D8B    push        505DA0
- 00505D90    lea         eax,[ebp-8]
- 00505D93    call        @LStrClr
- 00505D98    ret
->00505D99    jmp         @HandleFinally
->00505D9E    jmp         00505D90
- 00505DA0    cmp         byte ptr [ebp-1],0
->00505DA4    jle         00505DAD
- 00505DA6    mov         eax,ebx
- 00505DA8    call        @ClassDestroy
- 00505DAD    pop         edi
- 00505DAE    pop         esi
- 00505DAF    pop         ebx
- 00505DB0    pop         ecx
- 00505DB1    pop         ecx
- 00505DB2    pop         ebp
- 00505DB3    ret
-*}
-end;
+var
+  I :integer;
+begin//0
+  //005055A4
+  
+    //005055CA
+    sub_004BB63C(CheckBox8.Checked);
+    if (CheckBox8.Checked) then
+    begin//2
+      //005055EF
+      sub_004BB6FC(RadioGroup2.ItemIndex);
+    end;//2
+    sub_004BB534(optionsAuDemarrage.ItemIndex);
+    sub_00498460(ListBoxUtilisateurs.Items);
+    afficherConseils(CheckBox6.Checked); //sub_00501C70
+    sub_004BB694(CheckBoxVerificationMAJ.Checked);
+    sub_004BB8B4(CouleurFondFenetreInfos.SelectionColor);
+    sub_004BB8E0(CheckBox11.Checked);
+    sub_004BB484(afficherBarreOutils.Checked);
+    sub_004BB4B0(tailleMaximumAuDemarrage.Checked);
+    sub_004BB4E4(afficherHeure.Checked);
+    sub_004BB50C(afficherDate.Checked);
+    sub_004BA2D8(CheckBox2.Checked);
+    sub_004B9938(typesDeNotes.Items);
+    sub_004BC698(ListBoxMatieres.Items);
+    sub_004BB90C(CheckBoxAfficherR.Checked);
+    sub_004BB980(CheckBoxAfficherDatesDeNaissance.Checked);
+    sub_004B943C(historiqueDesFichiers.Checked);
+    //if (TRUNC(NombreFichiersHistorique.Value) = 0) then
+    //begin//2
+      //00505753
+      sub_004B94A4(TRUNC(NombreFichiersHistorique.Value));
+      sub_004B9BBC(Shape2.Brush.Color);
+      sub_004B9BF8(Shape1.Brush.Color);
+      sub_004B9CE4(Shape3.Brush.Color);
+      sub_004BB42C(CheckBox5.Checked);
+      sub_004B964C(ListBoxFichiers.Items);
+      sub_004B9D74(RadioGroupArrondir.ItemIndex);
+      sub_004BC260(RadioGroupArrondirAnnuelle.ItemIndex);
+      sub_004B9DE4(RadioGroupTrier.ItemIndex);
+      //EAX := MoyennesSur.Value Div -2147483648
+      sub_004B9DA4(TRUNC(MoyennesSur.Value));
+      sub_004B9ED4(CheckBox3.Checked);
+      sub_004B9F04(CheckBox34.Checked);
+      sub_004BA138(Shape4.Brush.Color);
+      sub_004BA174(Shape5.Brush.Color);
+      sub_004BA1B0(Shape6.Brush.Color);
+      sub_004BA1EC(Shape7.Brush.Color);
+      sub_004BA228(Shape8.Brush.Color);
+      sub_004BA288(CheckBox4.Checked);
+      sub_004BA354(RadioGroupGrilleNotes.ItemIndex);
+      sub_004BA320(RadioGroupGrilleBilans.ItemIndex);
+      sub_004BBF28(RadioGroupGraphes.ItemIndex);
+      sub_004BAEFC(CheckBox1.Checked);
+        for I := 0 to CheckListBox1.Items.Count - 1 do //00505976
+        begin//4
+          //00505979
+          f664.fC[I] := CheckListBox1.Checked[I];
+        end;//4
+      
+      sub_004BAF94(0, f664);
+        for I := 0 to CheckListBox2.Items.Count - 1 do//005059CE
+        begin//4
+          //005059D1
+          f668.fC[I] := CheckListBox2.Checked[I];
+        end;//4
+      sub_004BAF94(1, f668);
+        for I := 0 to CheckListBox3.Items.Count - 1 do //00505A26
+        begin//4
+          //00505A29
+          f66C.fC[I] := CheckListBox3.Checked[I];
+        end;//4
+
+      sub_004BAF94(2, f66C);
+      sub_004BB38C(CheckBox7.Checked);
+      sub_004BAF64(CheckBox9.Checked);
+      sub_004BBFE8(CheckBox13.Checked);
+      sub_004BC1F0(CheckBox24.Checked);
+      sub_004BB3BC(RadioGroup1.ItemIndex);
+      sub_004BB81C(CheckBox10.Checked);
+      sub_004BCE50(CheckBox25.Checked);
+      sub_004BCDE8(CheckBoxAfficherNomEnseignantOnglets.Checked);
+      if (CheckBox10.Checked ) then//00505B11
+        sub_004BB7BC(RadioGroup3.ItemIndex);
+
+      sub_004BB9E8(CheckBox14.Checked);
+      sub_004BBA30(CheckBox15.Checked);
+      sub_004BBA58(CheckBox16.Checked);
+      sub_004BBB20(CouleurDebutDegrade.SelectionColor);
+      sub_004BBB4C(CouleurFinDegrade.SelectionColor);
+      sub_004BBBE8(CouleurNotesEleve.SelectionColor);
+      sub_004BBC34(CouleurMinimumClasse.SelectionColor);
+      sub_004BBC10(CouleurMaximumClasse.SelectionColor);
+      sub_004BBC58(CouleurMoyenneClasse.SelectionColor);
+      sub_004BBDA4(CouleurMurGauche.SelectionColor);
+      sub_004BBD48(CouleurMurBas.SelectionColor);
+      sub_004BBDD8(CheckBox17.Checked);
+      sub_004BBE2C(CheckBox18.Checked);
+      sub_004BBE04(CheckBox19.Checked);
+      sub_004BBE54(CheckBox20.Checked);
+      sub_004BBAD0(CheckBox21.Checked);
+      sub_004BBF88(CheckBox12.Checked);
+      sub_004BC050(StrToInt(Edit8.Text));
+      sub_004BC0B8(CheckBox22.Checked);
+      sub_004BC120(CheckBox23.Checked);
+      sub_004BC2D8(RadioGroupTypeMoyenneAnnuelle.ItemIndex);
+      sub_004BD334(CheckBox26.Checked);
+      sub_004BD374(CheckBox27.Checked);
+      sub_004BD2F8(CheckBox28.Checked);
+      sub_004BD2B8(CheckBox29.Checked);
+      sub_004BD994(CheckBox30.Checked);
+      sub_004BD9C8(CheckBox31.Checked);
+      sub_004BD968(CheckBox32.Checked);
+      sub_004BD934(CheckBox33.Checked);
+      sub_004BC154(CheckBox35.Checked);
+      inherited Destroy;
+end;    
+
+
 
 //00505DB4
 procedure TFormOptions.BitBtn4Click(Sender:TObject);
@@ -1075,56 +715,15 @@ end;
 
 //00505EE8
 procedure TFormOptions.BitBtn5Click(Sender:TObject);
-begin
-{*
- 00505EE8    push        ebp
- 00505EE9    mov         ebp,esp
- 00505EEB    push        0
- 00505EED    push        ebx
- 00505EEE    mov         ebx,eax
- 00505EF0    xor         eax,eax
- 00505EF2    push        ebp
- 00505EF3    push        505F62
- 00505EF8    push        dword ptr fs:[eax]
- 00505EFB    mov         dword ptr fs:[eax],esp
- 00505EFE    lea         eax,[ebp-4]
- 00505F01    mov         edx,505F78;'Revenir à la liste des types de notes par défaut ?'
- 00505F06    call        @LStrLAsg
- 00505F0B    push        24
- 00505F0D    mov         eax,dword ptr [ebp-4]
- 00505F10    call        @LStrToPChar
- 00505F15    mov         edx,eax
- 00505F17    mov         ecx,505FAC
- 00505F1C    mov         eax,[00615FEC];^Application:TApplication
- 00505F21    mov         eax,dword ptr [eax]
- 00505F23    call        TApplication.MessageBox
- 00505F28    cmp         eax,6
->00505F2B    jne         00505F4C
- 00505F2D    call        004B9840
- 00505F32    mov         edx,eax
- 00505F34    mov         eax,dword ptr [ebx+310];TFormOptions.typesDeNotes:TListBox
- 00505F3A    call        TCustomListBox.SetItems
- 00505F3F    xor         edx,edx
- 00505F41    mov         eax,dword ptr [ebx+4C0];TFormOptions.SpeedButton23:TSpeedButton
- 00505F47    mov         ecx,dword ptr [eax]
- 00505F49    call        dword ptr [ecx+5C];TControl.SetEnabled
- 00505F4C    xor         eax,eax
- 00505F4E    pop         edx
- 00505F4F    pop         ecx
- 00505F50    pop         ecx
- 00505F51    mov         dword ptr fs:[eax],edx
- 00505F54    push        505F69
- 00505F59    lea         eax,[ebp-4]
- 00505F5C    call        @LStrClr
- 00505F61    ret
->00505F62    jmp         @HandleFinally
->00505F67    jmp         00505F59
- 00505F69    pop         ebx
- 00505F6A    pop         ecx
- 00505F6B    pop         ebp
- 00505F6C    ret
-*}
-end;
+begin//0
+  //00505EE8
+    if (Application.MessageBox(PChar('Revenir à la liste des types de notes par défaut ?'), 'Carnet de Notes version Personnelle', 36) = 6) then 
+	begin
+    typesDeNotes.Items := sub_004B9840;
+    SpeedButton23.Enabled := False;
+	end;
+
+end;//0
 
 //00505FD0
 procedure TFormOptions.BitBtn3Click(Sender:TObject);

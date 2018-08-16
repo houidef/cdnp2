@@ -24,7 +24,7 @@ type
 	f2F4 : TStringList;
 	f2F8 : TStringList;
     procedure SpeedButtonFermerClick(Sender:TObject);//00512D98
-    procedure CheckListBox1ClickCheck;//00512DA4
+    procedure CheckListBox1ClickCheck(Sender:TObject);//00512DA4
     procedure FormKeyPress(Sender:TObject; var Key:Char);//00512E70
     procedure SpeedButtonImporterClick(Sender:TObject);//00512C5C
     procedure SpeedButton3Click(Sender:TObject);//00512C68

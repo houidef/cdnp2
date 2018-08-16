@@ -22,7 +22,7 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004B9794:TStringList;//004B9794
 	function sub_004B9840:TStringlist;//004B9840
 	//procedure sub_004B9938(?:TStrings);//004B9938
-	//function sub_004B9A44:?;//004B9A44
+	function sub_004B9A44:TStringList;//004B9A44
 	//function sub_004B9B44:?;//004B9B44
 	//procedure sub_004B9BBC(?:TColor);//004B9BBC
 	//procedure sub_004B9BF8(?:TColor);//004B9BF8
@@ -38,17 +38,17 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	//procedure sub_004B9DE4(?:Integer);//004B9DE4
 	function sub_004B9E10:integer;//004B9E10
 	function sub_004B9E48:integer;//004B9E48
-	//function sub_004B9EA0:?;//004B9EA0
+	function sub_004B9EA0:dword;//004B9EA0
 	//procedure sub_004B9ED4(?:Boolean);//004B9ED4
 	//procedure sub_004B9F04(?:Boolean);//004B9F04
-	//function sub_004B9F30:?;//004B9F30
-	//function sub_004B9F60:?;//004B9F60
+	function sub_004B9F30:boolean;//004B9F30
+	function sub_004B9F60:boolean;//004B9F60
 	function sub_004B9F8C:TColor;//004B9F8C
 	function sub_004B9FD8:TColor;//004B9FD8
 	function sub_004BA024:TColor;//004BA024
 	function sub_004BA070:TColor;//004BA070
 	function sub_004BA0BC:TColor;//004BA0BC
-	//function sub_004BA108:?;//004BA108
+	function sub_004BA108:TColor;//004BA108
 	//procedure sub_004BA138(?:TColor);//004BA138
 	//procedure sub_004BA174(?:TColor);//004BA174
 	//procedure sub_004BA1B0(?:TColor);//004BA1B0
@@ -70,16 +70,16 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BA3F8(a:String):TStringlist;//004BA3F8
 	//procedure sub_004BA7B0(?:?; ?:TStrings);//004BA7B0
 	//procedure sub_004BA964(?:?);//004BA964
-	function sub_004BAA88(a:dword):dword;//004BAA88
+	function sub_004BAA88(a:dword):TInclureImpression;//004BAA88
 	function sub_004BAEC4:boolean;//004BAEC4
-	//procedure sub_004BAEFC(?:Boolean);//004BAEFC
-	//function sub_004BAF34:?;//004BAF34
+	procedure sub_004BAEFC(a:Boolean);//004BAEFC
+	function sub_004BAF34:boolean;//004BAF34
 	//procedure sub_004BAF64(?:Boolean);//004BAF64
 	//procedure sub_004BAF94(?:?; ?:dword);//004BAF94
-	//function sub_004BB35C:?;//004BB35C
+	function sub_004BB35C:boolean;//004BB35C
 	//procedure sub_004BB38C(?:Boolean);//004BB38C
 	//procedure sub_004BB3BC(?:Integer);//004BB3BC
-	//function sub_004BB3F0:?;//004BB3F0
+	function sub_004BB3F0:byte;//004BB3F0
 	//procedure sub_004BB42C(?:Boolean);//004BB42C
 	function sub_004BB458:Boolean;//004BB458
 	//procedure sub_004BB484(?:Boolean);//004BB484
@@ -123,27 +123,27 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BBAF8:boolean;//004BBAF8
 	//procedure sub_004BBB20(?:TColor);//004BBB20
 	//procedure sub_004BBB4C(?:TColor);//004BBB4C
-	//function sub_004BBB78:?;//004BBB78
-	//function sub_004BBBA8:?;//004BBBA8
-	//function sub_004BBBD8:?;//004BBBD8
-	//function sub_004BBBE0:?;//004BBBE0
+	function sub_004BBB78:TColor;//004BBB78
+	function sub_004BBBA8:TColor;//004BBBA8
+	function sub_004BBBD8:TColor;//004BBBD8
+	function sub_004BBBE0:TColor;//004BBBE0
 	//procedure sub_004BBBE8(?:TColor);//004BBBE8
 	//procedure sub_004BBC10(?:TColor);//004BBC10
 	//procedure sub_004BBC34(?:TColor);//004BBC34
 	//procedure sub_004BBC58(?:TColor);//004BBC58
 	function sub_004BBC80:TColor;//004BBC80
 	function sub_004BBCAC:TColor;//004BBCAC
-	//function sub_004BBCB4:?;//004BBCB4
-	//function sub_004BBCDC:?;//004BBCDC
-	//function sub_004BBCE4:?;//004BBCE4
-	//function sub_004BBD0C:?;//004BBD0C
+	function sub_004BBCB4:TColor;//004BBCB4
+	function sub_004BBCDC:TColor;//004BBCDC
+	function sub_004BBCE4:TColor;//004BBCE4
+	function sub_004BBD0C:TColor;//004BBD0C
 	function sub_004BBD14:TColor;//004BBD14
 	function sub_004BBD40:TColor;//004BBD40
 	//procedure sub_004BBD48(?:TColor);//004BBD48
-	//function sub_004BBD70:?;//004BBD70
-	//function sub_004BBD9C:?;//004BBD9C
+	function sub_004BBD70:TColor;//004BBD70
+	function sub_004BBD9C:TColor;//004BBD9C
 	//procedure sub_004BBDA4(?:TColor);//004BBDA4
-	//function sub_004BBDD0:?;//004BBDD0
+	function sub_004BBDD0:TColor;//004BBDD0
 	procedure sub_004BBDD8(a:Boolean);//004BBDD8
 	procedure sub_004BBE04(a:Boolean);//004BBE04
 	procedure sub_004BBE2C(a:Boolean);//004BBE2C
@@ -154,45 +154,45 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BBEFC:boolean;//004BBEFC
 	//procedure sub_004BBF28(?:Integer);//004BBF28
 	function sub_004BBF54:dword;//004BBF54
-	//procedure sub_004BBF88(?:Boolean);//004BBF88
-	//function sub_004BBFB8:?;//004BBFB8
+	procedure sub_004BBF88(a:Boolean);//004BBF88
+	function sub_004BBFB8:boolean;//004BBFB8
 	//procedure sub_004BBFE8(?:Boolean);//004BBFE8
-	//function sub_004BC01C:?;//004BC01C
+	function sub_004BC01C:boolean;//004BC01C
 	//procedure sub_004BC050(?:Integer);//004BC050
-	//procedure sub_004BC080;//004BC080
+	function sub_004BC080:byte;//004BC080
 	//procedure sub_004BC0B8(?:Boolean);//004BC0B8
-	//function sub_004BC0EC:?;//004BC0EC
+	function sub_004BC0EC:boolean;//004BC0EC
 	//procedure sub_004BC120(?:Boolean);//004BC120
 	//procedure sub_004BC154(?:Boolean);//004BC154
-	//function sub_004BC188:?;//004BC188
-	//function sub_004BC1BC:?;//004BC1BC
+	function sub_004BC188:boolean;//004BC188
+	function sub_004BC1BC:boolean;//004BC1BC
 	//procedure sub_004BC1F0(?:Boolean);//004BC1F0
-	//function sub_004BC228:?;//004BC228
+	function sub_004BC228:boolean;//004BC228
 	//procedure sub_004BC260(?:Integer);//004BC260
 	function sub_004BC298:dword;//004BC298
 	//procedure sub_004BC2D8(?:Integer);//004BC2D8
 	function sub_004BC30C:dword;//004BC30C
-	//function sub_004BC348:?;//004BC348
-	//function sub_004BC3F0:?;//004BC3F0
+	function sub_004BC348:TStringList;//004BC348
+	function sub_004BC3F0:TStringList;//004BC3F0
 	//procedure sub_004BC698(?:TStrings);//004BC698
 	//procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);//004BC7A0
 	//procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);//004BCAA0
 	procedure sub_004BCBDC(StringList:TStringList);//004BCBDC
 	function sub_004BCD14:TStringlist;//004BCD14
 	function sub_004BCDB0:boolean;//004BCDB0
-	//procedure sub_004BCDE8(?:Boolean);//004BCDE8
+	procedure sub_004BCDE8(a:Boolean);//004BCDE8
 	function sub_004BCE20:boolean;//004BCE20
-	//procedure sub_004BCE50(?:Boolean);//004BCE50
-	//function sub_004BCE80:?;//004BCE80
+	procedure sub_004BCE50(a:Boolean);//004BCE50
+	function sub_004BCE80:TStringList;//004BCE80
 	function sub_004BCF84(a:String):TStringList;//004BCF84
-	//function sub_004BD1BC:?;//004BD1BC
-	//function sub_004BD1FC:?;//004BD1FC
-	//function sub_004BD238:?;//004BD238
-	//function sub_004BD278:?;//004BD278
-	//procedure sub_004BD2B8(?:Boolean);//004BD2B8
-	//procedure sub_004BD2F8(?:Boolean);//004BD2F8
-	//procedure sub_004BD334(?:Boolean);//004BD334
-	//procedure sub_004BD374(?:Boolean);//004BD374
+	function sub_004BD1BC:boolean;//004BD1BC
+	function sub_004BD1FC:boolean;//004BD1FC
+	function sub_004BD238:boolean;//004BD238
+	function sub_004BD278:boolean;//004BD278
+	procedure sub_004BD2B8(a:Boolean);//004BD2B8
+	procedure sub_004BD2F8(a:Boolean);//004BD2F8
+	procedure sub_004BD334(a:Boolean);//004BD334
+	procedure sub_004BD374(a:Boolean);//004BD374
 	procedure sub_004BD3B4(var a:string);//004BD3B4
 	procedure sub_004BD3FC(var a:string);//004BD3FC
 	procedure sub_004BD444(var a:string);//004BD444
@@ -209,14 +209,14 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	//procedure sub_004BD858(?:?);//004BD858
 	//procedure sub_004BD8D4(?:Boolean);//004BD8D4
 	function sub_004BD904:boolean;//004BD904
-	//procedure sub_004BD934(?:Boolean);//004BD934
-	//procedure sub_004BD968(?:Boolean);//004BD968
-	//procedure sub_004BD994(?:Boolean);//004BD994
-	//procedure sub_004BD9C8(?:Boolean);//004BD9C8
-	//function sub_004BD9F8:?;//004BD9F8
-	//function sub_004BDA2C:?;//004BDA2C
-	//function sub_004BDA58:?;//004BDA58
-	//function sub_004BDA8C:?;//004BDA8C
+	procedure sub_004BD934(a:Boolean);//004BD934
+	procedure sub_004BD968(a:Boolean);//004BD968
+	procedure sub_004BD994(a:Boolean);//004BD994
+	procedure sub_004BD9C8(a:Boolean);//004BD9C8
+	function sub_004BD9F8:boolean;//004BD9F8
+	function sub_004BDA2C:boolean;//004BDA2C
+	function sub_004BDA58:boolean;//004BDA58
+	function sub_004BDA8C:boolean;//004BDA8C
 
 implementation
 
@@ -543,59 +543,30 @@ end;//0
 //end;
 
 //004B9A44
-{*function sub_004B9A44:?;
-//begin
- 004B9A44    push        ebx
- 004B9A45    push        esi
- 004B9A46    push        edi
- 004B9A47    mov         dl,1
- 004B9A49    mov         eax,[004120B8];TStringList
- 004B9A4E    call        TObject.Create;TStringList.Create
- 004B9A53    mov         esi,eax
- 004B9A55    mov         dl,1
- 004B9A57    mov         eax,[00490114];TRegistry
- 004B9A5C    call        TRegistry.Create;TRegistry.Create
- 004B9A61    mov         ebx,eax
- 004B9A63    mov         edx,80000001
- 004B9A68    mov         eax,ebx
- 004B9A6A    call        TRegistry.SetRootKey
- 004B9A6F    mov         edx,4B9AE4;'Software\Carnet de Notes 2.x\Periodes'
- 004B9A74    mov         eax,ebx
- 004B9A76    call        TRegistry.KeyExists
- 004B9A7B    test        al,al
->004B9A7D    je          004B9A9D
- 004B9A7F    mov         cl,1
- 004B9A81    mov         edx,4B9AE4;'Software\Carnet de Notes 2.x\Periodes'
- 004B9A86    mov         eax,ebx
- 004B9A88    call        TRegistry.OpenKey
- 004B9A8D    mov         edx,esi
- 004B9A8F    mov         eax,ebx
- 004B9A91    call        TRegistry.GetValueNames
- 004B9A96    mov         eax,ebx
- 004B9A98    call        TRegistry.CloseKey
- 004B9A9D    mov         ecx,4B9B14;'Trimestres'
- 004B9AA2    xor         edx,edx
- 004B9AA4    mov         eax,esi
- 004B9AA6    mov         edi,dword ptr [eax]
- 004B9AA8    call        dword ptr [edi+54];TStringList.Insert
- 004B9AAB    mov         ecx,4B9B28;'Semestres'
- 004B9AB0    mov         edx,1
- 004B9AB5    mov         eax,esi
- 004B9AB7    mov         edi,dword ptr [eax]
- 004B9AB9    call        dword ptr [edi+54];TStringList.Insert
- 004B9ABC    mov         ecx,4B9B3C;'Mois'
- 004B9AC1    mov         edx,2
- 004B9AC6    mov         eax,esi
- 004B9AC8    mov         edi,dword ptr [eax]
- 004B9ACA    call        dword ptr [edi+54];TStringList.Insert
- 004B9ACD    mov         eax,ebx
- 004B9ACF    call        TObject.Free
- 004B9AD4    mov         eax,esi
- 004B9AD6    pop         edi
- 004B9AD7    pop         esi
- 004B9AD8    pop         ebx
- 004B9AD9    ret
-//end;*}
+function sub_004B9A44:TStringlist;
+var 
+  StringList:TStringList;
+  Registry:TRegistry;
+begin//0
+  //004B9A44
+  StringList := TStringList.Create;
+  Registry := TRegistry.Create;
+  Registry.RootKey := $80000001;
+  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Periodes')) then
+  begin//1
+    //004B9A7F
+    Registry.OpenKey('Software\Carnet de Notes 2.x\Periodes', True);
+    Registry.GetValueNames(StringList);
+    Registry.CloseKey;
+  end;//1
+  StringList.Insert(0, 'Trimestres');
+  StringList.Insert(1, 'Semestres');
+  StringList.Insert(2, 'Mois');
+  Registry.Free;
+  result := StringList;//ESI
+end;//0
+
+
 
 //004B9B44
 {*function sub_004B9B44:?;
@@ -790,33 +761,23 @@ end;//0
 function sub_004B9E48:integer; //moyennesSur
 begin//0
   //004B9E48
-  {if (gvar_00617905 <> 0) then
-  begin//004B9E52
+  {if (gvar_00617905 <> 0) then//004B9E52
 	 result := sub_00497268('moyennesSur',20, 1);
-	Exit;
-  end;//1
-  if (gvar_00617904 <> 0) then
-  begin//1
-	//004B9E6B
+   else
+  if (gvar_00617904 <> 0) then//004B9E6B
 	 result:= sub_00497268('moyennesSur',20, 1);
-	Exit;
-  end;//1}
+   }
    result := sub_00497268('moyennesSur',20{, 1});
 end;//0
 
 
 //004B9EA0
-{*function sub_004B9EA0:?;
-//begin
- 004B9EA0    xor         ecx,ecx
- 004B9EA2    xor         edx,edx
- 004B9EA4    mov         eax,4B9EC4;'trierMoyennes'
- 004B9EA9    call        00497268
- 004B9EAE    cmp         eax,0FF
->004B9EB3    jbe         004B9EBA
- 004B9EB5    call        @BoundErr
- 004B9EBA    ret
-//end;*}
+function sub_004B9EA0:dword;
+begin//0
+  //004B9EA0
+  result := sub_00497268('trierMoyennes', 0);
+end;//0
+
 
 //004B9ED4
 //procedure sub_004B9ED4(?:Boolean);
@@ -843,24 +804,16 @@ end;//0
 //end;
 
 //004B9F30
-{*function sub_004B9F30:?;
-//begin
- 004B9F30    xor         ecx,ecx
- 004B9F32    xor         edx,edx
- 004B9F34    mov         eax,4B9F48;'moyenneParTypeDeNotes'
- 004B9F39    call        004971A0
- 004B9F3E    ret
-//end;*}
+function sub_004B9F30:boolean;
+begin
+ result := sub_004971A0('moyenneParTypeDeNotes', false{,0});
+end;
 
 //004B9F60
-{*function sub_004B9F60:?;
-//begin
- 004B9F60    xor         ecx,ecx
- 004B9F62    xor         edx,edx
- 004B9F64    mov         eax,4B9F78;'moyennesEcritEtOral'
- 004B9F69    call        004971A0
- 004B9F6E    ret
-//end;*}
+function sub_004B9F60:boolean;
+begin
+ result := sub_004971A0('moyennesEcritEtOral', false{,0});
+end;
 
 //004B9F8C
 function sub_004B9F8C:TColor;
@@ -918,15 +871,10 @@ end;//0
 
 
 //004BA108
-{*function sub_004BA108:?;
-//begin
- 004BA108    call        004BBDD0
- 004BA10D    mov         edx,eax
- 004BA10F    xor         ecx,ecx
- 004BA111    mov         eax,4BA124;'couleurMurGauche'
- 004BA116    call        004970D8
- 004BA11B    ret
-//end;*}
+function sub_004BA108:TColor;
+begin
+ result := sub_004970D8('couleurMurGauche', sub_004BBDD0);
+end;
 
 //004BA138
 //procedure sub_004BA138(?:TColor);
@@ -1387,7 +1335,7 @@ end;
 //end;*}
 
 ///004BAA88
-function sub_004BAA88(a:dword):dword;
+function sub_004BAA88(a:dword):TInclureImpression;
 var
  Registry:TRegistry;
  I:integer;
@@ -1423,6 +1371,7 @@ begin//0
 	   end;//4
 	   Registry.Free;
 	  // ESI := InclureImpression;
+	  result := InclureImpression;
 	 end;//3
 	 1:
 	 begin//3
@@ -1448,6 +1397,7 @@ begin//0
 	   end;//4
 	   Registry.Free;
 	   //ESI := gvar_00617CC4;
+	   result := InclureImpression1;
 	 end;//3
 	 2:
 	 begin//3
@@ -1476,6 +1426,7 @@ begin//0
 	   end;//4
 	   Registry.Free;
 	   //ESI := gvar_00617CC8;
+	   result := InclureImpression2;
 	 end;//3
    end;//2
 end;//0
@@ -1489,26 +1440,16 @@ end;//0
 
 
 //004BAEFC
-//procedure sub_004BAEFC(?:Boolean);
-//begin
-{*
-004BAEFC    xor         ecx,ecx
-004BAEFE    mov         edx,eax
-004BAF00    mov         eax,4BAF14;'numeroterElevesSeriesDeNotes'
-004BAF05    call        004974F0
-004BAF0A    ret
-*}
-//end;
+procedure sub_004BAEFC(a:Boolean);
+begin
+  sub_004974F0('numeroterElevesSeriesDeNotes',a{,0});
+end;
 
 //004BAF34
-{*function sub_004BAF34:?;
-//begin
-004BAF34    xor         ecx,ecx
-004BAF36    mov         dl,1
-004BAF38    mov         eax,4BAF4C;'numeroterElevesBilans'
-004BAF3D    call        004971A0
-004BAF42    ret
-//end;*}
+function sub_004BAF34:boolean;
+begin
+ result := sub_004971A0('numeroterElevesBilans',true{,0});
+end;
 
 //004BAF64
 //procedure sub_004BAF64(?:Boolean);
@@ -1764,14 +1705,11 @@ end;//0
 //end;*}
 
 //004BB35C
-{	*function sub_004BB35C:?;
-//begin
-004BB35C    xor         ecx,ecx
-004BB35E    xor         edx,edx
-004BB360    mov         eax,4BB374;'colonnesBilanDetaillees'
-004BB365    call        004971A0
-004BB36A    ret
-//end;*}
+function sub_004BB35C:boolean;
+begin
+ result := sub_004971A0('colonnesBilanDetaillees',false{,0});
+
+end;
 
 ///004BB38C
 //procedure sub_004BB38C(?:Boolean);
@@ -1799,17 +1737,11 @@ end;//0
 //end;
 
 //004BB3F0
-{	*function sub_004BB3F0:?;
-//begin
-004BB3F0    xor         ecx,ecx
-004BB3F2    xor         edx,edx
-004BB3F4    mov         eax,4BB414;'trierMoyennesImpression'
-004BB3F9    call        00497268
-004BB3FE    cmp         eax,0FF
->	004BB403    jbe         004BB40A
-004BB405    call        @BoundErr
-004BB40A    ret
-//end;*}
+function sub_004BB3F0:byte;
+begin
+  result := sub_00497268('trierMoyennesImpression',0{,0});
+
+end;
 
 //004BB42C
 //procedure sub_004BB42C(?:Boolean);
@@ -2225,40 +2157,32 @@ end;//0
 //end;
 
 //004BBB78
-{	*function sub_004BBB78:?;
-//begin
-004BBB78    call        004BBBD8
-004BBB7D    mov         edx,eax
-004BBB7F    xor         ecx,ecx
-004BBB81    mov         eax,4BBB94;'couleurDebutDegrade'
-004BBB86    call        004970D8
-004BBB8B    ret
-//end;*}
+function sub_004BBB78:TColor;
+begin//0
+  //004BBB78
+  result := sub_004970D8('couleurDebutDegrade', sub_004BBBD8);
+end;//0
+
 
 //004BBBA8
-{	*function sub_004BBBA8:?;
-//begin
-004BBBA8    call        004BBBE0
-004BBBAD    mov         edx,eax
-004BBBAF    xor         ecx,ecx
-004BBBB1    mov         eax,4BBBC4;'couleurFinDegrade'
-004BBBB6    call        004970D8
-004BBBBB    ret
-//end;*}
+function sub_004BBBA8:TColor;
+begin//0
+  //004BBB78
+  result := sub_004970D8('couleurFinDegrade', sub_004BBBE0);
+end;//0
 
 //004BBBD8
-{	*function sub_004BBBD8:?;
-//begin
-004BBBD8    mov         eax,0FFFF80
-004BBBDD    ret
-//end;*}
+function sub_004BBBD8:TColor;
+begin
+result := $0FFFF80;
+end;
 
 //004BBBE0
-{	*function sub_004BBBE0:?;
-//begin
-004BBBE0    mov         eax,0FF8080
-004BBBE5    ret
-//end;*}
+function sub_004BBBE0:TColor;
+begin
+result := $0FF8080;
+
+end;
 
 //004BBBE8
 //procedure sub_004BBBE8(?:TColor);
@@ -2325,40 +2249,28 @@ result := $0FFFF;
 end;
 
 //004BBCB4
-{	*function sub_004BBCB4:?;
-//begin
-004BBCB4    call        004BBCDC
-004BBCB9    mov         edx,eax
-004BBCBB    xor         ecx,ecx
-004BBCBD    mov         eax,4BBCD0;'couleurMax'
-004BBCC2    call        004970D8
-004BBCC7    ret
-//end;*}
+function sub_004BBCB4:TColor;
+begin
+ result := sub_004970D8('couleurMax',  sub_004BBCDC{,0});
+end;
 
 //004BBCDC
-{	*function sub_004BBCDC:?;
-//begin
-004BBCDC    mov         eax,0FF0000
-004BBCE1    ret
-//end;*}
+function sub_004BBCDC:TColor;
+begin
+result := $0FF0000;
+end;
 
 //004BBCE4
-{	*function sub_004BBCE4:?;
-//begin
-004BBCE4    call        004BBD0C
-004BBCE9    mov         edx,eax
-004BBCEB    xor         ecx,ecx
-004BBCED    mov         eax,4BBD00;'couleurMin'
-004BBCF2    call        004970D8
-004BBCF7    ret
-//end;*}
+function sub_004BBCE4:TColor;
+begin
+result := sub_004970D8('couleurMin',sub_004BBD0C{,0});
+end;
 
 //004BBD0C
-{	*function sub_004BBD0C:?;
-//begin
-004BBD0C    mov         eax,0FF
-004BBD11    ret
-//end;*}
+function sub_004BBD0C:TColor;
+begin
+ result := $0FF;
+end;
 
 //004BBD14
 function sub_004BBD14:TColor;
@@ -2388,22 +2300,18 @@ end;
 //end;
 
 //004BBD70
-{	*function sub_004BBD70:?;
-//begin
-004BBD70    call        004BBD9C
-004BBD75    mov         edx,eax
-004BBD77    xor         ecx,ecx
-004BBD79    mov         eax,4BBD8C;'couleurMurBas'
-004BBD7E    call        004970D8
-004BBD83    ret
-//end;*}
+function sub_004BBD70:TColor;
+begin
+ result := sub_004970D8('couleurMurBas',sub_004BBD9C);
+ 
+end;
 
 //004BBD9C
-{	*function sub_004BBD9C:?;
-//begin
-004BBD9C    mov         eax,0FFFFFF
-004BBDA1    ret
-//end;*}
+function sub_004BBD9C:TColor;
+begin
+result := $0FFFFFF;
+
+end;
 
 //004BBDA4
 //procedure sub_004BBDA4(?:TColor);
@@ -2418,11 +2326,11 @@ end;
 //end;
 
 //004BBDD0
-{	*function sub_004BBDD0:?;
-//begin
-004BBDD0    mov         eax,0FFFFFF
-004BBDD5    ret
-//end;*}
+function sub_004BBDD0:TColor;
+begin
+result := $0FFFFFF;
+
+end;
 
 //004BBDD8
 procedure sub_004BBDD8(a:Boolean);
@@ -2507,26 +2415,16 @@ end;//0
 //end;
 
 //004BBF88
-//procedure sub_004BBF88(?:Boolean);
-//begin
-{	*
-004BBF88    xor         ecx,ecx
-004BBF8A    mov         edx,eax
-004BBF8C    mov         eax,4BBFA0;'impressionCouleurNote'
-004BBF91    call        004974F0
-004BBF96    ret
-*}
-//end;
+procedure sub_004BBF88(a:Boolean);
+begin
+  sub_004974F0('impressionCouleurNote',a{,0});
+end;
 
 //004BBFB8
-{	*function sub_004BBFB8:?;
-//begin
-004BBFB8    xor         ecx,ecx
-004BBFBA    xor         edx,edx
-004BBFBC    mov         eax,4BBFD0;'impressionCouleurNote'
-004BBFC1    call        004971A0
-004BBFC6    ret
-//end;*}
+function sub_004BBFB8:boolean;
+begin
+ result := sub_004971A0('impressionCouleurNote',false{,false});
+end;
 
 //004BBFE8
 //procedure sub_004BBFE8(?:Boolean);
@@ -2541,14 +2439,10 @@ end;//0
 //end;
 
 //004BC01C
-{	*function sub_004BC01C:?;
-//begin
-004BC01C    xor         ecx,ecx
-004BC01E    mov         dl,1
-004BC020    mov         eax,4BC034;'numeroterElevesGrilleVierge'
-004BC025    call        004971A0
-004BC02A    ret
-//end;*}
+function sub_004BC01C:boolean;
+begin
+ result := sub_004971A0('numeroterElevesGrilleVierge',true{,0});
+end;
 
 //004BC050
 //procedure sub_004BC050(?:Integer);
@@ -2564,19 +2458,10 @@ end;//0
 //end;
 
 //004BC080
-//procedure sub_004BC080;
-//begin
-{	*
-004BC080    xor         ecx,ecx
-004BC082    mov         dl,0A
-004BC084    mov         eax,4BC0A4;'largeurGrilleVierge'
-004BC089    call        00497268
-004BC08E    cmp         eax,0FF
->	004BC093    jbe         004BC09A
-004BC095    call        @BoundErr
-004BC09A    ret
-*}
-//end;
+function sub_004BC080:byte;
+begin
+ result := sub_00497268('largeurGrilleVierge',10{,0});
+end;
 
 //004BC0B8
 //procedure sub_004BC0B8(?:Boolean);
@@ -2591,14 +2476,10 @@ end;//0
 //end;
 
 //004BC0EC
-{	*function sub_004BC0EC:?;
-//begin
-004BC0EC    xor         ecx,ecx
-004BC0EE    xor         edx,edx
-004BC0F0    mov         eax,4BC104;'impressionColonneMoyenne'
-004BC0F5    call        004971A0
-004BC0FA    ret
-//end;*}
+function sub_004BC0EC:boolean;
+begin
+  result := sub_004971A0('impressionColonneMoyenne',false{,0});
+end;
 
 //004BC120
 //procedure sub_004BC120(?:Boolean);
@@ -2625,24 +2506,16 @@ end;//0
 //end;
 
 //004BC188
-{	*function sub_004BC188:?;
-//begin
-004BC188    xor         ecx,ecx
-004BC18A    mov         dl,1
-004BC18C    mov         eax,4BC1A0;'impressionMoyennesEcritOral'
-004BC191    call        004971A0
-004BC196    ret
-//end;*}
+function sub_004BC188:boolean;
+begin
+result := sub_004971A0('impressionMoyennesEcritOral',true{,false});
+end;
 
 //004BC1BC
-{	*function sub_004BC1BC:?;
-//begin
-004BC1BC    xor         ecx,ecx
-004BC1BE    mov         dl,1
-004BC1C0    mov         eax,4BC1D4;'impressionColonneClassement'
-004BC1C5    call        004971A0
-004BC1CA    ret
-//end;*}
+function sub_004BC1BC:boolean;
+begin
+  result := sub_004971A0('impressionColonneClassement',true{,false});
+end;
 
 //004BC1F0
 //procedure sub_004BC1F0(?:Boolean);
@@ -2657,14 +2530,10 @@ end;//0
 //end;
 
 //004BC228
-{	*function sub_004BC228:?;
-//begin
-004BC228    xor         ecx,ecx
-004BC22A    mov         dl,1
-004BC22C    mov         eax,4BC240;'numeroterElevesAppreciations'
-004BC231    call        004971A0
-004BC236    ret
-//end;*}
+function sub_004BC228:boolean;
+begin
+	result:= sub_004971A0('numeroterElevesAppreciations',true{,0});
+end;
 
 //004BC260
 //procedure sub_004BC260(?:Integer);
@@ -2709,145 +2578,68 @@ end;//0
 
 
 //004BC348
-{	*function sub_004BC348:?;
-//begin
-004BC348    push        ebx
-004BC349    push        esi
-004BC34A    mov         dl,1
-004BC34C    mov         eax,[004120B8];TStringList
-004BC351    call        TObject.Create;TStringList.Create
-004BC356    mov         esi,eax
-004BC358    mov         dl,1
-004BC35A    mov         eax,esi
-004BC35C    call        TStringList.SetSorted
-004BC361    mov         dl,1
-004BC363    mov         eax,[00490114];TRegistry
-004BC368    call        TRegistry.Create;TRegistry.Create
-004BC36D    mov         ebx,eax
-004BC36F    mov         edx,80000001
-004BC374    mov         eax,ebx
-004BC376    call        TRegistry.SetRootKey
-004BC37B    mov         edx,4BC3C8;'Software\Carnet de Notes 2.x\Matieres'
-004BC380    mov         eax,ebx
-004BC382    call        TRegistry.KeyExists
-004BC387    test        al,al
->	004BC389    je          004BC3AB
-004BC38B    mov         cl,1
-004BC38D    mov         edx,4BC3C8;'Software\Carnet de Notes 2.x\Matieres'
-004BC392    mov         eax,ebx
-004BC394    call        TRegistry.OpenKey
-004BC399    mov         edx,esi
-004BC39B    mov         eax,ebx
-004BC39D    call        TRegistry.GetValueNames
-004BC3A2    mov         eax,ebx
-004BC3A4    call        TRegistry.CloseKey
->	004BC3A9    jmp         004BC3B2
-004BC3AB    call        004BC3F0
-004BC3B0    mov         esi,eax
-004BC3B2    mov         eax,ebx
-004BC3B4    call        TObject.Free
-004BC3B9    mov         eax,esi
-004BC3BB    pop         esi
-004BC3BC    pop         ebx
-004BC3BD    ret
-//end;*}
+function sub_004BC348:TStringList;
+var
+  StringList : TStringList;
+  Registry : TRegistry;
+begin//0
+  //004BC348
+  StringList := TStringList.Create;
+  StringList.Sorted := True;
+  Registry := TRegistry.Create;
+  Registry.RootKey:= $80000001;
+  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Matieres')) then
+  begin//1
+    //004BC38B
+    Registry.OpenKey('Software\Carnet de Notes 2.x\Matieres', True);
+    Registry.GetValueNames(StringList);
+    Registry.CloseKey;
+  end//1
+  else
+  begin//1
+    //004BC3AB
+    StringList := sub_004BC3F0;
+  end;//1
+  Registry.Free;
+  result := StringList;
+end;
 
 //004BC3F0
-{	*function sub_004BC3F0:?;
-//begin
-004BC3F0    push        ebx
-004BC3F1    mov         dl,1
-004BC3F3    mov         eax,[00490114];TRegistry
-004BC3F8    call        TRegistry.Create;TRegistry.Create
-004BC3FD    mov         ebx,eax
-004BC3FF    mov         edx,80000001
-004BC404    mov         eax,ebx
-004BC406    call        TRegistry.SetRootKey
-004BC40B    mov         edx,4BC514;'Software\Carnet de Notes 2.x\Matieres'
-004BC410    mov         eax,ebx
-004BC412    call        TRegistry.KeyExists
-004BC417    test        al,al
->	004BC419    je          004BC427
-004BC41B    mov         edx,4BC514;'Software\Carnet de Notes 2.x\Matieres'
-004BC420    mov         eax,ebx
-004BC422    call        TRegistry.DeleteKey
-004BC427    mov         eax,ebx
-004BC429    call        TObject.Free
-004BC42E    mov         dl,1
-004BC430    mov         eax,[004120B8];TStringList
-004BC435    call        TObject.Create;TStringList.Create
-004BC43A    mov         ebx,eax
-004BC43C    mov         dl,1
-004BC43E    mov         eax,ebx
-004BC440    call        TStringList.SetSorted
-004BC445    mov         edx,4BC544;'Allemand'
-004BC44A    mov         eax,ebx
-004BC44C    mov         ecx,dword ptr [eax]
-004BC44E    call        dword ptr [ecx+34];TStringList.Add
-004BC451    mov         edx,4BC558;'Anglais'
-004BC456    mov         eax,ebx
-004BC458    mov         ecx,dword ptr [eax]
-004BC45A    call        dword ptr [ecx+34];TStringList.Add
-004BC45D    mov         edx,4BC568;'Arts Plastiques'
-004BC462    mov         eax,ebx
-004BC464    mov         ecx,dword ptr [eax]
-004BC466    call        dword ptr [ecx+34];TStringList.Add
-004BC469    mov         edx,4BC580;'E.P.S'
-004BC46E    mov         eax,ebx
-004BC470    mov         ecx,dword ptr [eax]
-004BC472    call        dword ptr [ecx+34];TStringList.Add
-004BC475    mov         edx,4BC590;'Espagnol'
-004BC47A    mov         eax,ebx
-004BC47C    mov         ecx,dword ptr [eax]
-004BC47E    call        dword ptr [ecx+34];TStringList.Add
-004BC481    mov         edx,4BC5A4;'Français'
-004BC486    mov         eax,ebx
-004BC488    mov         ecx,dword ptr [eax]
-004BC48A    call        dword ptr [ecx+34];TStringList.Add
-004BC48D    mov         edx,4BC5B8;'Grec'
-004BC492    mov         eax,ebx
-004BC494    mov         ecx,dword ptr [eax]
-004BC496    call        dword ptr [ecx+34];TStringList.Add
-004BC499    mov         edx,4BC5C8;'Histoire - Géographie'
-004BC49E    mov         eax,ebx
-004BC4A0    mov         ecx,dword ptr [eax]
-004BC4A2    call        dword ptr [ecx+34];TStringList.Add
-004BC4A5    mov         edx,4BC5E8;'Latin'
-004BC4AA    mov         eax,ebx
-004BC4AC    mov         ecx,dword ptr [eax]
-004BC4AE    call        dword ptr [ecx+34];TStringList.Add
-004BC4B1    mov         edx,4BC5F8;'Mathématiques'
-004BC4B6    mov         eax,ebx
-004BC4B8    mov         ecx,dword ptr [eax]
-004BC4BA    call        dword ptr [ecx+34];TStringList.Add
-004BC4BD    mov         edx,4BC610;'Musique'
-004BC4C2    mov         eax,ebx
-004BC4C4    mov         ecx,dword ptr [eax]
-004BC4C6    call        dword ptr [ecx+34];TStringList.Add
-004BC4C9    mov         edx,4BC620;'S.E.S'
-004BC4CE    mov         eax,ebx
-004BC4D0    mov         ecx,dword ptr [eax]
-004BC4D2    call        dword ptr [ecx+34];TStringList.Add
-004BC4D5    mov         edx,4BC630;'Sciences de la Vie et de la Terre'
-004BC4DA    mov         eax,ebx
-004BC4DC    mov         ecx,dword ptr [eax]
-004BC4DE    call        dword ptr [ecx+34];TStringList.Add
-004BC4E1    mov         edx,4BC65C;'Sciences Physiques'
-004BC4E6    mov         eax,ebx
-004BC4E8    mov         ecx,dword ptr [eax]
-004BC4EA    call        dword ptr [ecx+34];TStringList.Add
-004BC4ED    mov         edx,4BC678;'Tahitien'
-004BC4F2    mov         eax,ebx
-004BC4F4    mov         ecx,dword ptr [eax]
-004BC4F6    call        dword ptr [ecx+34];TStringList.Add
-004BC4F9    mov         edx,4BC68C;'Technologie'
-004BC4FE    mov         eax,ebx
-004BC500    mov         ecx,dword ptr [eax]
-004BC502    call        dword ptr [ecx+34];TStringList.Add
-004BC505    mov         eax,ebx
-004BC507    pop         ebx
-004BC508    ret
-//end;*}
+function sub_004BC3F0:TStringlist;
+var
+  Registry:TRegistry;
+  Stringlist:TStringlist;
+begin//0
+  //004BC3F0
+  Registry := TRegistry.Create;
+  Registry.RootKey:=$80000001;
+  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Matieres')) then
+  begin//1
+    //004BC41B
+    Registry.DeleteKey('Software\Carnet de Notes 2.x\Matieres');
+  end;//1
+  Registry.Free;
+  StringList := TStringList.Create;
+  StringList.Sorted:=True;
+  StringList.Add('Allemand');
+  StringList.Add('Anglais');
+  StringList.Add('Arts Plastiques');
+  StringList.Add('E.P.S');
+  StringList.Add('Espagnol');
+  StringList.Add('Français');
+  StringList.Add('Grec');
+  StringList.Add('Histoire - Géographie');
+  StringList.Add('Latin');
+  StringList.Add('Mathématiques');
+  StringList.Add('Musique');
+  StringList.Add('S.E.S');
+  StringList.Add('Sciences de la Vie et de la Terre');
+  StringList.Add('Sciences Physiques');
+  StringList.Add('Tahitien');
+  StringList.Add('Technologie');
+  result := StringList;//EBX
+end;//0
+
 
 //004BC698
 //procedure sub_004BC698(?:TStrings);
@@ -3322,16 +3114,10 @@ end;//0
 
 
 //004BCDE8
-//procedure sub_004BCDE8(?:Boolean);
-//begin
-{	*
-004BCDE8    xor         ecx,ecx
-004BCDEA    mov         edx,eax
-004BCDEC    mov         eax,4BCE00;'afficherNomEnseignantOnglets'
-004BCDF1    call        004974F0
-004BCDF6    ret
-*}
-//end;
+procedure sub_004BCDE8(a:Boolean);
+begin
+   sub_004974F0('afficherNomEnseignantOnglets',a{,0});
+end;
 
 //004BCE20
 function sub_004BCE20:boolean;
@@ -3343,21 +3129,15 @@ end;//0
 
 
 //004BCE50
-//procedure sub_004BCE50(?:Boolean);
-//begin
-{	*
-004BCE50    xor         ecx,ecx
-004BCE52    mov         edx,eax
-004BCE54    mov         eax,4BCE68;'afficherMatiereOnglets'
-004BCE59    call        004974F0
-004BCE5E    ret
-*}
-//end;
+procedure sub_004BCE50(a:Boolean);
+begin
+ sub_004974F0('afficherMatiereOnglets',a{,0});
+end;
 
 //004BCE80
-{	*function sub_004BCE80:?;
-//begin
-004BCE80    push        ebx
+function sub_004BCE80:TStringList;
+begin
+{004BCE80    push        ebx
 004BCE81    push        esi
 004BCE82    push        edi
 004BCE83    mov         dl,1
@@ -3401,8 +3181,8 @@ end;//0
 004BCF01    pop         edi
 004BCF02    pop         esi
 004BCF03    pop         ebx
-004BCF04    ret
-//end;*}
+004BCF04    ret*}
+end;
 
 //004BCF84
 function sub_004BCF84(a:String):TStringList;
@@ -3442,83 +3222,52 @@ begin//0
  result := StringList;//ESI
 end;//0
 
+function sub_004BD1BC:boolean;
+begin
+ sub_004971A0('impressionDatesDeNaissanceSeriesDeNotes',true{,0});
+
+end;
 //004BD1FC
-{	*function sub_004BD1FC:?;
-//begin
-004BD1FC    xor         ecx,ecx
-004BD1FE    mov         dl,1
-004BD200    mov         eax,4BD214;'impressionDatesDeNaissanceBilans'
-004BD205    call        004971A0
-004BD20A    ret
-//end;*}
+function sub_004BD1FC:boolean;
+begin
+	sub_004971A0('impressionDatesDeNaissanceBilans',true{,0});
+end;
 
 //004BD238
-{	*function sub_004BD238:?;
-//begin
-004BD238    xor         ecx,ecx
-004BD23A    mov         dl,1
-004BD23C    mov         eax,4BD250;'impressionDatesDeNaissanceAppreciations'
-004BD241    call        004971A0
-004BD246    ret
-//end;*}
+function sub_004BD238:boolean;
+begin
+	sub_004971A0('impressionDatesDeNaissanceAppreciations',true{,0});
+end;
 
 //004BD278
-{	*function sub_004BD278:?;
-//begin
-004BD278    xor         ecx,ecx
-004BD27A    mov         dl,1
-004BD27C    mov         eax,4BD290;'impressionDatesDeNaissanceGrilleVierge'
-004BD281    call        004971A0
-004BD286    ret
-//end;*}
+function sub_004BD278:boolean;
+begin
+	sub_004971A0('impressionDatesDeNaissanceGrilleVierge',true{,0});
+end;
 
 //004BD2B8
-//procedure sub_004BD2B8(?:Boolean);
-//begin
-{	*
-004BD2B8    xor         ecx,ecx
-004BD2BA    mov         edx,eax
-004BD2BC    mov         eax,4BD2D0;'impressionDatesDeNaissanceSeriesDeNotes'
-004BD2C1    call        004974F0
-004BD2C6    ret
-*}
-//end;
+procedure sub_004BD2B8(a:Boolean);
+begin
+	sub_004974F0('impressionDatesDeNaissanceSeriesDeNotes',a{,0});
+end;
 
 //004BD2F8
-//procedure sub_004BD2F8(?:Boolean);
-//begin
-{	*
-004BD2F8    xor         ecx,ecx
-004BD2FA    mov         edx,eax
-004BD2FC    mov         eax,4BD310;'impressionDatesDeNaissanceBilans'
-004BD301    call        004974F0
-004BD306    ret
-*}
-//end;
+procedure sub_004BD2F8(a:Boolean);
+begin
+   sub_004974F0('impressionDatesDeNaissanceBilans',a{,0});
+end;
 
 //004BD334
-//procedure sub_004BD334(?:Boolean);
-//begin
-{	*
-004BD334    xor         ecx,ecx
-004BD336    mov         edx,eax
-004BD338    mov         eax,4BD34C;'impressionDatesDeNaissanceAppreciations'
-004BD33D    call        004974F0
-004BD342    ret
-*}
-//end;
+procedure sub_004BD334(a:Boolean);
+begin
+   sub_004974F0('impressionDatesDeNaissanceAppreciations',a{,0});
+end;
 
 //004BD374
-//procedure sub_004BD374(?:Boolean);
-//begin
-{	*
-004BD374    xor         ecx,ecx
-004BD376    mov         edx,eax
-004BD378    mov         eax,4BD38C;'impressionDatesDeNaissanceGrilleVierge'
-004BD37D    call        004974F0
-004BD382    ret
-*}
-//end;
+procedure sub_004BD374(a:Boolean);
+begin
+   sub_004974F0('impressionDatesDeNaissanceGrilleVierge',a{,0});
+end;
 
 //004BD3B4
 procedure sub_004BD3B4(var a:string);
@@ -3833,92 +3582,52 @@ end;//0
 
 
 //004BD934
-//procedure sub_004BD934(?:Boolean);
-//begin
-{	*
-004BD934    xor         ecx,ecx
-004BD936    mov         edx,eax
-004BD938    mov         eax,4BD94C;'impressionRSeriesDeNotes'
-004BD93D    call        004974F0
-004BD942    ret
-*}
-//end;
+procedure sub_004BD934(a:Boolean);
+begin
+ sub_004974F0('impressionRSeriesDeNotes',a{,0});
+end;
 
 //004BD968
-//procedure sub_004BD968(?:Boolean);
-//begin
-{	*
-004BD968    xor         ecx,ecx
-004BD96A    mov         edx,eax
-004BD96C    mov         eax,4BD980;'impressionRBilans'
-004BD971    call        004974F0
-004BD976    ret
-*}
-//end;
+procedure sub_004BD968(a:Boolean);
+begin
+ sub_004974F0('impressionRBilans',a{,0});
+end;
 
 //004BD994
-//procedure sub_004BD994(?:Boolean);
-//begin
-{	*
-004BD994    xor         ecx,ecx
-004BD996    mov         edx,eax
-004BD998    mov         eax,4BD9AC;'impressionRAppreciations'
-004BD99D    call        004974F0
-004BD9A2    ret
-*}
-//end;
+procedure sub_004BD994(a:Boolean);
+begin
+ sub_004974F0('impressionRAppreciations',a{,0});
+end;
 
 //004BD9C8
-//procedure sub_004BD9C8(?:Boolean);
-//begin
-{	*
-004BD9C8    xor         ecx,ecx
-004BD9CA    mov         edx,eax
-004BD9CC    mov         eax,4BD9E0;'impressionRGrilleVierge'
-004BD9D1    call        004974F0
-004BD9D6    ret
-*}
-//end;
+procedure sub_004BD9C8(a:Boolean);
+begin
+ sub_004974F0('impressionRGrilleVierge',a{,0});
+end;
 
 //004BD9F8
-{	*function sub_004BD9F8:?;
-//begin
-004BD9F8    xor         ecx,ecx
-004BD9FA    mov         dl,1
-004BD9FC    mov         eax,4BDA10;'impressionRSeriesDeNotes'
-004BDA01    call        004971A0
-004BDA06    ret
-//end;*}
+function sub_004BD9F8:boolean;
+begin
+result := sub_004971A0('impressionRSeriesDeNotes', true{,0});
+end;
 
 //004BDA2C
-{	*function sub_004BDA2C:?;
-//begin
-004BDA2C    xor         ecx,ecx
-004BDA2E    mov         dl,1
-004BDA30    mov         eax,4BDA44;'impressionRBilans'
-004BDA35    call        004971A0
-004BDA3A    ret
-//end;*}
+function sub_004BDA2C:boolean;
+begin
+result := sub_004971A0('impressionRBilans', true{,0});
+end;
 
 //004BDA58
-{	*function sub_004BDA58:?;
-//begin
-004BDA58    xor         ecx,ecx
-004BDA5A    mov         dl,1
-004BDA5C    mov         eax,4BDA70;'impressionRAppreciations'
-004BDA61    call        004971A0
-004BDA66    ret
-//end;*}
+function sub_004BDA58:boolean;
+begin
+result := sub_004971A0('impressionRAppreciations', true{,0});
+end;
 
 //004BDA8C
-{	*function sub_004BDA8C:?;
-//begin
-004BDA8C    xor         ecx,ecx
-004BDA8E    mov         dl,1
-004BDA90    mov         eax,4BDAA4;'impressionRGrilleVierge'
-004BDA95    call        004971A0
-004BDA9A    ret
-//end;*}
+function sub_004BDA8C:boolean;
+begin
+result := sub_004971A0('impressionRGrilleVierge', true{,0});
+end;
 
 Initialization
 //004BDAF8

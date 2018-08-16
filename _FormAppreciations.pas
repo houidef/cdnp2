@@ -35,18 +35,18 @@ type
     SpeedButtonEleveSuivant:TSpeedButton;//f320
     TabSetColonnesBulletin:TTabSet;//f324
     procedure Memo1Exit(Sender:TObject);//00514D2C
-    procedure Memo1Change;//00514D4C
+    procedure Memo1Change(Sender:TObject);//00514D4C
     procedure SpeedButtonElevePrecedentClick(Sender:TObject);//00514C30
     procedure SpeedButtonEleveSuivantClick(Sender:TObject);//00514CA8
     procedure StringGrid2DrawCell(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);//005155D4
     procedure TabSetColonnesBulletinChange(Sender: TObject; NewTab: Integer;
   var AllowChange: Boolean);//00515830
-    procedure PageControl1Change;//00514F80
+    procedure PageControl1Change(Sender:TObject);//00514F80
     procedure Memo1KeyDown(Sender:TObject; var Key:Word; Shift:TShiftState);//00515260
     procedure SpeedButton5Click(Sender:TObject);//00514BF0
     procedure FormDestroy(Sender:TObject);//00514358
-    procedure TabControlPeriodesChange;//00514368
+    procedure TabControlPeriodesChange(Sender:TObject);//00514368
     procedure SpeedButton1Click(Sender:TObject);//00513B60
     procedure StringGrid1SelectCell(Sender: TObject; ACol,
 									ARow: Integer; var CanSelect: Boolean);//00513D5C

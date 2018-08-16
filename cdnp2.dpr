@@ -82,10 +82,11 @@ uses
 begin
   Application.Initialize;
   Application.Title:='Carnet de Notes Personnelle 2.9';
+  
   //FormMarqueCdn:=TFormMarqueCdn.Create(Nil);
   Application.CreateForm(TFormCarnetDeNotes2,FormCarnetDeNotes2);
-  Application.CreateForm(TFormHint,FormHint);
-  Application.CreateForm(TFormAProposDe,FormAProposDe);
+  //Application.CreateForm(TFormHint,FormHint);
+  //Application.CreateForm(TFormAProposDe,FormAProposDe);
  // Application.CreateForm(TFormProgression,FormProgression);
   Application.Run;
  // FormHint.Free;

@@ -7,9 +7,9 @@ unit UEnregistrement;
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, URegistry,unit51;
+Forms, Windows,  SysUtils, Classes,Registry, URegistry,unit51;
 
-    //function sub_004982F8:?;//004982F8
+    function sub_004982F8:TStringlist;//004982F8
     //procedure sub_00498460(?:TStrings);//00498460
     //function sub_0049856C:?;//0049856C
     procedure sub_004986C0(NumUser:dword; var NomUser:String);//004986C0
@@ -23,88 +23,39 @@ Forms, Windows,  SysUtils, Classes, URegistry,unit51;
 implementation
 
 //004982F8
-{*function sub_004982F8:?;
-begin
- 004982F8    push        ebp
- 004982F9    mov         ebp,esp
- 004982FB    push        0
- 004982FD    push        ebx
- 004982FE    push        esi
- 004982FF    xor         eax,eax
- 00498301    push        ebp
- 00498302    push        4983D0
- 00498307    push        dword ptr fs:[eax]
- 0049830A    mov         dword ptr fs:[eax],esp
- 0049830D    mov         dl,1
- 0049830F    mov         eax,[004120B8];TStringList
- 00498314    call        TObject.Create;TStringList.Create
- 00498319    mov         esi,eax
- 0049831B    mov         dl,1
- 0049831D    mov         eax,esi
- 0049831F    call        TStringList.SetSorted
- 00498324    mov         dl,1
- 00498326    mov         eax,[00490114];TRegistry
- 0049832B    call        TRegistry.Create;TRegistry.Create
- 00498330    mov         ebx,eax
- 00498332    mov         edx,80000001
- 00498337    mov         eax,ebx
- 00498339    call        TRegistry.SetRootKey
- 0049833E    mov         edx,4983E8;'Software\Carnet de Notes 2.x\Utilisateurs'
- 00498343    mov         eax,ebx
- 00498345    call        TRegistry.KeyExists
- 0049834A    test        al,al
->0049834C    je          00498367
- 0049834E    mov         cl,1
- 00498350    mov         edx,4983E8;'Software\Carnet de Notes 2.x\Utilisateurs'
- 00498355    mov         eax,ebx
- 00498357    call        TRegistry.OpenKey
- 0049835C    mov         edx,esi
- 0049835E    mov         eax,ebx
- 00498360    call        TRegistry.GetValueNames
->00498365    jmp         004983AA
- 00498367    mov         edx,80000002
- 0049836C    mov         eax,ebx
- 0049836E    call        TRegistry.SetRootKey
- 00498373    xor         ecx,ecx
- 00498375    mov         edx,49841C;'SOFTWARE\Microsoft\Windows\CurrentVersion'
- 0049837A    mov         eax,ebx
- 0049837C    call        TRegistry.OpenKey
- 00498381    mov         edx,498450;'RegisteredOwner'
- 00498386    mov         eax,ebx
- 00498388    call        TRegistry.ValueExists
- 0049838D    test        al,al
->0049838F    je          004983AA
- 00498391    lea         ecx,[ebp-4]
- 00498394    mov         edx,498450;'RegisteredOwner'
- 00498399    mov         eax,ebx
- 0049839B    call        TRegistry.ReadString
- 004983A0    mov         edx,dword ptr [ebp-4]
- 004983A3    mov         eax,esi
- 004983A5    mov         ecx,dword ptr [eax]
- 004983A7    call        dword ptr [ecx+34];TStringList.Add
- 004983AA    mov         eax,ebx
- 004983AC    call        TRegistry.CloseKey
- 004983B1    mov         eax,ebx
- 004983B3    call        TObject.Free
- 004983B8    mov         ebx,esi
- 004983BA    xor         eax,eax
- 004983BC    pop         edx
- 004983BD    pop         ecx
- 004983BE    pop         ecx
- 004983BF    mov         dword ptr fs:[eax],edx
- 004983C2    push        4983D7
- 004983C7    lea         eax,[ebp-4]
- 004983CA    call        @LStrClr
- 004983CF    ret
->004983D0    jmp         @HandleFinally
->004983D5    jmp         004983C7
- 004983D7    mov         eax,ebx
- 004983D9    pop         esi
- 004983DA    pop         ebx
- 004983DB    pop         ecx
- 004983DC    pop         ebp
- 004983DD    ret
-end;*}
+function sub_004982F8:TStringlist;
+var
+  lvar_4:AnsiString;
+  StringList:TStringList;
+  Registry : TRegistry;
+begin//0
+  //004982F8
+    StringList := TStringList.Create;
+    StringList.Sorted := True;
+    Registry := TRegistry.Create;
+    Registry.RootKey:= $80000001;
+    if (Registry.KeyExists('Software\Carnet de Notes 2.x\Utilisateurs')) then
+    begin//2
+      //0049834E
+      Registry.OpenKey('Software\Carnet de Notes 2.x\Utilisateurs', True);
+      Registry.GetValueNames(StringList);
+    end//2
+    else
+    begin//2
+      //00498367
+      Registry.RootKey := $80000002;
+      Registry.OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion', False);
+      if (Registry.ValueExists('RegisteredOwner')) then
+      begin//3
+        //00498391
+        StringList.Add(Registry.ReadString('RegisteredOwner'));
+      end;//3
+    end;//2
+    Registry.CloseKey;
+    Registry.Free;
+
+  result := StringList;
+end;//0
 
 //00498460
 //procedure sub_00498460(?:TStrings);

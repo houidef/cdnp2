@@ -28,11 +28,11 @@ type
     procedure SpeedButton4Click(Sender:TObject);//0050F398
     procedure SpeedButton3Click(Sender:TObject);//0050F334
     procedure FormKeyPress(Sender:TObject; var Key:Char);//0050F574
-    procedure CheckListBoxSeriesClickCheck;//0050F3FC
+    procedure CheckListBoxSeriesClickCheck(Sender:TObject);//0050F3FC
     procedure SpeedButton2Click(Sender:TObject);//0050EBF8
     procedure CheckListBoxSeriesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//0050EA8C
     procedure SpeedButtonExecuterClick(Sender:TObject);//0050ED1C
-    procedure TabControl1Change;//0050EC00
+    procedure TabControl1Change(Sender:TObject);//0050EC00
   public
     f304:TFichierCdn;//f304
     f308:TFichierCdn;//f308
@@ -134,7 +134,7 @@ begin
 end;
 
 //0050EC00
-procedure TFormImporterSeries.TabControl1Change;
+procedure TFormImporterSeries.TabControl1Change(Sender:TObject);
 begin
 {*
  0050EC00    push        ebp
@@ -667,7 +667,7 @@ begin
 end;
 
 //0050F3FC
-procedure TFormImporterSeries.CheckListBoxSeriesClickCheck;
+procedure TFormImporterSeries.CheckListBoxSeriesClickCheck(Sender:TObject);
 begin
 {*
  0050F3FC    push        ebx

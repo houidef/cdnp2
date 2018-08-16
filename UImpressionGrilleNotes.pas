@@ -8,11 +8,11 @@ interface
 
 uses
 Forms, Windows,  SysUtils, Classes,UImpression,UFichierCdn,Unit173,Graphics,Printers,
- _FormProgression;
+ _FormProgression,UInclureImpression;
 
 type
   TImpressionGrilleNotes = class(TImpression)
-  constructor Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:dword; g:boolean; i:dword);//0051BC40
+  constructor Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);//0051BC40
 	procedure sub_0051A184(b:dword);//0051A184
     //function sub_0051BB60(?:?):?;//0051BB60
     procedure sub_0051BD4C(a:dword; b:dword; c:dword; d:dword; e:boolean);//0051BD4C
@@ -1346,7 +1346,7 @@ begin
 end;*}
 
 //0051BC40
-constructor TImpressionGrilleNotes.Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:dword; g:boolean; i:dword);
+constructor TImpressionGrilleNotes.Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);
 var
  Buf:string;
 begin//0

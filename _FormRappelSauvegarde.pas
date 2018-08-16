@@ -29,11 +29,11 @@ type
     procedure SpeedButton7Click(Sender:TObject);//00554894
     procedure SpeedButton6Click(Sender:TObject);//005547EC
     procedure btnSauvegardeClick(Sender:TObject);//005548E4
-    procedure DirectoryEdit1Change;//00554B44
+    procedure DirectoryEdit1Change(Sender:TObject);//00554B44
     procedure FormKeyPress(Sender:TObject; var Key:Char);//00554B34
     procedure btnFermerClick(Sender:TObject);//00554424
     procedure CheckListBox1DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//005542B8
-    procedure CheckListBox1ClickCheck;//0055442C
+    procedure CheckListBox1ClickCheck(Sender:TObject);//0055442C
     procedure SpeedButton5Click(Sender:TObject);//005546DC
     procedure SpeedButton1Click(Sender:TObject);//005544E8
     constructor Create(Owner:TComponent;logo:TImage);//0055420C

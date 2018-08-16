@@ -41,7 +41,7 @@ type
     procedure CheckBox1Click(Sender:TObject);//005113C4
     procedure FormKeyPress(Sender:TObject; var Key:Char);//00511404
     procedure RadioGroup1Click(Sender:TObject);//005113E8
-    procedure TabControl1Change;//0050FC18
+    procedure TabControl1Change(Sender:TObject);//0050FC18
     procedure SpeedButton15Click(Sender:TObject);//0050FC0C
     procedure btnAjouterSerieClick(Sender:TObject);//0050FD20
     procedure ListBox2DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//00510034
@@ -105,7 +105,7 @@ begin
 end;
 
 //0050FC18
-procedure TFormUtilitairesSeries.TabControl1Change;
+procedure TFormUtilitairesSeries.TabControl1Change(Sender:TObject);
 begin
 {*
  0050FC18    push        ebp

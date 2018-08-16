@@ -53,7 +53,7 @@ type
     Panel1:TPanel;//f364
     Label4:TLabel;//f368
     CheckBox1:TCheckBox;//f36C
-    procedure ComboBox1Change;//00526028
+    procedure ComboBox1Change(Sender:TObject);//00526028
     procedure SpeedButton1Click(Sender:TObject);//00525884
     procedure FormKeyPress(Sender:TObject; var Key:Char);//005262E8
     procedure FormDestroy(Sender:TObject);//005263D0
@@ -62,7 +62,7 @@ type
     procedure BitBtnImprimerClick(Sender:TObject);//005250F4
     procedure BitBtn3Click(Sender:TObject);//005250D0
     procedure FormCreate(Sender:TObject);//005252F0
-    procedure CheckListBoxPeriodesClickCheck;//00525734
+    procedure CheckListBoxPeriodesClickCheck(Sender:TObject);//00525734
     procedure TabSet1Change(Sender: TObject; NewTab: Integer; var AllowChange: Boolean);//00525450
   public
     f370:TFont;//f370
@@ -71,7 +71,6 @@ type
     destructor Destroy; virtual;//0052561C
     constructor Create(Aowner:TComponent; FichierCdn:TFichierCdn; logo:Timage);//00524C1C
    //procedure sub_00525464(?:?);//00525464
-    //destructor Destroy;//0052561C
     procedure sub_00525794(a:dword);//00525794
     procedure sub_005257AC(a:dword);//005257AC
     procedure sub_0052588C(a:dword; b:dword);//0052588C

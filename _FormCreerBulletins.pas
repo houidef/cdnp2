@@ -80,16 +80,16 @@ type
     procedure FormHide(Sender:TObject);//00608880
     procedure SpeedButton2Click(Sender:TObject);//0060899C
     procedure SpeedButtonCreerBulletinsClick(Sender:TObject);//006087E8
-    procedure DriveComboBox1Change;//0060749C
-    procedure DirectoryListBox1Change;//006074B4
+    procedure DriveComboBox1Change(Sender:TObject);//0060749C
+    procedure DirectoryListBox1Change(Sender:TObject);//006074B4
     procedure FileListBox1DblClick(Sender:TObject);//00607E04
     procedure SpeedButton21Click(Sender:TObject);//00609108
-    procedure CheckListBoxElevesClickCheck;//00609158
+    procedure CheckListBoxElevesClickCheck(Sender:TObject);//00609158
     procedure SpeedButton4Click(Sender:TObject);//006091CC
     procedure SpeedButton20Click(Sender:TObject);//006090A4
     procedure SpeedButtonPrecedentClick(Sender:TObject);//00608A74
     procedure SpeedButtonSuivantClick(Sender:TObject);//00608BB0
-    procedure Notebook1PageChanged;//00608D14
+    procedure Notebook1PageChanged(Sender:TObject);//00608D14
   public
     f394:dword;//f394
     f398:dword;//f398
@@ -1565,7 +1565,7 @@ begin
 end;
 
 //00608D14
-procedure TFormCreerBulletins.Notebook1PageChanged;
+procedure TFormCreerBulletins.Notebook1PageChanged(Sender:TObject);
 begin
 {*
  00608D14    push        ebp

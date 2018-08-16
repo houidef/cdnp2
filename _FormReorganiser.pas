@@ -33,8 +33,8 @@ type
     procedure SpeedButton4Click(Sender:TObject);//0050B48C
     procedure FormKeyPress(Sender:TObject; var Key:Char);//0050B6D0
     procedure SpeedButton5Click(Sender:TObject);//0050B644
-    procedure ComboBox2Change;//0050ADB0
-    procedure ComboBox1Change;//0050AC1C
+    procedure ComboBox2Change(Sender:TObject);//0050ADB0
+    procedure ComboBox1Change(Sender:TObject);//0050AC1C
     procedure SpeedButton1Click(Sender:TObject);//0050AF44
     procedure ListBox2DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//0050B18C
     procedure ListBox1DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//0050AFE8
@@ -109,7 +109,7 @@ end;
 
 
 //0050AC1C
-procedure TFormReorganiser.ComboBox1Change;
+procedure TFormReorganiser.ComboBox1Change(Sender:TObject);
 begin
 {*
  0050AC1C    push        ebp
@@ -235,7 +235,7 @@ begin
 end;
 
 //0050ADB0
-procedure TFormReorganiser.ComboBox2Change;
+procedure TFormReorganiser.ComboBox2Change(Sender:TObject);
 begin
 {*
  0050ADB0    push        ebp

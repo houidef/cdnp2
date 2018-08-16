@@ -20,7 +20,7 @@ type
     Label6:TLabel;//f2E4
     Label7:TLabel;//f2E8
     Timer1:TTimer;//f2EC
-    procedure Timer1Timer;//004CB238
+    procedure Timer1Timer(Sender:TObject);//004CB238
     procedure FormHide(Sender:TObject);//004CB240
     procedure FormPaint(Sender:TObject);//004CB1FC
     procedure FormClick(Sender:TObject);//004CABE0
@@ -309,7 +309,7 @@ end;//0
 
 
 //004CB238
-procedure TFormHint.Timer1Timer;
+procedure TFormHint.Timer1Timer(Sender:TObject);
 begin
  close;
 end;

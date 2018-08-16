@@ -37,20 +37,20 @@ type
     SpeedButton4:TSpeedButton;//f328
     Label8:TLabel;//f32C
     RadioGroup2:TRadioGroup;//f330
-    procedure ComboBox3Change;//0050DE9C
-    procedure Edit2Change;//0050DF6C
-    procedure ComboBox1Change;//0050DCF0
-    procedure DateTimePicker1Change;//0050DDC0
+    procedure ComboBox3Change(Sender:TObject);//0050DE9C
+    procedure Edit2Change(Sender:TObject);//0050DF6C
+    procedure ComboBox1Change(Sender:TObject);//0050DCF0
+    procedure DateTimePicker1Change(Sender:TObject);//0050DDC0
     procedure FormKeyPress(Sender:TObject; var Key:Char);//0050E2F8
     procedure RadioGroup2Click(Sender:TObject);//0050E318
     procedure RadioGroup1Click(Sender:TObject);//0050E03C
-    procedure Edit1Change;//0050E0CC
+    procedure Edit1Change(Sender:TObject);//0050E0CC
     procedure ListBoxSeriesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//0050CAE8
     procedure ListBoxSeriesClick(Sender:TObject);//0050CC54
     procedure SpeedButton1Click(Sender:TObject);//0050C9AC
     procedure TabControl1Change(Sender:TObject);//0050C9B4
     procedure SpeedButton4Click(Sender:TObject);//0050DA4C
-    procedure ComboBox2Change;//0050DC20
+    procedure ComboBox2Change(Sender:TObject);//0050DC20
     procedure SpeedButton2Click(Sender:TObject);//0050D60C
     procedure SpeedButton3Click(Sender:TObject);//0050D82C
   public
@@ -1248,7 +1248,7 @@ begin
 end;
 
 //0050DC20
-procedure TFormInformationsSeriesDeNotes.ComboBox2Change;
+procedure TFormInformationsSeriesDeNotes.ComboBox2Change(Sender:TObject);
 begin
 {*
  0050DC20    push        ebp
@@ -1315,7 +1315,7 @@ begin
 end;
 
 //0050DCF0
-procedure TFormInformationsSeriesDeNotes.ComboBox1Change;
+procedure TFormInformationsSeriesDeNotes.ComboBox1Change(Sender:TObject);
 begin
 {*
  0050DCF0    push        ebp
@@ -1382,7 +1382,7 @@ begin
 end;
 
 //0050DDC0
-procedure TFormInformationsSeriesDeNotes.DateTimePicker1Change;
+procedure TFormInformationsSeriesDeNotes.DateTimePicker1Change(Sender:TObject);
 begin
 {*
  0050DDC0    push        ebp
@@ -1453,7 +1453,7 @@ begin
 end;
 
 //0050DE9C
-procedure TFormInformationsSeriesDeNotes.ComboBox3Change;
+procedure TFormInformationsSeriesDeNotes.ComboBox3Change(Sender:TObject);
 begin
 {*
  0050DE9C    push        ebp
@@ -1520,7 +1520,7 @@ begin
 end;
 
 //0050DF6C
-procedure TFormInformationsSeriesDeNotes.Edit2Change;
+procedure TFormInformationsSeriesDeNotes.Edit2Change(Sender:TObject);
 begin
 {*
  0050DF6C    push        ebp
@@ -1633,7 +1633,7 @@ begin
 end;
 
 //0050E0CC
-procedure TFormInformationsSeriesDeNotes.Edit1Change;
+procedure TFormInformationsSeriesDeNotes.Edit1Change(Sender:TObject);
 begin
 {*
  0050E0CC    push        ebp

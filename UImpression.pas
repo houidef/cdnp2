@@ -7,7 +7,7 @@ unit UImpression;
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, Graphics, Printers,UFichierCdn,Unit173;
+Forms, Windows,  SysUtils, Classes, Graphics, Printers,UFichierCdn,Unit173,UInclureImpression;
 
 type
 
@@ -36,7 +36,7 @@ type
     {procedure sub_00519534;//00519534
     procedure sub_0051954C;//0051954C
     function sub_00519578(a:dword; b:dword; c:dword):dword;//00519578}
-    constructor create (a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:dword; g:boolean; i:dword);//0051992C
+    constructor create (a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);//0051992C
     function sub_00519A90:integer;//00519A90
     //function sub_00519AA8(a:TCanvas; b:AnsiString):dword;//00519AA8
     //function sub_00519AF8(a:dword; b:dword):dword;//00519AF8
@@ -132,7 +132,7 @@ end;//0
 *)
 
 //0051992C
-constructor TImpression.Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:dword; g:boolean; i:dword);
+constructor TImpression.Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);
 begin//0
   //0051992C
   inherited create;

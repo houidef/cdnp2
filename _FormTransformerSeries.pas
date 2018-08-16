@@ -29,7 +29,7 @@ type
     Label4:TLabel;//f308
     CheckBox2:TCheckBox;//f30C
     CheckBox3:TCheckBox;//f310
-    procedure ComboBox1Change;//00512658
+    procedure ComboBox1Change(Sender:TObject);//00512658
     procedure SpeedButton1Click(Sender:TObject);//00511EDC
     procedure FormKeyPress(Sender:TObject; var Key:Char);//00512734
     procedure CheckBox1Click(Sender:TObject);//005126F8
@@ -904,7 +904,7 @@ begin
 end;
 
 //00512658
-procedure TFormTransformerSeries.ComboBox1Change;
+procedure TFormTransformerSeries.ComboBox1Change(Sender:TObject);
 begin
 {*
  00512658    push        ebp

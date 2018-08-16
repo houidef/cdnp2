@@ -27,7 +27,7 @@ type
     procedure TabControlPeriodesChanging(Sender: TObject;var AllowChange: Boolean);//0051747C
     procedure ListBoxElevesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//00516C60
     procedure SpeedButton1Click(Sender:TObject);//00516A38
-    procedure TabControlPeriodesChange;//00516EA0
+    procedure TabControlPeriodesChange(Sender:TObject);//00516EA0
     procedure ListBoxElevesClick(Sender:TObject);//00516DCC
   public
     f2F4:TFichierCdn;//f2F4
@@ -296,7 +296,7 @@ begin
 end;
 
 //00516EA0
-procedure TFormPointsPlusMoins.TabControlPeriodesChange;
+procedure TFormPointsPlusMoins.TabControlPeriodesChange(Sender:TObject);
 begin
 {*
  00516EA0    push        ebp

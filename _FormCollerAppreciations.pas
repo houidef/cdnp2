@@ -23,7 +23,7 @@ type
     Label1:TLabel;//f2F0
     CheckBox1:TCheckBox;//f2F4
     Label2:TLabel;//f2F8
-    procedure CheckListBox1ClickCheck;//00533F54
+    procedure CheckListBox1ClickCheck(Sender:TObject);//00533F54
     procedure SpeedButton1Click(Sender:TObject);//00533FC4
     procedure SpeedButton2Click(Sender:TObject);//00533FCC
     procedure CheckListBox1DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//00533CE8

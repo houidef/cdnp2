@@ -7,7 +7,8 @@ unit _FormOptions;
 interface
 
 uses
-  Forms, Windows, SysUtils, Classes, ExtCtrls, ComCtrls, StdCtrls, Buttons, Dialogs, CheckLst, ColorPickerButton, RXSpin, Controls;
+  Forms, Windows, SysUtils, Classes, ExtCtrls, ComCtrls, StdCtrls, Buttons, Dialogs, CheckLst, 
+  ColorPickerButton, RXSpin, Controls, UInclureImpression;
 
 type
   TFormOptions = class(TForm)
@@ -250,11 +251,11 @@ type
     procedure SpeedButton53Click(Sender:TObject);//0050864C
     procedure ListBoxMatieresClick(Sender:TObject);//00508770
     procedure Edit9Enter(Sender:TObject);//0050862C
-    procedure Edit9Change;//005084F0
+    procedure Edit9Change(Sender:TObject);//005084F0
     procedure SpeedButton52Click(Sender:TObject);//00508560
     procedure SpeedButton48Click(Sender:TObject);//00507DC0
     procedure CheckBox10Click(Sender:TObject);//00507964
-    procedure Edit7Change;//005079BC
+    procedure Edit7Change(Sender:TObject);//005079BC
     procedure RadioGroup3Click(Sender:TObject);//005078F4
     procedure historiqueDesFichiersClick(Sender:TObject);//005078B4
     procedure CheckBox8Click(Sender:TObject);//005078D4
@@ -300,7 +301,7 @@ type
     procedure SpeedButton11Click(Sender:TObject);//0050684C
     procedure SpeedButton5Click(Sender:TObject);//0050639C
     procedure typesDeNotesDrawItem(Control: TWinControl; Index: Integer;Rect: TRect; State: TOwnerDrawState);//00506080
-    procedure Edit1Change;//005061EC
+    procedure Edit1Change(Sender:TObject);//005061EC
     procedure BitBtn3Click(Sender:TObject);//00505FD0
     procedure BitBtn4Click(Sender:TObject);//00505DB4
     procedure BitBtn5Click(Sender:TObject);//00505EE8
@@ -321,29 +322,29 @@ type
     procedure SpeedButtonFermerClick(Sender:TObject);//0050782C
     procedure Button3Click(Sender:TObject);//005077AC
     procedure Button4Click(Sender:TObject);//005077EC
-    procedure Edit2Change;//00507188
+    procedure Edit2Change(Sender:TObject);//00507188
     procedure ListBoxUtilisateursDrawItem(Control: TWinControl; Index: Integer;Rect: TRect; State: TOwnerDrawState);//00506AEC
-    procedure Edit6Change;//00506C58
+    procedure Edit6Change(Sender:TObject);//00506C58
     procedure SpeedButton14Click(Sender:TObject);//00506AB4
     procedure CheckBox4Click(Sender:TObject);//0050693C
     procedure SpeedButton13Click(Sender:TObject);//00506A6C
     procedure Edit6Enter(Sender:TObject);//00506CC8
     procedure BitBtn13Click(Sender:TObject);//00506EBC
-    procedure BitBtn7Click;//00506FF0
+    procedure BitBtn7Click(Sender:TObject);//00506FF0
     procedure BitBtn14Click(Sender:TObject);//00506DD4
     procedure BitBtn12Click(Sender:TObject);//00506CE8
     procedure ListBoxUtilisateursClick(Sender:TObject);//00506DB4
   public
-    f664:dword;//f664
-    f668:dword;//f668
-    f66C:dword;//f66C
+    f664:TInclureImpression;//f664
+    f668:TInclureImpression;//f668
+    f66C:TInclureImpression;//f66C
     destructor Destroy; virtual;//005055A4
     constructor Create(AOwner: TComponent;logo:TImage);//00504B24
   end;
     //destructor Destroy;//005055A4
 
 implementation
-
+     uses Unit111,UEnregistrement,_Unit146;
 {$R *.DFM}
 
 //00504B24
@@ -354,1171 +355,154 @@ var
   lvar_14:AnsiString;
   lvar_8:AnsiString;
   lvar_C:Single;
+  I:integer;
 
 begin//0
   //00504B24
     inherited Create(AOwner);
     Image1.Picture := logo.Picture;
-    //f664 := sub_004BAA88(0);
-    //f668 := sub_004BAA88(1);
-    //f66C := sub_004BAA88(2);
+    f664 := sub_004BAA88(0);
+    f668 := sub_004BAA88(1);
+    f66C := sub_004BAA88(2);
     Caption := Caption + 'Carnet de Notes version Personnelle';
-    //sub_004BA3C0;
-    RadioGroupGrilleNotes.ItemIndex := 0;
-    //sub_004BA384;
-    RadioGroupGrilleBilans.ItemIndex := 0;
-    //sub_004BBF54;
-    RadioGroupGraphes.ItemIndex := 0;
-    //CheckBox10.Checked :=sub_004BB84C;
-   { RadioGroup3.Enabled := CheckBox10.Checked;
-    sub_004BB7E8;
-    RadioGroup3.ItemIndex  := RadioGroup3;
-    EAX := CheckBox10;
-    EAX := CheckBox10.GetChecked;
-    EDX := CheckBox10.GetChecked;
-    EAX := TabControl1;
+    RadioGroupGrilleNotes.ItemIndex := sub_004BA3C0;
+    RadioGroupGrilleBilans.ItemIndex := sub_004BA384;
+    RadioGroupGraphes.ItemIndex := sub_004BBF54;
+    CheckBox10.Checked :=sub_004BB84C;
+    RadioGroup3.Enabled := CheckBox10.Checked;
+    RadioGroup3.ItemIndex  := sub_004BB7E8;
     TabControl1.Visible := CheckBox10.Checked;
-    EAX := sub_004BCE20;
-    EDX := sub_004BCE20;
     CheckBox25.Checked  := sub_004BCE20;
-    EAX := sub_004BCDB0;
-    EDX := sub_004BCDB0;
-    EAX := CheckBoxAfficherNomEnseignantOnglets;
     CheckBoxAfficherNomEnseignantOnglets.Checked  := sub_004BCDB0;
-    CheckBoxAfficherNomEnseignantOnglets := sub_004BB6C8;
-    EDX := EAX;//CheckBoxAfficherNomEnseignantOnglets
-    EAX := CheckBoxVerificationMAJ;
-    CheckBoxVerificationMAJ.Checked := CheckBoxAfficherNomEnseignantOnglets;
-    sub_004BB60C;
-    EDX := EAX;//CheckBoxVerificationMAJ
-    EAX := optionsAuDemarrage;
-    optionsAuDemarrage.ItemIndex  := CheckBoxVerificationMAJ;
-    optionsAuDemarrage := sub_004BB668;
-    EDX := EAX;//optionsAuDemarrage
-    CheckBox8.Checked := optionsAuDemarrage;
-
-    EAX := CheckBox8.GetChecked;
-    EDX := CheckBox8.GetChecked;
+    CheckBoxVerificationMAJ.Checked := sub_004BB6C8;
+    optionsAuDemarrage.ItemIndex  := sub_004BB60C;
+    CheckBox8.Checked := sub_004BB668;
     RadioGroup2.Enabled := CheckBox8.Checked;
-    RadioGroup2 := sub_004BB728;
-    EDX := EAX;//RadioGroup2
-    EAX := RadioGroup2;
-    RadioGroup2.ItemIndex := (RadioGroup2);
-    EAX := sub_00501C44;
-    EDX := sub_00501C44;
-    EAX := CheckBox6;
+    RadioGroup2.ItemIndex := sub_004BB728;
     CheckBox6.Checked := sub_00501C44;
-    EAX := sub_004BB87C;
-    EDX := sub_004BB87C;
-    EAX := CouleurFondFenetreInfos;
-    EAX := CouleurFondFenetreInfos.SetSelectionColor(EDX);
-    EAX := sub_004BB55C;
-    EDX := sub_004BB55C;
-    EAX := afficherBarreOutils;
+    CouleurFondFenetreInfos.SelectionColor := sub_004BB87C;
     afficherBarreOutils.Checked := sub_004BB55C;
-    EAX := sub_004BB588;
-    EDX := sub_004BB588;
-    EAX := tailleMaximumAuDemarrage;
     tailleMaximumAuDemarrage.Checked := sub_004BB588;
-    EAX := sub_004BB5BC;
-    EDX := sub_004BB5BC;
-    EAX := afficherHeure;
     afficherHeure.Checked := sub_004BB5BC;
-    afficherHeure := sub_004BB5E4;
-    EDX := EAX;//afficherHeure
-    EAX := afficherDate;
-    afficherDate.Checked := afficherHeure (;
-    EAX := sub_004BA2FC;
-    EDX := sub_004BA2FC;
-    EAX := CheckBox2;
+    afficherDate.Checked := sub_004BB5E4;
     CheckBox2.Checked := sub_004BA2FC;
-    EAX := sub_004BB930;
-    EDX := sub_004BB930;
-    EAX := CheckBox11;
     CheckBox11.Checked :=sub_004BB930;
-    EAX := sub_004BB95C;
-    EDX := sub_004BB95C;
-    EAX := CheckBoxAfficherR;
-    CheckBoxAfficherR.Checked :=(sub_004BB95C;
-    EAX := sub_004BB9B4;
-    EDX := sub_004BB9B4;
-    EAX := CheckBoxAfficherDatesDeNaissance;
+    CheckBoxAfficherR.Checked :=sub_004BB95C;
     CheckBoxAfficherDatesDeNaissance.Checked :=sub_004BB9B4;
-    EAX := sub_004BBA0C;
-    EDX := sub_004BBA0C;
-    EAX := CheckBox14;
     CheckBox14.Checked :=sub_004BBA0C;
-    EAX := sub_004BBA80;
-    EDX := sub_004BBA80;
-    EAX := CheckBox15;
     CheckBox15.Checked :=sub_004BBA80;
-    EAX := sub_004BBAA8;
-    EDX := sub_004BBAA8;
-    EAX := CheckBox16;
-    CheckBox16.Checked :=CheckBox16;
-    EAX := sub_004BBB78;
-    EDX := sub_004BBB78;
-    EAX := CouleurDebutDegrade;
-    EAX := CouleurDebutDegrade.SetSelectionColor(EDX);
-    EAX := sub_004BBBA8;
-    EDX := sub_004BBBA8;
-    EAX := CouleurFinDegrade;
-    EAX := CouleurFinDegrade.SetSelectionColor(EDX);
-    EAX := sub_004BBC80;
-    EDX := sub_004BBC80;
-    EAX := CouleurNotesEleve;
-    EAX := CouleurNotesEleve.SetSelectionColor(EDX);
-    EAX := sub_004BBCE4;
-    EDX := sub_004BBCE4;
-    EAX := CouleurMinimumClasse;
-    EAX := CouleurMinimumClasse.SetSelectionColor(EDX);
-    EAX := sub_004BBCB4;
-    EDX := sub_004BBCB4;
-    EAX := CouleurMaximumClasse;
-    EAX := CouleurMaximumClasse.SetSelectionColor(EDX);
-    EAX := sub_004BBD14;
-    EDX := sub_004BBD14;
-    EAX := CouleurMoyenneClasse;
-    EAX := CouleurMoyenneClasse.SetSelectionColor(EDX);
-    EAX := sub_004BA108;
-    EDX := sub_004BA108;
-    EAX := CouleurMurGauche;
-    EAX := CouleurMurGauche.SetSelectionColor(EDX);
-    EAX := sub_004BBD70;
-    EDX := sub_004BBD70;
-    EAX := CouleurMurBas;
-    EAX := CouleurMurBas.SetSelectionColor(EDX);
-    EAX := sub_004BBE80;
-    EDX := sub_004BBE80;
-    EAX := CheckBox17;
+    CheckBox16.Checked :=sub_004BBAA8;
+    CouleurDebutDegrade.SelectionColor := sub_004BBB78;
+    CouleurFinDegrade.SelectionColor := sub_004BBBA8;
+    CouleurNotesEleve.SelectionColor := sub_004BBC80;
+    CouleurMinimumClasse.SelectionColor := sub_004BBCE4;
+    CouleurMaximumClasse.SelectionColor := sub_004BBCB4;
+    CouleurMoyenneClasse.SelectionColor := sub_004BBD14;
+    CouleurMurGauche.SelectionColor := sub_004BA108;
+    CouleurMurBas.SelectionColor := sub_004BBD70;
     CheckBox17.Checked :=sub_004BBE80;
-    EAX := sub_004BBED4;
-    EDX := sub_004BBED4;
-    EAX := CheckBox18;
     CheckBox18.Checked :=sub_004BBED4;
-    EAX := sub_004BBEAC;
-    EDX := sub_004BBEAC;
-    EAX := CheckBox19;
     CheckBox19.Checked :=sub_004BBEAC;
-    EAX := sub_004BBEFC;
-    EDX := sub_004BBEFC;
-    EAX := CheckBox20;
     CheckBox20.Checked :=sub_004BBEFC;
-    EAX := sub_004BBAF8;
-    EDX := sub_004BBAF8;
-    EAX := CheckBox21;
     CheckBox21.Checked :=sub_004BBAF8;
-    EAX := sub_004B9794;
-    EDX := sub_004B9794;
-    EAX := typesDeNotes;
-    typesDeNotes.Items[EDX]:=;
-    EAX := sub_004982F8;
-    EDX := sub_004982F8;
-    EAX := ListBoxUtilisateurs;
-    ListBoxUtilisateurs.Items[EDX] :=(EDX);
-    EAX := sub_004BC348;
-    EDX := sub_004BC348;
-    EAX := ListBoxMatieres;
-    ListBoxMatieres.Items[EDX] :=(EDX);
-    EAX := sub_004B9C80;
-    EDX := sub_004B9C80;
-    EAX := Shape1;
-    EAX := Shape1.Brush;
-    Shape1.Brush.Color := (EDX);
-    EAX := sub_004B9C34;
-    EDX := sub_004B9C34;
-    EAX := Shape2;
-    EAX := Shape2.Brush;
-    Shape2.Brush.Color := (EDX);
-    EAX := sub_004B9D24;
-    EDX := sub_004B9D24;
-    EAX := Shape3;
-    EAX := Shape3.Brush;
-    Shape3.Brush.Color := (EDX);
-    EAX := sub_004BA0BC;
-    EDX := sub_004BA0BC;
-    EAX := Shape8;
-    EAX := Shape8.Brush;
-    Shape8.Brush.Color := (EDX);
-    EAX := sub_004B9C80;
-    EDX := sub_004B9C80;
-    EAX := Shape1;
-    EAX := Shape1.Pen;
-    Shape1.Pen.Color := (EDX);
-    EAX := sub_004B9C34;
-    EDX := sub_004B9C34;
-    EAX := Shape2;
-    EAX := Shape2.Pen;
-    Shape2.Pen.Color := (EDX);
-    EAX := sub_004B9D24;
-    EDX := sub_004B9D24;
-    EAX := Shape3;
-    EAX := Shape3.Pen;
-    Shape3.Pen.Color := (EDX);
-    EAX := sub_004BA0BC;
-    EDX := sub_004BA0BC;
-    EAX := Shape8;
-    EAX := Shape8.Pen;
-    Shape8.Pen.Color := (EDX);
-    EAX := sub_004BB458;
-    EDX := sub_004BB458;
-    EAX := CheckBox5;
-    CheckBox5.Checked :=(EDX);
-    EAX := sub_004B9A44;
-    EDX := sub_004B9A44;
-    EAX := Periodes;
-    Periodes.Items[EDX] :=(EDX);
-    EAX := sub_004B9410;
-    EDX := sub_004B9410;
-    EAX := historiqueDesFichiers;
-    historiqueDesFichiers.Checked :=(EDX);
-    EAX := sub_004B9468;
-    EAX := EAX And 255;//sub_004B9468 And 255
-    lvar_C := sub_004B9468 And 255;
-    EAX := NombreFichiersHistorique;
-    NombreFichiersHistorique.SetValue(, EDX, ?, ?);
-    EAX := historiqueDesFichiers;
-    EAX := historiqueDesFichiers.GetChecked;
-    EDX := historiqueDesFichiers.GetChecked;
-    EAX := NombreFichiersHistorique;
-    NombreFichiersHistorique.Enabled := (EDX);
-    NombreFichiersHistorique := sub_004B9500;
-    EDX := EAX;//NombreFichiersHistorique
-    EAX := ListBoxFichiers;
-    ListBoxFichiers.Items[EDX] :=(NombreFichiersHistorique);
-    EAX := ListBoxFichiers;
-    EAX := ListBoxFichiers.FItems;
-    EAX := ListBoxFichiers.FItems.GetCount;
-    if (ListBoxFichiers.FItems.Count <> 0) then
+    typesDeNotes.Items:=sub_004B9794;
+    ListBoxUtilisateurs.Items :=sub_004982F8;
+    ListBoxMatieres.Items :=sub_004BC348;
+    Shape1.Brush.Color := sub_004B9C80;
+    Shape2.Brush.Color := sub_004B9C34;
+    Shape3.Brush.Color := sub_004B9D24;
+    Shape8.Brush.Color := sub_004BA0BC;
+    Shape1.Pen.Color := sub_004B9C80;
+    Shape2.Pen.Color := sub_004B9C34;
+    Shape3.Pen.Color := sub_004B9D24;
+    Shape8.Pen.Color := sub_004BA0BC;
+    CheckBox5.Checked :=sub_004BB458;
+    Periodes.Items :=sub_004B9A44;
+    historiqueDesFichiers.Checked :=sub_004B9410;
+	NombreFichiersHistorique.Value := sub_004B9468;
+    NombreFichiersHistorique.Enabled := historiqueDesFichiers.Checked;
+    ListBoxFichiers.Items :=sub_004B9500;
+    if (ListBoxFichiers.Items.Count <> 0) then
     begin//2
       //00505087
-      EDX := 0;
-      EAX := ListBoxFichiers;
       ListBoxFichiers.ItemIndex := 0;
-      EDX := 1;
-      EAX := SpeedButtonSupprimerLaListe;
       SpeedButtonSupprimerLaListe.Enabled := True;
-      EDX := 1;
-      EAX := SpeedButtonViderHistorique;
       SpeedButtonViderHistorique.Enabled := True;
-      EAX := ListBoxFichiers;
-      EAX := ListBoxFichiers.FItems;
-      EDX := 0;
-      lvar_10 := ListBoxFichiers.Items[0];
-      EDX := lvar_10;
-      EAX := Label38;
-      Label38.Caption := lvar_10;
+      Label38.Caption := ListBoxFichiers.Items[0];
     end//2
     else
     begin//2
       //005050D4
-      EDX := 0;
-      EAX := Label38;
       Label38.Caption := '';
     end;//2
-    EAX := sub_004B9E10;
-    EDX := sub_004B9E10;
-    EAX := RadioGroupArrondir;
-    RadioGroupArrondir.ItemIndex := EDX;
-    EAX := sub_004BC298;
-    EDX := sub_004BC298;
-    EAX := RadioGroupArrondirAnnuelle;
-    RadioGroupArrondirAnnuelle.ItemIndex := EDX;
-    EAX := sub_004B9EA0;
-    EDX := sub_004B9EA0;
-    EAX := RadioGroupTrier;
-    RadioGroupTrier.ItemIndex := EDX;
-    EAX := sub_004B9E48;
-    lvar_C := sub_004B9E48;
-    EAX := MoyennesSur;
-    MoyennesSur.SetValue(, EDX, ?, ?);
-    EAX := sub_004B9F30;
-    EDX := sub_004B9F30;
-    EAX := CheckBox3;
-    CheckBox3.Checked := EDX ;
-    EAX := sub_004BC30C;
-    EDX := sub_004BC30C;
-    EAX := RadioGroupTypeMoyenneAnnuelle;
-    RadioGroupTypeMoyenneAnnuelle.ItemIndex := EDX;
-    EAX := sub_004B9F60;
-    EDX := sub_004B9F60;
-    EAX := CheckBox34;
-    CheckBox34.Checked :=EDX;
-    EAX := sub_004BA2B0;
-    EDX := sub_004BA2B0;
-    EAX := CheckBox4;
-    CheckBox4.Checked := EDX;
-    EAX := sub_004B9F8C;
-    EDX := sub_004B9F8C;
-    EAX := Shape4;
-    EAX := Shape4.Brush;
-    Shape4.Brush.Color := (EDX);
-    EAX := sub_004B9FD8;
-    EDX := sub_004B9FD8;
-    EAX := Shape5;
-    EAX := Shape5.Brush;
-    Shape5.Brush.Color := (EDX);
-    EAX := sub_004BA024;
-    EDX := sub_004BA024;
-    EAX := Shape6;
-    EAX := Shape6.Brush;
-    Shape6.Brush.Color := (EDX);
-    EAX := sub_004BA070;
-    EDX := sub_004BA070;
-    EAX := Shape7;
-    EAX := Shape7.Brush;
-    Shape7.Brush.Color := (EDX);
-    EAX := sub_004B9F8C;
-    EDX := sub_004B9F8C;
-    EAX := Shape4;
-    EAX := Shape4.Pen;
-    Shape4.Pen.Color := (EDX);
-    EAX := sub_004B9FD8;
-    EDX := sub_004B9FD8;
-    EAX := Shape5;
-    EAX := Shape5.Pen;
-    Shape5.Pen.Color := (EDX);
-    EAX := sub_004BA024;
-    EDX := sub_004BA024;
-    EAX := Shape6;
-    EAX := Shape6.Pen;
-    Shape6.Pen.Color := (EDX);
-    EAX := sub_004BA070;
-    EDX := sub_004BA070;
-    EAX := Shape7;
-    EAX := Shape7.Pen;
-    Shape7.Pen.Color := (EDX);
-    EAX := sub_004BC188;
-    EDX := sub_004BC188;
-    EAX := CheckBox35;
-    CheckBox35.Checked :=EDX;
-    EAX := sub_004BDA58;
-    EDX := sub_004BDA58;
-    EAX := CheckBox30;
-    CheckBox30.Checked :=EDX;
-    EAX := sub_004BDA8C;
-    EDX := sub_004BDA8C;
-    EAX := CheckBox31;
-    CheckBox31.Checked :=EDX;
-    EAX := sub_004BDA2C;
-    EDX := sub_004BDA2C;
-    EAX := CheckBox32;
-    CheckBox32.Checked :=EDX;
-    EAX := sub_004BD9F8;
-    EDX := sub_004BD9F8;
-    EAX := CheckBox33;
-    CheckBox33.Checked :=EDX;
-    EAX := sub_004BD238;
-    EDX := sub_004BD238;
-    EAX := CheckBox26;
-    CheckBox26.Checked :=EDX;
-    EAX := sub_004BD278;
-    EDX := sub_004BD278;
-    EAX := CheckBox27;
-    CheckBox27.Checked :=EDX;
-    EAX := sub_004BD1FC;
-    EDX := sub_004BD1FC;
-    EAX := CheckBox28;
-    CheckBox28.Checked :=EDX;
-    EAX := sub_004BD1BC;
-    EDX := sub_004BD1BC;
-    EAX := CheckBox29;
-    CheckBox29.Checked :=EDX;
-    EAX := f664;
-    EDX := ;
-    EAX := CheckListBox1;
-    CheckListBox1.Items[EDX] :=(?);
-    EAX := f664;
-    EAX := ;
-    call(
-    
-    );
-    EDI := EAX;
-    EDI := EDI - 1;//EDI
-    if (EDI >= 0) then
-    begin//2
-      //0050533C
-      EDI := EDI + 1;//EDI
-      ESI := 0;
-      for EDI := 0 to EDI + 0 - 1 do
+    RadioGroupArrondir.ItemIndex := sub_004B9E10;
+    RadioGroupArrondirAnnuelle.ItemIndex := sub_004BC298;
+    RadioGroupTrier.ItemIndex := sub_004B9EA0; 
+    MoyennesSur.Value := sub_004B9E48;
+    CheckBox3.Checked := sub_004B9F30;
+    RadioGroupTypeMoyenneAnnuelle.ItemIndex := sub_004BC30C;
+    CheckBox34.Checked := sub_004B9F60;
+    CheckBox4.Checked  := sub_004BA2B0;
+    Shape4.Brush.Color := sub_004B9F8C;
+    Shape5.Brush.Color := sub_004B9FD8;
+    Shape6.Brush.Color := sub_004BA024;
+    Shape7.Brush.Color := sub_004BA070;
+    Shape4.Pen.Color := sub_004B9F8C;
+    Shape5.Pen.Color := sub_004B9FD8;
+    Shape6.Pen.Color := sub_004BA024;
+    Shape7.Pen.Color := sub_004BA070;
+    CheckBox35.Checked :=sub_004BC188;
+    CheckBox30.Checked :=sub_004BDA58;
+    CheckBox31.Checked :=sub_004BDA8C;
+    CheckBox32.Checked :=sub_004BDA2C;
+    CheckBox33.Checked :=sub_004BD9F8;
+    CheckBox26.Checked :=sub_004BD238;
+    CheckBox27.Checked :=sub_004BD278;
+    CheckBox28.Checked :=sub_004BD1FC;
+    CheckBox29.Checked :=sub_004BD1BC;
+	
+    CheckListBox1.Items :=f664.f8;
+	
+      for I := 0 to f664.f8.count - 1 do //0050533C
       begin//3
         //0050533F
-        EAX := f664;
-        EAX := ;
-        ECX := EAX[ESI];
-        EDX := ESI;
-        EAX := CheckListBox1;
-        CheckListBox1.Checked :=(ESI, ECX /EAX[ESI]/);
+        CheckListBox1.Checked[I] := f664.fC[I];
       end;//3
-    end;//2
-    EAX := f668;
-    EDX := ;
-    EAX := CheckListBox2;
-    CheckListBox2.Items[EDX] :=(?);
-    EAX := f668;
-    EAX := ;
-    call(
-    
-    );
-    EDI := EAX;
-    EDI := EDI - 1;//EDI
-    if (EDI >= 0) then
-    begin//2
-      //00505398
-      EDI := EDI + 1;//EDI
-      ESI := 0;
-      for EDI := 0 to EDI + 0 - 1 do
+
+
+    CheckListBox2.Items :=f664.f8;
+
+      for I := 0 to f668.f8.count - 1 do //00505398
       begin//3
         //0050539B
-        EAX := f668;
-        EAX := ;
-        ECX := EAX[ESI];
-        EDX := ESI;
-        EAX := CheckListBox2;
-        CheckListBox2.Checked :=(ESI, ECX /EAX[ESI]/);
+        CheckListBox2.Checked[I] := f668.fC[I];
       end;//3
-    end;//2
-    EAX := f66C;
-    EDX := ;
-    EAX := CheckListBox3;
-    CheckListBox3.Items[EDX] :=(?);
-    EAX := f66C;
-    EAX := ;
-    call(
+  
+
+    CheckListBox3.Items :=f66C.f8;
     
-    );
-    EDI := EAX;
-    EDI := EDI - 1;//EDI
-    if (EDI >= 0) then
-    begin//2
-      //005053F4
-      EDI := EDI + 1;//EDI
-      ESI := 0;
-      for EDI := 0 to EDI + 0 - 1 do
+      
+
+      for I := 0 to f66C.f8.count - 1 do //005053F4
       begin//3
         //005053F7
-        EAX := f66C;
-        EAX := ;
-        ECX := EAX[ESI];
-        EDX := ESI;
-        EAX := CheckListBox3;
-        CheckListBox3.Checked :=(ESI, ECX /EAX[ESI]/);
+        CheckListBox3.Checked[I] :=f66C.fC[I];
       end;//3
-    end;//2
-    EAX := sub_004BAEC4;
-    EDX := sub_004BAEC4;
-    EAX := CheckBox1;
-    CheckBox1.Checked :=EDX;
-    EAX := sub_004BC01C;
-    EDX := sub_004BC01C;
-    EAX := CheckBox13;
-    CheckBox13.Checked :=EDX;
-    EAX := sub_004BB35C;
-    EDX := sub_004BB35C;
-    EAX := CheckBox7;
-    CheckBox7.Checked :=EDX;
-    EAX := sub_004BAF34;
-    EDX := sub_004BAF34;
-    EAX := CheckBox9;
-    CheckBox9.Checked :=EDX;
-    EAX := sub_004BBFB8;
-    EDX := sub_004BBFB8;
-    EAX := CheckBox12;
-    CheckBox12.Checked :=EDX;
-    EAX := sub_004BB3F0;
-    EDX := sub_004BB3F0;
-    EAX := RadioGroup1;
-    RadioGroup1.ItemIndex := (EDX);
-    sub_004BC080;
-    EAX := EAX And 255;//RadioGroup1 And 255
-    lvar_14 := IntToStr(RadioGroup1 And 255);
-    EDX := lvar_14;
-    EAX := Edit8;
-    Edit8.Caption :=lvar_14;
-    sub_004BC080;
-    EDX := EAX;//Edit8
-    EAX := UpDown3;
-    UpDown3.Position := Edit8;
-    EAX := sub_004BC0EC;
-    EDX := sub_004BC0EC;
-    EAX := CheckBox22;
-    CheckBox22.Checked :=EDX;
-    EAX := sub_004BC1BC;
-    EDX := sub_004BC1BC;
-    EAX := CheckBox23;
-    CheckBox23.Checked :=EDX;
-    EAX := CheckBox23;
-    EAX := CheckBox23.GetChecked;
-    EDX := CheckBox23.GetChecked;
-    EAX := RadioGroup1;
-    RadioGroup1.Enabled := EDX;
-    EAX := sub_004BC228;
-    EDX := sub_004BC228;
-    EAX := CheckBox24;
-    CheckBox24.Checked :=EDX;
 
-
-{* 00504B24    push        ebp
- 00504B25    mov         ebp,esp
- 00504B27    push        0
- 00504B29    push        0
- 00504B2B    push        0
- 00504B2D    push        0
- 00504B2F    push        0
- 00504B31    push        ebx
- 00504B32    push        esi
- 00504B33    push        edi
- 00504B34    test        dl,dl
->00504B36    je          00504B40
- 00504B38    add         esp,0FFFFFFF0
- 00504B3B    call        @ClassCreate
- 00504B40    mov         byte ptr [ebp-1],dl
- 00504B43    mov         ebx,eax
- 00504B45    xor         eax,eax
- 00504B47    push        ebp
- 00504B48    push        50554C
- 00504B4D    push        dword ptr fs:[eax]
- 00504B50    mov         dword ptr fs:[eax],esp
- 00504B53    xor         edx,edx
- 00504B55    mov         eax,ebx
- 00504B57    call        TCustomForm.Create
- 00504B5C    mov         eax,dword ptr [ebp+8]
- 00504B5F    mov         edx,dword ptr [eax+128]
- 00504B65    mov         eax,dword ptr [ebx+2D8]
- 00504B6B    call        TImage.SetPicture
- 00504B70    xor         eax,eax
- 00504B72    call        004BAA88
- 00504B77    mov         dword ptr [ebx+664],eax
- 00504B7D    mov         al,1
- 00504B7F    call        004BAA88
- 00504B84    mov         dword ptr [ebx+668],eax
- 00504B8A    mov         al,2
- 00504B8C    call        004BAA88
- 00504B91    mov         dword ptr [ebx+66C],eax
- 00504B97    lea         edx,[ebp-8]
- 00504B9A    mov         eax,ebx
- 00504B9C    call        TControl.GetText
- 00504BA1    lea         eax,[ebp-8]
- 00504BA4    mov         edx,505580;'Carnet de Notes version Personnelle'
- 00504BA9    call        @LStrCat
- 00504BAE    mov         edx,dword ptr [ebp-8]
- 00504BB1    mov         eax,ebx
- 00504BB3    call        TControl.SetText
- 00504BB8    call        004BA3C0
- 00504BBD    xor         edx,edx
- 00504BBF    mov         dl,al
- 00504BC1    mov         eax,dword ptr [ebx+420]
- 00504BC7    call        TCustomRadioGroup.SetItemIndex
- 00504BCC    call        004BA384
- 00504BD1    xor         edx,edx
- 00504BD3    mov         dl,al
- 00504BD5    mov         eax,dword ptr [ebx+424]
- 00504BDB    call        TCustomRadioGroup.SetItemIndex
- 00504BE0    call        004BBF54
- 00504BE5    xor         edx,edx
- 00504BE7    mov         dl,al
- 00504BE9    mov         eax,dword ptr [ebx+528]
- 00504BEF    call        TCustomRadioGroup.SetItemIndex
- 00504BF4    call        004BB84C
- 00504BF9    mov         edx,eax
- 00504BFB    mov         eax,dword ptr [ebx+490]
- 00504C01    mov         ecx,dword ptr [eax]
- 00504C03    call        dword ptr [ecx+0B8]
- 00504C09    mov         eax,dword ptr [ebx+490]
- 00504C0F    mov         edx,dword ptr [eax]
- 00504C11    call        dword ptr [edx+0B4]
- 00504C17    mov         edx,eax
- 00504C19    mov         eax,dword ptr [ebx+494]
- 00504C1F    mov         ecx,dword ptr [eax]
- 00504C21    call        dword ptr [ecx+5C]
- 00504C24    call        004BB7E8
- 00504C29    xor         edx,edx
- 00504C2B    mov         dl,al
- 00504C2D    mov         eax,dword ptr [ebx+494]
- 00504C33    call        TCustomRadioGroup.SetItemIndex
- 00504C38    mov         eax,dword ptr [ebx+490]
- 00504C3E    mov         edx,dword ptr [eax]
- 00504C40    call        dword ptr [edx+0B4]
- 00504C46    mov         edx,eax
- 00504C48    mov         eax,dword ptr [ebx+498]
- 00504C4E    call        TControl.SetVisible
- 00504C53    call        004BCE20
- 00504C58    mov         edx,eax
- 00504C5A    mov         eax,dword ptr [ebx+5AC]
- 00504C60    mov         ecx,dword ptr [eax]
- 00504C62    call        dword ptr [ecx+0B8]
- 00504C68    call        004BCDB0
- 00504C6D    mov         edx,eax
- 00504C6F    mov         eax,dword ptr [ebx+634]
- 00504C75    mov         ecx,dword ptr [eax]
- 00504C77    call        dword ptr [ecx+0B8]
- 00504C7D    call        004BB6C8
- 00504C82    mov         edx,eax
- 00504C84    mov         eax,dword ptr [ebx+62C]
- 00504C8A    mov         ecx,dword ptr [eax]
- 00504C8C    call        dword ptr [ecx+0B8]
- 00504C92    call        004BB60C
- 00504C97    xor         edx,edx
- 00504C99    mov         dl,al
- 00504C9B    mov         eax,dword ptr [ebx+2E4]
- 00504CA1    call        TCustomRadioGroup.SetItemIndex
- 00504CA6    call        004BB668
- 00504CAB    mov         edx,eax
- 00504CAD    mov         eax,dword ptr [ebx+484]
- 00504CB3    mov         ecx,dword ptr [eax]
- 00504CB5    call        dword ptr [ecx+0B8]
- 00504CBB    mov         eax,dword ptr [ebx+484]
- 00504CC1    mov         edx,dword ptr [eax]
- 00504CC3    call        dword ptr [edx+0B4]
- 00504CC9    mov         edx,eax
- 00504CCB    mov         eax,dword ptr [ebx+48C]
- 00504CD1    mov         ecx,dword ptr [eax]
- 00504CD3    call        dword ptr [ecx+5C]
- 00504CD6    call        004BB728
- 00504CDB    xor         edx,edx
- 00504CDD    mov         dl,al
- 00504CDF    mov         eax,dword ptr [ebx+48C]
- 00504CE5    call        TCustomRadioGroup.SetItemIndex
- 00504CEA    call        00501C44
- 00504CEF    mov         edx,eax
- 00504CF1    mov         eax,dword ptr [ebx+464]
- 00504CF7    mov         ecx,dword ptr [eax]
- 00504CF9    call        dword ptr [ecx+0B8]
- 00504CFF    call        004BB87C
- 00504D04    mov         edx,eax
- 00504D06    mov         eax,dword ptr [ebx+5D0]
- 00504D0C    call        TColorPickerButton.SetSelectionColor
- 00504D11    call        004BB55C
- 00504D16    mov         edx,eax
- 00504D18    mov         eax,dword ptr [ebx+2FC]
- 00504D1E    mov         ecx,dword ptr [eax]
- 00504D20    call        dword ptr [ecx+0B8]
- 00504D26    call        004BB588
- 00504D2B    mov         edx,eax
- 00504D2D    mov         eax,dword ptr [ebx+300]
- 00504D33    mov         ecx,dword ptr [eax]
- 00504D35    call        dword ptr [ecx+0B8]
- 00504D3B    call        004BB5BC
- 00504D40    mov         edx,eax
- 00504D42    mov         eax,dword ptr [ebx+304]
- 00504D48    mov         ecx,dword ptr [eax]
- 00504D4A    call        dword ptr [ecx+0B8]
- 00504D50    call        004BB5E4
- 00504D55    mov         edx,eax
- 00504D57    mov         eax,dword ptr [ebx+308]
- 00504D5D    mov         ecx,dword ptr [eax]
- 00504D5F    call        dword ptr [ecx+0B8]
- 00504D65    call        004BA2FC
- 00504D6A    mov         edx,eax
- 00504D6C    mov         eax,dword ptr [ebx+428]
- 00504D72    mov         ecx,dword ptr [eax]
- 00504D74    call        dword ptr [ecx+0B8]
- 00504D7A    call        004BB930
- 00504D7F    mov         edx,eax
- 00504D81    mov         eax,dword ptr [ebx+4D8]
- 00504D87    mov         ecx,dword ptr [eax]
- 00504D89    call        dword ptr [ecx+0B8]
- 00504D8F    call        004BB95C
- 00504D94    mov         edx,eax
- 00504D96    mov         eax,dword ptr [ebx+608]
- 00504D9C    mov         ecx,dword ptr [eax]
- 00504D9E    call        dword ptr [ecx+0B8]
- 00504DA4    call        004BB9B4
- 00504DA9    mov         edx,eax
- 00504DAB    mov         eax,dword ptr [ebx+630]
- 00504DB1    mov         ecx,dword ptr [eax]
- 00504DB3    call        dword ptr [ecx+0B8]
- 00504DB9    call        004BBA0C
- 00504DBE    mov         edx,eax
- 00504DC0    mov         eax,dword ptr [ebx+4E4]
- 00504DC6    mov         ecx,dword ptr [eax]
- 00504DC8    call        dword ptr [ecx+0B8]
- 00504DCE    call        004BBA80
- 00504DD3    mov         edx,eax
- 00504DD5    mov         eax,dword ptr [ebx+4E8]
- 00504DDB    mov         ecx,dword ptr [eax]
- 00504DDD    call        dword ptr [ecx+0B8]
- 00504DE3    call        004BBAA8
- 00504DE8    mov         edx,eax
- 00504DEA    mov         eax,dword ptr [ebx+4EC]
- 00504DF0    mov         ecx,dword ptr [eax]
- 00504DF2    call        dword ptr [ecx+0B8]
- 00504DF8    call        004BBB78
- 00504DFD    mov         edx,eax
- 00504DFF    mov         eax,dword ptr [ebx+5E4]
- 00504E05    call        TColorPickerButton.SetSelectionColor
- 00504E0A    call        004BBBA8
- 00504E0F    mov         edx,eax
- 00504E11    mov         eax,dword ptr [ebx+5E8]
- 00504E17    call        TColorPickerButton.SetSelectionColor
- 00504E1C    call        004BBC80
- 00504E21    mov         edx,eax
- 00504E23    mov         eax,dword ptr [ebx+5D4]
- 00504E29    call        TColorPickerButton.SetSelectionColor
- 00504E2E    call        004BBCE4
- 00504E33    mov         edx,eax
- 00504E35    mov         eax,dword ptr [ebx+5D8]
- 00504E3B    call        TColorPickerButton.SetSelectionColor
- 00504E40    call        004BBCB4
- 00504E45    mov         edx,eax
- 00504E47    mov         eax,dword ptr [ebx+5DC]
- 00504E4D    call        TColorPickerButton.SetSelectionColor
- 00504E52    call        004BBD14
- 00504E57    mov         edx,eax
- 00504E59    mov         eax,dword ptr [ebx+5E0]
- 00504E5F    call        TColorPickerButton.SetSelectionColor
- 00504E64    call        004BA108
- 00504E69    mov         edx,eax
- 00504E6B    mov         eax,dword ptr [ebx+5EC]
- 00504E71    call        TColorPickerButton.SetSelectionColor
- 00504E76    call        004BBD70
- 00504E7B    mov         edx,eax
- 00504E7D    mov         eax,dword ptr [ebx+5F0]
- 00504E83    call        TColorPickerButton.SetSelectionColor
- 00504E88    call        004BBE80
- 00504E8D    mov         edx,eax
- 00504E8F    mov         eax,dword ptr [ebx+510]
- 00504E95    mov         ecx,dword ptr [eax]
- 00504E97    call        dword ptr [ecx+0B8]
- 00504E9D    call        004BBED4
- 00504EA2    mov         edx,eax
- 00504EA4    mov         eax,dword ptr [ebx+514]
- 00504EAA    mov         ecx,dword ptr [eax]
- 00504EAC    call        dword ptr [ecx+0B8]
- 00504EB2    call        004BBEAC
- 00504EB7    mov         edx,eax
- 00504EB9    mov         eax,dword ptr [ebx+518]
- 00504EBF    mov         ecx,dword ptr [eax]
- 00504EC1    call        dword ptr [ecx+0B8]
- 00504EC7    call        004BBEFC
- 00504ECC    mov         edx,eax
- 00504ECE    mov         eax,dword ptr [ebx+51C]
- 00504ED4    mov         ecx,dword ptr [eax]
- 00504ED6    call        dword ptr [ecx+0B8]
- 00504EDC    call        004BBAF8
- 00504EE1    mov         edx,eax
- 00504EE3    mov         eax,dword ptr [ebx+520]
- 00504EE9    mov         ecx,dword ptr [eax]
- 00504EEB    call        dword ptr [ecx+0B8]
- 00504EF1    call        004B9794
- 00504EF6    mov         edx,eax
- 00504EF8    mov         eax,dword ptr [ebx+310]
- 00504EFE    call        TCustomListBox.SetItems
- 00504F03    call        004982F8
- 00504F08    mov         edx,eax
- 00504F0A    mov         eax,dword ptr [ebx+40C]
- 00504F10    call        TCustomListBox.SetItems
- 00504F15    call        004BC348
- 00504F1A    mov         edx,eax
- 00504F1C    mov         eax,dword ptr [ebx+56C]
- 00504F22    call        TCustomListBox.SetItems
- 00504F27    call        004B9C80
- 00504F2C    mov         edx,eax
- 00504F2E    mov         eax,dword ptr [ebx+368]
- 00504F34    mov         eax,dword ptr [eax+12C]
- 00504F3A    call        TBrush.SetColor
- 00504F3F    call        004B9C34
- 00504F44    mov         edx,eax
- 00504F46    mov         eax,dword ptr [ebx+36C]
- 00504F4C    mov         eax,dword ptr [eax+12C]
- 00504F52    call        TBrush.SetColor
- 00504F57    call        004B9D24
- 00504F5C    mov         edx,eax
- 00504F5E    mov         eax,dword ptr [ebx+388]
- 00504F64    mov         eax,dword ptr [eax+12C]
- 00504F6A    call        TBrush.SetColor
- 00504F6F    call        004BA0BC
- 00504F74    mov         edx,eax
- 00504F76    mov         eax,dword ptr [ebx+474]
- 00504F7C    mov         eax,dword ptr [eax+12C]
- 00504F82    call        TBrush.SetColor
- 00504F87    call        004B9C80
- 00504F8C    mov         edx,eax
- 00504F8E    mov         eax,dword ptr [ebx+368]
- 00504F94    mov         eax,dword ptr [eax+128]
- 00504F9A    call        TPen.SetColor
- 00504F9F    call        004B9C34
- 00504FA4    mov         edx,eax
- 00504FA6    mov         eax,dword ptr [ebx+36C]
- 00504FAC    mov         eax,dword ptr [eax+128]
- 00504FB2    call        TPen.SetColor
- 00504FB7    call        004B9D24
- 00504FBC    mov         edx,eax
- 00504FBE    mov         eax,dword ptr [ebx+388]
- 00504FC4    mov         eax,dword ptr [eax+128]
- 00504FCA    call        TPen.SetColor
- 00504FCF    call        004BA0BC
- 00504FD4    mov         edx,eax
- 00504FD6    mov         eax,dword ptr [ebx+474]
- 00504FDC    mov         eax,dword ptr [eax+128]
- 00504FE2    call        TPen.SetColor
- 00504FE7    call        004BB458
- 00504FEC    mov         edx,eax
- 00504FEE    mov         eax,dword ptr [ebx+460]
- 00504FF4    mov         ecx,dword ptr [eax]
- 00504FF6    call        dword ptr [ecx+0B8]
- 00504FFC    call        004B9A44
- 00505001    mov         edx,eax
- 00505003    mov         eax,dword ptr [ebx+344]
- 00505009    call        TCustomListBox.SetItems
- 0050500E    call        004B9410
- 00505013    mov         edx,eax
- 00505015    mov         eax,dword ptr [ebx+49C]
- 0050501B    mov         ecx,dword ptr [eax]
- 0050501D    call        dword ptr [ecx+0B8]
- 00505023    call        004B9468
- 00505028    and         eax,0FF
- 0050502D    mov         dword ptr [ebp-0C],eax
- 00505030    fild        dword ptr [ebp-0C]
- 00505033    add         esp,0FFFFFFF4
- 00505036    fstp        tbyte ptr [esp]
- 00505039    wait
- 0050503A    mov         eax,dword ptr [ebx+5F8]
- 00505040    call        TRxSpinEdit.SetValue
- 00505045    mov         eax,dword ptr [ebx+49C]
- 0050504B    mov         edx,dword ptr [eax]
- 0050504D    call        dword ptr [edx+0B4]
- 00505053    mov         edx,eax
- 00505055    mov         eax,dword ptr [ebx+5F8]
- 0050505B    mov         ecx,dword ptr [eax]
- 0050505D    call        dword ptr [ecx+5C]
- 00505060    call        004B9500
- 00505065    mov         edx,eax
- 00505067    mov         eax,dword ptr [ebx+39C]
- 0050506D    call        TCustomListBox.SetItems
- 00505072    mov         eax,dword ptr [ebx+39C]
- 00505078    mov         eax,dword ptr [eax+1F0]
- 0050507E    mov         edx,dword ptr [eax]
- 00505080    call        dword ptr [edx+14]
- 00505083    test        eax,eax
->00505085    je          005050D4
- 00505087    xor         edx,edx
- 00505089    mov         eax,dword ptr [ebx+39C]
- 0050508F    call        TCustomListBox.SetItemIndex
- 00505094    mov         dl,1
- 00505096    mov         eax,dword ptr [ebx+654]
- 0050509C    mov         ecx,dword ptr [eax]
- 0050509E    call        dword ptr [ecx+5C]
- 005050A1    mov         dl,1
- 005050A3    mov         eax,dword ptr [ebx+650]
- 005050A9    mov         ecx,dword ptr [eax]
- 005050AB    call        dword ptr [ecx+5C]
- 005050AE    lea         ecx,[ebp-10]
- 005050B1    mov         eax,dword ptr [ebx+39C]
- 005050B7    mov         eax,dword ptr [eax+1F0]
- 005050BD    xor         edx,edx
- 005050BF    mov         esi,dword ptr [eax]
- 005050C1    call        dword ptr [esi+0C]
- 005050C4    mov         edx,dword ptr [ebp-10]
- 005050C7    mov         eax,dword ptr [ebx+5A8]
- 005050CD    call        TControl.SetText
->005050D2    jmp         005050E1
- 005050D4    xor         edx,edx
- 005050D6    mov         eax,dword ptr [ebx+5A8]
- 005050DC    call        TControl.SetText
- 005050E1    call        004B9E10
- 005050E6    xor         edx,edx
- 005050E8    mov         dl,al
- 005050EA    mov         eax,dword ptr [ebx+3A0]
- 005050F0    call        TCustomRadioGroup.SetItemIndex
- 005050F5    call        004BC298
- 005050FA    xor         edx,edx
- 005050FC    mov         dl,al
- 005050FE    mov         eax,dword ptr [ebx+560]
- 00505104    call        TCustomRadioGroup.SetItemIndex
- 00505109    call        004B9EA0
- 0050510E    xor         edx,edx
- 00505110    mov         dl,al
- 00505112    mov         eax,dword ptr [ebx+3B4]
- 00505118    call        TCustomRadioGroup.SetItemIndex
- 0050511D    call        004B9E48
- 00505122    mov         dword ptr [ebp-0C],eax
- 00505125    fild        dword ptr [ebp-0C]
- 00505128    add         esp,0FFFFFFF4
- 0050512B    fstp        tbyte ptr [esp]
- 0050512E    wait
- 0050512F    mov         eax,dword ptr [ebx+600]
- 00505135    call        TRxSpinEdit.SetValue
- 0050513A    call        004B9F30
- 0050513F    mov         edx,eax
- 00505141    mov         eax,dword ptr [ebx+3B0]
- 00505147    mov         ecx,dword ptr [eax]
- 00505149    call        dword ptr [ecx+0B8]
- 0050514F    call        004BC30C
- 00505154    xor         edx,edx
- 00505156    mov         dl,al
- 00505158    mov         eax,dword ptr [ebx+564]
- 0050515E    call        TCustomRadioGroup.SetItemIndex
- 00505163    call        004B9F60
- 00505168    mov         edx,eax
- 0050516A    mov         eax,dword ptr [ebx+624]
- 00505170    mov         ecx,dword ptr [eax]
- 00505172    call        dword ptr [ecx+0B8]
- 00505178    call        004BA2B0
- 0050517D    mov         edx,eax
- 0050517F    mov         eax,dword ptr [ebx+3C4]
- 00505185    mov         ecx,dword ptr [eax]
- 00505187    call        dword ptr [ecx+0B8]
- 0050518D    call        004B9F8C
- 00505192    mov         edx,eax
- 00505194    mov         eax,dword ptr [ebx+3B8]
- 0050519A    mov         eax,dword ptr [eax+12C]
- 005051A0    call        TBrush.SetColor
- 005051A5    call        004B9FD8
- 005051AA    mov         edx,eax
- 005051AC    mov         eax,dword ptr [ebx+3D0]
- 005051B2    mov         eax,dword ptr [eax+12C]
- 005051B8    call        TBrush.SetColor
- 005051BD    call        004BA024
- 005051C2    mov         edx,eax
- 005051C4    mov         eax,dword ptr [ebx+3E0]
- 005051CA    mov         eax,dword ptr [eax+12C]
- 005051D0    call        TBrush.SetColor
- 005051D5    call        004BA070
- 005051DA    mov         edx,eax
- 005051DC    mov         eax,dword ptr [ebx+3FC]
- 005051E2    mov         eax,dword ptr [eax+12C]
- 005051E8    call        TBrush.SetColor
- 005051ED    call        004B9F8C
- 005051F2    mov         edx,eax
- 005051F4    mov         eax,dword ptr [ebx+3B8]
- 005051FA    mov         eax,dword ptr [eax+128]
- 00505200    call        TPen.SetColor
- 00505205    call        004B9FD8
- 0050520A    mov         edx,eax
- 0050520C    mov         eax,dword ptr [ebx+3D0]
- 00505212    mov         eax,dword ptr [eax+128]
- 00505218    call        TPen.SetColor
- 0050521D    call        004BA024
- 00505222    mov         edx,eax
- 00505224    mov         eax,dword ptr [ebx+3E0]
- 0050522A    mov         eax,dword ptr [eax+128]
- 00505230    call        TPen.SetColor
- 00505235    call        004BA070
- 0050523A    mov         edx,eax
- 0050523C    mov         eax,dword ptr [ebx+3FC]
- 00505242    mov         eax,dword ptr [eax+128]
- 00505248    call        TPen.SetColor
- 0050524D    call        004BC188
- 00505252    mov         edx,eax
- 00505254    mov         eax,dword ptr [ebx+628]
- 0050525A    mov         ecx,dword ptr [eax]
- 0050525C    call        dword ptr [ecx+0B8]
- 00505262    call        004BDA58
- 00505267    mov         edx,eax
- 00505269    mov         eax,dword ptr [ebx+60C]
- 0050526F    mov         ecx,dword ptr [eax]
- 00505271    call        dword ptr [ecx+0B8]
- 00505277    call        004BDA8C
- 0050527C    mov         edx,eax
- 0050527E    mov         eax,dword ptr [ebx+610]
- 00505284    mov         ecx,dword ptr [eax]
- 00505286    call        dword ptr [ecx+0B8]
- 0050528C    call        004BDA2C
- 00505291    mov         edx,eax
- 00505293    mov         eax,dword ptr [ebx+618]
- 00505299    mov         ecx,dword ptr [eax]
- 0050529B    call        dword ptr [ecx+0B8]
- 005052A1    call        004BD9F8
- 005052A6    mov         edx,eax
- 005052A8    mov         eax,dword ptr [ebx+61C]
- 005052AE    mov         ecx,dword ptr [eax]
- 005052B0    call        dword ptr [ecx+0B8]
- 005052B6    call        004BD238
- 005052BB    mov         edx,eax
- 005052BD    mov         eax,dword ptr [ebx+5B4]
- 005052C3    mov         ecx,dword ptr [eax]
- 005052C5    call        dword ptr [ecx+0B8]
- 005052CB    call        004BD278
- 005052D0    mov         edx,eax
- 005052D2    mov         eax,dword ptr [ebx+5B8]
- 005052D8    mov         ecx,dword ptr [eax]
- 005052DA    call        dword ptr [ecx+0B8]
- 005052E0    call        004BD1FC
- 005052E5    mov         edx,eax
- 005052E7    mov         eax,dword ptr [ebx+5C0]
- 005052ED    mov         ecx,dword ptr [eax]
- 005052EF    call        dword ptr [ecx+0B8]
- 005052F5    call        004BD1BC
- 005052FA    mov         edx,eax
- 005052FC    mov         eax,dword ptr [ebx+5C4]
- 00505302    mov         ecx,dword ptr [eax]
- 00505304    call        dword ptr [ecx+0B8]
- 0050530A    mov         eax,dword ptr [ebx+664]
- 00505310    mov         edx,dword ptr [eax+8]
- 00505313    mov         eax,dword ptr [ebx+444]
- 00505319    call        TCustomListBox.SetItems
- 0050531E    mov         eax,dword ptr [ebx+664]
- 00505324    mov         eax,dword ptr [eax+8]
- 00505327    mov         edx,dword ptr [eax]
- 00505329    call        dword ptr [edx+14]
- 0050532C    mov         edi,eax
- 0050532E    sub         edi,1
->00505331    jno         00505338
- 00505333    call        @IntOver
- 00505338    test        edi,edi
->0050533A    jl          00505366
- 0050533C    inc         edi
- 0050533D    xor         esi,esi
- 0050533F    mov         eax,dword ptr [ebx+664]
- 00505345    mov         eax,dword ptr [eax+0C]
- 00505348    cmp         esi,dword ptr [eax-4]
->0050534B    jb          00505352
- 0050534D    call        @BoundErr
- 00505352    mov         cl,byte ptr [eax+esi]
- 00505355    mov         edx,esi
- 00505357    mov         eax,dword ptr [ebx+444]
- 0050535D    call        TCheckListBox.SetChecked
- 00505362    inc         esi
- 00505363    dec         edi
->00505364    jne         0050533F
- 00505366    mov         eax,dword ptr [ebx+668]
- 0050536C    mov         edx,dword ptr [eax+8]
- 0050536F    mov         eax,dword ptr [ebx+448]
- 00505375    call        TCustomListBox.SetItems
- 0050537A    mov         eax,dword ptr [ebx+668]
- 00505380    mov         eax,dword ptr [eax+8]
- 00505383    mov         edx,dword ptr [eax]
- 00505385    call        dword ptr [edx+14]
- 00505388    mov         edi,eax
- 0050538A    sub         edi,1
->0050538D    jno         00505394
- 0050538F    call        @IntOver
- 00505394    test        edi,edi
->00505396    jl          005053C2
- 00505398    inc         edi
- 00505399    xor         esi,esi
- 0050539B    mov         eax,dword ptr [ebx+668]
- 005053A1    mov         eax,dword ptr [eax+0C]
- 005053A4    cmp         esi,dword ptr [eax-4]
->005053A7    jb          005053AE
- 005053A9    call        @BoundErr
- 005053AE    mov         cl,byte ptr [eax+esi]
- 005053B1    mov         edx,esi
- 005053B3    mov         eax,dword ptr [ebx+448]
- 005053B9    call        TCheckListBox.SetChecked
- 005053BE    inc         esi
- 005053BF    dec         edi
->005053C0    jne         0050539B
- 005053C2    mov         eax,dword ptr [ebx+66C]
- 005053C8    mov         edx,dword ptr [eax+8]
- 005053CB    mov         eax,dword ptr [ebx+534]
- 005053D1    call        TCustomListBox.SetItems
- 005053D6    mov         eax,dword ptr [ebx+66C]
- 005053DC    mov         eax,dword ptr [eax+8]
- 005053DF    mov         edx,dword ptr [eax]
- 005053E1    call        dword ptr [edx+14]
- 005053E4    mov         edi,eax
- 005053E6    sub         edi,1
->005053E9    jno         005053F0
- 005053EB    call        @IntOver
- 005053F0    test        edi,edi
->005053F2    jl          0050541E
- 005053F4    inc         edi
- 005053F5    xor         esi,esi
- 005053F7    mov         eax,dword ptr [ebx+66C]
- 005053FD    mov         eax,dword ptr [eax+0C]
- 00505400    cmp         esi,dword ptr [eax-4]
->00505403    jb          0050540A
- 00505405    call        @BoundErr
- 0050540A    mov         cl,byte ptr [eax+esi]
- 0050540D    mov         edx,esi
- 0050540F    mov         eax,dword ptr [ebx+534]
- 00505415    call        TCheckListBox.SetChecked
- 0050541A    inc         esi
- 0050541B    dec         edi
->0050541C    jne         005053F7
- 0050541E    call        004BAEC4
- 00505423    mov         edx,eax
- 00505425    mov         eax,dword ptr [ebx+44C]
- 0050542B    mov         ecx,dword ptr [eax]
- 0050542D    call        dword ptr [ecx+0B8]
- 00505433    call        004BC01C
- 00505438    mov         edx,eax
- 0050543A    mov         eax,dword ptr [ebx+540]
- 00505440    mov         ecx,dword ptr [eax]
- 00505442    call        dword ptr [ecx+0B8]
- 00505448    call        004BB35C
- 0050544D    mov         edx,eax
- 0050544F    mov         eax,dword ptr [ebx+454]
- 00505455    mov         ecx,dword ptr [eax]
- 00505457    call        dword ptr [ecx+0B8]
- 0050545D    call        004BAF34
- 00505462    mov         edx,eax
- 00505464    mov         eax,dword ptr [ebx+458]
- 0050546A    mov         ecx,dword ptr [eax]
- 0050546C    call        dword ptr [ecx+0B8]
- 00505472    call        004BBFB8
- 00505477    mov         edx,eax
- 00505479    mov         eax,dword ptr [ebx+4E0]
- 0050547F    mov         ecx,dword ptr [eax]
- 00505481    call        dword ptr [ecx+0B8]
- 00505487    call        004BB3F0
- 0050548C    xor         edx,edx
- 0050548E    mov         dl,al
- 00505490    mov         eax,dword ptr [ebx+45C]
- 00505496    call        TCustomRadioGroup.SetItemIndex
- 0050549B    call        004BC080
- 005054A0    and         eax,0FF
- 005054A5    lea         edx,[ebp-14]
- 005054A8    call        IntToStr
- 005054AD    mov         edx,dword ptr [ebp-14]
- 005054B0    mov         eax,dword ptr [ebx+544]
- 005054B6    call        TControl.SetText
- 005054BB    call        004BC080
- 005054C0    xor         edx,edx
- 005054C2    mov         dl,al
- 005054C4    mov         eax,dword ptr [ebx+548]
- 005054CA    call        TCustomUpDown.SetPosition
- 005054CF    call        004BC0EC
- 005054D4    mov         edx,eax
- 005054D6    mov         eax,dword ptr [ebx+550]
- 005054DC    mov         ecx,dword ptr [eax]
- 005054DE    call        dword ptr [ecx+0B8]
- 005054E4    call        004BC1BC
- 005054E9    mov         edx,eax
- 005054EB    mov         eax,dword ptr [ebx+554]
- 005054F1    mov         ecx,dword ptr [eax]
- 005054F3    call        dword ptr [ecx+0B8]
- 005054F9    mov         eax,dword ptr [ebx+554]
- 005054FF    mov         edx,dword ptr [eax]
- 00505501    call        dword ptr [edx+0B4]
- 00505507    mov         edx,eax
- 00505509    mov         eax,dword ptr [ebx+45C]
- 0050550F    mov         ecx,dword ptr [eax]
- 00505511    call        dword ptr [ecx+5C]
- 00505514    call        004BC228
- 00505519    mov         edx,eax
- 0050551B    mov         eax,dword ptr [ebx+55C]
- 00505521    mov         ecx,dword ptr [eax]
- 00505523    call        dword ptr [ecx+0B8]
- 00505529    xor         eax,eax
- 0050552B    pop         edx
- 0050552C    pop         ecx
- 0050552D    pop         ecx
- 0050552E    mov         dword ptr fs:[eax],edx
- 00505531    push        505553
- 00505536    lea         eax,[ebp-14]
- 00505539    mov         edx,2
- 0050553E    call        @LStrArrayClr
- 00505543    lea         eax,[ebp-8]
- 00505546    call        @LStrClr
- 0050554B    ret
->0050554C    jmp         @HandleFinally
->00505551    jmp         00505536
- 00505553    mov         eax,ebx
- 00505555    cmp         byte ptr [ebp-1],0
->00505559    je          0050556A
- 0050555B    call        @AfterConstruction
- 00505560    pop         dword ptr fs:[0]
- 00505567    add         esp,0C
- 0050556A    mov         eax,ebx
- 0050556C    pop         edi
- 0050556D    pop         esi
- 0050556E    pop         ebx
- 0050556F    mov         esp,ebp
- 00505571    pop         ebp
- 00505572    ret         4*}
+	
+	
+    CheckBox1.Checked :=sub_004BAEC4;
+    CheckBox13.Checked :=sub_004BC01C;
+    CheckBox7.Checked :=sub_004BB35C;
+    CheckBox9.Checked :=sub_004BAF34;
+    CheckBox12.Checked :=sub_004BBFB8;
+    RadioGroup1.ItemIndex := sub_004BB3F0;
+    Edit8.text := IntToStr(sub_004BC080);
+    UpDown3.Position := sub_004BC080;
+    CheckBox22.Checked :=sub_004BC0EC;
+    CheckBox23.Checked :=sub_004BC1BC;
+    RadioGroup1.Enabled := CheckBox23.Checked;
+    CheckBox24.Checked :=sub_004BC228;
 end;
 
 //005055A4
@@ -2235,7 +1219,7 @@ begin
 end;
 
 //005061EC
-procedure TFormOptions.Edit1Change;
+procedure TFormOptions.Edit1Change(Sender:TObject);
 begin
 {*
  005061EC    push        ebp
@@ -2994,7 +1978,7 @@ begin
 end;
 
 //00506C58
-procedure TFormOptions.Edit6Change;
+procedure TFormOptions.Edit6Change(Sender:TObject);
 begin
 {*
  00506C58    push        ebp
@@ -3287,7 +2271,7 @@ begin
 end;
 
 //00506FF0
-procedure TFormOptions.BitBtn7Click;
+procedure TFormOptions.BitBtn7Click(Sender:TObject);
 begin
 {*
  00506FF0    push        ebp
@@ -3412,7 +2396,7 @@ begin
 end;
 
 //00507188
-procedure TFormOptions.Edit2Change;
+procedure TFormOptions.Edit2Change(Sender:TObject);
 begin
 {*
  00507188    push        ebp
@@ -3995,7 +2979,7 @@ begin
 end;
 
 //005079BC
-procedure TFormOptions.Edit7Change;
+procedure TFormOptions.Edit7Change(Sender:TObject);
 begin
 {*
  005079BC    push        ebp
@@ -4809,7 +3793,7 @@ begin
 end;
 
 //005084F0
-procedure TFormOptions.Edit9Change;
+procedure TFormOptions.Edit9Change(Sender:TObject);
 begin
 {*
  005084F0    push        ebp

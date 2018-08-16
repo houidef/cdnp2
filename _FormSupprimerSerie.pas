@@ -23,9 +23,9 @@ type
     SpeedButton4:TSpeedButton;//f2F0
     Label1:TLabel;//f2F4
     procedure SpeedButton1Click(Sender:TObject);//0050C0C4
-    procedure TabControl1Change;//0050BFA8
+    procedure TabControl1Change(Sender:TObject);//0050BFA8
     procedure FormKeyPress(Sender:TObject; var Key:Char);//0050C31C
-    procedure CheckListBox1ClickCheck;//0050C2C4
+    procedure CheckListBox1ClickCheck(Sender:TObject);//0050C2C4
     procedure SpeedButton2Click(Sender:TObject);//0050BCF4
     procedure ListBox1DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//0050BB50
     procedure SpeedButton4Click(Sender:TObject);//0050BD60
@@ -310,7 +310,7 @@ end;
 //end;
 
 //0050BFA8
-procedure TFormSupprimerSerie.TabControl1Change;
+procedure TFormSupprimerSerie.TabControl1Change(Sender:TObject);
 begin
 {*
  0050BFA8    push        ebp
@@ -533,7 +533,7 @@ begin
 end;
 
 //0050C2C4
-procedure TFormSupprimerSerie.CheckListBox1ClickCheck;
+procedure TFormSupprimerSerie.CheckListBox1ClickCheck(Sender:TObject);
 begin
 {*
  0050C2C4    push        ebx

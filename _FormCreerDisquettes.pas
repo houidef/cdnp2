@@ -31,7 +31,7 @@ type
     Image2:TImage;//f310
     CheckBox1:TCheckBox;//f314
     SpeedButton3:TSpeedButton;//f318
-    procedure Edit1Change;//00509BFC
+    procedure Edit1Change(Sender:TObject);//00509BFC
     procedure FormKeyPress(Sender:TObject; var Key:Char);//00509C6C
     procedure SpeedButton3Click(Sender:TObject);//00509C7C
     procedure SpeedButton1Click(Sender:TObject);//0050979C
@@ -333,7 +333,7 @@ begin
 end;
 
 //00509BFC
-procedure TFormCreerDisquettes.Edit1Change;
+procedure TFormCreerDisquettes.Edit1Change(Sender:TObject);
 begin
 {*
  00509BFC    push        ebp

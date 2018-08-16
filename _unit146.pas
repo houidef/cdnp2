@@ -13,8 +13,8 @@ uses
     function sub_00501C44:Boolean;//00501C44
     procedure afficherConseils(X:Boolean);//00501C70
     procedure getConseil(var x:string);//00501C9C
-    procedure sub_00501CB4(x:string);//00501CB4
-    procedure sub_00501D14(x:string);//00501D14
+    procedure sub_00501CB4(var x:string);//00501CB4
+    procedure sub_00501D14(var x:string);//00501D14
     procedure nombreConseils(var x:string);//00501D74
     procedure numeroConseilEnCours(var x:string);//00501D8C
 var
@@ -29,7 +29,7 @@ var
   lvar_4:AnsiString;
 begin//0
   //00501BB8
-    //sub_00497660('numeroConseilEnCours', IntToStr(x), '\Options');
+    sub_00497660('numeroConseilEnCours', IntToStr(x), '\Options');
 end;
 
 //00501C44
@@ -54,7 +54,7 @@ begin
 end;
 
 //00501CB4
-procedure sub_00501CB4(x:string);
+procedure sub_00501CB4(var x:string);
 begin
   //00501CB4
   if (StringList.Count - 1 > VnumeroConseilEnCours) then
@@ -68,7 +68,7 @@ begin
 end;
 
 //00501D14
-procedure sub_00501D14(x:string);
+procedure sub_00501D14(var x:string);
 begin
   //00501D14
   if (VnumeroConseilEnCours > 0) then
@@ -93,8 +93,7 @@ end;
 procedure numeroConseilEnCours(var x:string);
 begin
  //00501D8C
- x:='1';
- //sub_0049733C('numeroConseilEnCours', '1', '\Options', '');
+ sub_0049733C('numeroConseilEnCours', '1', '\Options', x);
 end;
 
 Initialization

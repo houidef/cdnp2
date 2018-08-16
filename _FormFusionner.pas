@@ -58,14 +58,14 @@ type
     procedure SpeedButtonAideClick(Sender:TObject);//005531C8
     procedure CheckListBox1DrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//00552FF8
     procedure FormKeyPress(Sender:TObject; var Key:Char);//0055319C
-    procedure CheckListBox1ClickCheck;//00551F18
+    procedure CheckListBox1ClickCheck(Sender:TObject);//00551F18
     procedure SpeedButtonSuivantClick(Sender:TObject);//00551210
-    procedure DriveComboBox1Change;//00551370
+    procedure DriveComboBox1Change(Sender:TObject);//00551370
     procedure SpeedButtonAnnulerClick(Sender:TObject);//005510D0
     procedure SpeedButtonPrecedentClick(Sender:TObject);//005510D8
     procedure SpeedButton2Click(Sender:TObject);//00551480
-    procedure Notebook1PageChanged;//0055152C
-    procedure DirectoryListBox1Change;//00551388
+    procedure Notebook1PageChanged(Sender:TObject);//0055152C
+    procedure DirectoryListBox1Change(Sender:TObject);//00551388
     procedure FileListBox1DblClick(Sender:TObject);//005513A4
   public
     f360:TStringList;//f360

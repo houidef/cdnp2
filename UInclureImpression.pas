@@ -1,7 +1,8 @@
-//***************************************
-//IDR home page: http://kpnc.org/idr32/en
-//Decompiled by IDR v.01.04.2017
-//***************************************
+{***********************************************************
+* Version Original V0.01                                   *
+* Decompiled by HOUIDEF AEK v 14:44 Vendredi 17 aout 2018  *
+* The disassembly process is finished                      *
+************************************************************}
 unit UInclureImpression;
 
 interface

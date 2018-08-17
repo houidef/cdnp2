@@ -5731,6 +5731,7 @@ begin//0
   //004C6E9C
     try
       //004C6EDF
+	  
       if (CarnetNotesVersion <> '2.0') then //004C6EF8
         if (CarnetNotesVersion <> '2.1') then//004C6F11
           if (CarnetNotesVersion <> '2.2') then//004C6F2A
@@ -5861,7 +5862,6 @@ begin//0
             f944.Add('1'); //$4C826C
         end;//4
       
-	  
       f928 := TStringList.Create;
       f92C := TStringList.Create;
       f930 := TStringList.Create;
@@ -5927,6 +5927,7 @@ begin//0
       end//3
       else if (CarnetNotesVersion = '2.2') then
       begin//004C7AA1
+	      
           for lvar_C := 1 to Periodes do //004C7AA8
           begin//5
             for lvar_D := 1 to NbrEleves do //004C7AAB
@@ -5935,7 +5936,7 @@ begin//0
               f928.Add(buf);
             end;//6
           end;//5
-
+		
         buf := FluxCdn.sub_004B696C;
         ITemp := StrToInt(buf);
           for lvar_C := 1 to ITemp do //004C7B32
@@ -5943,14 +5944,14 @@ begin//0
             buf := FluxCdn.sub_004B696C;
             f93C.Add(buf);
           end;//5
-       
+        
         buf := FluxCdn.sub_004B696C;
         //sub_004C9AA0(f914, buf);
         buf := FluxCdn.sub_004B696C;
         ITemp := StrToInt(buf);
         
         StringListTemp := TStringList.Create;
-
+		
           for lvar_C := 1 to ITemp do //004C7BF4
           begin//004C7BF7
             buf := FluxCdn.sub_004B696C;
@@ -5958,7 +5959,7 @@ begin//0
           end;//5
        
 
-        //sub_004C9A84(f914, StringListTemp);
+        f914.sub_004C9A84(StringListTemp);
         
         StringListTemp.Free;
 
@@ -5973,7 +5974,6 @@ begin//0
               end;//7
             end;//6
           end;//5
-       
 
           for lvar_C := 1 to ITemp do //004C7CAD
           begin//004C7CB0
@@ -5983,13 +5983,13 @@ begin//0
             f934.Add(buf);
             f938.Add('');
           end;//5
-        
-        buf := FluxCdn.sub_004B696C;
+		//bug here
+        {buf := FluxCdn.sub_004B696C;
         f910 := StrToInt(buf);
         buf := FluxCdn.sub_004B696C;
         f911 := StrToInt(buf);
         buf := FluxCdn.sub_004B696C;
-        f912 := StrToInt(buf);
+        f912 := StrToInt(buf);}
       end//3
       else if (CarnetNotesVersion = '2.3') then
       begin//004C7E18
@@ -6059,7 +6059,7 @@ begin//0
       f8 := false;
     except//2
       on E:Exception do
-      begin//004C81BA     
+      begin//004C81BA    
         f948 := false;		
       end;//3
     end;//2

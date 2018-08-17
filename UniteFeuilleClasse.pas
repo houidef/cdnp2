@@ -288,10 +288,10 @@ begin
       end;//3
     end//2
     else R:=2; //00539962
-	
-	if(R-1 < 0) then
+
+	if(R-1 < 0) then //Cas 1 : Nouvelle classe
       begin//005399AE
-        inherited Create(AOwner);		
+        inherited Create(AOwner);	   		
         WindowState := wsMaximized; 
         TabControlGrillesNotes.Tabs := FichierCdn.sub_004BEA4C; 
         TabControlGrillesBilan.Tabs := FichierCdn.sub_004BEA4C;
@@ -307,7 +307,7 @@ begin
             end//6
         end;
         TabControlGrillesNotes.TabIndex := f4FC - 1;
-        GrilleElevesCarnetDeNotes := TGrilleElevesCarnetDeNotes.Create(PanelEleves, Self,f4FC, FichierCdn);
+        GrilleElevesCarnetDeNotes := TGrilleElevesCarnetDeNotes.Create(PanelEleves, Self,f4FC, FichierCdn); 
         GrilleNotesCarnetDeNotes := TGrilleNotesCarnetDeNotes.Create(PanelNotes, Self,f4FC, FichierCdn); 
         GrilleMoyennesCarnetDeNotes := TGrilleMoyennesCarnetDeNotes.Create(PanelMoyennes, Self,f4FC, FichierCdn);//erreur ici
         GrilleBilanCarnetDeNotes := TGrilleBilanCarnetDeNotes.Create(TabControlGrillesBilan,  Self,f4FC, FichierCdn);
@@ -316,8 +316,8 @@ begin
         Splitter.Parent :=TabControlGrillesNotes;
         Splitter.Left := Panel2.Left + 1;
         Splitter.Align := Panel2.Align;
-        TabSet1.Tabs := Notebook1.Pages;
-        Notebook1.PageIndex := TabSet1.TabIndex;
+		TabSet1.Tabs.text := Notebook1.Pages.text; //bug in : TabSet1.Tabs := Notebook1.Pages;
+        Notebook1.PageIndex := TabSet1.TabIndex; 
 		//unit111
         {sub_004B901C(FileName); 
         if (sub_004B9410) then //00539BC7

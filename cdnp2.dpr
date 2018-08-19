@@ -85,7 +85,7 @@ begin
   
   //FormMarqueCdn:=TFormMarqueCdn.Create(Nil);
   Application.CreateForm(TFormCarnetDeNotes2,FormCarnetDeNotes2);
-  //Application.CreateForm(TFormHint,FormHint);
+  Application.CreateForm(TFormHint,FormHint);
   //Application.CreateForm(TFormAProposDe,FormAProposDe);
  // Application.CreateForm(TFormProgression,FormProgression);
   Application.Run;

@@ -374,97 +374,22 @@ end;*}
 
 //0052561C
 destructor TFormImprimer.Destroy;
-begin
- inherited Destroy;
-{*
- 0052561C    push        ebp
- 0052561D    mov         ebp,esp
- 0052561F    xor         ecx,ecx
- 00525621    push        ecx
- 00525622    push        ecx
- 00525623    push        ecx
- 00525624    push        ecx
- 00525625    push        ecx
- 00525626    push        ecx
- 00525627    push        ebx
- 00525628    push        esi
- 00525629    call        @BeforeDestruction
- 0052562E    mov         ebx,edx
- 00525630    mov         esi,eax
- 00525632    xor         eax,eax
- 00525634    push        ebp
- 00525635    push        52571C
- 0052563A    push        dword ptr fs:[eax]
- 0052563D    mov         dword ptr fs:[eax],esp
- 00525640    lea         edx,[ebp-4]
- 00525643    mov         eax,dword ptr [esi+32C];TFormImprimer.ComboBoxBasdepageGauche:TComboBox
- 00525649    call        TControl.GetText
- 0052564E    mov         eax,dword ptr [ebp-4]
- 00525651    call        004BD51C
- 00525656    lea         edx,[ebp-8]
- 00525659    mov         eax,dword ptr [esi+334];TFormImprimer.ComboBoxBasdepageDroite:TComboBox
- 0052565F    call        TControl.GetText
- 00525664    mov         eax,dword ptr [ebp-8]
- 00525667    call        004BD59C
- 0052566C    lea         edx,[ebp-0C]
- 0052566F    mov         eax,dword ptr [esi+308];TFormImprimer.ComboBoxEnteteGauche:TComboBox
- 00525675    call        TControl.GetText
- 0052567A    mov         eax,dword ptr [ebp-0C]
- 0052567D    call        004BD61C
- 00525682    lea         edx,[ebp-10]
- 00525685    mov         eax,dword ptr [esi+30C];TFormImprimer.ComboBoxEnteteCentre:TComboBox
- 0052568B    call        TControl.GetText
- 00525690    mov         eax,dword ptr [ebp-10]
- 00525693    call        004BD69C
- 00525698    lea         edx,[ebp-14]
- 0052569B    mov         eax,dword ptr [esi+310];TFormImprimer.ComboBoxEnteteDroite:TComboBox
- 005256A1    call        TControl.GetText
- 005256A6    mov         eax,dword ptr [ebp-14]
- 005256A9    call        004BD71C
- 005256AE    lea         edx,[ebp-18]
- 005256B1    mov         eax,dword ptr [esi+370];TFormImprimer.?f370:TFont
- 005256B7    call        TFont.GetName
- 005256BC    mov         eax,dword ptr [ebp-18]
- 005256BF    call        004BD858
- 005256C4    mov         eax,dword ptr [esi+370];TFormImprimer.?f370:TFont
- 005256CA    call        TFont.GetSize
- 005256CF    cmp         eax,0FF
->005256D4    jbe         005256DB
- 005256D6    call        @BoundErr
- 005256DB    call        004BD82C
- 005256E0    mov         dl,1
- 005256E2    mov         eax,dword ptr [esi+378];TFormImprimer.?f378:dword
- 005256E8    mov         ecx,dword ptr [eax]
- 005256EA    call        dword ptr [ecx-4]
- 005256ED    mov         edx,ebx
- 005256EF    and         dl,0FC
- 005256F2    mov         eax,esi
- 005256F4    call        TCustomForm.Destroy
- 005256F9    xor         eax,eax
- 005256FB    pop         edx
- 005256FC    pop         ecx
- 005256FD    pop         ecx
- 005256FE    mov         dword ptr fs:[eax],edx
- 00525701    push        525723
- 00525706    lea         eax,[ebp-18]
- 00525709    call        @LStrClr
- 0052570E    lea         eax,[ebp-14]
- 00525711    mov         edx,5
- 00525716    call        @LStrArrayClr
- 0052571B    ret
->0052571C    jmp         @HandleFinally
->00525721    jmp         00525706
- 00525723    test        bl,bl
->00525725    jle         0052572E
- 00525727    mov         eax,esi
- 00525729    call        @ClassDestroy
- 0052572E    pop         esi
- 0052572F    pop         ebx
- 00525730    mov         esp,ebp
- 00525732    pop         ebp
- 00525733    ret
-*}
-end;
+begin//0
+  //0052561C
+    //00525640
+    {sub_004BD51C(ComboBoxBasdepageGauche.Text);
+    sub_004BD59C(ComboBoxBasdepageDroite.Text);
+    sub_004BD61C(ComboBoxEnteteGauche.Text);
+    sub_004BD69C(ComboBoxEnteteCentre.Text);
+    sub_004BD71C(ComboBoxEnteteDroite.Text);
+    sub_004BD858(f370.Name);
+    sub_004BD82C(f370.Size);
+    EDX := 1;
+    f378.call();}
+    inherited Destroy;
+
+end;//0
+
 
 //00525734
 procedure TFormImprimer.CheckListBoxPeriodesClickCheck;
@@ -640,7 +565,7 @@ begin//0
     FormConfirmerImpression.f314 := 1;
     case a of
       0://00525BAC
-        FormConfirmerImpression.f310 := 1;//lvar_18.sub_00519A90;
+        FormConfirmerImpression.f310 := lvar_18.sub_00519A90; //Error d'impression & Nbr de page imprimer
       1://00525BC4
         FormConfirmerImpression.f310 := lvar_1C.sub_00519A90;
       2://00525BDC
@@ -660,6 +585,7 @@ begin//0
         FormConfirmerImpression.ShowModal;
         if (FormConfirmerImpression.ModalResult = 1) then
         begin//00525C92
+		   
           case a of
             0://00525CAF
               lvar_18.sub_0051BD4C(FormConfirmerImpression.f314, FormConfirmerImpression.f318, FormConfirmerImpression.f31C, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
@@ -673,6 +599,7 @@ begin//0
         end;//4
       end;//3
     end;//2
+	lvar_18.Destroy; //I add this line
     FormConfirmerImpression.Destroy;
 end;
 

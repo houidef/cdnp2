@@ -16,7 +16,7 @@ type
   public
     f4: dword;
 	f8: TStringlist;
-    fC: array of boolean;//fC
+    fC: array of boolean;//fC test d'imprime
     constructor Create(a:dword);//004B8C78
   end;
   var 

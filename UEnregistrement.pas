@@ -10,7 +10,7 @@ uses
 Forms, Windows,  SysUtils, Classes,Registry, URegistry,unit51;
 
     function sub_004982F8:TStringlist;//004982F8
-    //procedure sub_00498460(?:TStrings);//00498460
+    procedure sub_00498460(a:TStrings);//00498460
     //function sub_0049856C:?;//0049856C
     procedure sub_004986C0(NumUser:dword; var NomUser:String);//004986C0
     procedure sub_0049878C(NumUser:dword; var CleUser:String);//0049878C
@@ -58,8 +58,8 @@ begin//0
 end;//0
 
 //00498460
-//procedure sub_00498460(?:TStrings);
-//begin
+procedure sub_00498460(a:TStrings);
+begin
 {*
  00498460    push        ebp
  00498461    mov         ebp,esp
@@ -139,7 +139,7 @@ end;//0
  00498533    pop         ebp
  00498534    ret
 *}
-//end;
+end;
 
 //0049856C
 {*function sub_0049856C:?;

@@ -7,7 +7,7 @@ unit _FormConfirmerImpression;
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, StdCtrls, ComCtrls, Buttons, ExtCtrls;
+Forms, Windows,  SysUtils, Classes, StdCtrls, ComCtrls, Buttons, ExtCtrls, dialogs;
 
 type
   TFormConfirmerImpression = class(TForm)
@@ -39,169 +39,62 @@ type
     procedure RadioButton2Click(Sender:TObject);//00520F50
   public
     f30C:dword;//f30C
-    f310:dword;//f310
-    f314:Integer;//f314
-    f318:Integer;//f318
-    f31C:Integer;//f31C
+    f310:dword;  //f310  Nbr total des pages
+    f314:Integer;//f314  Min page
+    f318:Integer;//f318  Max page
+    f31C:Integer;//f31C  Nbr exemplaire
   end;
   var
     FormConfirmerImpression:TFormConfirmerImpression;
 implementation
-
+    uses _unit112;
 {$R *.DFM}
 
 //00520CDC
 procedure TFormConfirmerImpression.FormShow(Sender:TObject);
-begin
-{*
- 00520CDC    push        ebp
- 00520CDD    mov         ebp,esp
- 00520CDF    push        0
- 00520CE1    push        ebx
- 00520CE2    mov         ebx,eax
- 00520CE4    xor         eax,eax
- 00520CE6    push        ebp
- 00520CE7    push        520E25
- 00520CEC    push        dword ptr fs:[eax]
- 00520CEF    mov         dword ptr fs:[eax],esp
- 00520CF2    mov         edx,dword ptr [ebx+30C];TFormConfirmerImpression.?f30C:dword
- 00520CF8    add         edx,8000
- 00520CFE    cmp         edx,0FFFF
->00520D04    jbe         00520D0B
- 00520D06    call        @BoundErr
- 00520D0B    add         edx,0FFFF8000
- 00520D11    mov         eax,dword ptr [ebx+2E0];TFormConfirmerImpression.UpDown1:TUpDown
- 00520D17    call        TCustomUpDown.SetMin
- 00520D1C    mov         edx,dword ptr [ebx+310];TFormConfirmerImpression.?f310:dword
- 00520D22    add         edx,8000
- 00520D28    cmp         edx,0FFFF
->00520D2E    jbe         00520D35
- 00520D30    call        @BoundErr
- 00520D35    add         edx,0FFFF8000
- 00520D3B    mov         eax,dword ptr [ebx+2E0];TFormConfirmerImpression.UpDown1:TUpDown
- 00520D41    call        TCustomUpDown.SetMax
- 00520D46    mov         dx,1
- 00520D4A    mov         eax,dword ptr [ebx+2E0];TFormConfirmerImpression.UpDown1:TUpDown
- 00520D50    call        TCustomUpDown.SetPosition
- 00520D55    mov         edx,520E38;'1'
- 00520D5A    mov         eax,dword ptr [ebx+2DC];TFormConfirmerImpression.Edit1:TEdit
- 00520D60    call        TControl.SetText
- 00520D65    mov         edx,dword ptr [ebx+30C];TFormConfirmerImpression.?f30C:dword
- 00520D6B    add         edx,8000
- 00520D71    cmp         edx,0FFFF
->00520D77    jbe         00520D7E
- 00520D79    call        @BoundErr
- 00520D7E    add         edx,0FFFF8000
- 00520D84    mov         eax,dword ptr [ebx+2EC];TFormConfirmerImpression.UpDown2:TUpDown
- 00520D8A    call        TCustomUpDown.SetMin
- 00520D8F    mov         edx,dword ptr [ebx+310];TFormConfirmerImpression.?f310:dword
- 00520D95    add         edx,8000
- 00520D9B    cmp         edx,0FFFF
->00520DA1    jbe         00520DA8
- 00520DA3    call        @BoundErr
- 00520DA8    add         edx,0FFFF8000
- 00520DAE    mov         eax,dword ptr [ebx+2EC];TFormConfirmerImpression.UpDown2:TUpDown
- 00520DB4    call        TCustomUpDown.SetMax
- 00520DB9    mov         edx,dword ptr [ebx+310];TFormConfirmerImpression.?f310:dword
- 00520DBF    add         edx,8000
- 00520DC5    cmp         edx,0FFFF
->00520DCB    jbe         00520DD2
- 00520DCD    call        @BoundErr
- 00520DD2    add         edx,0FFFF8000
- 00520DD8    mov         eax,dword ptr [ebx+2EC];TFormConfirmerImpression.UpDown2:TUpDown
- 00520DDE    call        TCustomUpDown.SetPosition
- 00520DE3    lea         edx,[ebp-4]
- 00520DE6    mov         eax,dword ptr [ebx+310];TFormConfirmerImpression.?f310:dword
- 00520DEC    call        IntToStr
- 00520DF1    mov         edx,dword ptr [ebp-4]
- 00520DF4    mov         eax,dword ptr [ebx+2E8];TFormConfirmerImpression.Edit2:TEdit
- 00520DFA    call        TControl.SetText
- 00520DFF    mov         edx,520E38;'1'
- 00520E04    mov         eax,dword ptr [ebx+2F4];TFormConfirmerImpression.Edit3:TEdit
- 00520E0A    call        TControl.SetText
- 00520E0F    xor         eax,eax
- 00520E11    pop         edx
- 00520E12    pop         ecx
- 00520E13    pop         ecx
- 00520E14    mov         dword ptr fs:[eax],edx
- 00520E17    push        520E2C
- 00520E1C    lea         eax,[ebp-4]
- 00520E1F    call        @LStrClr
- 00520E24    ret
->00520E25    jmp         @HandleFinally
->00520E2A    jmp         00520E1C
- 00520E2C    pop         ebx
- 00520E2D    pop         ecx
- 00520E2E    pop         ebp
- 00520E2F    ret
-*}
-end;
+var
+  lvar_4:AnsiString;
+begin//0
+  //00520CDC
+    //00520CF2
+    UpDown1.Min := f30C;// +$8000{32768}+ $FFFF8000{-32768};
+    UpDown1.Max := f310;// + $8000{32768} + $FFFF8000{-32768}
+    UpDown1.Position := 1;
+    Edit1.Text := '1';
+    UpDown2.Min := f30C;// +$8000{32768}+ $FFFF8000{-32768};
+    UpDown2.Max := f310;// + $8000{32768} + $FFFF8000{-32768}
+    UpDown2.Position:= f310;// + $8000{32768} + $FFFF8000{-32768} 
+    Edit2.Text:= IntToStr(f310);
+    Edit3.Text := '1';
+
+end;//0
 
 //00520E3C
 procedure TFormConfirmerImpression.FormHide(Sender:TObject);
-begin
-{*
- 00520E3C    push        ebp
- 00520E3D    mov         ebp,esp
- 00520E3F    push        0
- 00520E41    push        0
- 00520E43    push        0
- 00520E45    push        ebx
- 00520E46    mov         ebx,eax
- 00520E48    xor         eax,eax
- 00520E4A    push        ebp
- 00520E4B    push        520EFF
- 00520E50    push        dword ptr fs:[eax]
- 00520E53    mov         dword ptr fs:[eax],esp
- 00520E56    mov         eax,dword ptr [ebx+2D4];TFormConfirmerImpression.RadioButton1:TRadioButton
- 00520E5C    mov         edx,dword ptr [eax]
- 00520E5E    call        dword ptr [edx+0B4];TRadioButton.GetChecked
- 00520E64    test        al,al
->00520E66    je          00520E7E
- 00520E68    mov         dword ptr [ebx+314],1;TFormConfirmerImpression.?f314:Integer
- 00520E72    mov         eax,dword ptr [ebx+310];TFormConfirmerImpression.?f310:dword
- 00520E78    mov         dword ptr [ebx+318],eax;TFormConfirmerImpression.?f318:Integer
- 00520E7E    mov         eax,dword ptr [ebx+2D8];TFormConfirmerImpression.RadioButton2:TRadioButton
- 00520E84    mov         edx,dword ptr [eax]
- 00520E86    call        dword ptr [edx+0B4];TRadioButton.GetChecked
- 00520E8C    test        al,al
->00520E8E    je          00520EC8
- 00520E90    lea         edx,[ebp-4]
- 00520E93    mov         eax,dword ptr [ebx+2DC];TFormConfirmerImpression.Edit1:TEdit
- 00520E99    call        TControl.GetText
- 00520E9E    mov         eax,dword ptr [ebp-4]
- 00520EA1    call        StrToInt
- 00520EA6    mov         dword ptr [ebx+314],eax;TFormConfirmerImpression.?f314:Integer
- 00520EAC    lea         edx,[ebp-8]
- 00520EAF    mov         eax,dword ptr [ebx+2E8];TFormConfirmerImpression.Edit2:TEdit
- 00520EB5    call        TControl.GetText
- 00520EBA    mov         eax,dword ptr [ebp-8]
- 00520EBD    call        StrToInt
- 00520EC2    mov         dword ptr [ebx+318],eax;TFormConfirmerImpression.?f318:Integer
- 00520EC8    lea         edx,[ebp-0C]
- 00520ECB    mov         eax,dword ptr [ebx+2F4];TFormConfirmerImpression.Edit3:TEdit
- 00520ED1    call        TControl.GetText
- 00520ED6    mov         eax,dword ptr [ebp-0C]
- 00520ED9    call        StrToInt
- 00520EDE    mov         dword ptr [ebx+31C],eax;TFormConfirmerImpression.?f31C:Integer
- 00520EE4    xor         eax,eax
- 00520EE6    pop         edx
- 00520EE7    pop         ecx
- 00520EE8    pop         ecx
- 00520EE9    mov         dword ptr fs:[eax],edx
- 00520EEC    push        520F06
- 00520EF1    lea         eax,[ebp-0C]
- 00520EF4    mov         edx,3
- 00520EF9    call        @LStrArrayClr
- 00520EFE    ret
->00520EFF    jmp         @HandleFinally
->00520F04    jmp         00520EF1
- 00520F06    pop         ebx
- 00520F07    mov         esp,ebp
- 00520F09    pop         ebp
- 00520F0A    ret
-*}
-end;
+var
+  lvar_4:AnsiString;
+  lvar_8:AnsiString;
+  lvar_C:AnsiString;
+begin//0
+  //00520E3C
+    //00520E56
+    if (RadioButton1.Checked) then
+    begin//2
+      //00520E68
+      f314 := 1; // min page = 1
+      f318 := f310;
+    end;//2
+    if (RadioButton2.Checked) then
+    begin//2
+      //00520E90
+      f314 := StrToInt(Edit1.Text);
+      f318 := StrToInt(Edit2.Text);
+    end;//2
+
+    f31C := StrToInt(Edit3.Text);
+
+end;//0
+
 
 //00520F0C
 procedure TFormConfirmerImpression.RadioButton1Click(Sender:TObject);

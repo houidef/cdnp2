@@ -1,7 +1,8 @@
-//***************************************
-//IDR home page: http://kpnc.org/idr32/en
-//Decompiled by IDR v.01.04.2017
-//***************************************
+{***********************************************************
+* Version Original V0.01                                   *
+* Decompiled by HOUIDEF AEK v 14:44 Vendredi 17 aout 2018  *
+* The disassembly process : 70%                            *
+************************************************************}
 unit UImpression;
 
 interface
@@ -21,9 +22,9 @@ type
   f44 : TEnteteBasDePage;
   f48 : TEnteteBasDePage;
   f2C : DWORD;
-  f30 : byte;  //erreur d''impression
-  f4C : array of integer; //????????????
-  f34 : boolean;
+  f30 : byte;  //Nbr des page vertical imprimé
+  f4C : TInclureImpression; //????????????
+  f34 : boolean;  //imprime Num de etudiant
   f14 : DWORD;
   f1C : DWORD;
   fC  : DWORD;
@@ -33,13 +34,13 @@ type
   f24 :DWORD;
   f28 :DWORD;
     f50:array of integer;//f50
-    {procedure sub_00519534;//00519534
+    procedure sub_00519534;//00519534
     procedure sub_0051954C;//0051954C
-    function sub_00519578(a:dword; b:dword; c:dword):dword;//00519578}
-    constructor create (a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);//0051992C
+    function sub_00519578(a:dword; b:TEnteteBasDePage; c:dword):dword;//00519578}
+    constructor create (FichierCdn:TFichierCdn; Canvas:TCanvas;  c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; ImpNum:boolean; i:dword);//0051992C
     function sub_00519A90:integer;//00519A90
-    //function sub_00519AA8(a:TCanvas; b:AnsiString):dword;//00519AA8
-    //function sub_00519AF8(a:dword; b:dword):dword;//00519AF8
+    function sub_00519AA8(a:TCanvas; b:AnsiString):dword;//00519AA8
+    function sub_00519AF8(ImpDateNais:boolean; ImpRedoublage:boolean):dword;//00519AF8 get la taille de 1ere colone
     function sub_00519E00:dword;//00519E00
     function sub_00519E58:dword;//00519E58
     function sub_00519EB0:Boolean;//00519EB0}
@@ -48,7 +49,7 @@ type
 implementation
 
 //00519534
-(*procedure TImpression.sub_00519534;
+procedure TImpression.sub_00519534;
 begin//0
   //00519534
   f4 := sub_00519578(f1C, f44, 1); //impression
@@ -65,9 +66,9 @@ end;//0
 
 
 //00519578
-function TImpression.sub_00519578(a:dword; b:TBlocTexte; c:dword):dword;
+function TImpression.sub_00519578(a:dword; b:TEnteteBasDePage; c:dword):dword;
 var
-  lvar_14,lvar_18,lvar_1C ,lvar_8,lvar_C, lvar_10,lvar_4:Integer;
+  lvar_14,lvar_18,lvar_1C ,lvar_8,lvar_C, lvar_10,lvar_4,lvar_20:Integer;
 begin//0
   //00519578
   try//005195A3
@@ -77,7 +78,7 @@ begin//0
       begin//005195CB
         if (Trim(b.fC.f4) = '') then
         begin//005195DF
-          EBX := 40;
+          //EBX := 40;
           Exit;
         end;//4
       end;//3
@@ -100,7 +101,7 @@ begin//0
     lvar_C   := f40.TextHeight(b.f4.f4);
     lvar_10  := f40.TextHeight(b.f8.f4);
     lvar_14  := f40.TextHeight(b.fC.f4);
-    if ( b.f4.f8 <> '') then //????
+    if ( b.f4.f8 <> false) then //????
     begin//2
       //005196BD
       f40.Rectangle(f14,a + 8 ,a + 8 + lvar_8 + 10,f14 + lvar_14 + 5 );
@@ -112,7 +113,7 @@ begin//0
       f40.Rectangle(lvar_4 - 5, a + 8, a + 8 + lvar_C + 10,lvar_4 + lvar_18 + 5 );
     end;//2
     f40.TextOut(lvar_4, a + 8 + 5,b.f8.f4 );
-    if (b.fC.f8 <> 0) then  //????????
+    if (b.fC.f8 <> false) then  //????????
     begin//2
       f40.Rectangle(f24 - f14 - lvar_1C - 5, a + 8, f24 - f14,a + 8 + lvar_10 + 10);//,f24 - f14 );
     end;//2
@@ -129,23 +130,23 @@ begin//0
   end;//1
   
 end;//0
-*)
+
 
 //0051992C
-constructor TImpression.Create(a:TFichierCdn; b:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);
+constructor TImpression.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; ImpNum:boolean; i:dword);
 begin//0
   //0051992C
   inherited create;
-  f3C := a;
-  f40 := b;
+  f3C := FichierCdn;
+  f40 := Canvas;
   //f38 := i;
   //f40.Font := i;
   f44 := c;
   f48 := d;
   f2C := e;
   f30 := 0;//EAX
-  //f4C := f;
-  f34 := g;
+  f4C := f;
+  f34 := ImpNum;
   f14 := GetDeviceCaps(Printer.Handle, 112);
   f1C := GetDeviceCaps(Printer.Handle, 113);
   fC  := GetDeviceCaps(Printer.Handle, 110);
@@ -182,81 +183,77 @@ begin//0
   if (sub_00519EB0) then//00519A9E
     result := f30
   else 
-    result := -1;
+    result := -1;//error!
 end;//0
-(*
+
 
 //00519AA8
-function TImpression.sub_00519AA8(a:TCanvas; b:AnsiString):dword;
-var
-  lvar_4:AnsiString;
+function TImpression.sub_00519AA8(a:TCanvas; b:AnsiString):dword; //get taille text
 begin//0
   //00519AA8
     result := a.TextWidth(b);
 end;//0
 
 //00519AF8
-function TImpression.sub_00519AF8(a:dword; b:dword):dword;
+function TImpression.sub_00519AF8(ImpDateNais:boolean; ImpRedoublage:boolean):dword; //get la taille de 1ere colone
 var
- Max : integer;
+ Max,I,Nbr : integer;
+ buf,lvar_1C,lvar_18,lvar_130 : string;
 begin//0
   //00519AF8
-  lvar_2 := b;
-  lvar_1 := a;
+
   Max :=0;
-  EBX := Self;
-  try
+
     //00519B40
-    f40.Name := f38.Name;
-    f40.Size := f38.Size;
-      for lvar_8 := 1 to byte(f3C.sub_004BEA58) do  //00519B94
+    //f40.Name := f38.Name;
+    //f40.Size := f38.Size;
+	Nbr := byte(f3C.sub_004BEA58);
+      for I := 1 to Nbr do  //00519B94
       begin//00519B9B
-        if (b <> 0) then
+        if (ImpRedoublage) then
         begin//00519BA1
-          lvar_20.sub_004BEA64(lvar_8, lvar_128);
-          lvar_1C := lvar_28 + ' (R)';
+          f3C.sub_004BEA64(I, buf);
+          lvar_1C := buf + ' (R)';
         end//4
         else
         begin//00519BDF
-          lvar_20.sub_004BEA64(lvar_8, lvar_128);
+          f3C.sub_004BEA64(I, buf);
+		  lvar_1C := buf;
         end;//4
-        if (a <> 0) then
+        if (ImpDateNais) then
         begin//00519C11
-          lvar_20.sub_004C8BB8(lvar_8, lvar_128);
-          lvar_18 := ' ' + lvar_1C + ' (' + lvar_12C + ')';
+          f3C.sub_004C8BB8(I, buf);
+          lvar_18 := ' ' + lvar_1C + ' (' + buf + ')';
         end//4
         else
         begin//00519C67
           lvar_18 := ' ' + lvar_1C + ' ';
         end;//4
         if (sub_00519AA8(f40, lvar_18) > Max) then
-        Max := sub_00519AA8(f40, lvar_18);
+			Max := sub_00519AA8(f40, lvar_18);
       end;//3
-    if (f4C <> 0) then//00519CAB
-        for lvar_10 := 0 to f4C.f8.count - 1 do //00519CC1
+    if (f4C <> nil) then//00519CAB
+        for I := 0 to f4C.f8.count - 1 do //00519CC1
         begin//00519CCB
-          if (f4C[lvar_10] = '') then
-          EAX := f4C;
-          EAX := f4C.f8;
-          EDX := lvar_10;
-          call(' ');
-          lvar_130 :=  + lvar_134 + ' ';
-          if (sub_00519AA8(f40, lvar_130) > Max) then 
-          Max := sub_00519AA8(f40, lvar_130);
+          if (f4C.FC[I] = false) then
+		  begin
+			  lvar_130 :=  f4C.f8[I] + ' ';
+			  if (sub_00519AA8(f40, lvar_130) > Max) then 
+			  Max := sub_00519AA8(f40, lvar_130);
+		  end;
         end;//4
-    end;//2
-    if (f34 <> 0) then //00519D3C
-      Max := sub_00519AA8(f40, IntToStr(lvar_14)) + Max + 10;
+
+    if (f34) then //00519D3C
+      Max := sub_00519AA8(f40, IntToStr(Nbr)) + Max + 10;
     
     result := Max + 20;//EBX
-  finally//00519D8B
-  end;//1
+
   
 end;//0
 
-*)
+
 //00519E00
-function TImpression.sub_00519E00:dword; // Nbre des ligne dans une page
+function TImpression.sub_00519E00:dword; // Nbre des lignes ajoutés apres tableau!
 var
   I,Count: Integer;
 begin//0
@@ -264,14 +261,14 @@ begin//0
    Count := 0;
   if (f4C <> nil) then
   begin//00519E0C
-     { for I := 0 to  f4C.f8.Count - 1 do
+      for I := 0 to  f4C.f8.Count - 1 do
       begin//3
         //00519E27
-        if (length(f4C[I]) = 0) then
-        Count := Count + 1;
-      end;//3}
+        if (f4C.fC[I]) then
+			Count := Count + 1;
+      end;//3
 
-    result := 0;//Count;
+    result := Count;
 
   end;
 end;//0

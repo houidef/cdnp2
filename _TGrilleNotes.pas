@@ -37,6 +37,7 @@ type
     procedure sub_00546F14(var Msg:TMsg);  message 1029;//00546F14
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//00542198
 	procedure sub_005428C4(Sender: TObject; var Key: Word; Shift: TShiftState);//005428C4
+	procedure sub_0054290C(Sender:TObject; var Key:Char);
     procedure sub_00542934(Sender: TObject; ACol,ARow: Integer; var CanSelect: Boolean);//00542934
 	procedure sub_00542A24(Sender:TObject; ACol:integer; ARow:Integer; const Value:String); //00542A24
 	procedure sub_00542C2C(Sender:TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer); //00542C2C
@@ -80,7 +81,7 @@ begin//0
    
   //OnDrawCell :=  sub_005422CC;
   //f1BC := Self;
-  //OnKeyPress := sub_0054290C;
+  OnKeyPress := sub_0054290C;
   //f1B4 := Self;
   OnKeyDown := sub_005428C4;
   //f2AC := Self;
@@ -1400,4 +1401,21 @@ begin
   inherited MouseDown(Button, Shift, X, Y);
   sub_00542C2C(self,Button, Shift, X, Y);
 end;
+procedure TGrilleNotesCarnetDeNotes.sub_0054290C(Sender:TObject; var Key:Char);
+begin//0
+  //0054290C
+  if (f2FA) then
+  begin//1
+    //00542915
+	Key := chr($2C);//',';
+    f2FA := false;
+  end;//1
+  if (f2F9 = false) then 
+  begin
+	Key := chr(0);
+	f2F9 := false;
+  end;
+end;//0
+
+
 end.

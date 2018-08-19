@@ -450,7 +450,7 @@ begin//0
                     text := '';
                   end;//9
                 end;//8
-                
+                text:='testing';
                 lvar_84.destroy;
               end;//7
 			  

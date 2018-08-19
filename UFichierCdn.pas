@@ -51,7 +51,7 @@ type
     procedure sub_004C8280{(a:pointer; b:pointer; c:pointer; d:pointer)};//004C8280
     procedure sub_004C8BB8(a:dword; var b:string);//004C8BB8
     procedure sub_004BE5E0(FluxCdn:TFluxCdn);//004BE5E0
-    procedure sub_004BE8FC( a:String);//004BE8FC
+    procedure sub_004BE8FC(var a:String);//004BE8FC
     procedure sub_004BE914(var a:String);//004BE914
     procedure sub_004BE92C(var a:String);//004BE92C
     procedure sub_004BE944(var a:String);//004BE944
@@ -114,13 +114,13 @@ type
     procedure sub_004C3908(var a:string);//004C3908
     procedure sub_004C3920(a:string);//004C3920
     function sub_004C3954:boolean;//004C3954
-    ////procedure sub_004C3958(?:dword; ?:?; ?:Single; ?:?);//004C3958
-    ////procedure sub_004C3B54(?:dword; ?:?; ?:Single; ?:?);//004C3B54
-    procedure sub_004C3D1C(Periode:dword; ACol:dword; c:string);//004C3D1C
-    ////procedure sub_004C3EA4(?:dword; ?:?; ?:?; ?:?);//004C3EA4
+    procedure sub_004C3958(Periode:dword; var s:string; ACol:dword);//004C3958
+    procedure sub_004C3B54(Periode:dword; var s:string; ACol:dword);//004C3B54
+    procedure sub_004C3D1C(Periode:dword; ACol:dword; var c:string);//004C3D1C
+    procedure sub_004C3EA4(Periode:dword; ACol:dword;var b:string);//004C3EA4
     procedure sub_004C40D4(Periode:dword;var b:string; ACol:dword);//004C40D4
-    ////procedure sub_004C42D4(?:dword; ?:?; ?:?; ?:?);//004C42D4
-    ////procedure sub_004C451C(?:dword; ?:?; ?:?; ?:?);//004C451C
+    procedure sub_004C42D4(Periode:dword; ACol:dword; var s:string);//004C42D4
+    procedure sub_004C451C(Periode:dword; ACol:dword; var s:string);//004C451C
     function sub_004C4778(Periode:dword):boolean;//004C4778
     procedure sub_004C4784(Periode:dword;b:boolean);//004C4784
     function sub_004C4790:dword;//004C4790
@@ -211,7 +211,7 @@ begin//0
 end;
 
 //004BE8FC
-procedure TFichierCdn.sub_004BE8FC(a:String);
+procedure TFichierCdn.sub_004BE8FC(var a:String);
 begin
  a:=f410;
 end;
@@ -2842,9 +2842,10 @@ begin
 end;
 
 //004C3958
-{*//procedure sub_004C3958(?:dword; ?:?; ?:Single; ?:?);
-//begin
- 004C3958    push        ebp
+procedure TFichierCdn.sub_004C3958(Periode:dword; var s:string; ACol:dword);
+begin
+s:='';//for testing
+{* 004C3958    push        ebp
  004C3959    mov         ebp,esp
  004C395B    add         esp,0FFFFFEC8
  004C3961    push        ebx
@@ -3000,13 +3001,14 @@ end;
  004C3B4B    pop         ebx
  004C3B4C    mov         esp,ebp
  004C3B4E    pop         ebp
- 004C3B4F    ret         4
-end;*}
+ 004C3B4F    ret         4*}
+end;
 
 //004C3B54
-{*//procedure sub_004C3B54(?:dword; ?:?; ?:Single; ?:?);
-//begin
- 004C3B54    push        ebp
+procedure TFichierCdn.sub_004C3B54(Periode:dword; var s:string; ACol:dword);
+begin
+s:='';//for testing
+{* 004C3B54    push        ebp
  004C3B55    mov         ebp,esp
  004C3B57    add         esp,0FFFFFECC
  004C3B5D    push        ebx
@@ -3151,11 +3153,11 @@ end;*}
  004C3D13    pop         ebx
  004C3D14    mov         esp,ebp
  004C3D16    pop         ebp
- 004C3D17    ret         4
-end;*}
+ 004C3D17    ret         4*}
+end;
 
 //004C3D1C
-procedure TFichierCdn.sub_004C3D1C(Periode:dword; ACol:dword; c:string);
+procedure TFichierCdn.sub_004C3D1C(Periode:dword; ACol:dword; var c:string);
 var
   lvar_10,I:integer;
   buf:string;
@@ -3188,9 +3190,10 @@ end;//0
 
 
 //004C3EA4
-{*//procedure sub_004C3EA4(?:dword; ?:?; ?:?; ?:?);
-//begin
- 004C3EA4    push        ebp
+procedure TFichierCdn.sub_004C3EA4(Periode:dword; ACol:dword;var b:string);
+begin
+b:='';//for testing
+{* 004C3EA4    push        ebp
  004C3EA5    mov         ebp,esp
  004C3EA7    add         esp,0FFFFFED4
  004C3EAD    push        ebx
@@ -3353,8 +3356,8 @@ end;//0
  004C40B9    pop         ebx
  004C40BA    mov         esp,ebp
  004C40BC    pop         ebp
- 004C40BD    ret         4
-end;*}
+ 004C40BD    ret         4*}
+end;
 
 //004C40D4
 procedure TFichierCdn.sub_004C40D4(Periode:dword;var b:string; ACol:dword);
@@ -3408,9 +3411,10 @@ begin//0
 end;//0
 
 //004C42D4
-{*//procedure sub_004C42D4(?:dword; ?:?; ?:?; ?:?);
-//begin
- 004C42D4    push        ebp
+procedure TFichierCdn.sub_004C42D4(Periode:dword; ACol:dword; var s:string);
+begin
+s:='';//for testing
+{* 004C42D4    push        ebp
  004C42D5    mov         ebp,esp
  004C42D7    add         esp,0FFFFFEBC
  004C42DD    push        ebx
@@ -3601,13 +3605,14 @@ end;//0
  004C4515    pop         ebx
  004C4516    mov         esp,ebp
  004C4518    pop         ebp
- 004C4519    ret         4
-end;*}
+ 004C4519    ret         4*}
+end;
 
 //004C451C
-{*//procedure sub_004C451C(?:dword; ?:?; ?:?; ?:?);
-//begin
- 004C451C    push        ebp
+procedure TFichierCdn.sub_004C451C(Periode:dword; ACol:dword; var s:string);
+begin
+s:='';//for testing
+{* 004C451C    push        ebp
  004C451D    mov         ebp,esp
  004C451F    add         esp,0FFFFFED4
  004C4525    push        ebx
@@ -3787,8 +3792,8 @@ end;*}
  004C475F    pop         ebx
  004C4760    mov         esp,ebp
  004C4762    pop         ebp
- 004C4763    ret         4
-end;*}
+ 004C4763    ret         4*}
+end;
 
 //004C4778
 function TFichierCdn.sub_004C4778(Periode:dword):boolean;

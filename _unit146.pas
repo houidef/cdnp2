@@ -44,7 +44,7 @@ end;//0
 procedure afficherConseils(X:Boolean);
 begin
   //00501C70
-  //sub_004974F0('afficherConseils', X);
+  sub_004974F0('afficherConseils', X);
 end;
 
 //00501C9C

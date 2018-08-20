@@ -134,7 +134,7 @@ type
     ////function sub_004C5078(?:dword; ?:?; ?:?; ?:?; ?:?; ?:?):?;//004C5078
     procedure sub_004C5404(Periode:dword; ARow:dword; var S:String);//004C5404
     ////procedure sub_004C56C0(a:pointer; b:pointer; c:pointer; d:pointer);//004C56C0
-    ////procedure sub_004C5E04(?:?; ?:?; ?:?; ?:?);//004C5E04
+    procedure sub_004C5E04(periode:dword; ACol:dword; c:dword;s:string);//004C5E04
     procedure sub_004C5F08(Periode:dword; ACol:dword; Info:dword; var d:string);//004C5F08
     procedure sub_004C5FF8(a:dword; b:dword; c:dword; d:dword);//004C5FF8
     function sub_004C6030(periode:dword; ACol:dword; info:dword):Boolean;//004C6030
@@ -1749,7 +1749,7 @@ end;//0
 procedure TFichierCdn.sub_004C213C(Periode:dword; ARow:dword; var Moy:string); //moyenne brut
 var
   I : integer;
-  lvar_18,lvar_28,lvar_38, lvar_48: real;
+  lvar_18,Counter,lvar_38, lvar_48: real;
   buf: string;
 begin//0
   //004C213C..004C2179
@@ -1769,10 +1769,10 @@ begin//0
               sub_004BED7C(Periode, I, buf);
               lvar_18 := StrToFloat(buf);
               sub_004BED2C(Periode, I, buf);
-              lvar_28 := StrToFloat(buf);
+              Counter := StrToFloat(buf);
               sub_004BEF5C(Periode, I, ARow, buf);
               lvar_38 := StrToFloat(buf) * lvar_18 + lvar_38;
-              lvar_48 := lvar_28 * lvar_18 + lvar_48;
+              lvar_48 := Counter * lvar_18 + lvar_48;
             except//6
               on E:EConvertError do
               begin//004C2321
@@ -2843,318 +2843,143 @@ end;
 
 //004C3958
 procedure TFichierCdn.sub_004C3958(Periode:dword; var s:string; ACol:dword);
-begin
-s:='';//for testing
-{* 004C3958    push        ebp
- 004C3959    mov         ebp,esp
- 004C395B    add         esp,0FFFFFEC8
- 004C3961    push        ebx
- 004C3962    push        esi
- 004C3963    push        edi
- 004C3964    xor         ebx,ebx
- 004C3966    mov         dword ptr [ebp-138],ebx
- 004C396C    mov         dword ptr [ebp-134],ebx
- 004C3972    mov         dword ptr [ebp-30],ebx
- 004C3975    mov         byte ptr [ebp-6],cl
- 004C3978    mov         byte ptr [ebp-5],dl
- 004C397B    mov         dword ptr [ebp-4],eax
- 004C397E    xor         eax,eax
- 004C3980    push        ebp
- 004C3981    push        4C3B42
- 004C3986    push        dword ptr fs:[eax]
- 004C3989    mov         dword ptr fs:[eax],esp
- 004C398C    push        1
- 004C398E    mov         cl,byte ptr [ebp-6]
- 004C3991    mov         dl,byte ptr [ebp-5]
- 004C3994    mov         eax,dword ptr [ebp-4]
- 004C3997    call        004C6030
- 004C399C    test        al,al
->004C399E    je          004C3B08
- 004C39A4    xor         eax,eax
- 004C39A6    mov         dword ptr [ebp-28],eax
- 004C39A9    lea         eax,[ebp-130]
- 004C39AF    push        eax
- 004C39B0    mov         cl,byte ptr [ebp-6]
- 004C39B3    mov         dl,byte ptr [ebp-5]
- 004C39B6    mov         eax,dword ptr [ebp-4]
- 004C39B9    call        004BED2C
- 004C39BE    lea         edx,[ebp-130]
- 004C39C4    lea         eax,[ebp-30]
- 004C39C7    call        @LStrFromString
- 004C39CC    mov         eax,dword ptr [ebp-30]
- 004C39CF    call        StrToFloat
- 004C39D4    fstp        tbyte ptr [ebp-10]
- 004C39D7    wait
- 004C39D8    mov         eax,dword ptr [ebp-4]
- 004C39DB    call        TFichierCdn.sub_004BEA58
- 004C39E0    and         eax,0FF
- 004C39E5    test        eax,eax
->004C39E7    jle         004C3AA9
- 004C39ED    mov         dword ptr [ebp-2C],eax
- 004C39F0    mov         dword ptr [ebp-24],1
- 004C39F7    xor         eax,eax
- 004C39F9    push        ebp
- 004C39FA    push        4C3A80
- 004C39FF    push        dword ptr fs:[eax]
- 004C3A02    mov         dword ptr fs:[eax],esp
- 004C3A05    mov         eax,dword ptr [ebp-24]
- 004C3A08    cmp         eax,0FF
->004C3A0D    jbe         004C3A14
- 004C3A0F    call        @BoundErr
- 004C3A14    push        eax
- 004C3A15    lea         eax,[ebp-130]
- 004C3A1B    push        eax
- 004C3A1C    mov         cl,byte ptr [ebp-6]
- 004C3A1F    mov         dl,byte ptr [ebp-5]
- 004C3A22    mov         eax,dword ptr [ebp-4]
- 004C3A25    call        004BEF5C
- 004C3A2A    lea         edx,[ebp-130]
- 004C3A30    lea         eax,[ebp-134]
- 004C3A36    call        @LStrFromString
- 004C3A3B    mov         eax,dword ptr [ebp-134]
- 004C3A41    call        StrToFloat
- 004C3A46    fstp        tbyte ptr [ebp-20]
- 004C3A49    wait
- 004C3A4A    fld         tbyte ptr [ebp-10]
- 004C3A4D    fld         tbyte ptr [ebp-20]
- 004C3A50    fcompp
- 004C3A52    fnstsw      al
- 004C3A54    sahf
->004C3A55    jae         004C3A6B
- 004C3A57    mov         eax,dword ptr [ebp-20]
- 004C3A5A    mov         dword ptr [ebp-10],eax
- 004C3A5D    mov         eax,dword ptr [ebp-1C]
- 004C3A60    mov         dword ptr [ebp-0C],eax
- 004C3A63    mov         ax,word ptr [ebp-18]
- 004C3A67    mov         word ptr [ebp-8],ax
- 004C3A6B    add         dword ptr [ebp-28],1
->004C3A6F    jno         004C3A76
- 004C3A71    call        @IntOver
- 004C3A76    xor         eax,eax
- 004C3A78    pop         edx
- 004C3A79    pop         ecx
- 004C3A7A    pop         ecx
- 004C3A7B    mov         dword ptr fs:[eax],edx
->004C3A7E    jmp         004C3A9D
->004C3A80    jmp         @HandleOnException
- 004C3A85    dd          1
- 004C3A89    dd          00409B50;EConvertError
- 004C3A8D    dd          004C3A91
- 004C3A91    call        @DoneExcept
->004C3A96    jmp         004C3A9D
- 004C3A98    call        @DoneExcept
- 004C3A9D    inc         dword ptr [ebp-24]
- 004C3AA0    dec         dword ptr [ebp-2C]
->004C3AA3    jne         004C39F7
- 004C3AA9    cmp         dword ptr [ebp-28],0
->004C3AAD    jle         004C3ADA
- 004C3AAF    mov         ax,word ptr [ebp-8]
- 004C3AB3    push        eax
- 004C3AB4    push        dword ptr [ebp-0C]
- 004C3AB7    push        dword ptr [ebp-10]
- 004C3ABA    lea         eax,[ebp-138]
- 004C3AC0    call        FloatToStr
- 004C3AC5    mov         edx,dword ptr [ebp-138]
- 004C3ACB    mov         eax,dword ptr [ebp+8]
- 004C3ACE    mov         ecx,0FF
- 004C3AD3    call        @LStrToString
->004C3AD8    jmp         004C3AE0
- 004C3ADA    mov         eax,dword ptr [ebp+8]
- 004C3ADD    mov         byte ptr [eax],0
- 004C3AE0    push        8
- 004C3AE2    mov         eax,dword ptr [ebp+8]
- 004C3AE5    push        eax
- 004C3AE6    mov         cl,byte ptr [ebp-6]
- 004C3AE9    mov         dl,byte ptr [ebp-5]
- 004C3AEC    mov         eax,dword ptr [ebp-4]
- 004C3AEF    call        004C5E04
- 004C3AF4    push        1
- 004C3AF6    push        0
- 004C3AF8    mov         cl,byte ptr [ebp-6]
- 004C3AFB    mov         dl,byte ptr [ebp-5]
- 004C3AFE    mov         eax,dword ptr [ebp-4]
- 004C3B01    call        004C5FF8
->004C3B06    jmp         004C3B1C
- 004C3B08    push        8
- 004C3B0A    mov         eax,dword ptr [ebp+8]
- 004C3B0D    push        eax
- 004C3B0E    mov         cl,byte ptr [ebp-6]
- 004C3B11    mov         dl,byte ptr [ebp-5]
- 004C3B14    mov         eax,dword ptr [ebp-4]
- 004C3B17    call        004C5F08
- 004C3B1C    xor         eax,eax
- 004C3B1E    pop         edx
- 004C3B1F    pop         ecx
- 004C3B20    pop         ecx
- 004C3B21    mov         dword ptr fs:[eax],edx
- 004C3B24    push        4C3B49
- 004C3B29    lea         eax,[ebp-138]
- 004C3B2F    mov         edx,2
- 004C3B34    call        @LStrArrayClr
- 004C3B39    lea         eax,[ebp-30]
- 004C3B3C    call        @LStrClr
- 004C3B41    ret
->004C3B42    jmp         @HandleFinally
->004C3B47    jmp         004C3B29
- 004C3B49    pop         edi
- 004C3B4A    pop         esi
- 004C3B4B    pop         ebx
- 004C3B4C    mov         esp,ebp
- 004C3B4E    pop         ebp
- 004C3B4F    ret         4*}
-end;
+var
+ buf :string;
+ lvar_2C,lvar_24,I,ARow,counter :integer;
+ Min,Res:real;
+begin//0
+  //004C3958
+
+
+    //004C398C
+    if (sub_004C6030(Periode, ACol, 1) ) then
+    begin//2
+      //004C39A4
+
+      //lvar_28 := 0;
+
+      sub_004BED2C(Periode, ACol, buf);
+      Min := StrToFloat(buf);
+      if (sub_004BEA58  > 0) then
+      begin//3
+        //004C39ED
+        I := sub_004BEA58;
+        ARow := 1;
+		repeat
+        try
+          //004C3A05
+          sub_004BEF5C(Periode, ACol, ARow, buf);
+          Res := StrToFloat(buf);
+          if (Res < Min) then
+          begin//5
+            //004C3A57
+            Min := Res;
+            //lvar_C := lvar_1C;
+            //lvar_8 := lvar_18;
+          end;//5
+          Counter := Counter + 1;
+        except//4
+          on E:EConvertError do
+          begin//5
+            //004C3A91
+          end;//5
+        end;//4
+        ARow := ARow + 1;
+        I := I - 1;
+         until (I=0);//004C3AA9
+        
+      end;//3
+      if (Counter > 0) then
+      begin//3
+        //004C3AAF
+        //EAX := lvar_8;
+        s := FloatToStr(Min);
+      end//3
+      else
+      begin//3
+        //004C3ADA
+        s := '';
+      end;//3
+      sub_004C5E04(Periode, ACol, 8,s);
+      sub_004C5FF8(Periode, ACol,1,0);
+    end//2
+	else
+    sub_004C5F08(Periode, ACol, 8, s);
+
+    //004C3B29
+
+end;//0
 
 //004C3B54
 procedure TFichierCdn.sub_004C3B54(Periode:dword; var s:string; ACol:dword);
-begin
-s:='';//for testing
-{* 004C3B54    push        ebp
- 004C3B55    mov         ebp,esp
- 004C3B57    add         esp,0FFFFFECC
- 004C3B5D    push        ebx
- 004C3B5E    push        esi
- 004C3B5F    push        edi
- 004C3B60    xor         ebx,ebx
- 004C3B62    mov         dword ptr [ebp-134],ebx
- 004C3B68    mov         dword ptr [ebp-30],ebx
- 004C3B6B    mov         byte ptr [ebp-6],cl
- 004C3B6E    mov         byte ptr [ebp-5],dl
- 004C3B71    mov         dword ptr [ebp-4],eax
- 004C3B74    xor         eax,eax
- 004C3B76    push        ebp
- 004C3B77    push        4C3D0A
- 004C3B7C    push        dword ptr fs:[eax]
- 004C3B7F    mov         dword ptr fs:[eax],esp
- 004C3B82    push        2
- 004C3B84    mov         cl,byte ptr [ebp-6]
- 004C3B87    mov         dl,byte ptr [ebp-5]
- 004C3B8A    mov         eax,dword ptr [ebp-4]
- 004C3B8D    call        004C6030
- 004C3B92    test        al,al
->004C3B94    je          004C3CD5
- 004C3B9A    xor         eax,eax
- 004C3B9C    mov         dword ptr [ebp-28],eax
- 004C3B9F    xor         eax,eax
- 004C3BA1    mov         dword ptr [ebp-10],eax
- 004C3BA4    mov         dword ptr [ebp-0C],eax
- 004C3BA7    mov         word ptr [ebp-8],ax
- 004C3BAB    mov         eax,dword ptr [ebp-4]
- 004C3BAE    call        TFichierCdn.sub_004BEA58
- 004C3BB3    and         eax,0FF
- 004C3BB8    test        eax,eax
->004C3BBA    jle         004C3C76
- 004C3BC0    mov         dword ptr [ebp-2C],eax
- 004C3BC3    mov         dword ptr [ebp-24],1
- 004C3BCA    xor         eax,eax
- 004C3BCC    push        ebp
- 004C3BCD    push        4C3C4D
- 004C3BD2    push        dword ptr fs:[eax]
- 004C3BD5    mov         dword ptr fs:[eax],esp
- 004C3BD8    mov         eax,dword ptr [ebp-24]
- 004C3BDB    cmp         eax,0FF
->004C3BE0    jbe         004C3BE7
- 004C3BE2    call        @BoundErr
- 004C3BE7    push        eax
- 004C3BE8    lea         eax,[ebp-130]
- 004C3BEE    push        eax
- 004C3BEF    mov         cl,byte ptr [ebp-6]
- 004C3BF2    mov         dl,byte ptr [ebp-5]
- 004C3BF5    mov         eax,dword ptr [ebp-4]
- 004C3BF8    call        004BEF5C
- 004C3BFD    lea         edx,[ebp-130]
- 004C3C03    lea         eax,[ebp-30]
- 004C3C06    call        @LStrFromString
- 004C3C0B    mov         eax,dword ptr [ebp-30]
- 004C3C0E    call        StrToFloat
- 004C3C13    fstp        tbyte ptr [ebp-20]
- 004C3C16    wait
- 004C3C17    fld         tbyte ptr [ebp-10]
- 004C3C1A    fld         tbyte ptr [ebp-20]
- 004C3C1D    fcompp
- 004C3C1F    fnstsw      al
- 004C3C21    sahf
->004C3C22    jbe         004C3C38
- 004C3C24    mov         eax,dword ptr [ebp-20]
- 004C3C27    mov         dword ptr [ebp-10],eax
- 004C3C2A    mov         eax,dword ptr [ebp-1C]
- 004C3C2D    mov         dword ptr [ebp-0C],eax
- 004C3C30    mov         ax,word ptr [ebp-18]
- 004C3C34    mov         word ptr [ebp-8],ax
- 004C3C38    add         dword ptr [ebp-28],1
->004C3C3C    jno         004C3C43
- 004C3C3E    call        @IntOver
- 004C3C43    xor         eax,eax
- 004C3C45    pop         edx
- 004C3C46    pop         ecx
- 004C3C47    pop         ecx
- 004C3C48    mov         dword ptr fs:[eax],edx
->004C3C4B    jmp         004C3C6A
->004C3C4D    jmp         @HandleOnException
- 004C3C52    dd          1
- 004C3C56    dd          00409B50;EConvertError
- 004C3C5A    dd          004C3C5E
- 004C3C5E    call        @DoneExcept
->004C3C63    jmp         004C3C6A
- 004C3C65    call        @DoneExcept
- 004C3C6A    inc         dword ptr [ebp-24]
- 004C3C6D    dec         dword ptr [ebp-2C]
->004C3C70    jne         004C3BCA
- 004C3C76    cmp         dword ptr [ebp-28],0
->004C3C7A    jle         004C3CA7
- 004C3C7C    mov         ax,word ptr [ebp-8]
- 004C3C80    push        eax
- 004C3C81    push        dword ptr [ebp-0C]
- 004C3C84    push        dword ptr [ebp-10]
- 004C3C87    lea         eax,[ebp-134]
- 004C3C8D    call        FloatToStr
- 004C3C92    mov         edx,dword ptr [ebp-134]
- 004C3C98    mov         eax,dword ptr [ebp+8]
- 004C3C9B    mov         ecx,0FF
- 004C3CA0    call        @LStrToString
->004C3CA5    jmp         004C3CAD
- 004C3CA7    mov         eax,dword ptr [ebp+8]
- 004C3CAA    mov         byte ptr [eax],0
- 004C3CAD    push        9
- 004C3CAF    mov         eax,dword ptr [ebp+8]
- 004C3CB2    push        eax
- 004C3CB3    mov         cl,byte ptr [ebp-6]
- 004C3CB6    mov         dl,byte ptr [ebp-5]
- 004C3CB9    mov         eax,dword ptr [ebp-4]
- 004C3CBC    call        004C5E04
- 004C3CC1    push        2
- 004C3CC3    push        0
- 004C3CC5    mov         cl,byte ptr [ebp-6]
- 004C3CC8    mov         dl,byte ptr [ebp-5]
- 004C3CCB    mov         eax,dword ptr [ebp-4]
- 004C3CCE    call        004C5FF8
->004C3CD3    jmp         004C3CE9
- 004C3CD5    push        9
- 004C3CD7    mov         eax,dword ptr [ebp+8]
- 004C3CDA    push        eax
- 004C3CDB    mov         cl,byte ptr [ebp-6]
- 004C3CDE    mov         dl,byte ptr [ebp-5]
- 004C3CE1    mov         eax,dword ptr [ebp-4]
- 004C3CE4    call        004C5F08
- 004C3CE9    xor         eax,eax
- 004C3CEB    pop         edx
- 004C3CEC    pop         ecx
- 004C3CED    pop         ecx
- 004C3CEE    mov         dword ptr fs:[eax],edx
- 004C3CF1    push        4C3D11
- 004C3CF6    lea         eax,[ebp-134]
- 004C3CFC    call        @LStrClr
- 004C3D01    lea         eax,[ebp-30]
- 004C3D04    call        @LStrClr
- 004C3D09    ret
->004C3D0A    jmp         @HandleFinally
->004C3D0F    jmp         004C3CF6
- 004C3D11    pop         edi
- 004C3D12    pop         esi
- 004C3D13    pop         ebx
- 004C3D14    mov         esp,ebp
- 004C3D16    pop         ebp
- 004C3D17    ret         4*}
-end;
+var
+ I,lvar_24,lvar_28:integer;
+ Max,Res:real;
+ buf:string;
+begin//0
+  //004C3B54
+  {lvar_134 := 0;
+  lvar_30 := 0;
+  lvar_6 := s;
+  lvar_5 := Periode;
+  lvar_4 := Self;}
+    //004C3B82
+   
+    if (sub_004C6030(Periode, ACol, 2)) then
+    begin//2
+      //004C3B9A
+      {lvar_28 := 0;
+      lvar_10 := 0;
+      lvar_C := 0;
+      lvar_8 := 0;}
+      if (sub_004BEA58 > 0) then
+      begin//3
+        //004C3BC0
+        I := sub_004BEA58;
+        lvar_24 := 1;
+		repeat
+        try
+          //004C3BD8
+          sub_004BEF5C(Periode, ACol, lvar_24, buf);
+          Res := StrToFloat(buf);
+          if (Res > Max) then
+          begin//5
+            //004C3C24
+            Max := Res;
+           { lvar_C := lvar_1C;
+            lvar_8 := lvar_18;}
+          end;//5
+          lvar_28 := lvar_28 + 1;
+        except//4
+          on E:EConvertError do
+          begin//5
+            //004C3C5E
+          end;//5
+        end;//4
+        lvar_24 := lvar_24 + 1;
+        I := I - 1;
+        until(I = 0);//004C3C76
+        
+      end;//3
+      if (lvar_28 > 0) then
+      begin//3
+        //004C3C7C
+
+        s := FloatToStr(Max);
+
+      end//3
+      else
+      begin//3
+        //004C3CA7
+        s := '';
+      end;//3
+      sub_004C5E04(Periode, ACol, 9, s);
+      sub_004C5FF8(Periode, ACol,2,0);
+    end//2
+	else
+    sub_004C5F08(Periode, ACol, 9,s);
+    //004C3CF6
+end;//0
 
 //004C3D1C
 procedure TFichierCdn.sub_004C3D1C(Periode:dword; ACol:dword; var c:string);
@@ -3190,174 +3015,66 @@ end;//0
 
 
 //004C3EA4
-procedure TFichierCdn.sub_004C3EA4(Periode:dword; ACol:dword;var b:string);
-begin
-b:='';//for testing
-{* 004C3EA4    push        ebp
- 004C3EA5    mov         ebp,esp
- 004C3EA7    add         esp,0FFFFFED4
- 004C3EAD    push        ebx
- 004C3EAE    push        esi
- 004C3EAF    push        edi
- 004C3EB0    xor         ebx,ebx
- 004C3EB2    mov         dword ptr [ebp-12C],ebx
- 004C3EB8    mov         dword ptr [ebp-128],ebx
- 004C3EBE    mov         dword ptr [ebp-24],ebx
- 004C3EC1    mov         byte ptr [ebp-6],cl
- 004C3EC4    mov         byte ptr [ebp-5],dl
- 004C3EC7    mov         dword ptr [ebp-4],eax
- 004C3ECA    xor         eax,eax
- 004C3ECC    push        ebp
- 004C3ECD    push        4C40B0
- 004C3ED2    push        dword ptr fs:[eax]
- 004C3ED5    mov         dword ptr fs:[eax],esp
- 004C3ED8    push        6
- 004C3EDA    mov         cl,byte ptr [ebp-6]
- 004C3EDD    mov         dl,byte ptr [ebp-5]
- 004C3EE0    mov         eax,dword ptr [ebp-4]
- 004C3EE3    call        004C6030
- 004C3EE8    test        al,al
->004C3EEA    je          004C4076
- 004C3EF0    xor         eax,eax
- 004C3EF2    mov         dword ptr [ebp-18],eax
- 004C3EF5    xor         eax,eax
- 004C3EF7    mov         dword ptr [ebp-1C],eax
- 004C3EFA    lea         eax,[ebp-124]
- 004C3F00    push        eax
- 004C3F01    mov         cl,byte ptr [ebp-6]
- 004C3F04    mov         dl,byte ptr [ebp-5]
- 004C3F07    mov         eax,dword ptr [ebp-4]
- 004C3F0A    call        004BED2C
- 004C3F0F    lea         edx,[ebp-124]
- 004C3F15    lea         eax,[ebp-24]
- 004C3F18    call        @LStrFromString
- 004C3F1D    mov         eax,dword ptr [ebp-24]
- 004C3F20    call        StrToFloat
- 004C3F25    fdiv        dword ptr ds:[4C40C0];2:Single
- 004C3F2B    fstp        tbyte ptr [ebp-10]
- 004C3F2E    wait
- 004C3F2F    mov         eax,dword ptr [ebp-4]
- 004C3F32    call        TFichierCdn.sub_004BEA58
- 004C3F37    and         eax,0FF
- 004C3F3C    test        eax,eax
->004C3F3E    jle         004C3FF0
- 004C3F44    mov         dword ptr [ebp-20],eax
- 004C3F47    mov         dword ptr [ebp-14],1
- 004C3F4E    xor         eax,eax
- 004C3F50    push        ebp
- 004C3F51    push        4C3FC7
- 004C3F56    push        dword ptr fs:[eax]
- 004C3F59    mov         dword ptr fs:[eax],esp
- 004C3F5C    mov         eax,dword ptr [ebp-14]
- 004C3F5F    cmp         eax,0FF
->004C3F64    jbe         004C3F6B
- 004C3F66    call        @BoundErr
- 004C3F6B    push        eax
- 004C3F6C    lea         eax,[ebp-124]
- 004C3F72    push        eax
- 004C3F73    mov         cl,byte ptr [ebp-6]
- 004C3F76    mov         dl,byte ptr [ebp-5]
- 004C3F79    mov         eax,dword ptr [ebp-4]
- 004C3F7C    call        004BEF5C
- 004C3F81    lea         edx,[ebp-124]
- 004C3F87    lea         eax,[ebp-128]
- 004C3F8D    call        @LStrFromString
- 004C3F92    mov         eax,dword ptr [ebp-128]
- 004C3F98    call        StrToFloat
- 004C3F9D    fld         tbyte ptr [ebp-10]
- 004C3FA0    fcompp
- 004C3FA2    fnstsw      al
- 004C3FA4    sahf
->004C3FA5    jbe         004C3FB2
- 004C3FA7    add         dword ptr [ebp-1C],1
->004C3FAB    jno         004C3FB2
- 004C3FAD    call        @IntOver
- 004C3FB2    add         dword ptr [ebp-18],1
->004C3FB6    jno         004C3FBD
- 004C3FB8    call        @IntOver
- 004C3FBD    xor         eax,eax
- 004C3FBF    pop         edx
- 004C3FC0    pop         ecx
- 004C3FC1    pop         ecx
- 004C3FC2    mov         dword ptr fs:[eax],edx
->004C3FC5    jmp         004C3FE4
->004C3FC7    jmp         @HandleOnException
- 004C3FCC    dd          1
- 004C3FD0    dd          00409B50;EConvertError
- 004C3FD4    dd          004C3FD8
- 004C3FD8    call        @DoneExcept
->004C3FDD    jmp         004C3FE4
- 004C3FDF    call        @DoneExcept
- 004C3FE4    inc         dword ptr [ebp-14]
- 004C3FE7    dec         dword ptr [ebp-20]
->004C3FEA    jne         004C3F4E
- 004C3FF0    cmp         dword ptr [ebp-18],0
->004C3FF4    jle         004C4048
- 004C3FF6    fild        dword ptr [ebp-1C]
- 004C3FF9    fild        dword ptr [ebp-18]
- 004C3FFC    fdivp       st(1),st
- 004C3FFE    fmul        dword ptr ds:[4C40C4];100:Single
- 004C4004    add         esp,0FFFFFFF4
- 004C4007    fstp        tbyte ptr [esp]
- 004C400A    wait
- 004C400B    lea         eax,[ebp-12C]
- 004C4011    push        eax
- 004C4012    mov         ecx,2
- 004C4017    mov         edx,12
- 004C401C    mov         al,2
- 004C401E    call        FloatToStrF
- 004C4023    lea         eax,[ebp-12C]
- 004C4029    mov         edx,4C40D0;' %'
- 004C402E    call        @LStrCat
- 004C4033    mov         edx,dword ptr [ebp-12C]
- 004C4039    mov         eax,dword ptr [ebp+8]
- 004C403C    mov         ecx,0FF
- 004C4041    call        @LStrToString
->004C4046    jmp         004C404E
- 004C4048    mov         eax,dword ptr [ebp+8]
- 004C404B    mov         byte ptr [eax],0
- 004C404E    push        0D
- 004C4050    mov         eax,dword ptr [ebp+8]
- 004C4053    push        eax
- 004C4054    mov         cl,byte ptr [ebp-6]
- 004C4057    mov         dl,byte ptr [ebp-5]
- 004C405A    mov         eax,dword ptr [ebp-4]
- 004C405D    call        004C5E04
- 004C4062    push        6
- 004C4064    push        0
- 004C4066    mov         cl,byte ptr [ebp-6]
- 004C4069    mov         dl,byte ptr [ebp-5]
- 004C406C    mov         eax,dword ptr [ebp-4]
- 004C406F    call        004C5FF8
->004C4074    jmp         004C408A
- 004C4076    push        0D
- 004C4078    mov         eax,dword ptr [ebp+8]
- 004C407B    push        eax
- 004C407C    mov         cl,byte ptr [ebp-6]
- 004C407F    mov         dl,byte ptr [ebp-5]
- 004C4082    mov         eax,dword ptr [ebp-4]
- 004C4085    call        004C5F08
- 004C408A    xor         eax,eax
- 004C408C    pop         edx
- 004C408D    pop         ecx
- 004C408E    pop         ecx
- 004C408F    mov         dword ptr fs:[eax],edx
- 004C4092    push        4C40B7
- 004C4097    lea         eax,[ebp-12C]
- 004C409D    mov         edx,2
- 004C40A2    call        @LStrArrayClr
- 004C40A7    lea         eax,[ebp-24]
- 004C40AA    call        @LStrClr
- 004C40AF    ret
->004C40B0    jmp         @HandleFinally
->004C40B5    jmp         004C4097
- 004C40B7    pop         edi
- 004C40B8    pop         esi
- 004C40B9    pop         ebx
- 004C40BA    mov         esp,ebp
- 004C40BC    pop         ebp
- 004C40BD    ret         4*}
-end;
+procedure TFichierCdn.sub_004C3EA4(Periode:dword; ACol:dword; var b:string);
+var
+ I,J,K,N:integer;
+ Moy:real;
+ buf:string;
+begin//0
+  //004C3EA4
+    //004C3ED8
+    if (sub_004C6030(Periode, ACol, 6)) then
+    begin//2
+      //004C3EF0
+      N := 0;
+      K := 0;
+      sub_004BED2C(Periode, ACol, buf);
+      Moy := StrToFloat(buf) / 2;
+      if (sub_004BEA58  > 0) then
+      begin//3
+        //004C3F44
+        I := sub_004BEA58;
+        J := 1;
+		repeat
+        try
+          //004C3F5C
+
+          sub_004BEF5C(Periode, ACol, J, buf);
+          if (StrToFloat(buf) <Moy) then
+          begin//5
+            //004C3FA7
+            K := K + 1;
+          end;//5
+          N := N + 1;
+        except//4
+          on E:EConvertError do
+          begin//5
+            //004C3FD8
+          end;//5
+        end;//4
+        J := J + 1;
+        I := I - 1;
+		until(I = 0);//004C3FF0
+      end;//3
+      if (N > 0) then
+      begin//3
+        //004C3FF6
+        b := FloatToStrF(K / N * 100,ffFixed{2}, $12{18}, 2)+ ' %';
+      end//3
+      else
+      begin//3
+        //004C4048
+        b := '';
+      end;//3
+      sub_004C5E04(Periode, ACol, 13, b);
+      sub_004C5FF8(Periode, ACol,6,0);
+      Exit;
+    end;//2
+
+    sub_004C5F08(Periode, ACol, 13, b);
+
+    //004C4097
+end;//0
 
 //004C40D4
 procedure TFichierCdn.sub_004C40D4(Periode:dword;var b:string; ACol:dword);
@@ -3412,388 +3129,161 @@ end;//0
 
 //004C42D4
 procedure TFichierCdn.sub_004C42D4(Periode:dword; ACol:dword; var s:string);
-begin
-s:='';//for testing
-{* 004C42D4    push        ebp
- 004C42D5    mov         ebp,esp
- 004C42D7    add         esp,0FFFFFEBC
- 004C42DD    push        ebx
- 004C42DE    push        esi
- 004C42DF    push        edi
- 004C42E0    xor         ebx,ebx
- 004C42E2    mov         dword ptr [ebp-144],ebx
- 004C42E8    mov         dword ptr [ebp-40],ebx
- 004C42EB    mov         byte ptr [ebp-6],cl
- 004C42EE    mov         byte ptr [ebp-5],dl
- 004C42F1    mov         dword ptr [ebp-4],eax
- 004C42F4    xor         eax,eax
- 004C42F6    push        ebp
- 004C42F7    push        4C450C
- 004C42FC    push        dword ptr fs:[eax]
- 004C42FF    mov         dword ptr fs:[eax],esp
- 004C4302    push        3
- 004C4304    mov         cl,byte ptr [ebp-6]
- 004C4307    mov         dl,byte ptr [ebp-5]
- 004C430A    mov         eax,dword ptr [ebp-4]
- 004C430D    call        004C6030
- 004C4312    test        al,al
->004C4314    je          004C44D7
- 004C431A    xor         eax,eax
- 004C431C    mov         dword ptr [ebp-20],eax
- 004C431F    mov         dword ptr [ebp-1C],eax
- 004C4322    mov         word ptr [ebp-18],ax
- 004C4326    xor         eax,eax
- 004C4328    mov         dword ptr [ebp-30],eax
- 004C432B    mov         dword ptr [ebp-2C],eax
- 004C432E    mov         word ptr [ebp-28],ax
- 004C4332    xor         eax,eax
- 004C4334    mov         dword ptr [ebp-38],eax
- 004C4337    mov         eax,dword ptr [ebp-4]
- 004C433A    call        TFichierCdn.sub_004BEA58
- 004C433F    and         eax,0FF
- 004C4344    test        eax,eax
->004C4346    jle         004C440D
- 004C434C    mov         dword ptr [ebp-3C],eax
- 004C434F    mov         dword ptr [ebp-34],1
- 004C4356    xor         eax,eax
- 004C4358    push        ebp
- 004C4359    push        4C43D5
- 004C435E    push        dword ptr fs:[eax]
- 004C4361    mov         dword ptr fs:[eax],esp
- 004C4364    mov         eax,dword ptr [ebp-34]
- 004C4367    cmp         eax,0FF
->004C436C    jbe         004C4373
- 004C436E    call        @BoundErr
- 004C4373    push        eax
- 004C4374    lea         eax,[ebp-140]
- 004C437A    push        eax
- 004C437B    mov         cl,byte ptr [ebp-6]
- 004C437E    mov         dl,byte ptr [ebp-5]
- 004C4381    mov         eax,dword ptr [ebp-4]
- 004C4384    call        004BEF5C
- 004C4389    lea         edx,[ebp-140]
- 004C438F    lea         eax,[ebp-40]
- 004C4392    call        @LStrFromString
- 004C4397    mov         eax,dword ptr [ebp-40]
- 004C439A    call        StrToFloat
- 004C439F    fstp        tbyte ptr [ebp-10]
- 004C43A2    wait
- 004C43A3    fld         tbyte ptr [ebp-20]
- 004C43A6    fld         tbyte ptr [ebp-10]
- 004C43A9    faddp       st(1),st
- 004C43AB    fstp        tbyte ptr [ebp-20]
- 004C43AE    wait
- 004C43AF    fld         tbyte ptr [ebp-10]
- 004C43B2    fld         tbyte ptr [ebp-10]
- 004C43B5    fmulp       st(1),st
- 004C43B7    fld         tbyte ptr [ebp-30]
- 004C43BA    faddp       st(1),st
- 004C43BC    fstp        tbyte ptr [ebp-30]
- 004C43BF    wait
- 004C43C0    add         dword ptr [ebp-38],1
->004C43C4    jno         004C43CB
- 004C43C6    call        @IntOver
- 004C43CB    xor         eax,eax
- 004C43CD    pop         edx
- 004C43CE    pop         ecx
- 004C43CF    pop         ecx
- 004C43D0    mov         dword ptr fs:[eax],edx
->004C43D3    jmp         004C4401
->004C43D5    jmp         @HandleOnException
- 004C43DA    dd          2
- 004C43DE    dd          00409B50;EConvertError
- 004C43E2    dd          004C43EE
- 004C43E6    dd          004098E0;EMathError
- 004C43EA    dd          004C43F5
- 004C43EE    call        @DoneExcept
->004C43F3    jmp         004C4401
- 004C43F5    call        @DoneExcept
->004C43FA    jmp         004C4401
- 004C43FC    call        @DoneExcept
- 004C4401    inc         dword ptr [ebp-34]
- 004C4404    dec         dword ptr [ebp-3C]
->004C4407    jne         004C4356
- 004C440D    xor         eax,eax
- 004C440F    push        ebp
- 004C4410    push        4C4483
- 004C4415    push        dword ptr fs:[eax]
- 004C4418    mov         dword ptr fs:[eax],esp
- 004C441B    cmp         dword ptr [ebp-38],0
->004C441F    jle         004C4473
- 004C4421    fild        dword ptr [ebp-38]
- 004C4424    fld         tbyte ptr [ebp-30]
- 004C4427    fdivrp      st(1),st
- 004C4429    fild        dword ptr [ebp-38]
- 004C442C    fld         tbyte ptr [ebp-20]
- 004C442F    fdivrp      st(1),st
- 004C4431    fild        dword ptr [ebp-38]
- 004C4434    fld         tbyte ptr [ebp-20]
- 004C4437    fdivrp      st(1),st
- 004C4439    fmulp       st(1),st
- 004C443B    fsubp       st(1),st
- 004C443D    fsqrt
- 004C443F    add         esp,0FFFFFFF4
- 004C4442    fstp        tbyte ptr [esp]
- 004C4445    wait
- 004C4446    lea         eax,[ebp-144]
- 004C444C    push        eax
- 004C444D    mov         ecx,2
- 004C4452    mov         edx,12
- 004C4457    mov         al,2
- 004C4459    call        FloatToStrF
- 004C445E    mov         edx,dword ptr [ebp-144]
- 004C4464    mov         eax,dword ptr [ebp+8]
- 004C4467    mov         ecx,0FF
- 004C446C    call        @LStrToString
->004C4471    jmp         004C4479
- 004C4473    mov         eax,dword ptr [ebp+8]
- 004C4476    mov         byte ptr [eax],0
- 004C4479    xor         eax,eax
- 004C447B    pop         edx
- 004C447C    pop         ecx
- 004C447D    pop         ecx
- 004C447E    mov         dword ptr fs:[eax],edx
->004C4481    jmp         004C44AF
->004C4483    jmp         @HandleOnException
- 004C4488    dd          2
- 004C448C    dd          00409B50;EConvertError
- 004C4490    dd          004C449C
- 004C4494    dd          004098E0;EMathError
- 004C4498    dd          004C44A4
- 004C449C    mov         eax,dword ptr [ebp+8]
- 004C449F    mov         byte ptr [eax],0
->004C44A2    jmp         004C44AA
- 004C44A4    mov         eax,dword ptr [ebp+8]
- 004C44A7    mov         byte ptr [eax],0
- 004C44AA    call        @DoneExcept
- 004C44AF    push        0A
- 004C44B1    mov         eax,dword ptr [ebp+8]
- 004C44B4    push        eax
- 004C44B5    mov         cl,byte ptr [ebp-6]
- 004C44B8    mov         dl,byte ptr [ebp-5]
- 004C44BB    mov         eax,dword ptr [ebp-4]
- 004C44BE    call        004C5E04
- 004C44C3    push        3
- 004C44C5    push        0
- 004C44C7    mov         cl,byte ptr [ebp-6]
- 004C44CA    mov         dl,byte ptr [ebp-5]
- 004C44CD    mov         eax,dword ptr [ebp-4]
- 004C44D0    call        004C5FF8
->004C44D5    jmp         004C44EB
- 004C44D7    push        0A
- 004C44D9    mov         eax,dword ptr [ebp+8]
- 004C44DC    push        eax
- 004C44DD    mov         cl,byte ptr [ebp-6]
- 004C44E0    mov         dl,byte ptr [ebp-5]
- 004C44E3    mov         eax,dword ptr [ebp-4]
- 004C44E6    call        004C5F08
- 004C44EB    xor         eax,eax
- 004C44ED    pop         edx
- 004C44EE    pop         ecx
- 004C44EF    pop         ecx
- 004C44F0    mov         dword ptr fs:[eax],edx
- 004C44F3    push        4C4513
- 004C44F8    lea         eax,[ebp-144]
- 004C44FE    call        @LStrClr
- 004C4503    lea         eax,[ebp-40]
- 004C4506    call        @LStrClr
- 004C450B    ret
->004C450C    jmp         @HandleFinally
->004C4511    jmp         004C44F8
- 004C4513    pop         edi
- 004C4514    pop         esi
- 004C4515    pop         ebx
- 004C4516    mov         esp,ebp
- 004C4518    pop         ebp
- 004C4519    ret         4*}
-end;
+var
+  I,N,lvar_34:integer;
+  lvar_20,lvar_30:real;
+  buf:string;
+begin//0
+  //004C42D4
+
+    //004C4302
+
+    if (sub_004C6030(Periode, ACol, 3)) then
+    begin//2
+      //004C431A
+      lvar_20 := 0;
+      {lvar_1C := 0;
+      lvar_18 := 0;}
+      lvar_30 := 0;
+      {lvar_2C := 0;
+      lvar_28 := 0;}
+      N := 0;
+
+      if (sub_004BEA58  > 0) then
+      begin//3
+        //004C434C
+        I := sub_004BEA58;
+        lvar_34 := 1;
+		repeat
+        try
+          //004C4364
+          sub_004BEF5C(Periode, ACol, lvar_34, buf);
+          lvar_20 := lvar_20 + StrToFloat(buf);
+          lvar_30 := StrToFloat(buf) * StrToFloat(buf) + lvar_30;
+          N := N + 1;
+        except//4
+          on E:EConvertError do
+          begin//5
+            //004C43EE
+          end;//5
+          on E:EMathError do
+          begin//5
+            //004C43F5
+          end;//5
+        end;//4
+        lvar_34 := lvar_34 + 1;
+        I := I - 1;
+		until(I=0);//004C440D
+      end;//3
+      try
+        //004C441B
+        if (N > 0) then
+        begin//4
+          //004C4421
+          s := FloatToStrF(Sqrt(lvar_30 / N - lvar_20 * lvar_20 / (N * N)),{2}ffFixed, $12{18}, 2 );
+        end//4
+        else
+        begin//4
+          //004C4473
+          s := '';
+        end;//4
+      except//3
+        on E:EConvertError do
+        begin//4
+          //004C449C
+          s := '';
+        end;//4
+        on E:EMathError do
+        begin//4
+          //004C44A4
+          s := '';
+        end;//4
+      end;//3
+      sub_004C5E04(Periode, ACol, 10, s);
+      sub_004C5FF8(Periode, ACol,3,0);
+    end//2
+	else
+    sub_004C5F08(Periode, ACol, 10, s);
+
+    //004C44F8
+
+end;//0
 
 //004C451C
 procedure TFichierCdn.sub_004C451C(Periode:dword; ACol:dword; var s:string);
-begin
-s:='';//for testing
-{* 004C451C    push        ebp
- 004C451D    mov         ebp,esp
- 004C451F    add         esp,0FFFFFED4
- 004C4525    push        ebx
- 004C4526    push        esi
- 004C4527    push        edi
- 004C4528    xor         ebx,ebx
- 004C452A    mov         dword ptr [ebp-12C],ebx
- 004C4530    mov         dword ptr [ebp-128],ebx
- 004C4536    mov         dword ptr [ebp-24],ebx
- 004C4539    mov         byte ptr [ebp-6],cl
- 004C453C    mov         byte ptr [ebp-5],dl
- 004C453F    mov         dword ptr [ebp-4],eax
- 004C4542    xor         eax,eax
- 004C4544    push        ebp
- 004C4545    push        4C4756
- 004C454A    push        dword ptr fs:[eax]
- 004C454D    mov         dword ptr fs:[eax],esp
- 004C4550    push        7
- 004C4552    mov         cl,byte ptr [ebp-6]
- 004C4555    mov         dl,byte ptr [ebp-5]
- 004C4558    mov         eax,dword ptr [ebp-4]
- 004C455B    call        004C6030
- 004C4560    test        al,al
->004C4562    je          004C471C
- 004C4568    xor         eax,eax
- 004C456A    mov         dword ptr [ebp-18],eax
- 004C456D    xor         eax,eax
- 004C456F    mov         dword ptr [ebp-1C],eax
- 004C4572    xor         eax,eax
- 004C4574    push        ebp
- 004C4575    push        4C46D8
- 004C457A    push        dword ptr fs:[eax]
- 004C457D    mov         dword ptr fs:[eax],esp
- 004C4580    lea         eax,[ebp-124]
- 004C4586    push        eax
- 004C4587    mov         cl,byte ptr [ebp-6]
- 004C458A    mov         dl,byte ptr [ebp-5]
- 004C458D    mov         eax,dword ptr [ebp-4]
- 004C4590    call        004C40D4
- 004C4595    lea         edx,[ebp-124]
- 004C459B    lea         eax,[ebp-24]
- 004C459E    call        @LStrFromString
- 004C45A3    mov         eax,dword ptr [ebp-24]
- 004C45A6    call        StrToFloat
- 004C45AB    fstp        tbyte ptr [ebp-10]
- 004C45AE    wait
- 004C45AF    mov         eax,dword ptr [ebp-4]
- 004C45B2    call        TFichierCdn.sub_004BEA58
- 004C45B7    and         eax,0FF
- 004C45BC    test        eax,eax
->004C45BE    jle         004C4670
- 004C45C4    mov         dword ptr [ebp-20],eax
- 004C45C7    mov         dword ptr [ebp-14],1
- 004C45CE    xor         eax,eax
- 004C45D0    push        ebp
- 004C45D1    push        4C4647
- 004C45D6    push        dword ptr fs:[eax]
- 004C45D9    mov         dword ptr fs:[eax],esp
- 004C45DC    mov         eax,dword ptr [ebp-14]
- 004C45DF    cmp         eax,0FF
->004C45E4    jbe         004C45EB
- 004C45E6    call        @BoundErr
- 004C45EB    push        eax
- 004C45EC    lea         eax,[ebp-124]
- 004C45F2    push        eax
- 004C45F3    mov         cl,byte ptr [ebp-6]
- 004C45F6    mov         dl,byte ptr [ebp-5]
- 004C45F9    mov         eax,dword ptr [ebp-4]
- 004C45FC    call        004BEF5C
- 004C4601    lea         edx,[ebp-124]
- 004C4607    lea         eax,[ebp-128]
- 004C460D    call        @LStrFromString
- 004C4612    mov         eax,dword ptr [ebp-128]
- 004C4618    call        StrToFloat
- 004C461D    fld         tbyte ptr [ebp-10]
- 004C4620    fcompp
- 004C4622    fnstsw      al
- 004C4624    sahf
->004C4625    jbe         004C4632
- 004C4627    add         dword ptr [ebp-1C],1
->004C462B    jno         004C4632
- 004C462D    call        @IntOver
- 004C4632    add         dword ptr [ebp-18],1
->004C4636    jno         004C463D
- 004C4638    call        @IntOver
- 004C463D    xor         eax,eax
- 004C463F    pop         edx
- 004C4640    pop         ecx
- 004C4641    pop         ecx
- 004C4642    mov         dword ptr fs:[eax],edx
->004C4645    jmp         004C4664
->004C4647    jmp         @HandleOnException
- 004C464C    dd          1
- 004C4650    dd          00409B50;EConvertError
- 004C4654    dd          004C4658
- 004C4658    call        @DoneExcept
->004C465D    jmp         004C4664
- 004C465F    call        @DoneExcept
- 004C4664    inc         dword ptr [ebp-14]
- 004C4667    dec         dword ptr [ebp-20]
->004C466A    jne         004C45CE
- 004C4670    cmp         dword ptr [ebp-18],0
->004C4674    jle         004C46C8
- 004C4676    fild        dword ptr [ebp-1C]
- 004C4679    fild        dword ptr [ebp-18]
- 004C467C    fdivp       st(1),st
- 004C467E    fmul        dword ptr ds:[4C4768];100:Single
- 004C4684    add         esp,0FFFFFFF4
- 004C4687    fstp        tbyte ptr [esp]
- 004C468A    wait
- 004C468B    lea         eax,[ebp-12C]
- 004C4691    push        eax
- 004C4692    mov         ecx,2
- 004C4697    mov         edx,12
- 004C469C    mov         al,2
- 004C469E    call        FloatToStrF
- 004C46A3    lea         eax,[ebp-12C]
- 004C46A9    mov         edx,4C4774;' %'
- 004C46AE    call        @LStrCat
- 004C46B3    mov         edx,dword ptr [ebp-12C]
- 004C46B9    mov         eax,dword ptr [ebp+8]
- 004C46BC    mov         ecx,0FF
- 004C46C1    call        @LStrToString
->004C46C6    jmp         004C46CE
- 004C46C8    mov         eax,dword ptr [ebp+8]
- 004C46CB    mov         byte ptr [eax],0
- 004C46CE    xor         eax,eax
- 004C46D0    pop         edx
- 004C46D1    pop         ecx
- 004C46D2    pop         ecx
- 004C46D3    mov         dword ptr fs:[eax],edx
->004C46D6    jmp         004C46F4
->004C46D8    jmp         @HandleOnException
- 004C46DD    dd          1
- 004C46E1    dd          00409B50;EConvertError
- 004C46E5    dd          004C46E9
- 004C46E9    mov         eax,dword ptr [ebp+8]
- 004C46EC    mov         byte ptr [eax],0
- 004C46EF    call        @DoneExcept
- 004C46F4    push        0E
- 004C46F6    mov         eax,dword ptr [ebp+8]
- 004C46F9    push        eax
- 004C46FA    mov         cl,byte ptr [ebp-6]
- 004C46FD    mov         dl,byte ptr [ebp-5]
- 004C4700    mov         eax,dword ptr [ebp-4]
- 004C4703    call        004C5E04
- 004C4708    push        7
- 004C470A    push        0
- 004C470C    mov         cl,byte ptr [ebp-6]
- 004C470F    mov         dl,byte ptr [ebp-5]
- 004C4712    mov         eax,dword ptr [ebp-4]
- 004C4715    call        004C5FF8
->004C471A    jmp         004C4730
- 004C471C    push        0E
- 004C471E    mov         eax,dword ptr [ebp+8]
- 004C4721    push        eax
- 004C4722    mov         cl,byte ptr [ebp-6]
- 004C4725    mov         dl,byte ptr [ebp-5]
- 004C4728    mov         eax,dword ptr [ebp-4]
- 004C472B    call        004C5F08
- 004C4730    xor         eax,eax
- 004C4732    pop         edx
- 004C4733    pop         ecx
- 004C4734    pop         ecx
- 004C4735    mov         dword ptr fs:[eax],edx
- 004C4738    push        4C475D
- 004C473D    lea         eax,[ebp-12C]
- 004C4743    mov         edx,2
- 004C4748    call        @LStrArrayClr
- 004C474D    lea         eax,[ebp-24]
- 004C4750    call        @LStrClr
- 004C4755    ret
->004C4756    jmp         @HandleFinally
->004C475B    jmp         004C473D
- 004C475D    pop         edi
- 004C475E    pop         esi
- 004C475F    pop         ebx
- 004C4760    mov         esp,ebp
- 004C4762    pop         ebp
- 004C4763    ret         4*}
-end;
+var
+ I,J,K,N :integer;
+ buf:string;
+ Val:real;
+begin//0
+  //004C451C
+    //004C4550
+    if (sub_004C6030(Periode, ACol, 7) ) then
+    begin//2
+      //004C4568
+      N := 0;
+      K:= 0;
+      try
+        //004C4580
+        //push EAX
+
+        sub_004C40D4(Periode, buf, ACol);
+
+        Val := StrToFloat(buf);
+
+        if (sub_004BEA58 > 0) then
+        begin//4
+          //004C45C4
+          I := sub_004BEA58 ;
+          J := 1;
+          repeat
+		  try
+            //004C45DC
+
+            sub_004BEF5C(Periode, ACol, J, buf);
+
+            if (Val > StrToFloat(buf)) then
+            begin//6
+              //004C4627
+              K := K + 1;
+            end;//6
+            N := N + 1;
+          except//5
+            on E:EConvertError do
+            begin//6
+              //004C4658
+            end;//6
+          end;//5
+          J := J + 1;
+          I := I - 1;
+		  until(I = 0);//004C4670
+        end;//4
+        if (N > 0) then
+        begin//4
+          //004C4676
+          s := FloatToStrF(K / N * 100,ffFixed{2}, $12{18}, 2)+ ' %';
+        end//4
+        else
+        begin//4
+          //004C46C8
+          s := '';
+        end;//4
+      except//3
+        on E:EConvertError do
+        begin//4
+          //004C46E9
+          s := '';
+        end;//4
+      end;//3
+      sub_004C5E04(Periode, ACol, 14, s);
+      sub_004C5FF8(Periode, ACol,7,0);
+    end//2
+	else
+    sub_004C5F08(Periode, ACol, 14, s);
+
+    //004C473D
+
+end;//0
 
 //004C4778
 function TFichierCdn.sub_004C4778(Periode:dword):boolean;
@@ -4806,98 +4296,28 @@ end;//0
 //end;
 
 //004C5E04
-{*//procedure sub_004C5E04(?:?; ?:?; ?:?; ?:?);
-//begin
- 004C5E04    push        ebp
- 004C5E05    mov         ebp,esp
- 004C5E07    add         esp,0FFFFFEF4
- 004C5E0D    push        ebx
- 004C5E0E    push        esi
- 004C5E0F    push        edi
- 004C5E10    xor         ebx,ebx
- 004C5E12    mov         dword ptr [ebp-10C],ebx
- 004C5E18    mov         esi,dword ptr [ebp+8]
- 004C5E1B    lea         edi,[ebp-105]
- 004C5E21    push        ecx
- 004C5E22    xor         ecx,ecx
- 004C5E24    mov         cl,byte ptr [esi]
- 004C5E26    inc         ecx
- 004C5E27    rep movs    byte ptr [edi],byte ptr [esi]
- 004C5E29    pop         ecx
- 004C5E2A    mov         byte ptr [ebp-5],cl
- 004C5E2D    mov         dword ptr [ebp-4],eax
- 004C5E30    xor         eax,eax
- 004C5E32    push        ebp
- 004C5E33    push        4C5EF8
- 004C5E38    push        dword ptr fs:[eax]
- 004C5E3B    mov         dword ptr fs:[eax],esp
- 004C5E3E    xor         edi,edi
- 004C5E40    xor         ebx,ebx
- 004C5E42    mov         bl,dl
- 004C5E44    sub         ebx,1
->004C5E47    jno         004C5E4E
- 004C5E49    call        @IntOver
- 004C5E4E    test        ebx,ebx
->004C5E50    jle         004C5E80
- 004C5E52    mov         esi,1
- 004C5E57    mov         edx,esi
- 004C5E59    cmp         edx,0FF
->004C5E5F    jbe         004C5E66
- 004C5E61    call        @BoundErr
- 004C5E66    mov         eax,dword ptr [ebp-4]
- 004C5E69    call        004BEAD0
- 004C5E6E    and         eax,0FF
- 004C5E73    add         edi,eax
->004C5E75    jno         004C5E7C
- 004C5E77    call        @IntOver
- 004C5E7C    inc         esi
- 004C5E7D    dec         ebx
->004C5E7E    jne         004C5E57
- 004C5E80    xor         eax,eax
- 004C5E82    mov         al,byte ptr [ebp-5]
- 004C5E85    add         edi,eax
->004C5E87    jno         004C5E8E
- 004C5E89    call        @IntOver
- 004C5E8E    lea         eax,[ebp-10C]
- 004C5E94    lea         edx,[ebp-105]
- 004C5E9A    call        @LStrFromString
- 004C5E9F    mov         ecx,dword ptr [ebp-10C]
- 004C5EA5    sub         edi,1
->004C5EA8    jno         004C5EAF
- 004C5EAA    call        @IntOver
- 004C5EAF    imul        edx,edi,0E
->004C5EB2    jno         004C5EB9
- 004C5EB4    call        @IntOver
- 004C5EB9    xor         eax,eax
- 004C5EBB    mov         al,byte ptr [ebp+0C]
- 004C5EBE    add         edx,eax
->004C5EC0    jno         004C5EC7
- 004C5EC2    call        @IntOver
- 004C5EC7    sub         edx,1
->004C5ECA    jno         004C5ED1
- 004C5ECC    call        @IntOver
- 004C5ED1    mov         eax,dword ptr [ebp-4]
- 004C5ED4    mov         eax,dword ptr [eax+940]
- 004C5EDA    mov         ebx,dword ptr [eax]
- 004C5EDC    call        dword ptr [ebx+20]
- 004C5EDF    xor         eax,eax
- 004C5EE1    pop         edx
- 004C5EE2    pop         ecx
- 004C5EE3    pop         ecx
- 004C5EE4    mov         dword ptr fs:[eax],edx
- 004C5EE7    push        4C5EFF
- 004C5EEC    lea         eax,[ebp-10C]
- 004C5EF2    call        @LStrClr
- 004C5EF7    ret
->004C5EF8    jmp         @HandleFinally
->004C5EFD    jmp         004C5EEC
- 004C5EFF    pop         edi
- 004C5F00    pop         esi
- 004C5F01    pop         ebx
- 004C5F02    mov         esp,ebp
- 004C5F04    pop         ebp
- 004C5F05    ret         8
-end;*}
+procedure TFichierCdn.sub_004C5E04(periode:dword; ACol:dword; c:dword;s:string);
+var
+  K,I :integer;
+begin//0
+  //004C5E04
+    //004C5E3E
+     K:=0;	
+      for I := 1 to periode - 1 do//004C5E52
+      begin//3
+        //004C5E57
+        K := K + sub_004BEAD0(I);
+      end;//3
+
+    K := K + ACol;
+
+    
+    f940[14 * (K - 1) + c - 1] := s;
+    //004C5EEC
+   // lvar_10C := '';
+
+end;//0
+
 
 //004C5F08
 procedure TFichierCdn.sub_004C5F08(Periode:dword; ACol:dword; Info:dword; var d:string);

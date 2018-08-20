@@ -328,17 +328,18 @@ begin//0
                   begin//9
                     //0051B00A
                     f3C.sub_004C3D1C(f2C, J, text);
-                    
                   end;//9
                   1:
                   begin//9
                     //0051B052
                     f3C.sub_004C3958(f2C, text, J);
+					
                   end;//9
                   2:
                   begin//9
                     //0051B09A
                     f3C.sub_004C3B54(f2C, text, J);
+					
                   end;//9
                   3:
                   begin//9
@@ -349,6 +350,7 @@ begin//0
                   begin//9
                     //0051B12A
                     f3C.sub_004C42D4(f2C, J, text);
+					
                   end;//9
                   5:
                   begin//9
@@ -359,6 +361,7 @@ begin//0
                   begin//9
                     //0051B1BA
                     f3C.sub_004C451C(f2C, J, text);
+					
                   end;//9
                   7:
                   begin//9
@@ -450,7 +453,7 @@ begin//0
                     text := '';
                   end;//9
                 end;//8
-                text:='testing';
+                
                 lvar_84.destroy;
               end;//7
 			  

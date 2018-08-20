@@ -831,30 +831,26 @@ begin//0
     //00546785
     lvar_1 :=  FichierCdn.sub_004BEA58;
     I := I + 1;
-   // FichierCdn.sub_004C3D1C(f2D8, I, Buf);
-   buf := 'x1';
+    FichierCdn.sub_004C3D1C(f2D8, I, Buf);
+  
     Cells[Msg.Message, lvar_1 + $4{gvar_006178F4}] := Buf;
     I := I + 1;
-	buf := 'x2';
-    //FichierCdn.sub_004C3958(f2D8, Buf, I);
+    FichierCdn.sub_004C3958(f2D8, Buf, I);
     Cells[Msg.Message, lvar_1 + $5{gvar_006178F5} ] :=  Buf;
     //push EAX
    // I := ;
-    buf := 'x3';
+    
    I := I + 1;
-    //FichierCdn.sub_004C3B54(f2D8, Buf, I);
+    FichierCdn.sub_004C3B54(f2D8, Buf, I);
     Cells[Msg.Message, lvar_1 + $6{gvar_006178F6}] :=  Buf;
 
     FichierCdn.sub_004C40D4(f2D8, Buf, Msg.Message+1);
     Cells[Msg.Message, lvar_1 + $2{gvar_006178F7}] :=  Buf;
-	buf := 'x5';
-    //FichierCdn.sub_004C42D4(f2D8, I, Buf);
+    FichierCdn.sub_004C42D4(f2D8, I, Buf);
     Cells[Msg.Message, lvar_1 + $7{gvar_006178F8}] :=  Buf;
-	buf := 'x6';
-    //FichierCdn.sub_004C3EA4(f2D8, I, Buf);
+    FichierCdn.sub_004C3EA4(f2D8, I, Buf);
     Cells[Msg.Message, lvar_1 + $8{ gvar_006178F9}] := Buf;
-	buf := 'x7';
-    //FichierCdn.sub_004C451C(f2D8, I, Buf);
+    FichierCdn.sub_004C451C(f2D8, I, Buf);
     Cells[Msg.Message, lvar_1 + $9{gvar_006178FA}] :=  Buf;
    // I := ;
     I := I + 1;

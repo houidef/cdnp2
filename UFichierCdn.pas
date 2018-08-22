@@ -138,9 +138,9 @@ type
     procedure sub_004C5F08(Periode:dword; ACol:dword; Info:dword; var d:string);//004C5F08
     procedure sub_004C5FF8(a:dword; b:dword; c:dword; d:dword);//004C5FF8
     function sub_004C6030(periode:dword; ACol:dword; info:dword):Boolean;//004C6030
-    procedure sub_004C6080(a:dword; b:dword; c:string);//004C6080
-    procedure sub_004C6144(a:dword; b:dword; c:string);//004C6144
-    procedure sub_004C61E4(a:dword; b:dword; c:boolean);//004C61E4
+    procedure sub_004C6080(Periode:dword; ARow:dword; Valeur:string);//004C6080
+    procedure sub_004C6144(Periode:dword; ARow:dword; var Valeur:string);//004C6144
+    procedure sub_004C61E4(Periode:dword; ARow:dword; c:boolean);//004C61E4
     function sub_004C62E8(a:dword; b:dword):boolean;//004C62E8
     procedure sub_004C63C8;//004C63C8
     ////procedure sub_004C64CC(?:dword; ?:ShortString; ?:?);//004C64CC
@@ -1746,59 +1746,56 @@ begin//0
 end;//0
 
 //004C213C
-procedure TFichierCdn.sub_004C213C(Periode:dword; ARow:dword; var Moy:string); //moyenne brut
+procedure TFichierCdn.sub_004C213C(Periode:dword; ARow:dword; var Moy:string); //moyenne brute
 var
   I : integer;
-  lvar_18,Counter,lvar_38, lvar_48: real;
+  Coefficient,NoteSur,Valeur,Total, Somme: real;
   buf: string;
 begin//0
   //004C213C..004C2179
     if (sub_004C62E8(Periode, ARow)) then
     begin//004C218F
-      lvar_38 := 0;
-      lvar_48 := 0;  
-      if (byte(sub_004BEAD0(Periode)) > 0) then
-      begin//3
-        //004C21BF
-        for I := 1 to byte(sub_004BEAD0(Periode)) do
+      Total := 0;
+      Somme := 0;        
+        for I := 1 to sub_004BEAD0(Periode) do  //004C21BF
         begin//004C21C9
           sub_004BEDCC(Periode, I, buf);
           if (buf = 'oui') then
           begin//004C2208
             try//004C2216
               sub_004BED7C(Periode, I, buf);
-              lvar_18 := StrToFloat(buf);
+              Coefficient := StrToFloat(buf);
               sub_004BED2C(Periode, I, buf);
-              Counter := StrToFloat(buf);
+              NoteSur := StrToFloat(buf); 
               sub_004BEF5C(Periode, I, ARow, buf);
-              lvar_38 := StrToFloat(buf) * lvar_18 + lvar_38;
-              lvar_48 := Counter * lvar_18 + lvar_48;
+			  Valeur := StrToFloat(buf); 
+              Total := Valeur * Coefficient + Total;
+              Somme := NoteSur * Coefficient + Somme;
             except//6
               on E:EConvertError do
               begin//004C2321
 			    //....
+				showmessage('ERROR1');
               end;//7
               on E:EMathError do
               begin//004C2328
 			  //....
+			    showmessage('ERROR2');
               end;//7
             end;//6
           end;//5
         end;//4
-      end;//3
-      if (lvar_48<> 0) then
-      begin//004C234E
-        Moy := FloatToStrF(sub_004B9E48 * (lvar_38 / lvar_48), {2}ffFixed, 18, 2);
-      end//3
-      else
-      begin//004C239D
+	  
+      if (Somme<> 0) then //004C234E
+        Moy := FloatToStrF(sub_004B9E48 * (Total / Somme), {2}ffFixed, 18, 2)
+      else//004C239D
         Moy := '';
-      end;//3
-      sub_004C6080(Periode, ARow,Moy);
+      //showmessage(Format('Moy %s',[Moy]));
+      sub_004C6080(Periode, ARow,Moy); //save Moyenne
       sub_004C61E4(Periode, ARow, false);
-      Exit;
-    end;//2
-    sub_004C6144(Periode, ARow, Moy);
+    end//2
+	else
+      sub_004C6144(Periode, ARow, Moy);
 end;//0
 
 
@@ -1906,7 +1903,7 @@ end;//0
 procedure TFichierCdn.sub_004C2AF4(Periode:dword; ARow:dword; ArrondirMoyennes:dword; var RMoy:string);
 begin//0
   //004C2AF4
-  sub_004C213C(Periode, ARow,RMoy); //calculer la moyenne brut
+  sub_004C213C(Periode, ARow,RMoy); //calculer la moyenne brute
   sub_004C2410(RMoy, ArrondirMoyennes,RMoy); // Arrondir la Moyenne
 end;
 
@@ -4367,31 +4364,30 @@ end;//0
 
 
 //004C6080
-procedure TFichierCdn.sub_004C6080(a:dword; b:dword; c:string);
+procedure TFichierCdn.sub_004C6080(Periode:dword; ARow:dword; Valeur:string);
 begin//0
   //004C6080
-    f944[(a - 1) * sub_004BEA58 + b - 1] := c;
+    f944[(Periode - 1) * sub_004BEA58 + ARow - 1] := Valeur;
 end;//0
 
 
 //004C6144
-procedure TFichierCdn.sub_004C6144(a:dword; b:dword; c:string);
+procedure TFichierCdn.sub_004C6144(Periode:dword; ARow:dword; var Valeur:string);
 begin//0
   //004C6144
-    c := f944[sub_004BEA58 * (a - 1) + b - 1];
+    Valeur := f944[sub_004BEA58 * (Periode - 1) + ARow - 1];
 end;//0
 
 
 //004C61E4
-procedure TFichierCdn.sub_004C61E4(a:dword; b:dword; c:boolean);
+procedure TFichierCdn.sub_004C61E4(Periode:dword; ARow:dword; c:boolean);
 begin//004C61E4
   if (c) then
   begin//004C621D
-    f944[sub_004BEA58 * (a - 1) + sub_004BE9E0 * sub_004BEA58 + b - 1] := '1';
-    Exit;
+    f944[sub_004BEA58 * (Periode - 1) + sub_004BE9E0 * sub_004BEA58 + ARow - 1] := '1';
   end
   else
-  f944[sub_004BEA58 * (a - 1) + sub_004BE9E0 * sub_004BEA58 + b - 1] := '0';
+  f944[sub_004BEA58 * (Periode - 1) + sub_004BE9E0 * sub_004BEA58 + ARow - 1] := '0';
 end;//0
 
 

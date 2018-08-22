@@ -13,7 +13,7 @@ Forms, Windows,  SysUtils, Classes,UImpression,UFichierCdn,Unit173,Graphics,Prin
 
 type
   TImpressionGrilleNotes = class(TImpression)
-  constructor Create(FichierCdn:TFichierCdn; Canvas:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);//0051BC40
+  constructor Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);//0051BC40
 	procedure sub_0051A184(b:dword);//0051A184
     function sub_0051BB60:dword;//0051BB60
     procedure sub_0051BD4C(Min:dword; Max:dword; Nbr_Exp:dword; d:dword; e:boolean);//0051BD4C
@@ -574,13 +574,13 @@ begin//0
 end;//0
 
 //0051BC40
-constructor TImpressionGrilleNotes.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; i:dword);
+constructor TImpressionGrilleNotes.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);
 var
  Buf:string;
 begin//0
   //0051BC40
     //0051BC72
-    inherited create(FichierCdn, Canvas, c, d, e, f, g,i);
+    inherited create(FichierCdn, Canvas, EnteteDePage, BasDePage, e, f, g,Font);
     //f4C := f;
     f3C.sub_004BE8FC(Buf);
     Printer.Title := 'Carnet de Notes version Personnelle - ' + Buf;
@@ -868,9 +868,9 @@ begin//0
 
     FormProgression.Caption := 'Préparation de l''impression en cours ... page ' + IntToStr(FormProgression.ProgressBar1.Position);
     FormProgression.ProgressBar1.Position := FormProgression.ProgressBar1.Position + 1;}
-    //sub_00519534; //imprimer EnteteBasDePage
+    sub_00519534; //imprimer EnteteBasDePage
     sub_0051A184(Num_Page);
-    //sub_0051954C;//imprimer EnteteBasDePage
+    sub_0051954C;//imprimer EnteteBasDePage
 end;//0
 
 

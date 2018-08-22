@@ -87,7 +87,7 @@ implementation
 constructor TFormImprimer.Create(Aowner:TComponent; FichierCdn:TFichierCdn; logo:Timage);
 var
   I,J:integer;
-  lvar_14 : string;
+  buf : string;
 begin//0
   //00524C1C
     //00524C52
@@ -95,10 +95,9 @@ begin//0
     f374 := FichierCdn{d};
     Image1.Picture := logo.Picture;
     f370 := TFont.Create;
-    //sub_004BD7D0(lvar_14);
-    f370.Name := lvar_14;
-    //sub_004BD79C(f370,lvar_14);
-    //f370.Size := EBX;
+    sub_004BD7D0(buf);
+    f370.Name := buf;
+    f370.Size := sub_004BD79C();
     Panel1.Color := $E2FFFF;
     Label3.Caption := f370.Name + ' (' + IntToStr(f370.Size) + ')';
     FontDialog1.Font.Name := 'Times New Roman';
@@ -526,8 +525,8 @@ end;
 //0052588C
 procedure TFormImprimer.sub_0052588C(a:dword; b:dword);
 var
- Page1 : TEnteteBasDePage;
- Page2 : TEnteteBasDePage;
+ EnteteDePage : TEnteteBasDePage;
+ BasDePage : TEnteteBasDePage;
  lvar_18,lvar_1C,lvar_20,lvar_24 : TImpressionGrilleNotes;
 begin//0
  //0052588C
@@ -540,23 +539,23 @@ begin//0
         Exit;
       end;//3
     end;//2
-    Page1 := TEnteteBasDePage.Create(TBlocTexte.Create(ComboBoxEnteteGauche.Text,CheckBoxEnTeteGauche.Checked),
+    EnteteDePage := TEnteteBasDePage.Create(TBlocTexte.Create(ComboBoxEnteteGauche.Text,CheckBoxEnTeteGauche.Checked),
 								     TBlocTexte.Create(ComboBoxEnteteCentre.Text,CheckBoxEnTeteCentre.Checked),
 								     TBlocTexte.Create(ComboBoxEnteteDroite.Text,CheckBoxEnTeteDroite.Checked));
-    Page2 := TEnteteBasDePage.Create(TBlocTexte.Create(ComboBoxBasdepageGauche.Text,CheckBoxBasdepageGauche.Checked),
+    BasDePage := TEnteteBasDePage.Create(TBlocTexte.Create(ComboBoxBasdepageGauche.Text,CheckBoxBasdepageGauche.Checked),
 									 TBlocTexte.Create(ComboBoxBasdepageCentre.Text,CheckBoxBasdepageCentre.Checked), 
 								     TBlocTexte.Create(ComboBoxBasdepageDroite.Text,CheckBoxBasdepageDroite.Checked));
     case a of
       0://00525A5C        
-        lvar_18 := TImpressionGrilleNotes.Create(f374, Printer.Canvas,Page1 , Page2, b, sub_004BAA88(0), sub_004BAEC4,0{?????});
+        lvar_18 := TImpressionGrilleNotes.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, sub_004BAA88(0), sub_004BAEC4,f370);
       (*1://00525AA1
-        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,Page1 , Page2, b, sub_004BAA88(1), sub_004BAF34,0{?????});
+        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, sub_004BAA88(1), sub_004BAF34,f370);
 
       2://00525AE3
-        lvar_20 := TImpressionAppreciation.Create(f374, Printer.Canvas,Page1 , Page2, b, sub_004BC228);
+        lvar_20 := TImpressionAppreciation.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, sub_004BC228);
 
       3://00525B1D        
-        lvar_24 := TImpressionGrilleVierge.Create(f374, Printer.Canvas,Page1 , Page2, sub_004BAA88(2), sub_004BC01C, sub_004BC01C);*)
+        lvar_24 := TImpressionGrilleVierge.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, sub_004BAA88(2), sub_004BC01C, sub_004BC01C);*)
 
     end;//2
 

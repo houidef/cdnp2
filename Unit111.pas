@@ -203,8 +203,8 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	//procedure sub_004BD61C(?:?);//004BD61C
 	//procedure sub_004BD69C(?:?);//004BD69C
 	//procedure sub_004BD71C(?:?);//004BD71C
-	//procedure sub_004BD79C;//004BD79C
-	//procedure sub_004BD7D0(?:?);//004BD7D0
+	function sub_004BD79C:byte;//004BD79C
+	procedure sub_004BD7D0(var a:string);//004BD7D0
 	//procedure sub_004BD82C(?:Integer);//004BD82C
 	//procedure sub_004BD858(?:?);//004BD858
 	procedure sub_004BD8D4(a:Boolean);//004BD8D4
@@ -3475,34 +3475,18 @@ end;//0
 //end;*}
 
 ///004BD79C
-///procedure sub_004BD79C;
-///begin
-{	*
-004BD79C    xor         ecx,ecx
-004BD79E    mov         dl,9
-004BD7A0    mov         eax,4BD7C0;'taillePolice'
-004BD7A5    call        00497268
-004BD7AA    cmp         eax,0FF
->	004BD7AF    jbe         004BD7B6
-004BD7B1    call        @BoundErr
-004BD7B6    ret
-*}
-//end;
+function sub_004BD79C:byte;
+begin
+ result := sub_00497268('taillePolice',9{,0});
+
+end;
 
 ///004BD7D0
-{	{*//procedure sub_004BD7D0(?:?);
-///begin
-004BD7D0    push        ebx
-004BD7D1    mov         ebx,eax
-004BD7D3    push        0
-004BD7D5    push        ebx
-004BD7D6    mov         ecx,4BD7F4;'\Options'
-004BD7DB    mov         edx,4BD808;'Times New Roman'
-004BD7E0    mov         eax,4BD820;'nomPolice'
-004BD7E5    call        0049733C
-004BD7EA    pop         ebx
-004BD7EB    ret
-//end;*}
+procedure sub_004BD7D0(var a:string);
+begin
+  sub_0049733C('nomPolice','Times New Roman','\Options',a{,0});
+
+end;
 
 //004BD82C
 //procedure sub_004BD82C(?:Integer);

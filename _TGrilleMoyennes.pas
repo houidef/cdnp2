@@ -28,6 +28,7 @@ type
     procedure sub_004CFA2C(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);//004CFA2C
     procedure sub_004D072C;//004D072C
     function sub_004D08DC(Periode:dword; ARow:dword):dword;//004D08DC
+	procedure sub_004D03C8(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
   end;
 
 
@@ -41,6 +42,7 @@ begin
  //004CF0A8
  inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
  f2E4:=2;
+ 
   SetLength(f2f4,FichierCdn.sub_004BE9E0*4);
   //FOwner := FOwner + _DynArr_121_2;
     for I := 0 to FichierCdn.sub_004BE9E0*4 -1 do
@@ -55,6 +57,7 @@ begin
   //DefaultDrawing := False;
   //f28C := Self
   //fBC := Self
+  //sub_04D03C8
   OnMouseDown := sub_004CFA2C;
   Options := Options + [goRowSelect];
 
@@ -958,10 +961,10 @@ begin//0
       if (I = 2) then Continue;
       Cols[I].Clear;
     end;//2
-    Cells[0, 0] := 'Moyenne brute sur ' + IntToStr({sub_004B9E48}20);
-    Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr({sub_004B9E48}20);
+    Cells[0, 0] := 'Moyenne brute sur ' + IntToStr(sub_004B9E48);
+    Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr(sub_004B9E48);
     Cells[2, 0] := 'Point(s) en + ou en -';
-    Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr({sub_004B9E48}20);
+    Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr(sub_004B9E48);
 
 
 
@@ -979,7 +982,7 @@ begin//0
     FichierCdn.sub_004C2AF4(Periode, ARow, sub_004B9E10, buf);
     Cells[1, ARow] := buf;
     FichierCdn.sub_004C2B38(Periode, ARow, buf);
-    Cells[2, ARow] := '3';//buf;
+    Cells[2, ARow] := buf;
     FichierCdn.sub_004C2D10(Periode, ARow, sub_004B9E10, buf);
     Cells[3, ARow] := buf;
 end;//0
@@ -1038,7 +1041,108 @@ end;//0
 procedure TGrilleMoyennesCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
 begin
     inherited DrawCell(ACol, ARow, ARect, AState);
-	Canvas.TextOut(ARect.Left + 2, ARect.Top + 2, Cells[ACol, ARow]);	
+	sub_004D03C8(self,ACol,ARow,ARect, AState);	
 end;
+procedure TGrilleMoyennesCarnetDeNotes.sub_004D03C8(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+var
+   R:TRect;
+   Valeur:Real;
+begin//0
+  //004D03C8
+  {lvar_4C := 0;
+  lvar_4C := 0;
+  lvar_40 := 0;
+  lvar_40 := 0;
+  lvar_28 := AState;
+  lvar_8 := ARow;}
+    //004D0402
+    //sub_004CA104(Self, ACol, ARow ,ARect , AState);
+    Canvas.Font.Style := [];//gvar_004D0720;
+    Canvas.Font.Color := 0;
+    if (sub_004BA2B0) then
+    begin//2
+      //004D0450
+      if (ARow > 0) then
+      begin//3
+        //004D045A
+        if (ACol <> 2) then
+        begin//4
+          //004D0464
+          
+          if (Cells[ACol, ARow] <> '') then
+          begin//5
+            //004D0480
+            try
+              //004D048E
+              Valeur:= StrToFloat(Cells[ACol, ARow]);
+              //004D04AF
+              if ( Valeur < 0) Or ( Valeur > sub_004B9E48) then //004D04CF
+                Canvas.Font.Color := sub_004BA070
+              else//004D04EC
+                if (Valeur >= 0) and(Valeur < sub_004B9E48/2  ) then//004D04FA //004D0515
+                    Canvas.Font.Color := sub_004B9F8C
+                else//004D052F       
+                  if (Valeur >= 3/4 * sub_004B9E48 ) then //004D0554
+                    Canvas.Font.Color := sub_004BA024
+                  else//004D056E
+                    Canvas.Font.Color := sub_004B9FD8;
+
+            except//6
+              on E:EConvertError do
+              begin//7
+                //004D05AC
+                if (sub_004BB458) then
+                begin//8
+                  //004D05B5
+                  Canvas.Brush.Color := sub_004BA0BC;
+                end//8
+                else
+                begin//8
+                  //004D05CF
+                  Canvas.Brush.Color := $FFFFFF{16777215};
+                end;//8
+              end;//7
+              on E:EMathError do
+              begin//7
+                //004D05E7
+                
+                if (sub_004BB458) then
+                begin//8
+                  //004D05F0
+                  Canvas.Brush.Color := sub_004BA0BC;
+                end//8
+                else
+                begin//8
+                  //004D060A
+                  Canvas.Brush.Color := $FFFFFF{16777215};
+                end;//8
+              end;//7
+            end;//6
+          end;//5
+        end;//4
+      end;//3
+    end;//2
+    if (gdSelected in AState) then
+    begin//2
+      //004D062B
+      if (sub_004BB458) then
+      begin//3
+        //004D0634
+        Canvas.Brush.Color := sub_004B9D24;
+      end//3
+      else
+      begin//3
+        //004D064E
+        Canvas.Brush.Color := $C0C0C0;
+      end;//3
+    end;//2
+	Canvas.FillRect(ARect);
+    R.Left := ARect.Left;
+    R.Top := ARect.Top + 2;//EAX
+    R.Right := ARect.Right;
+    R.Bottom := ARect.Bottom;
+    DrawTextA(Canvas.Handle, PChar(Cells[ACol, ARow]), Length(Cells[ACol, ARow]), R, 1);
+    //004D06F4
+end;//0
 
 end.

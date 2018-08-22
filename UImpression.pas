@@ -1,7 +1,7 @@
 {***********************************************************
 * Version Original V0.01                                   *
 * Decompiled by HOUIDEF AEK v 14:44 Vendredi 17 aout 2018  *
-* The disassembly process : 70%                            *
+* The disassembly process : 90%                            *
 ************************************************************}
 unit UImpression;
 
@@ -19,25 +19,25 @@ type
   f3C : TFichierCdn;
   f40 : TCanvas;
   f38 : TFont;
-  f44 : TEnteteBasDePage;
-  f48 : TEnteteBasDePage;
+  f44 : TEnteteBasDePage; //Entete De Page
+  f48 : TEnteteBasDePage; //Bas De Page
   f2C : DWORD;
   f30 : byte;  //Nbr des page vertical imprimé
-  f4C : TInclureImpression; //????????????
+  f4C : TInclureImpression; 
   f34 : boolean;  //imprime Num de etudiant
-  f14 : DWORD;
+  f14 : DWORD; //marge de page
   f1C : DWORD;
   fC  : DWORD;
   f10 : DWORD;
   f18 : DWORD;
   f20 : DWORD;
-  f24 :DWORD;
-  f28 :DWORD;
+  f24 :DWORD; //witdth of page
+  f28 :DWORD; //Height of page
     f50:array of integer;//f50
     procedure sub_00519534;//00519534
     procedure sub_0051954C;//0051954C
-    function sub_00519578(a:dword; b:TEnteteBasDePage; c:dword):dword;//00519578}
-    constructor create (FichierCdn:TFichierCdn; Canvas:TCanvas;  c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; ImpNum:boolean; i:dword);//0051992C
+    function sub_00519578(Ligne:dword; b:TEnteteBasDePage; c:boolean):dword;//00519578}
+    constructor create (FichierCdn:TFichierCdn; Canvas:TCanvas;  EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; ImpNum:boolean; font:TFont);//0051992C
     function sub_00519A90:integer;//00519A90
     function sub_00519AA8(a:TCanvas; b:AnsiString):dword;//00519AA8
     function sub_00519AF8(ImpDateNais:boolean; ImpRedoublage:boolean):dword;//00519AF8 get la taille de 1ere colone
@@ -52,7 +52,7 @@ implementation
 procedure TImpression.sub_00519534;
 begin//0
   //00519534
-  f4 := sub_00519578(f1C, f44, 1); //impression
+  f4 := sub_00519578(f1C, f44{Entete de page}, True); //impression
 end;//0
 
 
@@ -60,18 +60,18 @@ end;//0
 procedure TImpression.sub_0051954C;
 begin//0
   //0051954C
-  f8 := sub_00519578(f28 - f1C - 40, f48, 0);
+  f8 := sub_00519578(f28 - f1C - 40, f48{Bas de page}, False);
 
 end;//0
 
 
 //00519578
-function TImpression.sub_00519578(a:dword; b:TEnteteBasDePage; c:dword):dword;
+function TImpression.sub_00519578(Ligne:dword; b:TEnteteBasDePage; c:boolean):dword;
 var
   lvar_14,lvar_18,lvar_1C ,lvar_8,lvar_C, lvar_10,lvar_4,lvar_20:Integer;
 begin//0
   //00519578
-  try//005195A3
+  //005195A3
     if (Trim(b.f4.f4) = '') then
     begin//005195B7
       if (Trim(b.f8.f4) = '') then
@@ -84,8 +84,8 @@ begin//0
       end;//3
     end;//
 
-    f40.font.Name := f38.Name;
-    if (c <> 0) then
+    {f40.font.Name := f38.Name;}
+    if (c) then
     begin//00519608
       f40.font.Size := 10;
     end//2
@@ -93,56 +93,56 @@ begin//0
     begin//0051961A
       f40.font.Size := 8;
     end;//2
-    f40.MoveTo(f14, a);
-    f40.LineTo(f24 - f14, a);
+    f40.MoveTo(f14, Ligne);
+    f40.LineTo(f24 - f14, Ligne);
     lvar_18  := f40.TextWidth(b.f4.f4);
     lvar_1C  := f40.TextWidth(b.f8.f4);
     lvar_20  := f40.TextWidth(b.fC.f4);
     lvar_C   := f40.TextHeight(b.f4.f4);
     lvar_10  := f40.TextHeight(b.f8.f4);
     lvar_14  := f40.TextHeight(b.fC.f4);
-    if ( b.f4.f8 <> false) then //????
+    if ( b.f4.f8) then //????
     begin//2
       //005196BD
-      f40.Rectangle(f14,a + 8 ,a + 8 + lvar_8 + 10,f14 + lvar_14 + 5 );
+      f40.Rectangle(f14,Ligne + 8 ,Ligne + 8 + lvar_8 + 10,f14 + lvar_14 + 5 );
     end;//2
-    f40.TextOut(f14, a + 8 + 5, b.f4.f4);
+    f40.TextOut(f14, Ligne + 8 + 5, b.f4.f4);
     lvar_4 := TRUNC((fC - lvar_18) / 2){ Div -2147483648};
-    if ( lvar_4<> 0) then
+    if (lvar_4<> 0) then
     begin//2//00519765
-      f40.Rectangle(lvar_4 - 5, a + 8, a + 8 + lvar_C + 10,lvar_4 + lvar_18 + 5 );
+      //f40.Rectangle(lvar_4 - 5, Ligne + 8, Ligne + 8 + lvar_C + 10,lvar_4 + lvar_18 + 5 );
     end;//2
-    f40.TextOut(lvar_4, a + 8 + 5,b.f8.f4 );
-    if (b.fC.f8 <> false) then  //????????
+    f40.TextOut(lvar_4, Ligne + 8 + 5,b.f8.f4 );
+    if (b.fC.f8) then  //????????
     begin//2
-      f40.Rectangle(f24 - f14 - lvar_1C - 5, a + 8, f24 - f14,a + 8 + lvar_10 + 10);//,f24 - f14 );
+      //f40.Rectangle(f24 - f14 - lvar_1C - 5, Ligne + 8, f24 - f14,Ligne + 8 + lvar_10 + 10);//,f24 - f14 );
     end;//2
-    f40.TextOut(f24 - lvar_1C - f14 - 5, a + 8 + 5, b.fC.f4);
-    if (c <> 0) then
+    f40.TextOut(f24 - lvar_1C - f14 - 5, Ligne + 8 + 5, b.fC.f4);
+    if (c ) then
     begin//00519895
-      f40.MoveTo(f14, lvar_C + a + 26);
-      f40.LineTo(f24 - f14, lvar_C + a + 26);
+      f40.MoveTo(f14, lvar_C + Ligne + 26);
+      f40.LineTo(f24 - f14, lvar_C + Ligne + 26);
     end;//2
 
-    f40.font.Size := f38.Size;
+   // f40.font.Size := f38.Size;
     result := lvar_C + 40;
-  finally//005198FE
-  end;//1
+  //005198FE
+
   
 end;//0
 
 
 //0051992C
-constructor TImpression.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; c:TEnteteBasDePage; d:TEnteteBasDePage; e:dword; f:TInclureImpression; ImpNum:boolean; i:dword);
+constructor TImpression.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; ImpNum:boolean; font:TFont);
 begin//0
   //0051992C
   inherited create;
   f3C := FichierCdn;
   f40 := Canvas;
-  //f38 := i;
+  f38 := font;
   //f40.Font := i;
-  f44 := c;
-  f48 := d;
+  f44 := EnteteDePage;
+  f48 := BasDePage;
   f2C := e;
   f30 := 0;//EAX
   f4C := f;

@@ -1,7 +1,8 @@
-{***************************************
-* Version Original V0.01
-* Created by HOUIDEF AEK v.01:10 jeudi 1 mars 2018
-***************************************}
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
+* The disassembly process : 100%                            *
+************************************************************}
 unit _FormEnregistrement;
 
 interface
@@ -76,13 +77,13 @@ begin//0
       if (sub_004981D4(Edit2.Text, Edit3.Text, 0)) then
       begin//00553913
 	     I:=sub_00498B20 + 1;
-        //sub_0049884C(I, Edit2.Text);
-        //sub_00498978(I, Edit3.Text);
+        sub_0049884C(I, Edit2.Text);
+        sub_00498978(I, Edit3.Text);
         StringList{ESI} := TStringList.Create;
-        //StringList.AddStrings(sub_004982F8);
+        StringList.AddStrings(sub_004982F8);
         if (StringList.IndexOf(Edit2.Text) + 1 = 0) then//0055399F
           StringList.Add(Edit2.Text);
-        //sub_00498460(StringList);
+        sub_00498460(StringList);
         StringList.Destroy;
         Application.MessageBox('Merci de votre soutien !!!'+#13+#10+#13+#10+
 							   'Vous êtes maintenant un utilisateur enregistré et vous bénéficiez des mises à jour et des nouvelles versions gratuitement.'

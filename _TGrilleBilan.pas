@@ -1,13 +1,13 @@
 {***************************************
-* Version Original V0.01
-* Decompiled by HOUIDEF AEK v 18:05 dimanche 18 février 2018
+* Version Original V0.03 build 1
+* Decompiled by HOUIDEF AEK v 0:16 jeudi, août 23, 2018
 ***************************************}
 unit _TGrilleBilan;
 
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, Messages, Grids, _TGrilleGenerique, UFichierCdn,Unit111;
+Forms, Windows,  SysUtils, Classes, Messages, Grids, _TGrilleGenerique, UFichierCdn,Unit111,dialogs;
 
 type
   TGrilleBilanCarnetDeNotes = class(TGrilleGeneriqueCarnetDeNotes)
@@ -22,12 +22,12 @@ type
     f300:dword;//f300
     destructor Destroy; virtual;//004CEA48
     procedure WMCommand(var Message:TWMCommand); message WM_COMMAND;//004CEAA0
-    procedure sub_004CB4D4(var Msg:TMsg); Message 1027;//004CB4D4
-    procedure sub_004CEEB4(var Msg:TMsg);  Message 1028;//004CEEB4
+    procedure sub_004CB4D4(var Msg:TMsg); Message $403;//004CB4D4
+    procedure sub_004CEEB4(var Msg:TMsg); Message $404;//004CEEB4
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004CB414
     procedure sub_004CCCB8;//004CCCB8
 	procedure sub_004CD7E0(Sender:TObject; ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
-    //procedure sub_004CD0B0(?:?);//004CD0B0
+    procedure sub_004CD0B0(a:dword);//004CD0B0
   end;
 
 
@@ -56,217 +56,122 @@ end;
 
 //004CB4D4
 procedure TGrilleBilanCarnetDeNotes.sub_004CB4D4(var Msg:TMsg);
-//var
+var
+  lvar_C,lvar_14, lvar_18,lvar_4,I:integer;
+  buf:string;
 begin//0
   //004CB4D4
  
     //004CB4F9
    
     sub_004CCCB8;
- (*   EAX := Msg.message;
-    f2D8 := EAX;//Msg.message
-    ESI := f2DC;
-    EAX := ESI;//f2DC
-    EAX := sub_004BE9E0(f2DC);
-    EAX := EAX And $FF{255};//sub_004BE9E0(f2DC) And $FF{255}
-    lvar_C := sub_004BE9E0(f2DC) And $FF{255};
-    EAX := 1;
-    EDX := lvar_C;
-    ESP := $20{32};
-    EAX := f2D8;
-    if (lvar_44[f2D8] < True) then
-    begin//2
-      //004CB557
-      EDX := f2D8;
-      EAX := ESI;//f2DC
-      EAX := f2DC.sub_004BEAD0(f2D8);
-      EDX := (EAX{f2DC.sub_004BEAD0(f2D8)} = 0);
-      EDX := EDX Xor 1;//EAX{f2DC.sub_004BEAD0(f2D8)} = 0 Xor 1
-      EAX := EBX;//Self
-      SetVisible{Visible}(EDX{EAX{f2DC.sub_004BEAD0(f2D8)} = 0 Xor 1});
-    end//2
-    else
-    begin//2
-      //004CB575
-      EAX := ESI;//f2DC
-      EAX := f2DC.sub_004C4790;
-      EDX := (EAX{f2DC.sub_004C4790} = 0);
-      EDX := EDX Xor 1;//EAX{f2DC.sub_004C4790} = 0 Xor 1
-      EAX := EBX;//Self
-      SetVisible{Visible}(EDX{EAX{f2DC.sub_004C4790} = 0 Xor 1});
-    end;//2
-    if (FVisible = False) then Exit;
-    EAX := f2DC;
-    EAX := f2DC.sub_004C8AE8;
-    EAX := EAX And $FF{255};//f2DC.sub_004C8AE8 And $FF{255}
-    lvar_14 := f2DC.sub_004C8AE8 And $FF{255};
-    EAX := sub_004B9F60;
-    if (EAX{sub_004B9F60} <> 0) then
-    begin//2
-      //004CB5B1
-      lvar_18 := 3;
-    end//2
-    else
-    begin//2
-      //004CB5BA
-      EAX := 0;
-      lvar_18 := EAX;
-    end;//2
-    ESI := f2DC;
-    EDX := f2D8;
-    EAX := ESI;//f2DC
-    EAX := f2DC.sub_004C3134(f2D8);
-    EDI := f2DC.sub_004C3134(f2D8);
-    EAX := 1;
-    EDX := lvar_C;
-    ESP := $20{32};
-    EAX := f2D8;
-    if (lvar_44[f2D8] < True) then
+   
+    f2D8 := Msg.message;
+     
+    
+    lvar_C := FichierCdn.sub_004BE9E0();//f2DC est fichierCdn,get Nbre Periodes
+    if (lvar_C < f2D8) then //004CB557
+      Visible := (FichierCdn.sub_004BEAD0(f2D8) = 0) Xor True
+    else//004CB575
+      Visible := (FichierCdn.sub_004C4790 = 0) Xor True;
+
+    if (Visible = False) then Exit;
+
+    lvar_14 := FichierCdn.sub_004C8AE8;
+    if (sub_004B9F60 ) then //004CB5B1
+      lvar_18 := 3
+    else//004CB5BA
+      lvar_18 := 0;
+
+
+    //EDI := f2DC.sub_004C3134(f2D8);
+	
+    if (lvar_C < f2D8) then
     begin//2
       //004CB601
-      EAX := sub_004B9F30;
-      if (EAX{sub_004B9F30} <> 0) then
-      begin//3
-        //004CB60A
-        EAX := EDI;//EDI
-        call(
-        
-        );
-        EAX := EAX + 3;//EAX
-        lvar_4 := EAX;
-      end//3
-      else
-      begin//3
-        //004CB620
+      //if (sub_004B9F30) then //004CB60A
+        //lvar_4 := EDI.Call() + 3
+      //else//004CB620
         lvar_4 := 2;
-      end;//3
-      EDX := lvar_4;
-      EDX := EDX + 4;//EDX
-      EDX := EDX + lvar_14;
-      EDX := EDX + lvar_18;
-      EAX := EBX;//Self
-      SetColCount{ColCount}(EDX);
+
+      ColCount := lvar_4 + 4 + lvar_14 + lvar_18;
     end//2
     else
     begin//2
-      //004CB651
-      EAX := sub_004B9F30;
-      if (EAX{sub_004B9F30} <> 0) then
-      begin//3
-        //004CB65A
-        EAX := EDI;//EDI
-        call(
-        
-        );
-        EAX := EAX + 1;//EAX
-        lvar_4 := EAX;
-      end//3
-      else
-      begin//3
-        //004CB670
-        EAX := 0;
-        lvar_4 := EAX;
-      end;//3
-      EDX := lvar_4;
-      EDX := EDX + lvar_C;
-      EDX := EDX + 6;//EDX
-      EDX := EDX + lvar_18;
-      EAX := EBX;//Self
-      SetColCount{ColCount}(EDX);
+      //004CB651     
+      //if (sub_004B9F30 <> 0) then//004CB65A
+      //  lvar_4 := EDI.Call() + 1
+      //else//004CB670
+        lvar_4 := 0;
+
+
+      ColCount := lvar_4 + lvar_C + 6 + lvar_18;
     end;//2
-    EAX := ESI;//f2DC*)
+    //EAX := ESI;//f2DC
  
     RowCount := FichierCdn.sub_004BEA58 + $9{gvar_006178FA};
-    (*EAX := f2DC;
-    lvar_1C := f2DC;
-    EAX := sub_004B9F30;
-    if (EAX{sub_004B9F30} <> 0) then
+
+    //lvar_1C := f2DC;
+	
+    if (sub_004B9F30) then //moyenneParTypeDeNotes
     begin//2
       //004CB6D6
-      EAX := 1;
-      EDX := lvar_C;
-      ESP := $20{32};
-      EAX := f2D8;
-      if (lvar_44[f2D8] < True) then
+      
+      if (f2D8 < lvar_C) then
       begin//3
+	    
         //004CB707
-        EAX := lvar_4;
-        EAX := EAX - 3;//EAX
-        if (EAX > 0) then
+		(*
+        if (lvar_4 - 3 > 0) then
         begin//4
           //004CB71C
-          lvar_20 := EAX;
-          lvar_8 := 1;
-          for lvar_8 := 1 to EAX do
+          for lvar_8 := 1 to lvar_20 do
           begin//5
             //004CB726
-            EAX := lvar_1C;
-            EAX := lvar_1C.sub_004BEA58;
-            EAX := EAX And $FF{255};//lvar_1C.sub_004BEA58 And $FF{255}
-            if (EAX{lvar_1C.sub_004BEA58 And $FF{255}} <= 0) then Continue;
-            lvar_24 := lvar_1C.sub_004BEA58 And $FF{255};
-            ESI := 1;
-            for ESI := 1 to lvar_1C.sub_004BEA58 And $FF{255} do
+           
+            if (lvar_1C.sub_004BEA58 <= 0) then Continue;
+            lvar_24 := lvar_1C.sub_004BEA58 ;
+            for ESI := 1 to lvar_1C.sub_004BEA58  do
             begin//6
               //004CB743
-              EDX := f2D8;
-              EAX := lvar_1C;
+ 
               EAX := lvar_1C.sub_004C3134(f2D8);
-              EDX := lvar_8;
-              EDX := EDX - 1;//EDX
-              call(
-              'Moy. "'
-              );
-              EDX := 3;
+              EDX := lvar_8 - 1;//EDX
+              call('Moy. "');
               lvar_48 :=  + lvar_4C + '"';
               EAX := lvar_48;
               //push EAX
-              EDX := lvar_8;
-              EDX := EDX + 1;//EDX
-              ECX := 0;
-              EAX := EBX;//Self
-              SetCells{Cells}(EDX, {0}, lvar_48{EAX});
+              Cells[lvar_8 + 1, 0] :=  lvar_48;
               //push EAX
               //push ESI
               //push EAX
-              EDX := f2D8;
-              EAX := lvar_1C;
+
               EAX := lvar_1C.sub_004C3134(f2D8);
-              EDX := lvar_8;
-              EDX := EDX - 1;//EDX
-              call(
-              
-              );
+              EDX := ;
+              EDX := lvar_8 - 1;//EDX
+              call();
               EDX := lvar_254;
               ECX := $FF{255};
                := lvar_254;
-              ECX := f2D8;
-              EAX := lvar_1C;
               lvar_1C.sub_004C2E60(lvar_150, f2D8, lvar_150);
               //push EAX
-              EAX := sub_004B9E10;
-              ECX := sub_004B9E10;
-              EAX := lvar_1C;
               //pop EDX
               lvar_1C.sub_004C2410(lvar_250, ECX, , lvar_250);
                := ;
               EAX := lvar_50;
               //push EAX
-              EDX := lvar_8;
-              EDX := EDX + 1;//EDX
+              EDX := ;
+              EDX := lvar_8 + 1;//EDX
               ECX := ESI;//ESI
-              EAX := EBX;//Self
-              SetCells{Cells}(EDX, ESI, lvar_50{EAX});
+              Cells[EDX, ESI] :=  lvar_50;
             end;//6
           end;//5
         end;//4
-        EDX := lvar_4;
-        EDX := EDX - 1;//EDX
-        EAX := EBX;//Self
-        EAX := GetCols{Cols}(EDX);
-        GetCols{Cols}(EDX).Clear;
-        EAX := sub_004B9F60;
-        if (EAX{sub_004B9F60} <> 0) then
+        EDX := ;
+        EDX := ;//EDX
+        Cols[lvar_4 - 1].Clear;
+
+        if (sub_004B9F60) then
         begin//4
           //004CB881
           EDX := lvar_4;
@@ -336,21 +241,12 @@ begin//0
           end;//5
           lvar_4 := lvar_4 + 3;
         end;//4
-        EDX := lvar_4;
-        EAX := EBX;//Self
-        EAX := GetCols{Cols}(lvar_4);
-        GetCols{Cols}(lvar_4).Clear;
-        EAX := sub_004B9E48;
-        lvar_264 := IntToStr(sub_004B9E48);
-        ECX := lvar_264;
-        EDX := $4CCC34;
-        lvar_260 := 'Moyenne bulletin sur ' + lvar_264;
-        EAX := lvar_260;
-        //push EAX
-        ECX := 0;
-        EDX := lvar_4;
-        EAX := EBX;//Self
-        SetCells{Cells}(lvar_4, {0}, lvar_260{EAX});
+        *)
+        Cols[lvar_4].Clear;
+        //lvar_264 := IntToStr(sub_004B9E48);
+        //lvar_260 := 'Moyenne bulletin sur ' + lvar_264;
+        Cells[lvar_4, 0]:= 'Moyenne bulletin sur ' + IntToStr(sub_004B9E48);
+		(*
         EAX := lvar_1C;
         EAX := lvar_1C.sub_004BEA58;
         EAX := EAX And $FF{255};//lvar_1C.sub_004BEA58 And $FF{255}
@@ -484,7 +380,9 @@ begin//0
           end;//5
           Exit;
         end;//4
+		*)
       end;//3
+	  (*
       EDX := f2D8;
       EAX := lvar_1C;
       EAX := lvar_1C.sub_004C3134(f2D8);
@@ -835,145 +733,54 @@ begin//0
       EDX := EDX + lvar_10;
       EAX := EBX;//Self
       sub_004CD0B0(EDX);
-      Exit;
-    end;//2
-    EAX := 1;
-    EDX := lvar_C;
-    ESP := $20{32};
-    EAX := f2D8;
-    if (lvar_44[f2D8] < True) then
+	  *)
+    end//2
+	else 
+	begin
+    if (f2D8 < lvar_C) then
     begin//2
       //004CC35D
-      EAX := 0;
-      lvar_4 := EAX;
-      EAX := sub_004B9F60;
-      if (EAX{sub_004B9F60} <> 0) then
+	  
+      lvar_4 := 0;
+      if (sub_004B9F60) then
       begin//3
         //004CC36F
-        EDX := 2;
-        EAX := EBX;//Self
-        EAX := GetCols{Cols}({2});
-        GetCols{Cols}({2}).Clear;
-        EDX := 3;
-        EAX := EBX;//Self
-        EAX := GetCols{Cols}({3});
-        GetCols{Cols}({3}).Clear;
-        EDX := 4;
-        EAX := EBX;//Self
-        EAX := GetCols{Cols}({4});
-        GetCols{Cols}({4}).Clear;
-        EDX := 5;
-        EAX := EBX;//Self
-        EAX := GetCols{Cols}({5});
-        GetCols{Cols}({5}).Clear;
-        ECX := 0;
-        EDX := 2;
-        EAX := EBX;//Self
-        SetCells{Cells}({2}, {0}, 'Ecrit');
-        ECX := 0;
-        EDX := 3;
-        EAX := EBX;//Self
-        SetCells{Cells}({3}, {0}, 'Oral');
-        EAX := lvar_1C;
-        EAX := lvar_1C.sub_004BEA58;
-        EAX := EAX And $FF{255};//lvar_1C.sub_004BEA58 And $FF{255}
-        if (EAX{lvar_1C.sub_004BEA58 And $FF{255}} > 0) then
-        begin//4
-          //004CC3EE
-          lvar_20 := lvar_1C.sub_004BEA58 And $FF{255};
-          ESI := 1;
-          for ESI := 1 to lvar_1C.sub_004BEA58 And $FF{255} do
+        Cols[2].Clear;
+        Cols[3].Clear;
+        Cols[4].Clear;
+        Cols[5].Clear;
+        Cells[2, 0] := 'Ecrit';
+        Cells[3, 0] := 'Oral';
+
+          for I := 1 to FichierCdn.sub_004BEA58 do//004CC3EE
           begin//5
             //004CC3F6
-            EAX := sub_004B9E10;
-            //push EAX
-            //push EAX
-            ECX := ESI;//ESI
-            EDX := f2D8;
-            EAX := lvar_1C;
-            lvar_1C.sub_004C9280(f2D8, ESI, sub_004B9E10{EAX}, lvar_150);
-             := ;
-            EAX := lvar_2A0;
-            //push EAX
-            ECX := ESI;//ESI
-            EDX := 2;
-            EAX := EBX;//Self
-            SetCells{Cells}({2}, ESI, lvar_2A0{EAX});
-            EAX := sub_004B9E10;
-            //push EAX
-            //push EAX
-            ECX := ESI;//ESI
-            EDX := f2D8;
-            EAX := lvar_1C;
-            lvar_1C.sub_004C8F6C(f2D8, ESI, sub_004B9E10{EAX}, lvar_150);
-             := ;
-            EAX := lvar_2A4;
-            //push EAX
-            ECX := ESI;//ESI
-            EDX := 3;
-            EAX := EBX;//Self
-            SetCells{Cells}({3}, ESI, lvar_2A4{EAX});
+             FichierCdn.sub_004C9280(f2D8, I, sub_004B9E10, buf);
+             Cells[2, I]:= buf;
+             FichierCdn.sub_004C8F6C(f2D8, I, sub_004B9E10, buf);
+             Cells[3, I] := buf;
           end;//5
-        end;//4
-        EDX := 1;
-        EAX := EBX;//Self
-        sub_004CD0B0({1});
-        EDX := 2;
-        EAX := EBX;//Self
-        sub_004CD0B0({2});
+        sub_004CD0B0(1);
+        sub_004CD0B0(2);
         lvar_4 := lvar_4 + 3;
       end;//3
-      EAX := sub_004B9E48;
-      lvar_2AC := IntToStr(sub_004B9E48);
-      ECX := lvar_2AC;
-      EDX := $4CCC34;
-      lvar_2A8 := 'Moyenne bulletin sur ' + lvar_2AC;
-      EAX := lvar_2A8;
-      //push EAX
-      EDX := lvar_4;
-      EDX := EDX + 2;//EDX
-      ECX := 0;
-      EAX := EBX;//Self
-      SetCells{Cells}(EDX, {0}, lvar_2A8{EAX});
-      EAX := lvar_1C;
-      EAX := lvar_1C.sub_004BEA58;
-      EAX := EAX And $FF{255};//lvar_1C.sub_004BEA58 And $FF{255}
-      if (EAX{lvar_1C.sub_004BEA58 And $FF{255}} > 0) then
-      begin//3
-        //004CC511
-        lvar_20 := lvar_1C.sub_004BEA58 And $FF{255};
-        ESI := 1;
-        for ESI := 1 to lvar_1C.sub_004BEA58 And $FF{255} do
+
+      //lvar_2AC := IntToStr(sub_004B9E48);
+      //lvar_2A8 := 'Moyenne bulletin sur ' + lvar_2AC;
+
+      Cells[lvar_4 + 2, 0] := 'Moyenne bulletin sur ' + IntToStr(sub_004B9E48);
+
+        for I := 1 to FichierCdn.sub_004BEA58 do//004CC511
         begin//4
           //004CC519
-          EAX := sub_004B9E10;
-          //push EAX
-          //push EAX
-          ECX := ESI;//ESI
-          EDX := f2D8;
-          EAX := lvar_1C;
-          lvar_1C.sub_004C2D10(f2D8, ESI, sub_004B9E10{EAX}, lvar_150);
-           := ;
-          EAX := lvar_2B0;
-          //push EAX
-          EDX := lvar_4;
-          EDX := EDX + 2;//EDX
-          ECX := ESI;//ESI
-          EAX := EBX;//Self
-          SetCells{Cells}(EDX, ESI, lvar_2B0{EAX});
+          FichierCdn.sub_004C2D10(f2D8, I, sub_004B9E10, buf);
+          Cells[lvar_4 + 2, I] :=  buf;
         end;//4
-      end;//3
-      EDX := lvar_4;
-      EDX := EDX + 3;//EDX
-      EAX := EBX;//Self
-      EAX := GetCols{Cols}(EDX);
-      GetCols{Cols}(EDX).Clear;
-      ESI := lvar_4;
-      ESI := ESI + 4;//ESI
-      EDX := ESI;//ESI
-      EAX := EBX;//Self
-      EAX := GetCols{Cols}(ESI);
-      GetCols{Cols}(ESI).Clear;
+      
+      
+      Cols[lvar_4 + 3].Clear;
+	  Cols[lvar_4 + 4].Clear;
+     (*
       EAX := sub_004B9E10;
       //push EAX
       EAX := sub_004BC298;
@@ -1053,7 +860,9 @@ begin//0
         end;//4
         Exit;
       end;//3
+	  *)
     end;//2
+	(*
     EAX := lvar_C;
     if (EAX{lvar_C} > 0) then
     begin//2
@@ -1292,6 +1101,7 @@ begin//0
     EDX := EDX + 4;//EDX
     EAX := EBX;//Self
     sub_004CD0B0(EDX);*)
+	end;
 end;//0
 
 
@@ -1343,9 +1153,9 @@ begin//0
 end;
 
 //004CD0B0
-{*procedure sub_004CD0B0(?:TGrilleBilanCarnetDeNotes; ?:?);
+procedure TGrilleBilanCarnetDeNotes.sub_004CD0B0(a:dword);
 begin
- 004CD0B0    push        ebp
+{* 004CD0B0    push        ebp
  004CD0B1    mov         ebp,esp
  004CD0B3    add         esp,0FFFFFF48
  004CD0B9    push        ebx
@@ -1899,8 +1709,8 @@ begin
  004CD7C5    pop         ebx
  004CD7C6    mov         esp,ebp
  004CD7C8    pop         ebp
- 004CD7C9    ret
-end;*}
+ 004CD7C9    ret*}
+end;
 
 //004CEA48
 destructor TGrilleBilanCarnetDeNotes.Destroy;
@@ -2236,14 +2046,11 @@ procedure TGrilleBilanCarnetDeNotes.sub_004CD7E0(Sender:TObject; ACol, ARow: Lon
 var
   lvar_C,I ,ICol,IRow: integer;
   CWith:integer;
-  lvar_34 :TRect;
-  lvar_14:string;
+  R :TRect;
+  Valeur:string;
 begin//0
   //004CD7E0
-  {ESI := ARect;
-  ECX := 4;
-  lvar_24 := ARect;
-  lvar_8 := ACol;}
+
   
     lvar_C := FichierCdn.sub_004C8AE8;
     if (Visible = False) then Exit;
@@ -2264,28 +2071,17 @@ begin//0
     end;//2
     if (ARow = 0) then//004CD8D7
      Canvas.Brush.Color := $80000004
-    else
-    begin//2
-      //004CD8EF
+    else//004CD8EF
       if (sub_004BB458) then
       begin//004CD8F8
-        if (ARow mod 2 - 1 <> 0) then
-        begin//4
-          //004CD90A
-          Canvas.Brush.Color := sub_004B9C80;
-        end//4
-        else
-        begin//4
-          //004CD924
+        if (ARow mod 2 - 1 <> 0) then//004CD90A
+          Canvas.Brush.Color := sub_004B9C80
+        else//004CD924
           Canvas.Brush.Color := sub_004B9C34;
-        end;//4
       end//3
-      else
-      begin//3
-        //004CD93E
+      else//004CD93E
         Canvas.Brush.Color := $FFFFFF;
-      end;//3
-    end;//2
+
     Canvas.Font.Color := 0;
     if ((gdFixed in AState )) then
     begin//004CD96D
@@ -2293,12 +2089,9 @@ begin//0
     end//2
     else
     begin//004CD988
-      
-      //ESI := f2DC;
-      
-      if (sub_004BA2B0) then
-      begin//3
-        //004CD99E
+      //ESI := f2DC; 
+      if (sub_004BA2B0) then  //if coloration Note
+      begin//3 //004CD99E
         Canvas.Font.Style := [];//gvar_004CDEE8;
         Canvas.Font.Color := 0;
         if (f2D8 < FichierCdn.sub_004BE9E0) then
@@ -2310,44 +2103,30 @@ begin//0
           ICol := ColCount - 1;//EBX
         end;//4
         IRow := FichierCdn.sub_004BEA58;
-        if (ARow <= 255) then
-        begin//4
-          //004CDA62
-          if (ARow < IRow) then
+          if (ARow < IRow) then//004CDA62
           begin//5
             //004CDA6C
             if (Cells[ACol, ARow] <> '') then
             begin//004CDA88
-              if (ACol <= 255) then
-              begin//7
-                //004CDAAD
-                if (ACol < ICol) then
+                if (ACol >= 2 {< ICol}) then//004CDAAD
                 begin//8
                   //004CDAB7
                   try
                     //004CDAC5
-                    if (ACol <> ICol) then
-                    begin//10
-                      //004CDACA
-                      lvar_14 := Cells[ACol, ARow];
-                    end//10
-                    else
-                    begin//004CDADE                   
-                      lvar_14 := Copy(Cells[ACol, ARow], Pos('-> ', Cells[ACol, ARow]) + 2, Length(Cells[ACol, ARow]));
-                    end;//10
+                    if (ACol <> ICol) then //004CDACA
+                      Valeur := Cells[ACol, ARow]
+                    else//004CDADE                   
+                      Valeur := Copy(Cells[ACol, ARow], Pos('-> ', Cells[ACol, ARow]) + 2, Length(Cells[ACol, ARow]));
+
 					
-                    if (strtofloat(lvar_14) > sub_004B9E48/2) then
-                    begin//004CDB77
-                      Canvas.Font.Color := sub_004B9F8C;
-                    end//10
-                    else
-                    begin//10
-                      //004CDB91
-                      if (strtofloat(lvar_14) <= 3*sub_004B9E48/4) then//004CDBBC
+                    if (StrToFloat(Valeur) > sub_004B9E48/2) then //004CDB77
+                      Canvas.Font.Color := sub_004B9F8C
+                    else//004CDB91
+                      if (StrToFloat(Valeur) <= 3/4*sub_004B9E48) then//004CDBBC
                         Canvas.Font.Color := sub_004BA024
                       else//004CDBD6
                         Canvas.Font.Color := sub_004BA26C;
-                    end;//10
+
                   except//9
                     on E:EConvertError do
                     begin//004CDC14
@@ -2365,14 +2144,13 @@ begin//0
                     end;//10
                   end;//9
                 end;//8
-              end;//7
             end;//6
           end;//5
-        end;//4
       end//3
       else//004CDC8F
         Canvas.Font.Color := 0;
     end;//2
+	
     if ((gdSelected in AState)) then
     begin//2
       //004CDCA8
@@ -2381,6 +2159,7 @@ begin//0
       else//004CDCCB
         Canvas.Brush.Color := $C0C0C0;
     end;//2
+	
     Canvas.FillRect(ARect);
     if (f2D8 < FichierCdn.sub_004BE9E0) then//004CDD33
       ICol := ColCount - 1 - (lvar_C + 2)
@@ -2397,11 +2176,11 @@ begin//0
         Canvas.TextOut(ARect.Left + 2, ARect.Top + 3, Cells[ACol, ARow])
       else 
 	  begin
-		  lvar_34.Left := ARect.Left;
-		  lvar_34.Top := ARect.Top + 2;//EAX
-		  lvar_34.Right := ARect.Right;
-		  lvar_34.Bottom := ARect.Bottom;
-		  DrawTextA(Canvas.Handle, PChar(Cells[ACol, ARow]), Length(Cells[ACol, ARow]), lvar_34, 1);
+		  R.Left := ARect.Left;
+		  R.Top := ARect.Top + 2;//EAX
+		  R.Right := ARect.Right;
+		  R.Bottom := ARect.Bottom;
+		  DrawTextA(Canvas.Handle, PChar(Cells[ACol, ARow]), Length(Cells[ACol, ARow]), R, 1);
 	   end;
     end;//2
 end;//0

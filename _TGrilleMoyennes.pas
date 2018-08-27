@@ -20,7 +20,7 @@ type
     f2F4:array of TStringList;//f2F4
     destructor Destroy; virtual;//004CF9F8
     procedure WMCommand(var Message:TWMCommand); message WM_COMMAND;//004CFC74
-    procedure sub_004D0A5C(var Msg:TMsg);  message 1032;//004D0A5C
+    procedure sub_004D0A5C(var Msg:TMsg);  message $408;//004D0A5C
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004CF0A8
     procedure sub_004CF21C;//004CF21C
     //procedure sub_004CF4CC;//004CF4CC

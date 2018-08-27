@@ -34,6 +34,7 @@ constructor TGrilleGeneriqueCarnetDeNotes.Create(AOwner: TComponent;b:pointer; F
 begin
   //004CA034
   inherited Create(AOwner);
+  
   ScrollBars := ssBoth;
   Parent := TWinControl(AOwner);
   f2E0 := TWinControl(FeuilleClasse).Handle;

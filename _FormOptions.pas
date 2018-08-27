@@ -341,7 +341,8 @@ type
     destructor Destroy; virtual;//005055A4
     constructor Create(AOwner: TComponent;logo:TImage);//00504B24
   end;
-    //destructor Destroy;//005055A4
+   var
+     FormOptions:TFormOptions;
 
 implementation
      uses Unit111,UEnregistrement,_Unit146;

@@ -32,9 +32,9 @@ type
     destructor Destroy; virtual;//00542298
     procedure sub_005422CC(Sender:Tobject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
     procedure WMCommand(var Message:TWMCommand); message WM_COMMAND;//005440D4
-    procedure sub_005464FC(var Message:TMsg); message 1027; {dynamic;}//005464FC
-    procedure sub_0054672C(var Msg:TMsg);  message 1031;//0054672C ??????
-    procedure sub_00546F14(var Msg:TMsg);  message 1029;//00546F14
+    procedure sub_005464FC(var Message:TMsg); message $403; {dynamic;}//005464FC
+    procedure sub_0054672C(var Msg:TMsg);  message $407;//0054672C ??????
+    procedure sub_00546F14(var Msg:TMsg);  message $414;//00546F14
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//00542198
 	procedure sub_005428C4(Sender: TObject; var Key: Word; Shift: TShiftState);//005428C4
 	procedure sub_0054290C(Sender:TObject; var Key:Char);
@@ -59,7 +59,7 @@ implementation
 constructor TGrilleNotesCarnetDeNotes.Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);
 begin//0
   //00542198
-
+   
   //ESI := c;
   f2E4 := 1;
 
@@ -69,6 +69,7 @@ begin//0
   //EDX := 0;
   //EAX := Self
   inherited  Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
+
  // Self.FichierCdn := c;
   f2E8 := 0;
   FixedCols := 0;

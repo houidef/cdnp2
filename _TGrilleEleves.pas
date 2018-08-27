@@ -22,8 +22,8 @@ type
     destructor Destroy; virtual;//004D133C
     procedure WMCommand(var Message: TWMCommand); message WM_COMMAND;//004D162C
 	procedure sub_004D1C64(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);//004D1C64
-    procedure sub_004D29FC(var Message:TMsg); message 1027;//004D29FC //procedure Dispatch(var Message); override;
-    procedure sub_004D2398(var Msg: TMsg);  message 1028;//004D2398 //procedure Dispatch(var Message); override;
+    procedure sub_004D29FC(var Message:TMsg); message $403;//004D29FC //procedure Dispatch(var Message); override;
+    procedure sub_004D2398(var Msg: TMsg);  message $404;//004D2398 //procedure Dispatch(var Message); override;
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004D1250
     procedure sub_004D1370;//004D1370
     procedure sub_004D292C(Sender: TObject; ACol, ARow: Integer;
@@ -38,6 +38,7 @@ begin
   //004D1250
   f2E4 := 0;
   inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
+    
   ScrollBars := ssNone; //0;
   Visible := False;
   Align := alLeft; //3
@@ -388,7 +389,8 @@ var
 begin//0
    
   //004D292C
-    //sub_004CA104(Sender,ACol, ARow, Rect, State);
+  //canvas.font.size:=17;
+    sub_004CA104(Sender,ACol, ARow, Rect, State);
     Canvas.FillRect(Rect);
     Canvas.TextOut(Rect.Left + 2, Rect.Top + 2, Cells[ACol, ARow]);
     SendMessageA(f2E0, 1042, Width, 0);

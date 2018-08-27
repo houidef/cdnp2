@@ -17,10 +17,10 @@ type
     f2E8:dword;//f2E8
     f2EC:String;//f2EC
 	procedure sub_004F5EF4(Sender:TObject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
-    procedure sub_004F5FC4(var Message:TMsg); message 1027;//
+    procedure sub_004F5FC4(var Message:TMsg); message $403;//
 	procedure sub_004F5FF8(Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
-    procedure sub_004F5CB0(var Message:TMsg); message 1028;//004F5CB0
-	procedure sub_004F6080(var a:string); message 1029; //004F6080
+    procedure sub_004F5CB0(var Message:TMsg); message $404;//004F5CB0
+	procedure sub_004F6080(var a:string); //004F6080
 	
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004F5B4C
   end;

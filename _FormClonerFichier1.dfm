@@ -467,9 +467,6 @@ object FormClonerFichier: TFormClonerFichier
   object BrowseDirectoryDlg1: TBrowseDirectoryDlg
     Title = 'Choisir un répertoire de destination pour les fichiers à créer'
     Options = [bfDirectoriesOnly]
-    StatusText = 'Répertoire sélectionné'
-    Caption = 'Clôner un fichier'
-    ShowSelectionInStatus = True
     Left = 184
     Top = 152
   end

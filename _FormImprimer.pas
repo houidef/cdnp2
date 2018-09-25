@@ -1,7 +1,8 @@
-{***************************************
-* Version Original V0.01
-* Created by HOUIDEF AEK v 12:04 mardi 27 février 2018
-***************************************}
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
+* The disassembly process : 100%                           *
+************************************************************}
 unit _FormImprimer;
 
 interface
@@ -70,7 +71,7 @@ type
     f378:TStringList;//f378
     destructor Destroy; virtual;//0052561C
     constructor Create(Aowner:TComponent; FichierCdn:TFichierCdn; logo:Timage);//00524C1C
-   //procedure sub_00525464(?:?);//00525464
+    procedure sub_00525464;//00525464
     procedure sub_00525794(a:dword);//00525794
     procedure sub_005257AC(a:dword);//005257AC
     procedure sub_0052588C(a:dword; b:dword);//0052588C
@@ -80,7 +81,7 @@ type
 var 
   FormImprimer :TFormImprimer; {gvar_00617E04} 
 implementation
-
+   uses _FormOptions;
 {$R *.DFM}
 
 //00524C1C
@@ -116,18 +117,18 @@ begin//0
     end;//3
     ComboBox1.ItemIndex := 0;
     f378 := TStringList.Create;
-    //sub_00525464(Self);
+    sub_00525464;
     ComboBoxEnteteGauche.Items := f378;
     ComboBoxEnteteCentre.Items := f378;
     ComboBoxEnteteDroite.Items := f378;
     ComboBoxBasdepageGauche.Items := f378;
     ComboBoxBasdepageDroite.Items := f378;
-    //sub_004BE92C(f374, lvar_138);
-    //ComboBoxEnteteGauche.Caption := lvar_138;
-    //f374.sub_004BE8FC(lvar_138);
-    //ComboBoxEnteteCentre.Caption := lvar_138;
-    //sub_004BE944(f374, lvar_138);
-    //ComboBoxEnteteDroite.Caption := lvar_138;
+    f374.sub_004BE92C(buf);
+    ComboBoxEnteteGauche.text := buf;
+    f374.sub_004BE8FC(buf);
+    ComboBoxEnteteCentre.text := buf;
+    f374.sub_004BE944(buf);
+    ComboBoxEnteteDroite.text := buf;
     ComboBoxBasdepageGauche.text := TimeToStr(Time);
     ComboBoxBasdepageDroite.text := DateToStr(Date);  
 end;//0
@@ -248,128 +249,37 @@ begin
 end;
 
 //00525464
-{*procedure sub_00525464(?:?);
-begin
- 00525464    push        ebp
- 00525465    mov         ebp,esp
- 00525467    add         esp,0FFFFFEE0
- 0052546D    push        ebx
- 0052546E    push        esi
- 0052546F    xor         edx,edx
- 00525471    mov         dword ptr [ebp-120],edx
- 00525477    mov         dword ptr [ebp-11C],edx
- 0052547D    mov         dword ptr [ebp-118],edx
- 00525483    mov         dword ptr [ebp-114],edx
- 00525489    mov         dword ptr [ebp-110],edx
- 0052548F    mov         dword ptr [ebp-10C],edx
- 00525495    mov         dword ptr [ebp-8],edx
- 00525498    xor         edx,edx
- 0052549A    push        ebp
- 0052549B    push        52560E
- 005254A0    push        dword ptr fs:[edx]
- 005254A3    mov         dword ptr fs:[edx],esp
- 005254A6    mov         ebx,dword ptr [eax+378]
- 005254AC    mov         esi,dword ptr [eax+374]
- 005254B2    lea         edx,[ebp-108]
- 005254B8    mov         eax,esi
- 005254BA    call        004BE8FC
- 005254BF    lea         edx,[ebp-108]
- 005254C5    lea         eax,[ebp-8]
- 005254C8    call        @LStrFromString
- 005254CD    mov         edx,dword ptr [ebp-8]
- 005254D0    mov         eax,ebx
- 005254D2    mov         ecx,dword ptr [eax]
- 005254D4    call        dword ptr [ecx+34]
- 005254D7    lea         edx,[ebp-108]
- 005254DD    mov         eax,esi
- 005254DF    call        004BE92C
- 005254E4    lea         edx,[ebp-108]
- 005254EA    lea         eax,[ebp-10C]
- 005254F0    call        @LStrFromString
- 005254F5    mov         edx,dword ptr [ebp-10C]
- 005254FB    mov         eax,ebx
- 005254FD    mov         ecx,dword ptr [eax]
- 005254FF    call        dword ptr [ecx+34]
- 00525502    lea         edx,[ebp-108]
- 00525508    mov         eax,esi
- 0052550A    call        004C3908
- 0052550F    lea         edx,[ebp-108]
- 00525515    lea         eax,[ebp-110]
- 0052551B    call        @LStrFromString
- 00525520    mov         edx,dword ptr [ebp-110]
- 00525526    mov         eax,ebx
- 00525528    mov         ecx,dword ptr [eax]
- 0052552A    call        dword ptr [ecx+34]
- 0052552D    lea         edx,[ebp-108]
- 00525533    mov         eax,esi
- 00525535    call        004BE944
- 0052553A    lea         edx,[ebp-108]
- 00525540    lea         eax,[ebp-114]
- 00525546    call        @LStrFromString
- 0052554B    mov         edx,dword ptr [ebp-114]
- 00525551    mov         eax,ebx
- 00525553    mov         ecx,dword ptr [eax]
- 00525555    call        dword ptr [ecx+34]
- 00525558    mov         eax,esi
- 0052555A    call        004BE9E0
- 0052555F    test        al,al
->00525561    jbe         005255A0
- 00525563    mov         byte ptr [ebp-2],al
- 00525566    mov         byte ptr [ebp-1],1
- 0052556A    lea         ecx,[ebp-108]
- 00525570    mov         dl,byte ptr [ebp-1]
- 00525573    mov         eax,esi
- 00525575    call        004BE9EC
- 0052557A    lea         edx,[ebp-108]
- 00525580    lea         eax,[ebp-118]
- 00525586    call        @LStrFromString
- 0052558B    mov         edx,dword ptr [ebp-118]
- 00525591    mov         eax,ebx
- 00525593    mov         ecx,dword ptr [eax]
- 00525595    call        dword ptr [ecx+34]
- 00525598    inc         byte ptr [ebp-1]
- 0052559B    dec         byte ptr [ebp-2]
->0052559E    jne         0052556A
- 005255A0    call        Date
- 005255A5    add         esp,0FFFFFFF8
- 005255A8    fstp        qword ptr [esp]
- 005255AB    wait
- 005255AC    lea         eax,[ebp-11C]
- 005255B2    call        DateToStr
- 005255B7    mov         edx,dword ptr [ebp-11C]
- 005255BD    mov         eax,ebx
- 005255BF    mov         ecx,dword ptr [eax]
- 005255C1    call        dword ptr [ecx+34]
- 005255C4    call        Time
- 005255C9    add         esp,0FFFFFFF8
- 005255CC    fstp        qword ptr [esp]
- 005255CF    wait
- 005255D0    lea         eax,[ebp-120]
- 005255D6    call        TimeToStr
- 005255DB    mov         edx,dword ptr [ebp-120]
- 005255E1    mov         eax,ebx
- 005255E3    mov         ecx,dword ptr [eax]
- 005255E5    call        dword ptr [ecx+34]
- 005255E8    xor         eax,eax
- 005255EA    pop         edx
- 005255EB    pop         ecx
- 005255EC    pop         ecx
- 005255ED    mov         dword ptr fs:[eax],edx
- 005255F0    push        525615
- 005255F5    lea         eax,[ebp-120]
- 005255FB    mov         edx,6
- 00525600    call        @LStrArrayClr
- 00525605    lea         eax,[ebp-8]
- 00525608    call        @LStrClr
- 0052560D    ret
->0052560E    jmp         @HandleFinally
->00525613    jmp         005255F5
- 00525615    pop         esi
- 00525616    pop         ebx
- 00525617    mov         esp,ebp
- 00525619    pop         ebp
- 0052561A    ret
-end;*}
+procedure TFormImprimer.sub_00525464;
+var
+  buf:string;
+  I:integer;
+begin//0
+  //00525464
+    //005254A6
+    //EBX := f378;
+    //ESI := f374;
+
+    f374.sub_004BE8FC(buf);
+    f378.add(buf);
+    f374.sub_004BE92C(buf);
+    f378.add(buf);
+    f374.sub_004C3908(buf);
+    f378.add(buf);
+    f374.sub_004BE944(buf);
+    f378.add(buf);
+
+      for I := 1 to f374.sub_004BE9E0 do//00525563
+      begin//3
+        //0052556A
+        f374.sub_004BE9EC(I, buf);
+        f378.add(buf);
+      end;//3
+
+    f378.add(DateToStr(Date));
+    f378.add(TimeToStr(Time));
+
+    //005255F5
+end;//0
 
 //0052561C
 destructor TFormImprimer.Destroy;
@@ -391,47 +301,24 @@ end;//0
 
 
 //00525734
-procedure TFormImprimer.CheckListBoxPeriodesClickCheck;
-begin
-{*
- 00525734    push        ebx
- 00525735    push        esi
- 00525736    push        edi
- 00525737    mov         edi,eax
- 00525739    mov         eax,dword ptr [edi+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 0052573F    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00525745    mov         edx,dword ptr [eax]
- 00525747    call        dword ptr [edx+14];TStrings.GetCount
- 0052574A    mov         esi,eax
- 0052574C    sub         esi,1
->0052574F    jno         00525756
- 00525751    call        @IntOver
- 00525756    test        esi,esi
->00525758    jl          00525790
- 0052575A    inc         esi
- 0052575B    xor         ebx,ebx
- 0052575D    mov         eax,dword ptr [edi+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00525763    call        TCustomListBox.GetItemIndex
- 00525768    cmp         ebx,eax
->0052576A    je          0052578C
- 0052576C    mov         eax,dword ptr [edi+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00525772    mov         edx,ebx
- 00525774    call        TCheckListBox.GetChecked
- 00525779    test        al,al
->0052577B    je          0052578C
- 0052577D    mov         eax,dword ptr [edi+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00525783    xor         ecx,ecx
- 00525785    mov         edx,ebx
- 00525787    call        TCheckListBox.SetChecked
- 0052578C    inc         ebx
- 0052578D    dec         esi
->0052578E    jne         0052575D
- 00525790    pop         edi
- 00525791    pop         esi
- 00525792    pop         ebx
- 00525793    ret
-*}
-end;
+procedure TFormImprimer.CheckListBoxPeriodesClickCheck(Sender:TObject);
+var
+  I:integer;
+begin//0
+  //00525734
+
+
+    for I := 0 to CheckListBoxPeriodes.Items.Count - 1 do//0052575A
+    begin//2
+      //0052575D
+
+      if (CheckListBoxPeriodes.ItemIndex <> I) then 
+      if (CheckListBoxPeriodes.Checked[I] ) then 
+		CheckListBoxPeriodes.Checked[I] := False;
+    end;//2
+
+end;//0
+
 
 //00525794
 procedure TFormImprimer.sub_00525794(a:dword);
@@ -452,69 +339,37 @@ end;//0
 
 //005257C4
 procedure TFormImprimer.BitBtn1Click(Sender:TObject);
-begin
-{*
- 005257C4    push        ebx
- 005257C5    push        esi
- 005257C6    mov         ebx,eax
- 005257C8    mov         esi,dword ptr ds:[615EFC];^gvar_00617D64:TFormOptions
- 005257CE    mov         eax,dword ptr [ebx+2D8];TFormImprimer.Image1:TImage
- 005257D4    push        eax
- 005257D5    mov         ecx,ebx
- 005257D7    mov         dl,1
- 005257D9    mov         eax,[00502EAC];TFormOptions
- 005257DE    call        TFormOptions.Create;TFormOptions.Create
- 005257E3    mov         dword ptr [esi],eax
- 005257E5    mov         eax,dword ptr [esi]
- 005257E7    mov         edx,dword ptr [eax+2F4]
- 005257ED    mov         eax,dword ptr [esi]
- 005257EF    mov         eax,dword ptr [eax+2DC]
- 005257F5    call        TPageControl.SetActivePage
- 005257FA    mov         eax,dword ptr [ebx+348];TFormImprimer.ComboBox1:TComboBox
- 00525800    call        TCustomComboBox.GetItemIndex
- 00525805    sub         eax,1
->00525808    jb          00525814
->0052580A    je          0052582B
- 0052580C    dec         eax
->0052580D    je          00525842
- 0052580F    dec         eax
->00525810    je          00525859
->00525812    jmp         0052586E
- 00525814    mov         eax,dword ptr [esi]
- 00525816    mov         edx,dword ptr [eax+438]
- 0052581C    mov         eax,dword ptr [esi]
- 0052581E    mov         eax,dword ptr [eax+434]
- 00525824    call        TPageControl.SetActivePage
->00525829    jmp         0052586E
- 0052582B    mov         eax,dword ptr [esi]
- 0052582D    mov         edx,dword ptr [eax+43C]
- 00525833    mov         eax,dword ptr [esi]
- 00525835    mov         eax,dword ptr [eax+434]
- 0052583B    call        TPageControl.SetActivePage
->00525840    jmp         0052586E
- 00525842    mov         eax,dword ptr [esi]
- 00525844    mov         edx,dword ptr [eax+558]
- 0052584A    mov         eax,dword ptr [esi]
- 0052584C    mov         eax,dword ptr [eax+434]
- 00525852    call        TPageControl.SetActivePage
->00525857    jmp         0052586E
- 00525859    mov         eax,dword ptr [esi]
- 0052585B    mov         edx,dword ptr [eax+52C]
- 00525861    mov         eax,dword ptr [esi]
- 00525863    mov         eax,dword ptr [eax+434]
- 00525869    call        TPageControl.SetActivePage
- 0052586E    mov         eax,dword ptr [esi]
- 00525870    mov         edx,dword ptr [eax]
- 00525872    call        dword ptr [edx+0D8]
- 00525878    mov         eax,dword ptr [esi]
- 0052587A    mov         dl,1
- 0052587C    mov         ecx,dword ptr [eax]
- 0052587E    call        dword ptr [ecx-4]
- 00525881    pop         esi
- 00525882    pop         ebx
- 00525883    ret
-*}
-end;
+begin//0
+  //005257C4
+
+  {gvar_00617D64}FormOptions := TFormOptions.Create(Self, Image1);
+  FormOptions.PageControl1.ActivePage := FormOptions.TabSheet3;
+  case ComboBox1.ItemIndex of
+    0:
+    begin//2
+      //00525814
+      FormOptions.PageControl2.ActivePage := FormOptions.TabSheet13;
+    end;//2
+    1:
+    begin//2
+      //0052582B
+      FormOptions.PageControl2.ActivePage := FormOptions.TabSheet14;
+    end;//2
+    2:
+    begin//2
+      //00525842
+      FormOptions.PageControl2.ActivePage:= FormOptions.TabSheet16;
+    end;//2
+    3:
+    begin//2
+      //00525859
+      FormOptions.PageControl2.ActivePage := FormOptions.TabSheet15;
+    end;//2
+  end;//1
+  FormOptions.ShowModal;
+  FormOptions.Destroy;
+end;//0
+
 
 //00525884
 procedure TFormImprimer.SpeedButton1Click(Sender:TObject);
@@ -603,177 +458,59 @@ begin//0
 end;
 
 //00526028
-procedure TFormImprimer.ComboBox1Change;
-begin
-{*
- 00526028    push        ebp
- 00526029    mov         ebp,esp
- 0052602B    xor         ecx,ecx
- 0052602D    push        ecx
- 0052602E    push        ecx
- 0052602F    push        ecx
- 00526030    push        ecx
- 00526031    push        ecx
- 00526032    push        ecx
- 00526033    push        ecx
- 00526034    push        ecx
- 00526035    push        ebx
- 00526036    push        esi
- 00526037    push        edi
- 00526038    mov         ebx,eax
- 0052603A    xor         eax,eax
- 0052603C    push        ebp
- 0052603D    push        52624F
- 00526042    push        dword ptr fs:[eax]
- 00526045    mov         dword ptr fs:[eax],esp
- 00526048    mov         eax,dword ptr [ebx+348];TFormImprimer.ComboBox1:TComboBox
- 0052604E    call        TCustomComboBox.GetItemIndex
- 00526053    sub         eax,1
->00526056    jb          00526071
->00526058    je          005261C6
- 0052605E    dec         eax
->0052605F    je          00526207
- 00526065    dec         eax
->00526066    je          00526223
->0052606C    jmp         00526234
- 00526071    mov         eax,dword ptr [ebx+374];TFormImprimer.?f374:dword
- 00526077    mov         dword ptr [ebp-8],eax
- 0052607A    mov         eax,dword ptr [ebp-8]
- 0052607D    call        004BEA4C
- 00526082    mov         edx,eax
- 00526084    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 0052608A    call        TCustomListBox.SetItems
- 0052608F    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00526095    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 0052609B    mov         edx,dword ptr [eax]
- 0052609D    call        dword ptr [edx+14];TStrings.GetCount
- 005260A0    sub         eax,1
->005260A3    jno         005260AA
- 005260A5    call        @IntOver
- 005260AA    test        eax,eax
->005260AC    jl          00526234
- 005260B2    inc         eax
- 005260B3    mov         dword ptr [ebp-0C],eax
- 005260B6    xor         esi,esi
- 005260B8    mov         edx,esi
- 005260BA    add         edx,1
->005260BD    jno         005260C4
- 005260BF    call        @IntOver
- 005260C4    cmp         edx,0FF
->005260CA    jbe         005260D1
- 005260CC    call        @BoundErr
- 005260D1    mov         eax,dword ptr [ebp-8]
- 005260D4    call        004BEAD0
- 005260D9    and         eax,0FF
- 005260DE    mov         dword ptr [ebp-4],eax
- 005260E1    cmp         dword ptr [ebp-4],0
->005260E5    jne         00526125
- 005260E7    lea         ecx,[ebp-10]
- 005260EA    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 005260F0    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 005260F6    mov         edx,esi
- 005260F8    mov         edi,dword ptr [eax]
- 005260FA    call        dword ptr [edi+0C];TStrings.Get
- 005260FD    lea         eax,[ebp-10]
- 00526100    mov         edx,526268;' (aucune série de notes)'
- 00526105    call        @LStrCat
- 0052610A    mov         ecx,dword ptr [ebp-10]
- 0052610D    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00526113    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00526119    mov         edx,esi
- 0052611B    mov         edi,dword ptr [eax]
- 0052611D    call        dword ptr [edi+20];TStrings.Put
->00526120    jmp         005261BA
- 00526125    cmp         dword ptr [ebp-4],1
->00526129    jne         00526166
- 0052612B    lea         ecx,[ebp-14]
- 0052612E    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00526134    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 0052613A    mov         edx,esi
- 0052613C    mov         edi,dword ptr [eax]
- 0052613E    call        dword ptr [edi+0C];TStrings.Get
- 00526141    lea         eax,[ebp-14]
- 00526144    mov         edx,52628C;' (1 série de notes)'
- 00526149    call        @LStrCat
- 0052614E    mov         ecx,dword ptr [ebp-14]
- 00526151    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00526157    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 0052615D    mov         edx,esi
- 0052615F    mov         edi,dword ptr [eax]
- 00526161    call        dword ptr [edi+20];TStrings.Put
->00526164    jmp         005261BA
- 00526166    lea         ecx,[ebp-1C]
- 00526169    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 0052616F    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00526175    mov         edx,esi
- 00526177    mov         edi,dword ptr [eax]
- 00526179    call        dword ptr [edi+0C];TStrings.Get
- 0052617C    push        dword ptr [ebp-1C]
- 0052617F    push        5262A8;' ('
- 00526184    lea         edx,[ebp-20]
- 00526187    mov         eax,dword ptr [ebp-4]
- 0052618A    call        IntToStr
- 0052618F    push        dword ptr [ebp-20]
- 00526192    push        5262B4;' séries de notes)'
- 00526197    lea         eax,[ebp-18]
- 0052619A    mov         edx,4
- 0052619F    call        @LStrCatN
- 005261A4    mov         ecx,dword ptr [ebp-18]
- 005261A7    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 005261AD    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 005261B3    mov         edx,esi
- 005261B5    mov         edi,dword ptr [eax]
- 005261B7    call        dword ptr [edi+20];TStrings.Put
- 005261BA    inc         esi
- 005261BB    dec         dword ptr [ebp-0C]
->005261BE    jne         005260B8
->005261C4    jmp         00526234
- 005261C6    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 005261CC    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 005261D2    mov         edx,dword ptr [eax]
- 005261D4    call        dword ptr [edx+40];TStrings.Clear
- 005261D7    mov         eax,dword ptr [ebx+374];TFormImprimer.?f374:dword
- 005261DD    call        004BEA4C
- 005261E2    mov         edx,eax
- 005261E4    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 005261EA    call        TCustomListBox.SetItems
- 005261EF    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 005261F5    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 005261FB    mov         edx,5262D0;'Sur l'année'
- 00526200    mov         ecx,dword ptr [eax]
- 00526202    call        dword ptr [ecx+34];TStrings.Add
->00526205    jmp         00526234
- 00526207    mov         esi,dword ptr [ebx+374];TFormImprimer.?f374:dword
- 0052620D    mov         eax,esi
- 0052620F    call        004BEA4C
- 00526214    mov         edx,eax
- 00526216    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 0052621C    call        TCustomListBox.SetItems
->00526221    jmp         00526234
- 00526223    mov         eax,dword ptr [ebx+2F8];TFormImprimer.CheckListBoxPeriodes:TCheckListBox
- 00526229    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 0052622F    mov         edx,dword ptr [eax]
- 00526231    call        dword ptr [edx+40];TStrings.Clear
- 00526234    xor         eax,eax
- 00526236    pop         edx
- 00526237    pop         ecx
- 00526238    pop         ecx
- 00526239    mov         dword ptr fs:[eax],edx
- 0052623C    push        526256
- 00526241    lea         eax,[ebp-20]
- 00526244    mov         edx,5
- 00526249    call        @LStrArrayClr
- 0052624E    ret
->0052624F    jmp         @HandleFinally
->00526254    jmp         00526241
- 00526256    pop         edi
- 00526257    pop         esi
- 00526258    pop         ebx
- 00526259    mov         esp,ebp
- 0052625B    pop         ebp
- 0052625C    ret
-*}
-end;
+procedure TFormImprimer.ComboBox1Change(sender:TObject);
+var
+   I,lvar_4:integer;
+begin//0
+  //00526028
+    //00526048
+
+    case ComboBox1.ItemIndex of
+      0:
+      begin//3
+        //00526071
+        
+        //lvar_8 := f374;
+		  CheckListBoxPeriodes.Items:=f374.sub_004BEA4C;
+          for I := 0 to CheckListBoxPeriodes.Items.count -1 do//005260B2
+          begin//5
+            //005260B8
+            lvar_4 := f374.sub_004BEAD0(I + 1) ;
+            if (lvar_4 = 0) then //005260E7
+              CheckListBoxPeriodes.Items[I ] :=CheckListBoxPeriodes.Items[I] + ' (aucune série de notes)'
+            else//00526125
+              if (lvar_4 = 1) then //0052612B
+                CheckListBoxPeriodes.Items[I] :=CheckListBoxPeriodes.Items[I] + ' (1 série de notes)'
+              else //00526166
+                CheckListBoxPeriodes.Items[I] := CheckListBoxPeriodes.Items[I] + ' (' + IntToStr(lvar_4) + ' séries de notes)';
+
+ 
+          end;//5
+          
+      end;//3
+      1:
+      begin//3
+        //005261C6
+        CheckListBoxPeriodes.Items.Clear;
+        CheckListBoxPeriodes.Items := f374.sub_004BEA4C;
+        CheckListBoxPeriodes.Items.Add('Sur l''année');
+      end;//3
+      2:
+      begin//3
+        //00526207
+        CheckListBoxPeriodes.Items := f374.sub_004BEA4C;
+        
+      end;//3
+      3:
+      begin//3
+        //00526223
+        CheckListBoxPeriodes.Items.Clear;
+      end;//3
+    end;//2
+
+    //00526241
+
+end;//0
 
 //005262DC
 procedure TFormImprimer.sub_005262DC(a:dword);
@@ -793,90 +530,36 @@ end;//0
 
 //005262F8
 procedure TFormImprimer.sub_005262F8;
-begin
-{*
- 005262F8    mov         cl,1
- 005262FA    mov         dl,3
- 005262FC    call        0052588C
- 00526301    ret
-*}
-end;
+begin//0
+  //005262F8
+  sub_0052588C(3, 1);
+end;//0
+
 
 //00526304
 procedure TFormImprimer.SpeedButton2Click(Sender:TObject);
-begin
-{*
- 00526304    push        ebp
- 00526305    mov         ebp,esp
- 00526307    push        0
- 00526309    push        0
- 0052630B    push        0
- 0052630D    push        ebx
- 0052630E    mov         ebx,eax
- 00526310    xor         eax,eax
- 00526312    push        ebp
- 00526313    push        5263AB
- 00526318    push        dword ptr fs:[eax]
- 0052631B    mov         dword ptr fs:[eax],esp
- 0052631E    mov         eax,dword ptr [ebx+350];TFormImprimer.FontDialog1:TFontDialog
- 00526324    mov         edx,dword ptr [eax]
- 00526326    call        dword ptr [edx+3C];TFontDialog.Execute
- 00526329    test        al,al
->0052632B    je          0052633C
- 0052632D    mov         eax,dword ptr [ebx+350];TFormImprimer.FontDialog1:TFontDialog
- 00526333    mov         eax,dword ptr [eax+50];TFontDialog.Font:TFont
- 00526336    mov         dword ptr [ebx+370],eax;TFormImprimer.?f370:TFont
- 0052633C    lea         edx,[ebp-8]
- 0052633F    mov         eax,dword ptr [ebx+370];TFormImprimer.?f370:TFont
- 00526345    call        TFont.GetName
- 0052634A    push        dword ptr [ebp-8]
- 0052634D    push        5263C0;' ('
- 00526352    mov         eax,dword ptr [ebx+370];TFormImprimer.?f370:TFont
- 00526358    call        TFont.GetSize
- 0052635D    lea         edx,[ebp-0C]
- 00526360    call        IntToStr
- 00526365    push        dword ptr [ebp-0C]
- 00526368    push        5263CC;')'
- 0052636D    lea         eax,[ebp-4]
- 00526370    mov         edx,4
- 00526375    call        @LStrCatN
- 0052637A    mov         edx,dword ptr [ebp-4]
- 0052637D    mov         eax,dword ptr [ebx+358];TFormImprimer.Label3:TLabel
- 00526383    call        TControl.SetText
- 00526388    xor         eax,eax
- 0052638A    pop         edx
- 0052638B    pop         ecx
- 0052638C    pop         ecx
- 0052638D    mov         dword ptr fs:[eax],edx
- 00526390    push        5263B2
- 00526395    lea         eax,[ebp-0C]
- 00526398    call        @LStrClr
- 0052639D    lea         eax,[ebp-8]
- 005263A0    mov         edx,2
- 005263A5    call        @LStrArrayClr
- 005263AA    ret
->005263AB    jmp         @HandleFinally
->005263B0    jmp         00526395
- 005263B2    pop         ebx
- 005263B3    mov         esp,ebp
- 005263B5    pop         ebp
- 005263B6    ret
-*}
-end;
+var
+  lvar_4:AnsiString;
+  lvar_8:AnsiString;
+  lvar_C:AnsiString;
+begin//0
+  //00526304
+    //0052631E
+    if (FontDialog1.Execute ) then//0052632D
+      f370 := FontDialog1.Font;
+
+    Label3.Caption := f370.Name + ' (' + IntToStr(f370.Size) + ')';
+
+    //00526395
+
+end;//0
 
 //005263D0
 procedure TFormImprimer.FormDestroy(Sender:TObject);
-begin
-{*
- 005263D0    push        ebx
- 005263D1    mov         ebx,eax
- 005263D3    mov         eax,dword ptr [ebx+36C];TFormImprimer.CheckBox1:TCheckBox
- 005263D9    mov         edx,dword ptr [eax]
- 005263DB    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 005263E1    call        004BD8D4
- 005263E6    pop         ebx
- 005263E7    ret
-*}
-end;
+begin//0
+  //005263D0
+  sub_004BD8D4(CheckBox1.Checked);
+end;//0
+
 
 end.

@@ -1,7 +1,10 @@
-{***************************************
-* Version Original V0.01
-* Decompiled by HOUIDEF AEK v.05.02.2018
-***************************************}
+{************************************************************
+* File             : _FormHint                              *  
+* Version          : V0.03 build 1                          *
+* Decompiled by    : HOUIDEF AEK                            * 
+* Update           : 20:48 jeudi, septembre 13, 2018        *
+* The disassembly process : 100%                            *
+************************************************************}
 unit _FormHint;
 
 interface
@@ -73,81 +76,41 @@ begin//0
       Label7.Visible :=False;
       Height := Label3.Top + Label3.Height + 5;
     end;//2
-    (*4:
+    4:
     begin//2
       //004CAD6C
-      EAX := Label1;
-      EDX := Label1.Width;
-      ECX := EDX;//Label1.Width
-      ECX := ECX + Label1.Left;//Label1.Width + Label1.Left
-      if (ECX{Label1.Width + Label1.Left} > Width) then
+
+      if (Label1.Width + Label1.Left > Width) then
       begin//3
         //004CAD86
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label1.Width  + $14{20};
       end;//3
-      EAX := Label2;
-      EDX := Label2.Width;
-      ECX := EDX;//Label2.Width
-      ECX := ECX + Label2.Left;//Label2.Width + Label2.Left
-      if (ECX{Label2.Width + Label2.Left} > Width) then
+      if (Label2.Width + Label2.Left > Width) then
       begin//3
         //004CADB1
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width :=Label2.Width + $14{20};
       end;//3
-      EAX := Label3;
-      EDX := Label3.Width;
-      ECX := EDX;//Label3.Width
-      ECX := ECX + Label3.Left;//Label3.Width + Label3.Left
-      if (ECX{Label3.Width + Label3.Left} > Width) then
+
+      if (Label3.Width + Label3.Left > Width) then
       begin//3
         //004CADDC
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width :=Label3.Width  + $14{20};
       end;//3
-      EAX := Label4;
-      EDX := Label4.Width;
-      ECX := EDX;//Label4.Width
-      ECX := ECX + Label4.Left;//Label4.Width + Label4.Left
-      if (ECX{Label4.Width + Label4.Left} > Width) then
+
+      if (Label4.Width + Label4.Left > Width) then
       begin//3
         //004CAE07
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label4.Width  + $14{20};
       end;//3
-      EDX := 1;
-      EAX := Label1;
       Label1.Visible :=True;
-      EDX := 1;
-      EAX := Label2;
       Label2.Visible :=True;
-      EDX := 1;
-      EAX := Label3;
       Label3.Visible :=True;
-      EDX := 1;
-      EAX := Label4;
       Label4.Visible :=True;
-      EDX := 0;
-      EAX := Label5;
       Label5.Visible :=False;
-      EDX := 0;
-      EAX := Label6;
       Label6.Visible :=False;
-      EDX := 0;
-      EAX := Label7;
       Label7.Visible :=False;
-      EAX := Label4;
-      EDX := Label4.Top;
-      EDX := EDX + Label4.Height;//Label4.Top + Label4.Height
-      EDX := EDX + 5;//EDX
-      EAX := EBX;//Self
-      SetHeight{Height}(EDX);
-    end;//2*)
+      Height := Label4.Top + Label4.Height;
+    end;//2
     5:
     begin//2
       //004CAE9C
@@ -180,120 +143,54 @@ begin//0
 
       Height := Label5.Top + Label5.Height + 5;
     end;//2
-    (*7:
+    7:
     begin//2
       //004CB01A
-      EAX := Label1;
-      EDX := Label1.Width;
-      EDX := EDX + Label1.Left;//Label1.Width + Label1.Left
-      if (EDX{Label1.Width + Label1.Left} > Width) then
+      if (Label1.Width + Label1.Left > Width) then
       begin//3
         //004CB032
-        EAX := Label1;
-        EDX := Label1.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label1.Width + $14{20};
       end;//3
-      EAX := Label2;
-      EDX := Label2.Width;
-      EDX := EDX + Label2.Left;//Label2.Width + Label2.Left
-      if (EDX{Label2.Width + Label2.Left} > Width) then
+      if (Label2.Width + Label2.Left > Width) then
       begin//3
         //004CB064
-        EAX := Label2;
-        EDX := Label2.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label2.Width + $14{20};
       end;//3
-      EAX := Label3;
-      EDX := Label3.Width;
-      EDX := EDX + Label3.Left;//Label3.Width + Label3.Left
-      if (EDX{Label3.Width + Label3.Left} > Width) then
+      if (Label3.Width + Label3.Left > Width) then
       begin//3
         //004CB096
-        EAX := Label3;
-        EDX := Label3.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label3.Width + $14{20};
       end;//3
-      EAX := Label4;
-      EDX := Label4.Width;
-      EDX := EDX + Label4.Left;//Label4.Width + Label4.Left
-      if (EDX{Label4.Width + Label4.Left} > Width) then
+      if (Label4.Width + Label4.Left > Width) then
       begin//3
         //004CB0C8
-        EAX := Label4;
-        EDX := Label4.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label4.Width + $14{20};
       end;//3
-      EAX := Label5;
-      EDX := Label5.Width;
-      EDX := EDX + Label5.Left;//Label5.Width + Label5.Left
-      if (EDX{Label5.Width + Label5.Left} > Width) then
+      if (Label5.Width + Label5.Left > Width) then
       begin//3
         //004CB0FA
-        EAX := Label5;
-        EDX := Label5.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label5.Width + $14{20};
       end;//3
-      EAX := Label6;
-      EDX := Label6.Width;
-      EDX := EDX + Label6.Left;//Label6.Width + Label6.Left
-      if (EDX{Label6.Width + Label6.Left} > Width) then
+
+      if (Label6.Width + Label6.Left > Width) then
       begin//3
         //004CB12C
-        EAX := Label6;
-        EDX := Label6.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label6.Width + $14{20};
       end;//3
-      EAX := Label7;
-      EDX := Label7.Width;
-      EDX := EDX + Label7.Left;//Label7.Width + Label7.Left
-      if (EDX{Label7.Width + Label7.Left} > Width) then
+      if (Label7.Width + Label7.Left > Width) then
       begin//3
         //004CB15E
-        EAX := Label7;
-        EDX := Label7.Width;
-        EDX := EDX + $14{20};//EDX
-        EAX := EBX;//Self
-        SetWidth{Width}(EDX);
+        Width := Label7.Width + $14{20};
       end;//3
-      EDX := 1;
-      EAX := Label1;
       Label1.Visible :=True;
-      EDX := 1;
-      EAX := Label2;
       Label2.Visible :=True;
-      EDX := 1;
-      EAX := Label3;
       Label3.Visible :=True;
-      EDX := 1;
-      EAX := Label4;
       Label4.Visible :=True;
-      EDX := 1;
-      EAX := Label5;
       Label5.Visible :=True;
-      EDX := 1;
-      EAX := Label6;
       Label6.Visible :=True;
-      EDX := 1;
-      EAX := Label7;
       Label7.Visible :=True;
- 
-      EDX := Label7.Top + Label7.Height;//Label7.Top + Label7.Height
-      EDX := EDX + 5;//EDX
-      EAX := EBX;//Self
-      Height := EDX;
-    end;//2*)
+      Height := Label7.Top + Label7.Height + 5;
+    end;//2
   end;//end case of
 end;//0
 

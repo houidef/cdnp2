@@ -119,7 +119,7 @@ type
     FormCreerBulletins:TFormCreerBulletins;
 
 implementation
-     uses Unit49,Unit111,_Unit112,UTypeBulletins;
+     uses Unit49,Unit111,_Unit112,UTypeBulletins,_FormAide;
 {$R *.DFM}
 
 //006072E8
@@ -535,65 +535,35 @@ begin//0
 end;//0
 //0060899C
 procedure TFormCreerBulletins.SpeedButton2Click(Sender:TObject);
-begin
-{*
- 0060899C    push        ebx
- 0060899D    push        esi
- 0060899E    mov         ebx,eax
- 006089A0    mov         eax,dword ptr [ebx+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 006089A6    call        TCustomListBox.GetItemIndex
- 006089AB    inc         eax
->006089AC    je          006089E1
- 006089AE    mov         eax,dword ptr [ebx+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 006089B4    call        TCustomListBox.GetItemIndex
- 006089B9    mov         esi,eax
- 006089BB    mov         eax,dword ptr [ebx+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 006089C1    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006089C7    mov         edx,esi
- 006089C9    mov         ecx,dword ptr [eax]
- 006089CB    call        dword ptr [ecx+44];TStrings.Delete
- 006089CE    mov         eax,dword ptr [ebx+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 006089D4    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006089DA    mov         edx,esi
- 006089DC    mov         ecx,dword ptr [eax]
- 006089DE    call        dword ptr [ecx+44];TStrings.Delete
- 006089E1    mov         eax,dword ptr [ebx+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 006089E7    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006089ED    mov         edx,dword ptr [eax]
- 006089EF    call        dword ptr [edx+14];TStrings.GetCount
- 006089F2    test        eax,eax
- 006089F4    setg        dl
- 006089F7    mov         eax,dword ptr [ebx+324];TFormCreerBulletins.SpeedButtonSuivant:TSpeedButton
- 006089FD    mov         ecx,dword ptr [eax]
- 006089FF    call        dword ptr [ecx+5C];TControl.SetEnabled
- 00608A02    mov         eax,dword ptr [ebx+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 00608A08    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 00608A0E    mov         edx,dword ptr [eax]
- 00608A10    call        dword ptr [edx+14];TStrings.GetCount
- 00608A13    test        eax,eax
->00608A15    jne         00608A47
- 00608A17    xor         eax,eax
- 00608A19    mov         dword ptr [ebx+398],eax;TFormCreerBulletins.?f398:dword
- 00608A1F    xor         eax,eax
- 00608A21    mov         dword ptr [ebx+39C],eax;TFormCreerBulletins.?f39C:dword
- 00608A27    mov         edx,608A54;'Elèves :'
- 00608A2C    mov         eax,dword ptr [ebx+2D4];TFormCreerBulletins.Label1:TLabel
- 00608A32    call        TControl.SetText
- 00608A37    mov         edx,608A68;'Périodes :'
- 00608A3C    mov         eax,dword ptr [ebx+2D8];TFormCreerBulletins.Label2:TLabel
- 00608A42    call        TControl.SetText
- 00608A47    pop         esi
- 00608A48    pop         ebx
- 00608A49    ret
-*}
-end;
+var
+ K:integer;
+begin//0
+  //0060899C
+  if (ListBoxFichiers.ItemIndex + 1 <> 0) then
+  begin//1
+    //006089AE
+    K := ListBoxFichiers.ItemIndex;
+    ListBoxFichiers.Items.Delete(K);
+    ListBoxMatieres.Items.Delete(K);
+  end;//1
+ 
+  SpeedButtonSuivant.Enabled := (ListBoxFichiers.Items.Count > 0);
+
+  if (ListBoxFichiers.Items.Count = 0) then
+  begin//1
+    //00608A17
+    f398 := 0;//EAX
+    f39C := 0;//EAX
+    Label1.Caption := 'Elèves :';
+    Label2.Caption := 'Périodes :';
+  end;//1
+end;//0
 
 //00608A74
 procedure TFormCreerBulletins.SpeedButtonPrecedentClick(Sender:TObject);
 begin//0
   //00608A74
     //00608A8F
-
     if (Notebook1.PageIndex > 0) then
     begin//2
       //00608AA2
@@ -703,166 +673,79 @@ end;//0
 
 //006090A4
 procedure TFormCreerBulletins.SpeedButton20Click(Sender:TObject);
-begin
-{*
- 006090A4    push        ebx
- 006090A5    push        esi
- 006090A6    push        edi
- 006090A7    mov         esi,eax
- 006090A9    mov         eax,dword ptr [esi+2F4];TFormCreerBulletins.CheckListBoxEleves:TCheckListBox
- 006090AF    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 006090B5    mov         edx,dword ptr [eax]
- 006090B7    call        dword ptr [edx+14];TStrings.GetCount
- 006090BA    mov         ebx,eax
- 006090BC    test        ebx,ebx
->006090BE    jle         006090E2
- 006090C0    mov         edi,1
- 006090C5    mov         edx,edi
- 006090C7    sub         edx,1
->006090CA    jno         006090D1
- 006090CC    call        @IntOver
- 006090D1    mov         cl,1
- 006090D3    mov         eax,dword ptr [esi+2F4];TFormCreerBulletins.CheckListBoxEleves:TCheckListBox
- 006090D9    call        TCheckListBox.SetChecked
- 006090DE    inc         edi
- 006090DF    dec         ebx
->006090E0    jne         006090C5
- 006090E2    xor         eax,eax
- 006090E4    mov         edx,dword ptr [esi+33C];TFormCreerBulletins.RadioGroup1:TRadioGroup
- 006090EA    cmp         dword ptr [edx+200],0FFFFFFFF;TRadioGroup.FItemIndex:Integer
->006090F1    je          006090F5
- 006090F3    mov         al,1
- 006090F5    mov         edx,eax
- 006090F7    mov         eax,dword ptr [esi+324];TFormCreerBulletins.SpeedButtonSuivant:TSpeedButton
- 006090FD    mov         ecx,dword ptr [eax]
- 006090FF    call        dword ptr [ecx+5C];TControl.SetEnabled
- 00609102    pop         edi
- 00609103    pop         esi
- 00609104    pop         ebx
- 00609105    ret
-*}
-end;
+var
+  I:integer;
+  b:boolean;
+begin//0
+  //006090A4
+  b:=false;
+    for I := 1 to CheckListBoxEleves.Items.Count do//006090C0
+    begin//2
+      //006090C5
+      CheckListBoxEleves.Checked[I - 1] := True;
+    end;//2
+ 
+  if (RadioGroup1.ItemIndex <> -1) then
+  begin//1
+    //006090F3
+    b := true;
+  end;//1
+
+  SpeedButtonSuivant.Enabled := b;
+end;//0
 
 //00609108
 procedure TFormCreerBulletins.SpeedButton21Click(Sender:TObject);
-begin
-{*
- 00609108    push        ebx
- 00609109    push        esi
- 0060910A    push        edi
- 0060910B    mov         edi,eax
- 0060910D    mov         eax,dword ptr [edi+2F4];TFormCreerBulletins.CheckListBoxEleves:TCheckListBox
- 00609113    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00609119    mov         edx,dword ptr [eax]
- 0060911B    call        dword ptr [edx+14];TStrings.GetCount
- 0060911E    mov         ebx,eax
- 00609120    test        ebx,ebx
->00609122    jle         00609146
- 00609124    mov         esi,1
- 00609129    mov         edx,esi
- 0060912B    sub         edx,1
->0060912E    jno         00609135
- 00609130    call        @IntOver
- 00609135    mov         eax,dword ptr [edi+2F4];TFormCreerBulletins.CheckListBoxEleves:TCheckListBox
- 0060913B    xor         ecx,ecx
- 0060913D    call        TCheckListBox.SetChecked
- 00609142    inc         esi
- 00609143    dec         ebx
->00609144    jne         00609129
- 00609146    mov         eax,dword ptr [edi+324];TFormCreerBulletins.SpeedButtonSuivant:TSpeedButton
- 0060914C    xor         edx,edx
- 0060914E    mov         ecx,dword ptr [eax]
- 00609150    call        dword ptr [ecx+5C];TControl.SetEnabled
- 00609153    pop         edi
- 00609154    pop         esi
- 00609155    pop         ebx
- 00609156    ret
-*}
-end;
+var
+ I:integer;
+begin//0
+  //00609108
+    for I := 1 to CheckListBoxEleves.Items.Count do//00609124
+    begin//2
+      //00609129
+      CheckListBoxEleves.Checked[I - 1] := False;
+    end;//2
+  SpeedButtonSuivant.Enabled := False;
+end;//0
 
 //00609158
 procedure TFormCreerBulletins.CheckListBoxElevesClickCheck;
-begin
-{*
- 00609158    push        ebx
- 00609159    push        esi
- 0060915A    push        edi
- 0060915B    push        ebp
- 0060915C    push        ecx
- 0060915D    mov         esi,eax
- 0060915F    mov         byte ptr [esp],0
- 00609163    mov         eax,dword ptr [esi+33C];TFormCreerBulletins.RadioGroup1:TRadioGroup
- 00609169    cmp         dword ptr [eax+200],0FFFFFFFF;TRadioGroup.FItemIndex:Integer
->00609170    je          00609176
- 00609172    mov         byte ptr [esp],1
- 00609176    xor         ebx,ebx
- 00609178    mov         eax,dword ptr [esi+2F4];TFormCreerBulletins.CheckListBoxEleves:TCheckListBox
- 0060917E    mov         eax,dword ptr [eax+1F0];TCheckListBox.FItems:TStrings
- 00609184    mov         edx,dword ptr [eax]
- 00609186    call        dword ptr [edx+14];TStrings.GetCount
- 00609189    mov         ebp,eax
- 0060918B    sub         ebp,1
->0060918E    jno         00609195
- 00609190    call        @IntOver
- 00609195    test        ebp,ebp
->00609197    jl          006091B3
- 00609199    inc         ebp
- 0060919A    xor         edi,edi
- 0060919C    mov         edx,edi
- 0060919E    mov         eax,dword ptr [esi+2F4];TFormCreerBulletins.CheckListBoxEleves:TCheckListBox
- 006091A4    call        TCheckListBox.GetChecked
- 006091A9    test        al,al
->006091AB    je          006091AF
- 006091AD    mov         bl,1
- 006091AF    inc         edi
- 006091B0    dec         ebp
->006091B1    jne         0060919C
- 006091B3    mov         dl,byte ptr [esp]
- 006091B6    and         dl,bl
- 006091B8    mov         eax,dword ptr [esi+324];TFormCreerBulletins.SpeedButtonSuivant:TSpeedButton
- 006091BE    mov         ecx,dword ptr [eax]
- 006091C0    call        dword ptr [ecx+5C];TControl.SetEnabled
- 006091C3    pop         edx
- 006091C4    pop         ebp
- 006091C5    pop         edi
- 006091C6    pop         esi
- 006091C7    pop         ebx
- 006091C8    ret
-*}
-end;
+var
+  b1,b2:boolean;
+  I:integer;
+begin//0
+  //00609158
+  b1 := false;
+  if (RadioGroup1.ItemIndex <> -1) then
+  begin//1
+    //00609172
+    b1 := true;
+  end;//1
+  b2 := false;
+  if (CheckListBoxEleves.Items.Count - 1 >= 0) then
+  begin//1
+    for I := 0 to CheckListBoxEleves.Items.Count - 1  do //00609199
+    begin//2
+      //0060919C
+      if (CheckListBoxEleves.Checked[I] <> False) then 
+      b2 := true;
+    end;//2
+  end;//1
+  SpeedButtonSuivant.Enabled := (b1 And b2);
+end;//0
 
 //006091CC
 procedure TFormCreerBulletins.SpeedButton4Click(Sender:TObject);
-begin
-{*
- 006091CC    push        ebx
- 006091CD    mov         ebx,eax
- 006091CF    mov         eax,dword ptr [ebx+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 006091D5    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006091DB    mov         edx,dword ptr [eax]
- 006091DD    call        dword ptr [edx+40];TStrings.Clear
- 006091E0    mov         eax,dword ptr [ebx+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 006091E6    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006091EC    mov         edx,dword ptr [eax]
- 006091EE    call        dword ptr [edx+40];TStrings.Clear
- 006091F1    xor         edx,edx
- 006091F3    mov         eax,dword ptr [ebx+324];TFormCreerBulletins.SpeedButtonSuivant:TSpeedButton
- 006091F9    mov         ecx,dword ptr [eax]
- 006091FB    call        dword ptr [ecx+5C];TControl.SetEnabled
- 006091FE    xor         eax,eax
- 00609200    mov         dword ptr [ebx+398],eax;TFormCreerBulletins.?f398:dword
- 00609206    xor         eax,eax
- 00609208    mov         dword ptr [ebx+39C],eax;TFormCreerBulletins.?f39C:dword
- 0060920E    mov         edx,609238;'Elèves :'
- 00609213    mov         eax,dword ptr [ebx+2D4];TFormCreerBulletins.Label1:TLabel
- 00609219    call        TControl.SetText
- 0060921E    mov         edx,60924C;'Périodes :'
- 00609223    mov         eax,dword ptr [ebx+2D8];TFormCreerBulletins.Label2:TLabel
- 00609229    call        TControl.SetText
- 0060922E    pop         ebx
- 0060922F    ret
-*}
-end;
+begin//0
+  //006091CC
+  ListBoxFichiers.Items.Clear;
+  ListBoxMatieres.Items.Clear;
+  SpeedButtonSuivant.Enabled := False;
+  f398 := 0;//EAX
+  f39C := 0;//EAX
+  Label1.Caption := 'Elèves :';
+  Label2.Caption := 'Périodes :';
+end;//0
 
 //00609258
 procedure TFormCreerBulletins.CheckListBoxElevesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
@@ -947,96 +830,39 @@ end;
 
 //00609744
 procedure TFormCreerBulletins.SpeedButton7Click(Sender:TObject);
-begin
-{*
- 00609744    push        ebx
- 00609745    push        esi
- 00609746    push        edi
- 00609747    push        ebp
- 00609748    mov         esi,eax
- 0060974A    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 00609750    call        TCustomListBox.GetItemIndex
- 00609755    mov         ebx,eax
- 00609757    cmp         ebx,0FFFFFFFF
->0060975A    je          006097A3
- 0060975C    test        ebx,ebx
->0060975E    jle         006097A3
- 00609760    mov         edi,ebx
- 00609762    sub         edi,1
->00609765    jno         0060976C
- 00609767    call        @IntOver
- 0060976C    mov         ecx,edi
- 0060976E    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 00609774    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 0060977A    mov         edx,ebx
- 0060977C    mov         ebp,dword ptr [eax]
- 0060977E    call        dword ptr [ebp+60];TStrings.Move
- 00609781    mov         ecx,edi
- 00609783    mov         eax,dword ptr [esi+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 00609789    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 0060978F    mov         edx,ebx
- 00609791    mov         ebp,dword ptr [eax]
- 00609793    call        dword ptr [ebp+60];TStrings.Move
- 00609796    mov         edx,edi
- 00609798    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 0060979E    call        TCustomListBox.SetItemIndex
- 006097A3    pop         ebp
- 006097A4    pop         edi
- 006097A5    pop         esi
- 006097A6    pop         ebx
- 006097A7    ret
-*}
-end;
+var
+ I,J :integer;
+begin//0
+  //00609744
+  I := ListBoxMatieres.ItemIndex;
+  if (I = -1) then Exit;
+  if (I > 0) then
+  begin//1
+    //00609760
+    J := ListBoxMatieres.ItemIndex - 1;//EDI
+    ListBoxMatieres.Items.Move(I, J);
+    ListBoxFichiers.Items.Move(I, J);
+    ListBoxMatieres.ItemIndex := J;
+  end;//1
+end;//0
 
 //006097A8
 procedure TFormCreerBulletins.SpeedButton8Click(Sender:TObject);
-begin
-{*
- 006097A8    push        ebx
- 006097A9    push        esi
- 006097AA    push        edi
- 006097AB    push        ebp
- 006097AC    mov         esi,eax
- 006097AE    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 006097B4    call        TCustomListBox.GetItemIndex
- 006097B9    mov         ebx,eax
- 006097BB    cmp         ebx,0FFFFFFFF
->006097BE    je          00609822
- 006097C0    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 006097C6    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006097CC    mov         edx,dword ptr [eax]
- 006097CE    call        dword ptr [edx+14];TStrings.GetCount
- 006097D1    sub         eax,1
->006097D4    jno         006097DB
- 006097D6    call        @IntOver
- 006097DB    cmp         ebx,eax
->006097DD    jge         00609822
- 006097DF    mov         edi,ebx
- 006097E1    add         edi,1
->006097E4    jno         006097EB
- 006097E6    call        @IntOver
- 006097EB    mov         ecx,edi
- 006097ED    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 006097F3    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 006097F9    mov         edx,ebx
- 006097FB    mov         ebp,dword ptr [eax]
- 006097FD    call        dword ptr [ebp+60];TStrings.Move
- 00609800    mov         ecx,edi
- 00609802    mov         eax,dword ptr [esi+2EC];TFormCreerBulletins.ListBoxFichiers:TListBox
- 00609808    mov         eax,dword ptr [eax+1F0];TListBox.FItems:TStrings
- 0060980E    mov         edx,ebx
- 00609810    mov         ebp,dword ptr [eax]
- 00609812    call        dword ptr [ebp+60];TStrings.Move
- 00609815    mov         edx,edi
- 00609817    mov         eax,dword ptr [esi+308];TFormCreerBulletins.ListBoxMatieres:TListBox
- 0060981D    call        TCustomListBox.SetItemIndex
- 00609822    pop         ebp
- 00609823    pop         edi
- 00609824    pop         esi
- 00609825    pop         ebx
- 00609826    ret
-*}
-end;
+var
+  I,J : integer;
+begin//0
+  //006097A8
+  I:=ListBoxMatieres.ItemIndex;
+  if (I <> -1) then 
+  if (I < ListBoxMatieres.Items.Count - 1) then
+  begin
+	  J := I + 1;//EDI
+	  ListBoxMatieres.Items.Move(I, J);
+	  ListBoxFichiers.Items.Move(I, J);
+	  ListBoxMatieres.ItemIndex := J;
+  end;
+end;//0
+
 
 //00609828
 procedure TFormCreerBulletins.FormKeyPress(Sender:TObject; var Key:Char);
@@ -1261,149 +1087,55 @@ end;//0
 
 //0060A664
 procedure TFormCreerBulletins.SpeedButton5Click(Sender:TObject);
-begin
-{*
- 0060A664    push        ebp
- 0060A665    mov         ebp,esp
- 0060A667    push        0
- 0060A669    push        0
- 0060A66B    push        ebx
- 0060A66C    mov         ebx,eax
- 0060A66E    xor         eax,eax
- 0060A670    push        ebp
- 0060A671    push        60A6EF
- 0060A676    push        dword ptr fs:[eax]
- 0060A679    mov         dword ptr fs:[eax],esp
- 0060A67C    mov         eax,dword ptr [ebx+36C];TFormCreerBulletins.OpenPictureDialog1:TOpenPictureDialog
- 0060A682    mov         edx,dword ptr [eax]
- 0060A684    call        dword ptr [edx+3C];TOpenPictureDialog.Execute
- 0060A687    test        al,al
->0060A689    je          0060A6D4
- 0060A68B    lea         edx,[ebp-4]
- 0060A68E    mov         eax,dword ptr [ebx+36C];TFormCreerBulletins.OpenPictureDialog1:TOpenPictureDialog
- 0060A694    call        TOpenDialog.GetFileName
- 0060A699    mov         edx,dword ptr [ebp-4]
- 0060A69C    mov         eax,dword ptr [ebx+37C];TFormCreerBulletins.ImageLogo:TImage
- 0060A6A2    mov         eax,dword ptr [eax+128];TImage.Picture:TPicture
- 0060A6A8    call        TPicture.LoadFromFile
- 0060A6AD    lea         edx,[ebp-8]
- 0060A6B0    mov         eax,dword ptr [ebx+36C];TFormCreerBulletins.OpenPictureDialog1:TOpenPictureDialog
- 0060A6B6    call        TOpenDialog.GetFileName
- 0060A6BB    mov         edx,dword ptr [ebp-8]
- 0060A6BE    lea         eax,[ebx+3DC];TFormCreerBulletins.?f3DC:String
- 0060A6C4    call        @LStrAsg
- 0060A6C9    mov         eax,dword ptr [ebx+3DC];TFormCreerBulletins.?f3DC:String
- 0060A6CF    call        004C9DA8
- 0060A6D4    xor         eax,eax
- 0060A6D6    pop         edx
- 0060A6D7    pop         ecx
- 0060A6D8    pop         ecx
- 0060A6D9    mov         dword ptr fs:[eax],edx
- 0060A6DC    push        60A6F6
- 0060A6E1    lea         eax,[ebp-8]
- 0060A6E4    mov         edx,2
- 0060A6E9    call        @LStrArrayClr
- 0060A6EE    ret
->0060A6EF    jmp         @HandleFinally
->0060A6F4    jmp         0060A6E1
- 0060A6F6    pop         ebx
- 0060A6F7    pop         ecx
- 0060A6F8    pop         ecx
- 0060A6F9    pop         ebp
- 0060A6FA    ret
-*}
-end;
+begin//0
+  //0060A664
+    //0060A67C
+    if (OpenPictureDialog1.Execute) then
+    begin//2
+      //0060A68B
+      ImageLogo.Picture.LoadFromFile(OpenPictureDialog1.FileName);
+      f3DC := OpenPictureDialog1.FileName;
+      sub_004C9DA8(f3DC);
+    end;//2
+    //0060A6E1
+end;//0
 
 //0060A6FC
 procedure TFormCreerBulletins.SpeedButton6Click(Sender:TObject);
-begin
-{*
- 0060A6FC    push        ebx
- 0060A6FD    mov         ebx,eax
- 0060A6FF    xor         edx,edx
- 0060A701    mov         eax,dword ptr [ebx+37C];TFormCreerBulletins.ImageLogo:TImage
- 0060A707    call        TImage.SetPicture
- 0060A70C    lea         eax,[ebx+3DC];TFormCreerBulletins.?f3DC:String
- 0060A712    call        @LStrClr
- 0060A717    mov         eax,dword ptr [ebx+3DC];TFormCreerBulletins.?f3DC:String
- 0060A71D    call        004C9DA8
- 0060A722    pop         ebx
- 0060A723    ret
-*}
-end;
+begin//0
+  //0060A6FC
+  ImageLogo.Picture := Nil;
+  f3DC := '';
+  sub_004C9DA8(f3DC);
+end;//0
 
 //0060A724
 procedure TFormCreerBulletins.SpeedButtonAideClick(Sender:TObject);
-begin
-{*
- 0060A724    push        ebx
- 0060A725    mov         ebx,eax
- 0060A727    push        60A774;'Créer les bulletins des élèves'
- 0060A72C    push        60A79C;'Cette boite de dialogue permet de créer des bulletins à partir de plusieurs fich...
- 0060A731    push        82
- 0060A736    mov         ecx,ebx
- 0060A738    mov         dl,1
- 0060A73A    mov         eax,[00536C0C];TFormAide
- 0060A73F    call        TFormAide.Create;TFormAide.Create
- 0060A744    mov         edx,dword ptr ds:[616354];^gvar_00617E94:TFormAide
- 0060A74A    mov         dword ptr [edx],eax
- 0060A74C    mov         eax,[00616354];^gvar_00617E94:TFormAide
- 0060A751    mov         eax,dword ptr [eax]
- 0060A753    mov         edx,dword ptr [eax]
- 0060A755    call        dword ptr [edx+0D8]
- 0060A75B    mov         eax,[00616354];^gvar_00617E94:TFormAide
- 0060A760    mov         eax,dword ptr [eax]
- 0060A762    mov         dl,1
- 0060A764    mov         ecx,dword ptr [eax]
- 0060A766    call        dword ptr [ecx-4]
- 0060A769    pop         ebx
- 0060A76A    ret
-*}
-end;
+begin//0
+  //0060A724
+  FormAide{gvar_00617E94 } := TFormAide.Create(Self, 'Créer les bulletins des élèves', 'Cette boite de dialogue permet de créer des bulletins à partir de plusieurs fichiers Carnet de Notes. '+#13+#10+#13+#10+'Ces fichiers doivent avoir exactement la même liste d''élèves, le même type de périodes (trimestres, semestres, ...) et le même type de bulletins (bulletins par défaut ou nouveaux bulletins du collège). '+#13+#10+#13+#10+'Pour être certains que vos fichiers remplissent bien ces conditions, il est conseillé de les créer en début d''année par la rubrique "Clôner le fichier" du menu "Fichier" de Carnet de Notes.',$82);
+  FormAide.ShowModal;
+  FormAide.Destroy;
+end;//0
 
 //0060A994
 procedure TFormCreerBulletins.CheckBox1Click(Sender:TObject);
-begin
-{*
- 0060A994    push        ebx
- 0060A995    push        esi
- 0060A996    mov         ebx,eax
- 0060A998    mov         eax,dword ptr [ebx+330];TFormCreerBulletins.frxReport1:TfrxReport
- 0060A99E    mov         eax,dword ptr [eax+154];TfrxReport.?f154:TfrxVariables
- 0060A9A4    mov         edx,60AA28;'minMaxClasseAffiches'
- 0060A9A9    call        005C8688
- 0060A9AE    mov         esi,eax
- 0060A9B0    mov         eax,dword ptr [ebx+390];TFormCreerBulletins.CheckBox1:TCheckBox
- 0060A9B6    mov         edx,dword ptr [eax]
- 0060A9B8    call        dword ptr [edx+0B4];TCustomCheckBox.GetChecked
- 0060A9BE    test        al,al
->0060A9C0    je          0060A9F2
- 0060A9C2    mov         eax,dword ptr [ebx+330];TFormCreerBulletins.frxReport1:TfrxReport
- 0060A9C8    mov         eax,dword ptr [eax+154];TfrxReport.?f154:TfrxVariables
- 0060A9CE    mov         edx,esi
- 0060A9D0    call        005C8674
- 0060A9D5    add         eax,10
- 0060A9D8    mov         edx,1
- 0060A9DD    call        @VarFromInt
- 0060A9E2    mov         eax,dword ptr [ebx+330];TFormCreerBulletins.frxReport1:TfrxReport
- 0060A9E8    mov         dword ptr [eax+0C],1;TfrxReport.Tag:Integer
- 0060A9EF    pop         esi
- 0060A9F0    pop         ebx
- 0060A9F1    ret
- 0060A9F2    mov         eax,dword ptr [ebx+330];TFormCreerBulletins.frxReport1:TfrxReport
- 0060A9F8    mov         eax,dword ptr [eax+154];TfrxReport.?f154:TfrxVariables
- 0060A9FE    mov         edx,esi
- 0060AA00    call        005C8674
- 0060AA05    add         eax,10
- 0060AA08    xor         edx,edx
- 0060AA0A    call        @VarFromInt
- 0060AA0F    mov         eax,dword ptr [ebx+330];TFormCreerBulletins.frxReport1:TfrxReport
- 0060AA15    xor         edx,edx
- 0060AA17    mov         dword ptr [eax+0C],edx;TfrxReport.Tag:Integer
- 0060AA1A    pop         esi
- 0060AA1B    pop         ebx
- 0060AA1C    ret
-*}
-end;
+var
+ I:integer;
+begin//0
+  //0060A994
+  I := frxReport1.Variables.IndexOf('minMaxClasseAffiches');  
+  if (CheckBox1.Checked) then
+  begin//1
+    //0060A9C2
+   // EAX := frxReport1.Variables.Items[I] + $10{16};
+    frxReport1.Tag := 1;
+  end//1
+  else 
+  begin
+  //EAX := frxReport1.Variables.Items[I] + $10{16};
+  frxReport1.Tag := 0;//EDX
+  end;
+end;//0
 
 end.

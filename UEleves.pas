@@ -1,7 +1,8 @@
-{***************************************
-* Version Original V0.01
-* Created by HOUIDEF AEK v 16:24 mardi 27 février 2018
-***************************************}
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* The disassembly process : 100%                            *
+************************************************************}
 unit UEleves;
 
 interface

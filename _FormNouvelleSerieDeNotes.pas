@@ -366,10 +366,10 @@ end;
 //0050A5A4
 procedure TFormNouvelleSerieDeNotes.FormKeyPress(Sender:TObject; var Key:Char);
 begin
-  if (Key = chr($0D)) then
+  if (Key = #13) then
     ModalResult := 1
   else
-  if (Key = chr($1B)) then 
+  if (Key = #27) then 
   ModalResult := 2;
 end;
 

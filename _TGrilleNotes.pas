@@ -1,7 +1,8 @@
-{***************************************
-* Version Original V0.01
-* Decompiled by HOUIDEF AEK v 00:44 samedi 17 février 2018
-***************************************}
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v20:59 mercredi, septembre 12, 2018*
+* The disassembly process : 99%                            *
+************************************************************}
 unit _TGrilleNotes;
 
 interface
@@ -32,7 +33,7 @@ type
     destructor Destroy; virtual;//00542298
     procedure sub_005422CC(Sender:Tobject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
     procedure WMCommand(var Message:TWMCommand); message WM_COMMAND;//005440D4
-    procedure sub_005464FC(var Message:TMsg); message $403; {dynamic;}//005464FC
+    procedure sub_005464FC(var Message:TMsg); message $403; //005464FC
     procedure sub_0054672C(var Msg:TMsg);  message $407;//0054672C ??????
     procedure sub_00546F14(var Msg:TMsg);  message $414;//00546F14
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//00542198
@@ -246,6 +247,7 @@ var
 begin//0
   //005440D4
     //005440F9
+	//showmessage(Format('Message.ItemID = %d',[Message.ItemID]));
     KI := FichierCdn.sub_004BE9E0 + 2;//ESI
     if (Message.ItemID = 0) then
     begin//2
@@ -313,20 +315,20 @@ begin//0
         lvar_10 := lvar_10 + #13 + #10;
         FichierCdn.sub_004C3D1C(f2D8, f2EC + 1, buf);
         lvar_10 := lvar_10 + 'Nombre d''élèves présents : ' + buf + #13 + #10;
-        //FichierCdn.sub_004C3958(f2D8, buf0, f2EC + 1);
+        FichierCdn.sub_004C3958(f2D8, buf0, f2EC + 1);
         FichierCdn.sub_004BED2C( f2D8, f2EC + 1,  buf1);
         lvar_10 := lvar_10 + 'Minimum : ' +  buf0 + '/' +  buf1 + #13 + #10;
-        //FichierCdn.sub_004C3B54(f2D8, Buf0, f2EC + 1);
-        //sub_004BED2C(FichierCdn, f2D8, f2EC + 1, Buf1);
+        FichierCdn.sub_004C3B54(f2D8, Buf0, f2EC + 1);
+        FichierCdn.sub_004BED2C(f2D8, f2EC + 1, Buf1);
         lvar_10 := lvar_10 + 'Maximum : ' + Buf0 + '/' + Buf1 + #13 + #10;
         FichierCdn.sub_004C40D4(f2D8, Buf0, f2EC + 1);
-        //sub_004BED2C(FichierCdn, f2D8, f2EC + 1, Buf1);
+        FichierCdn.sub_004BED2C(f2D8, f2EC + 1, Buf1);
         lvar_10 := lvar_10 + 'Moyenne : ' + Buf0 + '/' + Buf1 + #13 + #10;
-        //FichierCdn.sub_004C42D4(f2D8, f2EC + 1, Buf);
+        FichierCdn.sub_004C42D4(f2D8, f2EC + 1, Buf);
         lvar_10 := lvar_10 + 'Ecart type : ' + Buf + #13 + #10;
-        //FichierCdn.sub_004C3EA4(f2D8, f2EC + 1, Buf);
+        FichierCdn.sub_004C3EA4(f2D8, f2EC + 1, Buf);
         lvar_10 := lvar_10 + '% notes < moyenne : ' + Buf + #13 + #10;
-        //FichierCdn.sub_004C451C(f2D8, f2EC + 1, Buf);
+        FichierCdn.sub_004C451C(f2D8, f2EC + 1, Buf);
         lvar_10 := lvar_10 + '% notes < moyenne classe : ' + Buf;
         Clipboard.SetTextBuf(PChar(lvar_10));
       end//3
@@ -344,20 +346,13 @@ begin//0
           else//005449EB
             J := lvar_8.count;
 
-          if (J  > 0) then
-          begin//5
-            //005449FB
-            for I := 1 to J  do
+            for I := 1 to J  do//005449FB
             begin//6
               //00544A03
               Cells[f2EC, I]:= lvar_8[I - 1];
               FichierCdn.sub_004C1074(f2D8, f2EC + 1, 0, lvar_8[I - 1]);
             end;//6
-          end;//5
-         (* EDX := 1;
-          EAX := lvar_8;
-          call();
-          //push EAX*)
+           lvar_8.destroy;
            SendMessageA(Handle, $407{1031}, f2EC, 0);
            SendMessageA(f2E0, $408{1032}, f2D8, 0);
         end;//4
@@ -374,7 +369,7 @@ begin//0
         begin//4
           //00544B53
           Cells[f2EC, f2F0] :=  DateToStr(Date - 4 - KI + Message.ItemID);
-          //FichierCdn.sub_004C0EC8(f2D8, f2EC + 1,DateToStr(Date - 4 - KI + Message.ItemID));
+          FichierCdn.sub_004C0EC8(f2D8, f2EC + 1,DateToStr(Date - 4 - KI + Message.ItemID));
         end//4
 		else
         if (Message.ItemID = KI + 7) then
@@ -386,7 +381,7 @@ begin//0
 		  if(FormCalendrier.ModalResult= 1) then 
 		  begin
 		    //00544CAF
-			//FichierCdn.sub_004C0EC8(f2D8, f2EC + 1, DateToStr(FormCalendrier.MonthCalendar1.Date));
+			FichierCdn.sub_004C0EC8(f2D8, f2EC + 1, DateToStr(FormCalendrier.MonthCalendar1.Date));
 			Cells[f2EC, f2F0] := DateToStr(FormCalendrier.MonthCalendar1.Date);
 		  end;
 		  FormCalendrier.Free;
@@ -399,7 +394,7 @@ begin//0
           begin//5
             //00544DBA
             Cells[f2EC, f2F0] :=  'oui';
-            //EAX := sub_004C0FA0(FichierCdn, f2D8, f2EC + 1);
+            {EAX := }FichierCdn.sub_004C0FA0(f2D8, f2EC + 1,'oui');
              SendMessageA(f2E0, $408{1032}, f2D8, 0);
           end;//5
         end//4
@@ -411,18 +406,17 @@ begin//0
           begin//5
             //00544E6D
             Cells[f2EC, f2F0] := 'non';
-            //EAX := sub_004C0FA0(FichierCdn, f2D8, f2EC + 1);
+            {EAX := }FichierCdn.sub_004C0FA0(f2D8, f2EC + 1,'non');
              SendMessageA(f2E0, $408{1032}, f2D8, 0);
           end;//5
         end//4
 		else
         begin
         lvar_C := sub_004B9794;
-        (*EAX := lvar_C;
-        call(lvar_29C);
-        EDX := EDX + ESI + 9;//lvar_C + (EAX)
-        EAX := ESI + 10;//EAX
-        ESP := $20{32};*)
+       
+        //EDX := lvar_C.count + KI + 9;
+       // EAX := KI + 10;
+        
         if (Message.ItemID <= 255) then
         begin//4
           //00544F3F
@@ -431,49 +425,23 @@ begin//0
             //00544F51
             Cells[f2EC, f2F0] :=  lvar_C[Message.ItemID - 10 - KI];
             FichierCdn.sub_004C0F34( f2D8, f2EC + 1,lvar_C[Message.ItemID - 10 - KI]);
-          end;//5
-		 // else
-          (*
-          EAX :=  KI + 10 + Lvar_C.count;
-          EDX := lvar_C.count + KI + $13{19};*
-          ESP := $20{32};*)
-        (*  if (Message.ItemID <= 255) then
-          begin//5
+          end//5
+		  else
             //0054507C
-            if (Message.ItemID  < lvar_144) then
+            if (Message.ItemID  < KI + $13 + lvar_C.count) then
             begin//6
               //0054508E
-              EAX := lvar_C;
-              call( 0);
-              EAX := Message.ItemID - ESI - 10 - EDX + 1;//EAX
-              lvar_2B0 := IntToStr(EAX);
-              EAX := lvar_2B0;
-              //push EAX
-              ECX := f2F0;
-              EDX := f2EC;
-              EAX := EBX;//Self
-              Cells[f2EC, f2F0 ] :=  lvar_2B0;
-              EAX := lvar_C;
-              call(0);
-              EAX := Message.ItemID - ESI - 10 - EDX;//EAX - lvar_C{EDX}
-              EAX := EAX + 1;//EAX
-              lvar_2B4 := IntToStr(EAX);
-              EDX := lvar_2B4;
-              ECX := $FF{255};
-               := lvar_2B4;
-              FichierCdn.sub_004C47E8(f2D8, f2EC + 1);
+              Cells[f2EC, f2F0 ] :=  IntToStr(Message.ItemID - KI - 10 - lvar_C.count + 1);
+              FichierCdn.sub_004C47E8(f2D8, f2EC + 1,IntToStr( Message.ItemID - KI - 10 - lvar_C.count + 1));
                SendMessageA(f2E0, $408{1032}, f2D8, 0);
             end//6
 			else
-            {EAX := lvar_C;
-            call(f2D8);}
-            if (EAX +  ESI + $14{20} = Message.ItemID) then
+  
+            if (lvar_C.count +  KI + $14{20} = Message.ItemID) then
             begin//6
               //005451C4
-              FichierCdn.sub_004BED7C(f2D8, f2EC + 1, lvar_114);
-               := ;
-              EAX := lvar_2B8;
-              FormEdit := TFormEdit.Create(Self, 'Coefficient de la série', lvar_2B8);
+              FichierCdn.sub_004BED7C(f2D8, f2EC + 1, buf);
+              FormEdit := TFormEdit.Create(Self, 'Coefficient de la série', buf,1);
               FormEdit.ShowModal;
               if (FormEdit.ModalResult = 1) then
               begin//7
@@ -481,161 +449,129 @@ begin//0
                 if (Cells[f2EC, f2F0] <> FormEdit.Edit1.Text) then
                 begin//8
                   //0054529C
-                  lvar_2C4 := FormEdit.Edit1.Text;
-                  EAX := lvar_2C4;
-                  Cells[f2EC, f2F0] := lvar_2C4;
-                  lvar_2C8 := FormEdit.Edit1.Text;
-                  EDX := lvar_2C8;
-                  ECX := $FF{255};
-                   := lvar_2C8;
-                  FichierCdn.sub_004C47E8(f2D8, f2EC + 1);
+                  Cells[f2EC, f2F0] := FormEdit.Edit1.Text;
+                  FichierCdn.sub_004C47E8(f2D8, f2EC + 1,FormEdit.Edit1.Text);
                    SendMessageA(f2E0, $408{1032}, f2D8, 0);
                 end;//8
               end;//7
               FormEdit.Destroy;
-            end;//6
+            end//6
 			else
-            {EAX := lvar_C;
-            call(0);}
-            if (EAX + ESI + $15{21} = Message.ItemID) then
+            if (lvar_C.count + KI + $15{21} = Message.ItemID) then
             begin//6
               //0054538C
               if (Cells[f2EC, f2F0] <> '20') then
               begin//7
                 //005453BC
                 Cells[f2EC, f2F0 ] :=  '20';
-                sub_004C48BC(FichierCdn, f2D8, f2EC + 1);
+                FichierCdn.sub_004C48BC(f2D8, f2EC + 1,'20');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
                  SendMessageA(f2E0, $408{1032}, f2D8, 0);
                  SendMessageA(f2E0, $405{1029}, 0, 0);
               end;//7
             end//6
 			else
-            (*EAX := lvar_C;
-            call(0);
-            EDX := ESI;//ESI
-            EDX := EDX + $16{22};//EDX
-            EAX := EAX + EDX;//lvar_C + (EDX)*)
-           (* if (EAX = Message.ItemID) then
+           if (lvar_C.count + KI+ $16{22} = Message.ItemID) then
             begin//6
               //00545484
               if (Cells[f2EC, f2F0] <> '10') then
               begin//7
                 //005454B4
                 Cells[f2EC, f2F0] :=  '10';
-                sub_004C48BC(FichierCdn, f2D8] :=  f2EC + 1;
+                FichierCdn.sub_004C48BC(f2D8,f2EC + 1,'10');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
                  SendMessageA(f2E0, $408{1032}, f2D8, 0);
                  SendMessageA(f2E0, $405{1029}, 0, 0);
               end;//7
             end//6
 			else
-            {EAX := lvar_C;
-            call(0);}
-            if (EAX + ESI + $17{23} = Message.ItemID) then
+            
+            if (lvar_C.count + KI + $17{23} = Message.ItemID) then
             begin//6
               //0054557C
-              lvar_2D4 := Cells[(f2EC, f2F0];
-              if (lvar_2D4 <> '5') then
+              if (Cells[f2EC, f2F0] <> '5') then
               begin//7
                 //005455AC
                 Cells[f2EC, f2F0 ] := '5';
-                sub_004C48BC(FichierCdn, f2D8, f2EC + 1);
+                FichierCdn.sub_004C48BC(f2D8, f2EC + 1,'5');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
-                 SendMessageA(f2E0, $408{1032}, f2D8, 0);                 SendMessageA(f2E0, $405{1029}, 0, 0);
+                 SendMessageA(f2E0, $408{1032}, f2D8, 0);                 
+				 SendMessageA(f2E0, $405{1029}, 0, 0);
               end;//7
             end//6
 			else
-            {EAX := lvar_C;
-            call(0);
-            EAX := EAX + ESI + $18{24};//lvar_C + (EDX)}
-            if (EAX = Message.ItemID) then
+            
+            if (lvar_C.count + KI + $18{24} = Message.ItemID) then
             begin//6
               //00545674
-              if (Cells[(f2EC, f2F0] <> '30') then
+              if (Cells[f2EC, f2F0] <> '30') then
               begin//7
                 //005456A4
                 Cells[f2EC, f2F0 ] :=  '30';
-                FichierCdn.sub_004C48BC(f2D8, f2EC + 1);
+                FichierCdn.sub_004C48BC(f2D8, f2EC + 1,'30');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
                  SendMessageA(f2E0, $408{1032}, f2D8, 0);
                  SendMessageA(f2E0, $405{1029}, 0, 0);
               end;//7
-            end;//6
+            end//6
 			else
-            {EAX := lvar_C;
-            call(0);} 
-            if (EAX + ESI + $19{25} = Message.ItemID) then
+            if (lvar_C.count + KI + $19{25} = Message.ItemID) then
             begin//6
               //0054576C
               if (Cells[f2EC, f2F0] <> '40') then
               begin//7
                 //0054579C
                 Cells[f2EC, f2F0] := '40';
-                sub_004C48BC(FichierCdn, f2D8, f2EC + 1;);
+                FichierCdn.sub_004C48BC(f2D8, f2EC + 1,'40');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
                  SendMessageA(f2E0, $408{1032}, f2D8, 0);
                  SendMessageA(f2E0, $405{1029}, 0, 0);
               end;//7
-            end;//6
+            end//6
 			else
-            {EAX := lvar_C;
-            call(0);}
-            if (EAX +ESI + $1A{26} = Message.ItemID) then
+
+            if (lvar_C.count +KI + $1A{26} = Message.ItemID) then
             begin//6
               //00545864
-              lvar_2E0 := Cells[f2EC, f2F0];
-              if (lvar_2E0 <> '50') then
+              if (Cells[f2EC, f2F0] <> '50') then
               begin//7
                 //00545894
-                ECX := f2F0;
-                EDX := f2EC;
-                EAX := EBX;//Self
                 Cells[f2EC, f2F0 ] :=  '50';
-                FichierCdn.sub_004C48BC( f2D8, f2F0);
+                FichierCdn.sub_004C48BC( f2D8, f2F0,'50');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
                  SendMessageA(f2E0, $408{1032}, f2D8, 0);
                  SendMessageA(f2E0, $405{1029}, 0, 0);
                 Exit;
               end;//7
             end;//6
-            EAX := lvar_C;
-            call(0);
-            if ( EAX + ESI + $1B{27} = Message.ItemID) then
+            if ( lvar_C.count + KI + $1B{27} = Message.ItemID) then
             begin//6
               //0054595C
-              lvar_2E4 := Cells[(f2EC, f2F0];
-              if (lvar_2E4 <> '100') then
+              if (Cells[f2EC, f2F0] <> '100') then
               begin//7
                 //0054598C
                 Cells[f2EC, f2F0] :=  '100';
-                sub_004C48BC(FichierCdn, f2D8, f2EC + 1);
+                FichierCdn.sub_004C48BC(f2D8, f2EC + 1,'100');
                  SendMessageA(Handle, $407{1031}, f2EC, 0);
                  SendMessageA(f2E0, $408{1032}, f2D8, 0);
                  SendMessageA(f2E0, $405{1029}, 0, 0);
                 Exit;
               end;//7
-            end;//6
-            EAX := lvar_C;
-            call(0);
-            if (EAX + ESI + $1C{28} = Message.ItemID) then
+           
+            if (lvar_C.count + KI + $1C{28} = Message.ItemID) then
             begin//6
               //00545A54
-              sub_004BED2C(FichierCdn, f2D8, f2EC + 1, lvar_114);
-              FormEdit := TFormEdit.Create(Self, 'Noté sur', lvar_2E8);
+              FichierCdn.sub_004BED2C(f2D8, f2EC + 1, buf);
+              FormEdit := TFormEdit.Create(Self, 'Noté sur', buf,1);
               FormEdit.ShowModal;
               if (FormEdit.ModalResult = 1) then
               begin//7
                 //00545AE1
-                lvar_2EC := Cells[(f2EC, f2F0];
-                lvar_2F0 := FormEdit.Edit1.Text;
-                if (lvar_2EC <> lvar_2F0) then
+                if (Cells[f2EC, f2F0] <> FormEdit.Edit1.Text) then
                 begin//8
                   //00545B2C
-                  lvar_2F4 := FormEdit.Edit1.Text;
-                  Cells[f2EC, f2F0] := lvar_2F4;
-                  lvar_2F8 := FormEdit.Edit1.Text;
-                  sub_004C48BC(FichierCdn, f2D8, f2EC + 1);
+                  Cells[f2EC, f2F0] := FormEdit.Edit1.Text;
+                  FichierCdn.sub_004C48BC(f2D8, f2EC + 1,FormEdit.Edit1.Text);
                    SendMessageA(FormEdit.Handle, $407{1031}, f2EC, 0);
                    SendMessageA(f2E0, $408{1032}, f2D8, 0);
                    SendMessageA(f2E0, $405{1029}, 0, 0);
@@ -644,136 +580,94 @@ begin//0
               FormEdit.Destroy;
             end//6
 			else
-           { EAX := lvar_C;
-            call();}
-            if (EAX + ESI + $1D{29} = Message.ItemID) then
+            if (lvar_C.count + KI + $1D{29} = Message.ItemID) then
             begin//6
               //00545C51
-              ESI := FichierCdn.sub_004BEA58;
-              if (f2F0 + 1 - ESI <= ESI) then
-              begin//7
-                //00545C7E
-                EAX := EAX - 1;//EAX
-                lvar_14 := EAX;
-                for lvar_14 := ESI  to  do
+
+                for I := FichierCdn.sub_004BEA58  to f2F0 + 1 do//00545C7E
                 begin//8
                   //00545C82
-                  EAX := ESI - 1;//EAX
-				  EAX := EDI;//FichierCdn
-                  FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, , lvar_114);
-                  //push EAX
-                  ECX := f2EC + 1;//ECX
-                  FichierCdn.sub_004C1074(f2D8, f2EC + 1, ESI , lvar_114);
+                 
+                  FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I , buf);
+                  FichierCdn.sub_004C1074(f2D8, f2EC + 1, I , buf);
                 end;//8
-              end;//7
+             
               if (FichierCdn.sub_004BEA58 <> f2F0) then
               begin//7
                 //00545D29
-                FichierCdn.sub_004C1074(f2D8, f2EC + 1, f2F0, 4);
+                //FichierCdn.sub_004C1074(f2D8, f2EC + 1, f2F0, 4);
               end;//7
                SendMessageA(f2E0, $408{1032}, f2D8, 0);
                SendMessageA(Handle, $403{1027}, f2D8, 0);
               Exit;
             end;//6
-            EAX := lvar_C;
-            call(0);
-            if (EAX + ESI + $1E{30} = Message.ItemID) then
+
+            if (lvar_C.count + KI + $1E{30} = Message.ItemID) then
             begin//6
               //00545DD5
                 for I := 1 to f2F0 - 1 do //00545DF3
                 begin//8
                   //00545DFB
-                  FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I+1 , lvar_114);
-                  FichierCdn.sub_004C1074(f2D8, f2EC + 1, I+1 , lvar_114);
+                  FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I+1 , buf);
+                  FichierCdn.sub_004C1074(f2D8, f2EC + 1, I+1 , buf);
                 end;//8
               if (f2F0 <> 1) then
               begin//7
                 //00545E99
-                FichierCdn.sub_004C1074(f2D8, f2EC + 1, f2F0, 4);
+                //FichierCdn.sub_004C1074(f2D8, f2EC + 1, f2F0, 4);
               end;//7
-               SendMessageA(f2E0, {$408{1032}}, f2D8, 0);
+               SendMessageA(f2E0, $408{1032}, f2D8, 0);
                SendMessageA(Handle, $403{1027}, f2D8, 0);
-            end;//6
+            end//6
 			else
-            {EAX := lvar_C;
-            call();}
-            if (EAX + ESI + $1F{31} = Message.ItemID) then
+            if (lvar_C.count + KI + $1F{31} = Message.ItemID) then
             begin//6
               //00545F3B
               Clipboard.Clear;
               lvar_10 := '';
-              lvar_2FC := Cells[f2EC, f2F0];
-              lvar_10 := lvar_10 + lvar_2FC + #13 + #10;
-              EAX := PChar(lvar_10);
-              Clipboard.SetTextBuf(PChar(lvar_10){EDX});
+              Clipboard.SetTextBuf(PChar(lvar_10 + Cells[f2EC, f2F0] + #13 + #10));
             end;//6
-            EAX := lvar_C;
-            call();
-            if (EAX + ESI + $20{32} = Message.ItemID) then
+
+            if (lvar_C.count + KI + $20{32} = Message.ItemID) then
             begin//6
               //00545FC7
               if (Clipboard.HasFormat(1) ) then
               begin//7
                 //00545FDD
                 lvar_8 := TStringList.Create;
-                lvar_300 := Clipboard.GetAsText{AsText};
-                EDX := lvar_300;
-                EAX := lvar_8;
-                call();
-                EAX := lvar_8;
-                call();
-                if ({lvar_8} <> 0) then
+                lvar_8.Text:=Clipboard.AsText;
+                if (lvar_8.count <> 0) then
                 begin//8
                   //0054601A
-                  EDX := 0;
-                  EAX := lvar_8;
-                  call();
-                  EAX := lvar_304;
-                  //push EAX
-                  ECX := f2F0;
-                  EDX := f2EC;
-                  EAX := EBX;//Self
-                  Cells[f2EC, f2F0] := lvar_304;
-                  EAX := f2F0;
-                  //push EAX
-                  EDX := 0;
-                  EAX := lvar_8;
-                  call(f2F0);
-                  EDX := lvar_308;
-                  ECX := $FF{255};
-                   := lvar_308;
-                  //push EAX
-                  FichierCdn.sub_004C1074(f2D8, f2EC + 1, , lvar_114);
+                  Cells[f2EC, f2F0] := lvar_8[0];
+                  FichierCdn.sub_004C1074(f2D8, f2EC + 1, f2f0, lvar_8[0]);
                   lvar_8.Free;
                    SendMessageA(Handle, $407{1031}, f2EC, 0);
                    SendMessageA(f2E0, $408{1032}, f2D8, 0);
                 end;//8
               end;//7
             end;//6
-            EAX := lvar_C;
-            call(f2E0);
-            if (EAX + ESI + $21{33} =Message.ItemID) then
+           
+            if (lvar_C.count + KI + $21{33} =Message.ItemID) then
             begin//6
               //00546119
-              lvar_30C := Cells[f2EC, f2F0];
-              if (lvar_30C <> 'Oral') then
+         
+              if (Cells[f2EC, f2F0] <> 'Oral') then
               begin//7
                 //00546149
                 Cells[f2EC, f2F0] := 'Oral';
-                EAX := FichierCdn.sub_004C8EC8(f2D8, f2EC + 1, 1);
+                FichierCdn.sub_004C8EC8(f2D8, f2EC + 1, true);
               end;//7
-            end;//6
+            end//6
 			else
-            {EAX := lvar_C;
-            call(1032);}
-            if (EAX + KI + $22{34} <> Message.ItemID) then Exit;
-            if (Cells[(f2EC, f2F0] <> 'Ecrit') then
+            if (lvar_C.count + KI + $22{34} <> Message.ItemID) then Exit;
+            if (Cells[f2EC, f2F0] <> 'Ecrit') then
             begin//6
               //005461E8 
               Cells[f2EC, f2F0] :=  'Ecrit';
-              //EAX := FichierCdn.sub_004C8EC8(f2D8, f2EC + 1, 0);
+              FichierCdn.sub_004C8EC8(f2D8, f2EC + 1, false);
             end;//6
-          end;//5*)
+          end;//5
         end;//4
 		end;
       end;//3
@@ -939,8 +833,7 @@ begin//0
     f2F0 := ARow;
     if (Button = mbleft) then
     begin//2
-      //00542CA9
-      
+      //00542CA9 
       if (ARow = 0) then
       begin//3
         //00542CB9
@@ -948,29 +841,22 @@ begin//0
         begin//4
           //00542CC6
           FormHint.Color := sub_004BB87C;
-          //push EAX
-          
           FichierCdn.sub_004BED04(f2D8, buf, ACol + 1);
           FormHint.Label1.Caption := buf;
-          
-          //FichierCdn.sub_004C3958(f2D8, buf0, ARow + 1);
-          
+          FichierCdn.sub_004C3958(f2D8, buf0, ARow + 1);
           FichierCdn.sub_004BED2C(f2D8, ACol + 1, buf1);
-         
           FormHint.Label2.Caption := 'Minimum : ' + buf0 + '/' + buf1;
-          
-          //FichierCdn.sub_004C3B54(f2D8, buf0, ARow + 1);
+          FichierCdn.sub_004C3B54(f2D8, buf0, ARow + 1);
           FichierCdn.sub_004BED2C(f2D8, ACol + 1, buf1);
           FormHint.Label3.Caption := 'Maximum : ' + buf0 + '/' + buf1;
-
           FichierCdn.sub_004C40D4(f2D8, buf0, ACol + 1);
           FichierCdn.sub_004BED2C(f2D8, ACol + 1, buf1);
           FormHint.Label4.Caption := 'Moyenne : ' + buf0 + '/' + buf1;
-          //FichierCdn.sub_004C42D4(f2D8, ARow + 1, buf);
+          FichierCdn.sub_004C42D4(f2D8, ARow + 1, buf);
           FormHint.Label5.Caption := 'Ecart type : ' + buf;
-          //FichierCdn.sub_004C3EA4(f2D8, ARow + 1, buf);
+          FichierCdn.sub_004C3EA4(f2D8, ARow + 1, buf);
           FormHint.Label6.Caption := '% notes < moyenne : ' + buf;
-          //FichierCdn.sub_004C451C(f2D8, ARow + 1, buf);
+          FichierCdn.sub_004C451C(f2D8, ARow + 1, buf);
           FormHint.Label7.Caption := '% notes < moyenne classe : ' + buf;
           FormHint.f2F0 := 7;
           FormHint.Show;

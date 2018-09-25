@@ -120,10 +120,10 @@ end;
 procedure TFormConseilsDemarrage.FormKeyPress(Sender:TObject; var Key:Char);
 begin
   //00547A50
-  if (Key = chr($0D)) then
+  if (Key = #13) then
     ModalResult := 1
   else
-  if (Key = chr($1B)) then 
+  if (Key = #27) then 
 	ModalResult := 2;
 end;
 

@@ -1,7 +1,8 @@
-//***************************************
-//IDR home page: http://kpnc.org/idr32/en
-//Decompiled by IDR v.01.04.2017
-//***************************************
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* The disassembly process : 100%                            *
+************************************************************}
 unit Constantes;//_Unit53;
 
 interface

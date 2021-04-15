@@ -33,25 +33,9 @@ implementation
 Initialization
 //00498DDC
   //00498DDC
-  //gvar_00617908 := gvar_00617908 - 1;
   //if ( <> ) then
   //begin//1
-   { //00498DE9
-    gvar_006178F4 := 4;
-    gvar_006178F5 := 5;
-    gvar_006178F6 := 6;
-    gvar_006178F7 := 2;
-    gvar_006178F8 := 7;
-    gvar_006178F9 := 8;
-    gvar_006178FA := 9;
-    gvar_006178FB := 11;
-    gvar_006178FC := 12;
-    gvar_006178FD := 13;
-    gvar_006178FE := 14;
-    gvar_006178FF := 15;
-    gvar_00617900 := 16;
-    gvar_00617901 := 17;
-    gvar_00617902 := 18;}
+    //00498DE9
     if (sub_00498A40) then//00498E5B
       gvar_00617903 := 255
     else //00498E64
@@ -59,8 +43,6 @@ Initialization
 
     gvar_00617904 := 0;
     gvar_00617905 := 0;
-
-
 
 Finalization
 end.

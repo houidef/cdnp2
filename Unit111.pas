@@ -1,6 +1,6 @@
 {***************************************
 * Version Original V0.01
-* Decompiled by HOUIDEF AEK v 18:44 mardi 20 février 2018
+* Decompiled by HOUIDEF AEK v 13:31 dimanche 02 Mars 2021
 ***************************************}
 unit Unit111;
 
@@ -324,13 +324,7 @@ end;//0
 //004B943C
 procedure sub_004B943C(a:Boolean);
 begin
-{*
- 004B943C    xor         ecx,ecx
- 004B943E    mov         edx,eax
- 004B9440    mov         eax,4B9454;'utiliserHistorique'
- 004B9445    call        004974F0
- 004B944A    ret
-*}
+  sub_004974F0('utiliserHistorique', a);
 end;
 
 //004B9468
@@ -345,13 +339,11 @@ end;//0
 procedure sub_004B94A4(a:Int64);
 begin
   sub_004975A8('nbFichiersHistorique',a{,false});
-
 end;
 
 //004B94D8  
 procedure sub_004B94D8(MainMenu:TMainMenu; ItemIndex:dword; DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);
 begin//0
-  //004B94D8
   sub_004B90CC(MainMenu, ItemIndex);
   sub_004B91F0(MainMenu, ItemIndex, DrawItem, Click);
 end;//0
@@ -363,24 +355,18 @@ var
  Registry:TRegistry;
  I:integer;
 begin//0
-  //004B9500
-	//004B951F
 	lvar_4 := TStringList.Create;
 	StringList := TStringList.Create;
 	Registry := TRegistry.Create;
-	Registry.RootKey := $80000001;
+	Registry.RootKey := HKEY_CURRENT_USER;
 	if (Registry.KeyExists('Software\Carnet de Notes 2.x\Historique')) then
 	begin//2
 	  //004B9566
 	  Registry.OpenKey('Software\Carnet de Notes 2.x\Historique', True);
 	  Registry.GetValueNames(StringList);
-	  
-		
 		for I := 0 to StringList.Count - 1 do //004B9592   
 		  if (FileExists(StringList[I])) then 
 			lvar_4.Add(StringList[I]);
-		  
-	   
 	end;//2
 	Registry.CloseKey;
 	Registry.Free;
@@ -396,7 +382,7 @@ var
 begin//0
   //004B964C..004B966A
 	Registry := TRegistry.Create;
-	Registry.RootKey := $80000001;
+	Registry.RootKey := HKEY_CURRENT_USER;
 
 	if (Registry.KeyExists('Software\Carnet de Notes 2.x\Historique')) then //004B9697
 	  Registry.DeleteKey('Software\Carnet de Notes 2.x\Historique');
@@ -425,7 +411,7 @@ begin//0
   StringList := TStringList.Create;
   StringList.Sorted := True;
   Registry := TRegistry.Create;
-  Registry.RootKey :=$80000001;
+  Registry.RootKey :=HKEY_CURRENT_USER;
   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Types de notes')) then
   begin//1
 	//004B97D7
@@ -464,86 +450,22 @@ end;//0
 
 //004B9938
 procedure sub_004B9938(a:TStrings);
+var
+  Registry : TRegistry;
 begin
-{*
- 004B9938    push        ebp
- 004B9939    mov         ebp,esp
- 004B993B    add         esp,0FFFFFFF4
- 004B993E    push        ebx
- 004B993F    push        esi
- 004B9940    push        edi
- 004B9941    xor         edx,edx
- 004B9943    mov         dword ptr [ebp-0C],edx
- 004B9946    mov         dword ptr [ebp-4],eax
- 004B9949    xor         eax,eax
- 004B994B    push        ebp
- 004B994C    push        4B99FF
- 004B9951    push        dword ptr fs:[eax]
- 004B9954    mov         dword ptr fs:[eax],esp
- 004B9957    mov         dl,1
- 004B9959    mov         eax,[00490114];TRegistry
- 004B995E    call        TRegistry.Create;TRegistry.Create
- 004B9963    mov         ebx,eax
- 004B9965    mov         edx,80000001
- 004B996A    mov         eax,ebx
- 004B996C    call        TRegistry.SetRootKey
- 004B9971    mov         edx,4B9A18;'Software\Carnet de Notes 2.x\Types de notes'
- 004B9976    mov         eax,ebx
- 004B9978    call        TRegistry.KeyExists
- 004B997D    test        al,al
->004B997F    je          004B998D
- 004B9981    mov         edx,4B9A18;'Software\Carnet de Notes 2.x\Types de notes'
- 004B9986    mov         eax,ebx
- 004B9988    call        TRegistry.DeleteKey
- 004B998D    mov         cl,1
- 004B998F    mov         edx,4B9A18;'Software\Carnet de Notes 2.x\Types de notes'
- 004B9994    mov         eax,ebx
- 004B9996    call        TRegistry.OpenKey
- 004B999B    mov         eax,dword ptr [ebp-4]
- 004B999E    mov         edx,dword ptr [eax]
- 004B99A0    call        dword ptr [edx+14]
- 004B99A3    mov         esi,eax
- 004B99A5    sub         esi,1
->004B99A8    jno         004B99AF
- 004B99AA    call        @IntOver
- 004B99AF    test        esi,esi
->004B99B1    jl          004B99DB
- 004B99B3    inc         esi
- 004B99B4    mov         dword ptr [ebp-8],0
- 004B99BB    lea         ecx,[ebp-0C]
- 004B99BE    mov         edx,dword ptr [ebp-8]
- 004B99C1    mov         eax,dword ptr [ebp-4]
- 004B99C4    mov         edi,dword ptr [eax]
- 004B99C6    call        dword ptr [edi+0C]
- 004B99C9    mov         edx,dword ptr [ebp-0C]
- 004B99CC    xor         ecx,ecx
- 004B99CE    mov         eax,ebx
- 004B99D0    call        TRegistry.WriteString
- 004B99D5    inc         dword ptr [ebp-8]
- 004B99D8    dec         esi
->004B99D9    jne         004B99BB
- 004B99DB    mov         eax,ebx
- 004B99DD    call        TRegistry.CloseKey
- 004B99E2    mov         eax,ebx
- 004B99E4    call        TObject.Free
- 004B99E9    xor         eax,eax
- 004B99EB    pop         edx
- 004B99EC    pop         ecx
- 004B99ED    pop         ecx
- 004B99EE    mov         dword ptr fs:[eax],edx
- 004B99F1    push        4B9A06
- 004B99F6    lea         eax,[ebp-0C]
- 004B99F9    call        @LStrClr
- 004B99FE    ret
->004B99FF    jmp         @HandleFinally
->004B9A04    jmp         004B99F6
- 004B9A06    pop         edi
- 004B9A07    pop         esi
- 004B9A08    pop         ebx
- 004B9A09    mov         esp,ebp
- 004B9A0B    pop         ebp
- 004B9A0C    ret
-*}
+  Registry := TRegistry.Create;
+  Registry.RootKey :=HKEY_CURRENT_USER;
+  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Types de notes')) then
+  begin//1
+	//004B97D7
+	Registry.DeleteKey;
+  end;
+  Registry.OpenKey('Software\Carnet de Notes 2.x\Types de notes', True);
+  for i:=0 to a.count-1 do
+	Registry.WriteString(a[i],'');
+
+  Registry.CloseKey;
+  Registry.Free;
 end;
 
 //004B9A44
@@ -555,7 +477,7 @@ begin//0
   //004B9A44
   StringList := TStringList.Create;
   Registry := TRegistry.Create;
-  Registry.RootKey := $80000001;
+  Registry.RootKey := HKEY_CURRENT_USER;
   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Periodes')) then
   begin//1
     //004B9A7F
@@ -573,67 +495,36 @@ end;//0
 
 
 //004B9B44
-{*function sub_004B9B44:?;
-//begin
- 004B9B44    push        ebx
- 004B9B45    mov         dl,1
- 004B9B47    mov         eax,[00490114];TRegistry
- 004B9B4C    call        TRegistry.Create;TRegistry.Create
- 004B9B51    mov         ebx,eax
- 004B9B53    mov         edx,80000001
- 004B9B58    mov         eax,ebx
- 004B9B5A    call        TRegistry.SetRootKey
- 004B9B5F    mov         edx,4B9B94;'Software\Carnet de Notes 2.x\Periodes'
- 004B9B64    mov         eax,ebx
- 004B9B66    call        TRegistry.KeyExists
- 004B9B6B    test        al,al
->004B9B6D    je          004B9B7B
- 004B9B6F    mov         edx,4B9B94;'Software\Carnet de Notes 2.x\Periodes'
- 004B9B74    mov         eax,ebx
- 004B9B76    call        TRegistry.DeleteKey
- 004B9B7B    mov         eax,ebx
- 004B9B7D    call        TObject.Free
- 004B9B82    call        004B9A44
- 004B9B87    pop         ebx
- 004B9B88    ret
-//end;*}
+function sub_004B9B44:TStringlist;
+var
+  Registry : TRegistry;
+begin
+  Registry := TRegistry.Create;
+  Registry.RootKey := HKEY_CURRENT_USER;
+  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Periodes')) then
+    Registry.DeleteKey;
+  Registry.free;
+  result := sub_004B9A44();  
+end;
 
 //004B9BBC
 procedure sub_004B9BBC(a:TColor);
 begin
-{*
- 004B9BBC    push        ebx
- 004B9BBD    mov         ebx,eax
- 004B9BBF    call        004B9C34
- 004B9BC4    cmp         ebx,eax
->004B9BC6    je          004B9BDD
- 004B9BC8    xor         ecx,ecx
- 004B9BCA    mov         edx,ebx
- 004B9BCC    mov         eax,4B9BE8;'lignesImpaires'
- 004B9BD1    call        00497438
- 004B9BD6    mov         byte ptr ds:[617CBE],1;gvar_00617CBE
- 004B9BDD    pop         ebx
- 004B9BDE    ret
-*}
+  if(sub_004B9C34 <> a ) then 
+  begin
+	sub_00497438('lignesImpaires',a{,0});
+	gvar_00617CBE := true;
+ end;
 end;
 
 //004B9BF8
 procedure sub_004B9BF8(a:TColor);
 begin
-{*
- 004B9BF8    push        ebx
- 004B9BF9    mov         ebx,eax
- 004B9BFB    call        004B9C80
- 004B9C00    cmp         ebx,eax
->004B9C02    je          004B9C19
- 004B9C04    xor         ecx,ecx
- 004B9C06    mov         edx,ebx
- 004B9C08    mov         eax,4B9C24;'lignesPaires'
- 004B9C0D    call        00497438
- 004B9C12    mov         byte ptr ds:[617CBD],1;gvar_00617CBD
- 004B9C19    pop         ebx
- 004B9C1A    ret
-*}
+  if(sub_004B9C80 <> a ) then 
+  begin
+	sub_00497438('lignesPaires',a{,0});
+	gvar_00617CBD := true;
+ end;
 end;
 
 //004B9C34
@@ -670,29 +561,19 @@ begin//004B9CD4
 end;//0
 
 //004B9CDC
-{*function sub_004B9CDC:?;
-//begin
- 004B9CDC    mov         eax,0FFFF00
- 004B9CE1    ret
-//end;*}
+function sub_004B9CDC:TColor;
+begin
+  result := $0FFFF00;
+end;
 
 //004B9CE4
 procedure sub_004B9CE4(a:TColor);
 begin
-{*
- 004B9CE4    push        ebx
- 004B9CE5    mov         ebx,eax
- 004B9CE7    call        004B9D24
- 004B9CEC    cmp         ebx,eax
->004B9CEE    je          004B9D05
- 004B9CF0    xor         ecx,ecx
- 004B9CF2    mov         edx,ebx
- 004B9CF4    mov         eax,4B9D10;'couleurSelection'
- 004B9CF9    call        00497438
- 004B9CFE    mov         byte ptr ds:[617CBF],1;gvar_00617CBF
- 004B9D05    pop         ebx
- 004B9D06    ret
-*}
+ if(sub_004B9D24<>a)then
+ begin
+   sub_00497438('couleurSelection',a{,0});
+   gvar_00617CBF := true;
+ end;
 end;
 
 //004B9D24
@@ -710,47 +591,22 @@ end;//0
 //004B9D74
 procedure sub_004B9D74(a:Integer);
 begin
-{*
- 004B9D74    xor         edx,edx
- 004B9D76    mov         dl,al
- 004B9D78    xor         ecx,ecx
- 004B9D7A    mov         eax,4B9D90;'arrondirMoyennes'
- 004B9D7F    call        004975A8
- 004B9D84    ret
-*}
+  sub_004975A8('arrondirMoyennes',a{,0});
 end;
 
 //004B9DA4
 procedure sub_004B9DA4(a:Integer);
 begin
-{*
- 004B9DA4    mov         edx,dword ptr ds:[615964];^gvar_00617904
- 004B9DAA    cmp         byte ptr [edx],0
->004B9DAD    je          004B9DBE
- 004B9DAF    mov         cl,1
- 004B9DB1    mov         edx,eax
- 004B9DB3    mov         eax,4B9DD8;'moyennesSur'
- 004B9DB8    call        004975A8
- 004B9DBD    ret
- 004B9DBE    xor         ecx,ecx
- 004B9DC0    mov         edx,eax
- 004B9DC2    mov         eax,4B9DD8;'moyennesSur'
- 004B9DC7    call        004975A8
- 004B9DCC    ret
-*}
+if(gvar_00617904  ) then 
+ sub_004975A8('moyennesSur',a{,true})
+else 
+ sub_004975A8('moyennesSur',a{,false});
 end;
 
 //004B9DE4
 procedure sub_004B9DE4(a:Integer);
 begin
-{*
- 004B9DE4    xor         edx,edx
- 004B9DE6    mov         dl,al
- 004B9DE8    xor         ecx,ecx
- 004B9DEA    mov         eax,4B9E00;'trierMoyennes'
- 004B9DEF    call        004975A8
- 004B9DF4    ret
-*}
+ sub_004975A8('trierMoyennes',a{,false})
 end;
 
 //004B9E10
@@ -786,25 +642,13 @@ end;//0
 //004B9ED4
 procedure sub_004B9ED4(a:Boolean);
 begin
-{*
- 004B9ED4    xor         ecx,ecx
- 004B9ED6    mov         edx,eax
- 004B9ED8    mov         eax,4B9EEC;'moyenneParTypeDeNotes'
- 004B9EDD    call        004974F0
- 004B9EE2    ret
-*}
+ sub_004974F0('moyenneParTypeDeNotes',a{,0});
 end;
 
 //004B9F04
 procedure sub_004B9F04(a:Boolean);
 begin
-{*
- 004B9F04    xor         ecx,ecx
- 004B9F06    mov         edx,eax
- 004B9F08    mov         eax,4B9F1C;'moyennesEcritEtOral'
- 004B9F0D    call        004974F0
- 004B9F12    ret
-*}
+  sub_004974F0('moyennesEcritEtOral',a{,0});
 end;
 
 //004B9F30
@@ -888,102 +732,58 @@ end;
 //004BA138
 procedure sub_004BA138(a:TColor);
 begin
-{*
- 004BA138    push        ebx
- 004BA139    mov         ebx,eax
- 004BA13B    call        004B9F8C
- 004BA140    cmp         ebx,eax
->004BA142    je          004BA159
- 004BA144    xor         ecx,ecx
- 004BA146    mov         edx,ebx
- 004BA148    mov         eax,4BA164;'couleur1Note'
- 004BA14D    call        00497438
- 004BA152    mov         byte ptr ds:[617CB8],1;gvar_00617CB8
- 004BA159    pop         ebx
- 004BA15A    ret
-*}
+ if(sub_004B9F8C <> a) then 
+ begin
+   sub_00497438('couleur1Note',a{,false});
+   gvar_00617CB8 := true;
+ end;
 end;
 
 //004BA174
 procedure sub_004BA174(a:TColor);
 begin
-{*
- 004BA174    push        ebx
- 004BA175    mov         ebx,eax
- 004BA177    call        004B9FD8
- 004BA17C    cmp         ebx,eax
->004BA17E    je          004BA195
- 004BA180    xor         ecx,ecx
- 004BA182    mov         edx,ebx
- 004BA184    mov         eax,4BA1A0;'couleur2Note'
- 004BA189    call        00497438
- 004BA18E    mov         byte ptr ds:[617CB9],1;gvar_00617CB9
- 004BA195    pop         ebx
- 004BA196    ret
-*}
+ if(sub_004B9FD8 <> a) then 
+ begin
+   sub_00497438('couleur1Note',a{,false});
+   gvar_00617CB9 := true;
+ end;
 end;
 
 //004BA1B0
 procedure sub_004BA1B0(a:TColor);
 begin
-{*
- 004BA1B0    push        ebx
- 004BA1B1    mov         ebx,eax
- 004BA1B3    call        004BA024
- 004BA1B8    cmp         ebx,eax
->004BA1BA    je          004BA1D1
- 004BA1BC    xor         ecx,ecx
- 004BA1BE    mov         edx,ebx
- 004BA1C0    mov         eax,4BA1DC;'couleur3Note'
- 004BA1C5    call        00497438
- 004BA1CA    mov         byte ptr ds:[617CBA],1;gvar_00617CBA
- 004BA1D1    pop         ebx
- 004BA1D2    ret
-*}
+begin
+ if(sub_004B9FD8 <> a) then 
+ begin
+   sub_004BA024('couleur3Note',a{,false});
+   gvar_00617CBA := true;
+ end;
 end;
 
 //004BA1EC
 procedure sub_004BA1EC(a:TColor);
 begin
-{*
- 004BA1EC    push        ebx
- 004BA1ED    mov         ebx,eax
- 004BA1EF    call        004BA070
- 004BA1F4    cmp         ebx,eax
->004BA1F6    je          004BA20D
- 004BA1F8    xor         ecx,ecx
- 004BA1FA    mov         edx,ebx
- 004BA1FC    mov         eax,4BA218;'couleur4Note'
- 004BA201    call        00497438
- 004BA206    mov         byte ptr ds:[617CBB],1;gvar_00617CBB
- 004BA20D    pop         ebx
- 004BA20E    ret
-*}
+ if(sub_004BA070 <> a) then 
+ begin
+   sub_004BA024('couleur4Note',a{,false});
+   gvar_00617CBB := true;
+ end;
 end;
 
 //004BA228
 procedure sub_004BA228(a:TColor);
 begin
-{*
- 004BA228    push        ebx
- 004BA229    mov         ebx,eax
- 004BA22B    call        004BA0BC
- 004BA230    cmp         ebx,eax
->004BA232    je          004BA249
- 004BA234    xor         ecx,ecx
- 004BA236    mov         edx,ebx
- 004BA238    mov         eax,4BA254;'couleur5Note'
- 004BA23D    call        00497438
- 004BA242    mov         byte ptr ds:[617CBC],1;gvar_00617CBC
- 004BA249    pop         ebx
- 004BA24A    ret
-*}
+ if(sub_004BA0BC <> a) then 
+ begin
+   sub_004BA024('couleur5Note',a{,false});
+   gvar_00617CBC := true;
+ end;
 end;
 
 //004BA264
 function sub_004BA264:TColor;
 begin
- result := $0FF;
+ result := $00000FF;
 end;
 
 //004BA26C
@@ -996,7 +796,7 @@ end;
 //004BA274
 function sub_004BA274:TColor;
 begin
- result := $8000;
+ result := $008000;
 end;
 
 //004BA27C
@@ -1008,19 +808,13 @@ end;
 //004BA280
 function sub_004BA280:TColor;
 begin
- result := $0FFFF;
+ result := $00FFFF;
 end;
 
 //004BA288
 procedure sub_004BA288(a:Boolean);
 begin
-{*
- 004BA288    xor         ecx,ecx
- 004BA28A    mov         edx,eax
- 004BA28C    mov         eax,4BA2A0;'colorationNote'
- 004BA291    call        004974F0
- 004BA296    ret
-*}
+ sub_004974F0('colorationNote',a{,0});
 end;
 
 //004BA2B0
@@ -1033,13 +827,7 @@ end;//0
 //004BA2D8
 procedure sub_004BA2D8(a:Boolean);
 begin
-{*
- 004BA2D8    xor         ecx,ecx
- 004BA2DA    mov         edx,eax
- 004BA2DC    mov         eax,4BA2F0;'fichierBak'
- 004BA2E1    call        004974F0
- 004BA2E6    ret
-*}
+  sub_004974F0('fichierBak',a{,0});
 end;
 
 //004BA2FC
@@ -1053,27 +841,13 @@ end;//0
 //004BA320
 procedure sub_004BA320(a:Integer);
 begin
-{*
- 004BA320    xor         edx,edx
- 004BA322    mov         dl,al
- 004BA324    xor         ecx,ecx
- 004BA326    mov         eax,4BA33C;'ongletsGrillesBilans'
- 004BA32B    call        004975A8
- 004BA330    ret
-*}
+ sub_004975A8('ongletsGrillesBilans',a{,0});
 end;
 
 //004BA354
 procedure sub_004BA354(a:Integer);
 begin
-{*
- 004BA354    xor         edx,edx
- 004BA356    mov         dl,al
- 004BA358    xor         ecx,ecx
- 004BA35A    mov         eax,4BA370;'ongletsGrillesNotes'
- 004BA35F    call        004975A8
- 004BA364    ret
-*}
+ sub_004975A8('ongletsGrillesNotes',a{,0});
 end;
 
 //004BA384
@@ -1104,7 +878,7 @@ begin//
 	//004BA41C
 	S := TStringList.Create;
 	R := TRegistry.Create;
-	R.RootKey :=$80000001;
+	R.RootKey :=HKEY_CURRENT_USER;
 	if (R.KeyExists('Software\Carnet de Notes 2.x\Periodes\' + a + '\noms')) then
 	begin//2
 	  //004BA46C
@@ -1159,8 +933,89 @@ begin//
 	R.Free;
 end;
 	//004BA5C
-{*//procedure sub_004BA7B0(?:?; ?:TStrings);
-//begin
+
+procedure sub_004BA7B0(a:integer; s:TStrings);
+var
+  lvar_4:integer;
+  lvar_8:TStrings;
+  lvar_C:;
+  lvar_10:AnsiString;
+  lvar_14:AnsiString;
+  lvar_18:AnsiString;
+  lvar_1C:AnsiString;
+begin//0
+  //004BA7B0
+  ECX := 0;
+  lvar_8 := s;
+  lvar_4 := a;
+  EAX := a;
+  try
+    //004BA7DB
+    ECX := a;
+    EDX := $4BA8FC;
+    lvar_10 := 'Software\Carnet de Notes 2.x\Periodes\' + a;
+    EDX := lvar_10;
+    EAX := EBX;//EBX
+    EAX := EBX.KeyExists(lvar_10);
+    if (EAX{EBX.KeyExists(lvar_10)} <> False) then
+    begin//2
+      //004BA813
+      ECX := a;
+      EDX := $4BA8FC;
+      lvar_14 := 'Software\Carnet de Notes 2.x\Periodes\' + a;
+      EDX := lvar_14;
+      EAX := EBX;//EBX
+      EAX := EBX.DeleteKey(lvar_14);
+    end;//2
+    ECX := 1;
+    EDX := $4BA92C;
+    EAX := EBX;//EBX
+    EAX := EBX.OpenKey('Software\Carnet de Notes 2.x\Periodes', ECX{True});
+    ECX := 0;
+    EDX := a;
+    EAX := EBX;//EBX
+    EBX.WriteString(a, '');
+    EAX := EBX;//EBX
+    EBX.CloseKey;
+    EDX := 3;
+    lvar_18 := 'Software\Carnet de Notes 2.x\Periodes\' + a + '\noms';
+    EDX := lvar_18;
+    ECX := 1;
+    EAX := EBX;//EBX
+    EAX := EBX.OpenKey(lvar_18, ECX{True});
+    EAX := s;
+    EAX := s.GetCount;
+    ESI := s.GetCount;
+    ESI := ESI - 1;//ESI
+    if (ESI >= 0) then
+    begin//2
+      //004BA88C
+      ESI := ESI + 1;//ESI
+      lvar_C := 0;
+      for lvar_C := 0 to ESI - 1 do
+      begin//3
+        //004BA894
+        EDX := lvar_C;
+        EAX := s;
+        lvar_1C := s.Get(lvar_C{0});
+        EDX := lvar_1C;
+        ECX := 0;
+        EAX := EBX;//EBX
+        EBX.WriteString(lvar_1C, '');
+      end;//3
+    end;//2
+    EAX := EBX;//EBX
+    EBX.CloseKey;
+    EAX := EBX;//EBX
+    EBX.Free;
+  finally//1
+    //004BA8CF
+    EDX := 4;
+    lvar_4 := '';
+  end;//1
+end;//0
+
+
 004BA7B0    push        ebp
 004BA7B1    mov         ebp,esp
 004BA7B3    xor         ecx,ecx
@@ -1273,10 +1128,11 @@ end;
 004BA8EF    mov         esp,ebp
 004BA8F1    pop         ebp
 004BA8F2    ret
-//end;*}
+end;
+
 //004BA964
-{	{*//procedure sub_004BA964(?:?);
-///begin
+procedure sub_004BA964(?:?);
+begin
 004BA964    push        ebp
 004BA965    mov         ebp,esp
 004BA967    push        0
@@ -1341,7 +1197,7 @@ end;
 004BAA22    mov         esp,ebp
 004BAA24    pop         ebp
 004BAA25    ret
-//end;*}
+end;
 
 ///004BAA88
 function sub_004BAA88(a:dword):TInclureImpression;
@@ -1361,7 +1217,7 @@ begin//0
 		  
 	   
 	   Registry := TRegistry.Create;
-	   Registry.RootKey := $80000001;
+	   Registry.RootKey := HKEY_CURRENT_USER;
 	   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Inclure impression\Séries de notes')) then
 	   begin//4
 		 //004BAC2D
@@ -1392,7 +1248,7 @@ begin//0
 		 
 	   end;//4
 	   Registry := TRegistry.Create;;
-	   Registry.RootKey := $80000001;
+	   Registry.RootKey := HKEY_CURRENT_USER;
 	   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Inclure impression\Bilans')) then
 	   begin//004BAD42
 		 Registry.OpenKey('Software\Carnet de Notes 2.x\Inclure impression\Bilans', True);
@@ -1418,7 +1274,7 @@ begin//0
 		 
 	   end;//4
 	   Registry := TRegistry.Create;
-	   Registry.RootKey := $80000001;
+	   Registry.RootKey := HKEY_CURRENT_USER;
 
 	   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Inclure impression\Grille vierge')) then
 	   begin//004BAB11;
@@ -1463,13 +1319,7 @@ end;
 //004BAF64
 procedure sub_004BAF64(a:Boolean);
 begin
-{*
-004BAF64    xor         ecx,ecx
-004BAF66    mov         edx,eax
-004BAF68    mov         eax,4BAF7C;'numeroterElevesBilans'
-004BAF6D    call        004974F0
-004BAF72    ret
-*}
+  sub_004974F0('numeroterElevesBilans',a{,0});
 end;
 
 //004BAF94
@@ -1724,26 +1574,13 @@ end;
 ///004BB38C
 procedure sub_004BB38C(a:Boolean);
 begin
-{	*
-004BB38C    xor         ecx,ecx
-004BB38E    mov         edx,eax
-004BB390    mov         eax,4BB3A4;'colonnesBilanDetaillees'
-004BB395    call        004974F0
-004BB39A    ret
-*}
+ sub_004974F0('colonnesBilanDetaillees',a{,0});
 end;
 
 //004BB3BC
 procedure sub_004BB3BC(a:Integer);
 begin
-{	*
-004BB3BC    xor         edx,edx
-004BB3BE    mov         dl,al
-004BB3C0    xor         ecx,ecx
-004BB3C2    mov         eax,4BB3D8;'trierMoyennesImpression'
-004BB3C7    call        004975A8
-004BB3CC    ret
-*}
+ sub_004975A8('trierMoyennesImpression',a{,0});
 end;
 
 //004BB3F0
@@ -1756,13 +1593,7 @@ end;
 //004BB42C
 procedure sub_004BB42C(a:Boolean);
 begin
-{	*
-004BB42C    xor         ecx,ecx
-004BB42E    mov         edx,eax
-004BB430    mov         eax,4BB444;'colorationGrille'
-004BB435    call        004974F0
-004BB43A    ret
-*}
+ sub_004974F0('colorationGrille',a{,0});
 end;
 
 //004BB458
@@ -1774,49 +1605,25 @@ end;
 //004BB484
 procedure sub_004BB484(a:Boolean);
 begin
-{	*
-004BB484    xor         ecx,ecx
-004BB486    mov         edx,eax
-004BB488    mov         eax,4BB49C;'afficherBarreOutils'
-004BB48D    call        004974F0
-004BB492    ret
-*}
+  sub_004974F0('afficherBarreOutils',a{,0});
 end;
 
 //004BB4B0
 procedure sub_004BB4B0(a:Boolean);
 begin
-{	*
-004BB4B0    xor         ecx,ecx
-004BB4B2    mov         edx,eax
-004BB4B4    mov         eax,4BB4C8;'tailleMaximumAuDemarrage'
-004BB4B9    call        004974F0
-004BB4BE    ret
-*}
+ sub_004974F0('tailleMaximumAuDemarrage',a{,0});
 end;
 
 //004BB4E4
 procedure sub_004BB4E4(a:Boolean);
 begin
-{	*
-004BB4E4    xor         ecx,ecx
-004BB4E6    mov         edx,eax
-004BB4E8    mov         eax,4BB4FC;'afficherHeure'
-004BB4ED    call        004974F0
-004BB4F2    ret
-*}
+  sub_004974F0('afficherHeure',a{,0});
 end;
 
 //004BB50C
 procedure sub_004BB50C(a:Boolean);
 begin
-{	*
-004BB50C    xor         ecx,ecx
-004BB50E    mov         edx,eax
-004BB510    mov         eax,4BB524;'afficherDate'
-004BB515    call        004974F0
-004BB51A    ret
-*}
+  sub_004974F0('afficherDate',a{,0});
 end;
 
 //004BB534
@@ -1884,13 +1691,7 @@ end;//0
 //004BB694
 procedure sub_004BB694(a:Boolean);
 begin
-{	*
-004BB694    mov         cl,1
-004BB696    mov         edx,eax
-004BB698    mov         eax,4BB6AC;'rappelMiseAJourDisponible'
-004BB69D    call        004974F0
-004BB6A2    ret
-*}
+ sub_004974F0('rappelMiseAJourDisponible', a{, true});
 end;
 
 //004BB6C8
@@ -1934,42 +1735,24 @@ end;//0
 //004BB7BC
 procedure sub_004BB7BC(a:Integer);
 begin
-{	*
-004BB7BC    xor         edx,edx
-004BB7BE    mov         dl,al
-004BB7C0    xor         ecx,ecx
-004BB7C2    mov         eax,4BB7D8;'ongletClasses'
-004BB7C7    call        004975A8
-004BB7CC    ret
-*}
+ sub_004975A8('ongletClasses', a{,1});
 end;
 
 //004BB7E8
 function sub_004BB7E8:dword;
 begin//0
- //004BB7E8
-
  result := sub_00497268('ongletClasses', 1{, 0});
 end;//0
-
-//end;
 
 //004BB81C
 procedure sub_004BB81C(a:Boolean);
 begin
-{	*
-004BB81C    xor         ecx,ecx
-004BB81E    mov         edx,eax
-004BB820    mov         eax,4BB834;'afficherOngletsClasses'
-004BB825    call        004974F0
-004BB82A    ret
-*}
+ sub_004974F0('afficherOngletsClasses', a{,0});
 end;
 
 //004BB84C
 function sub_004BB84C:boolean;
 begin//0
- //004BB84C
  result := sub_004971A0('afficherOngletsClasses', true{,0});
 end;//0
 
@@ -1977,50 +1760,31 @@ end;//0
 //004BB87C
 function sub_004BB87C:TColor;
 begin//0
- //004BB87C
  result := sub_004970D8('couleurFenetreInfo', sub_004BB8AC{,0});
 end;//0
 
 //004BB8AC
 function sub_004BB8AC:TColor;
 begin
-result := $0C8FFC8;
+  result := $0C8FFC8;
 end;
 
 //004BB8B4
 procedure sub_004BB8B4(a:TColor);
 begin
-{	*
-004BB8B4    xor         ecx,ecx
-004BB8B6    mov         edx,eax
-004BB8B8    mov         eax,4BB8CC;'couleurFenetreInfo'
-004BB8BD    call        00497438
-004BB8C2    ret
-*}
+ sub_00497438('couleurFenetreInfo', a{,0});
 end;
 
 //004BB8E0
 procedure sub_004BB8E0(a:Boolean);
 begin
-{	*
-004BB8E0    xor         ecx,ecx
-004BB8E2    mov         edx,eax
-004BB8E4    mov         eax,4BB8F8;'afficherFenetreInfo'
-004BB8E9    call        004974F0
-004BB8EE    ret
-*}
+ sub_004974F0('afficherFenetreInfo', a{,0});
 end;
 
 //004BB90C
 procedure sub_004BB90C(a:Boolean);
 begin
-{	*
-004BB90C    xor         ecx,ecx
-004BB90E    mov         edx,eax
-004BB910    mov         eax,4BB924;'afficherR'
-004BB915    call        004974F0
-004BB91A    ret
-*}
+ sub_004974F0('afficherR', a{,0});
 end;
 
 //004BB930
@@ -2042,13 +1806,7 @@ end;//0
 //004BB980
 procedure sub_004BB980(a:Boolean);
 begin
-{	*
-004BB980    xor         ecx,ecx
-004BB982    mov         edx,eax
-004BB984    mov         eax,4BB998;'afficherDatesDeNaissance'
-004BB989    call        004974F0
-004BB98E    ret
-*}
+ sub_004974F0('afficherDatesDeNaissance', a{,0});
 end;
 
 //004BB9B4
@@ -2110,7 +1868,6 @@ end;//0
 //004BBAD0
 procedure sub_004BBAD0(a:Boolean);
 begin//0
- //004BBAD0
  sub_004974F0('grapheLegende', a{,0});
 end;//0
 
@@ -2118,7 +1875,6 @@ end;//0
 //004BBAF8
 function sub_004BBAF8:boolean;
 begin//0
- //004BBAF8
  result := sub_004971A0('grapheLegende', true{,0});
 end;//0
 
@@ -2126,31 +1882,18 @@ end;//0
 //004BBB20
 procedure sub_004BBB20(a:TColor);
 begin
-{	*
-004BBB20    xor         ecx,ecx
-004BBB22    mov         edx,eax
-004BBB24    mov         eax,4BBB38;'couleurDebutDegrade'
-004BBB29    call        00497438
-004BBB2E    ret
-*}
+ sub_00497438('couleurDebutDegrade', a{,0});
 end;
 
 //004BBB4C
 procedure sub_004BBB4C(a:TColor);
 begin
-{	*
-004BBB4C    xor         ecx,ecx
-004BBB4E    mov         edx,eax
-004BBB50    mov         eax,4BBB64;'couleurFinDegrade'
-004BBB55    call        00497438
-004BBB5A    ret
-*}
+ sub_00497438('couleurFinDegrade', a{,0});
 end;
 
 //004BBB78
 function sub_004BBB78:TColor;
 begin//0
-  //004BBB78
   result := sub_004970D8('couleurDebutDegrade', sub_004BBBD8);
 end;//0
 
@@ -2158,7 +1901,6 @@ end;//0
 //004BBBA8
 function sub_004BBBA8:TColor;
 begin//0
-  //004BBB78
   result := sub_004970D8('couleurFinDegrade', sub_004BBBE0);
 end;//0
 
@@ -2178,56 +1920,30 @@ end;
 //004BBBE8
 procedure sub_004BBBE8(a:TColor);
 begin
-{	*
-004BBBE8    xor         ecx,ecx
-004BBBEA    mov         edx,eax
-004BBBEC    mov         eax,4BBC00;'couleurEleve'
-004BBBF1    call        00497438
-004BBBF6    ret
-*}
+  sub_00497438('couleurEleve', a{,0});
 end;
 
 //004BBC10
 procedure sub_004BBC10(a:TColor);
 begin
-{	*
-004BBC10    xor         ecx,ecx
-004BBC12    mov         edx,eax
-004BBC14    mov         eax,4BBC28;'couleurMax'
-004BBC19    call        00497438
-004BBC1E    ret
-*}
+ sub_00497438('couleurMax', a{,0});
 end;
 
 //004BBC34
 procedure sub_004BBC34(a:TColor);
 begin
-{	*
-004BBC34    xor         ecx,ecx
-004BBC36    mov         edx,eax
-004BBC38    mov         eax,4BBC4C;'couleurMin'
-004BBC3D    call        00497438
-004BBC42    ret
-*}
+ sub_00497438('couleurMin', a{,0});
 end;
 
 //004BBC58
 procedure sub_004BBC58(a:TColor);
 begin
-{	*
-004BBC58    xor         ecx,ecx
-004BBC5A    mov         edx,eax
-004BBC5C    mov         eax,4BBC70;'couleurMoyenne'
-004BBC61    call        00497438
-004BBC66    ret
-*}
+ sub_00497438('couleurMoyenne', a{,0});
 end;
 
 //004BBC80
 function sub_004BBC80:TColor;
 begin//0
- //004BBC80
-
  result := sub_004970D8('couleurEleve',  sub_004BBCAC{,0});
 end;//0
 
@@ -2235,8 +1951,7 @@ end;//0
 //004BBCAC
 function sub_004BBCAC:TColor;
 begin
-result := $0FFFF;
-
+ result := $00FFFF;
 end;
 
 //004BBCB4
@@ -2248,7 +1963,7 @@ end;
 //004BBCDC
 function sub_004BBCDC:TColor;
 begin
-result := $0FF0000;
+ result := $0FF0000;
 end;
 
 //004BBCE4
@@ -2260,13 +1975,12 @@ end;
 //004BBD0C
 function sub_004BBD0C:TColor;
 begin
- result := $0FF;
+ result := $0000FF;
 end;
 
 //004BBD14
 function sub_004BBD14:TColor;
 begin//0
- //004BBD14
  result := sub_004970D8('couleurMoyenne',sub_004BBD40{,0});
 end;//0
 
@@ -2275,52 +1989,36 @@ end;//0
 function sub_004BBD40:TColor;
 begin
 result := $80FF80;
-
 end;
 
 //004BBD48
 procedure sub_004BBD48(a:TColor);
 begin
-{	*
-004BBD48    xor         ecx,ecx
-004BBD4A    mov         edx,eax
-004BBD4C    mov         eax,4BBD60;'couleurMurBas'
-004BBD51    call        00497438
-004BBD56    ret
-*}
+  sub_00497438('couleurMurBas',a{,0});
 end;
 
 //004BBD70
 function sub_004BBD70:TColor;
 begin
  result := sub_004970D8('couleurMurBas',sub_004BBD9C);
- 
 end;
 
 //004BBD9C
 function sub_004BBD9C:TColor;
 begin
 result := $0FFFFFF;
-
 end;
 
 //004BBDA4
 procedure sub_004BBDA4(a:TColor);
 begin
-{	*
-004BBDA4    xor         ecx,ecx
-004BBDA6    mov         edx,eax
-004BBDA8    mov         eax,4BBDBC;'couleurMurGauche'
-004BBDAD    call        00497438
-004BBDB2    ret
-*}
+  sub_00497438('couleurMurGauche',a{,0});
 end;
 
 //004BBDD0
 function sub_004BBDD0:TColor;
 begin
 result := $0FFFFFF;
-
 end;
 
 //004BBDD8
@@ -2356,7 +2054,6 @@ end;
 //004BBE80
 function sub_004BBE80:boolean;
 begin//0
- //004BBE80
  result := sub_004971A0('grapheLigneEleve', true{,0});
 end;//0
 
@@ -2364,7 +2061,6 @@ end;//0
 //004BBEAC
 function sub_004BBEAC:boolean;
 begin//0
- //004BBEAC
  result := sub_004971A0('grapheLigneMax', true{,0});
 end;//0
 
@@ -2372,7 +2068,6 @@ end;//0
 //004BBED4
 function sub_004BBED4:boolean;
 begin//0
- //004BBED4
  result := sub_004971A0('grapheLigneMin', true{,0});
 end;//0
 
@@ -2386,14 +2081,8 @@ end;
 //004BBF28
 procedure sub_004BBF28(a:Integer);
 begin
-{	*
-004BBF28    xor         edx,edx
-004BBF2A    mov         dl,al
-004BBF2C    xor         ecx,ecx
-004BBF2E    mov         eax,4BBF44;'ongletsGraphes'
-004BBF33    call        004975A8
-004BBF38    ret
-*}
+  sub_004975A8('ongletsGraphes', a{,0});
+
 end;
 
 //004BBF54
@@ -2420,13 +2109,7 @@ end;
 //004BBFE8
 procedure sub_004BBFE8(a:Boolean);
 begin
-{	*
-004BBFE8    xor         ecx,ecx
-004BBFEA    mov         edx,eax
-004BBFEC    mov         eax,4BC000;'numeroterElevesGrilleVierge'
-004BBFF1    call        004974F0
-004BBFF6    ret
-*}
+  sub_004974F0('numeroterElevesGrilleVierge',a{,false});
 end;
 
 //004BC01C
@@ -2438,14 +2121,7 @@ end;
 //004BC050
 procedure sub_004BC050(a:Integer);
 begin
-{	*
-004BC050    xor         edx,edx
-004BC052    mov         dl,al
-004BC054    xor         ecx,ecx
-004BC056    mov         eax,4BC06C;'largeurGrilleVierge'
-004BC05B    call        004975A8
-004BC060    ret
-*}
+ sub_004975A8('largeurGrilleVierge',a{,0});
 end;
 
 //004BC080
@@ -2457,13 +2133,7 @@ end;
 //004BC0B8
 procedure sub_004BC0B8(a:Boolean);
 begin
-{	*
-004BC0B8    xor         ecx,ecx
-004BC0BA    mov         edx,eax
-004BC0BC    mov         eax,4BC0D0;'impressionColonneMoyenne'
-004BC0C1    call        004974F0
-004BC0C6    ret
-*}
+  sub_004974F0('impressionColonneMoyenne',a{,0});
 end;
 
 //004BC0EC
@@ -2475,25 +2145,13 @@ end;
 //004BC120
 procedure sub_004BC120(a:Boolean);
 begin
-{	*
-004BC120    xor         ecx,ecx
-004BC122    mov         edx,eax
-004BC124    mov         eax,4BC138;'impressionColonneClassement'
-004BC129    call        004974F0
-004BC12E    ret
-*}
+ sub_004974F0('impressionColonneClassement',a{,0});
 end;
 
 //004BC154
 procedure sub_004BC154(a:Boolean);
 begin
-{	*
-004BC154    xor         ecx,ecx
-004BC156    mov         edx,eax
-004BC158    mov         eax,4BC16C;'impressionMoyennesEcritOral'
-004BC15D    call        004974F0
-004BC162    ret
-*}
+ sub_004974F0('impressionMoyennesEcritOral',a{,0});
 end;
 
 //004BC188
@@ -2511,13 +2169,7 @@ end;
 //004BC1F0
 procedure sub_004BC1F0(a:Boolean);
 begin
-{	*
-004BC1F0    xor         ecx,ecx
-004BC1F2    mov         edx,eax
-004BC1F4    mov         eax,4BC208;'numeroterElevesAppreciations'
-004BC1F9    call        004974F0
-004BC1FE    ret
-*}
+ sub_004974F0('numeroterElevesAppreciations',a{,0});
 end;
 
 //004BC228
@@ -2529,14 +2181,7 @@ end;
 //004BC260
 procedure sub_004BC260(a:Integer);
 begin
-{	*
-004BC260    xor         edx,edx
-004BC262    mov         dl,al
-004BC264    xor         ecx,ecx
-004BC266    mov         eax,4BC27C;'arrondirMoyennesAnnuelles'
-004BC26B    call        004975A8
-004BC270    ret
-*}
+ sub_004975A8('arrondirMoyennesAnnuelles',a{,0});
 end;
 
 //004BC298
@@ -2550,14 +2195,7 @@ end;//0
 //004BC2D8
 procedure sub_004BC2D8(a:Integer);
 begin
-{	*
-004BC2D8    xor         edx,edx
-004BC2DA    mov         dl,al
-004BC2DC    xor         ecx,ecx
-004BC2DE    mov         eax,4BC2F4;'typeMoyennesAnnuelles'
-004BC2E3    call        004975A8
-004BC2E8    ret
-*}
+  sub_004975A8('typeMoyennesAnnuelles',a{,0});
 end;
 
 //004BC30C
@@ -2578,7 +2216,7 @@ begin//0
   StringList := TStringList.Create;
   StringList.Sorted := True;
   Registry := TRegistry.Create;
-  Registry.RootKey:= $80000001;
+  Registry.RootKey:= HKEY_CURRENT_USER;
   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Matieres')) then
   begin//1
     //004BC38B
@@ -2603,7 +2241,7 @@ var
 begin//0
   //004BC3F0
   Registry := TRegistry.Create;
-  Registry.RootKey:=$80000001;
+  Registry.RootKey:=HKEY_CURRENT_USER;
   if (Registry.KeyExists('Software\Carnet de Notes 2.x\Matieres')) then
   begin//1
     //004BC41B
@@ -2717,8 +2355,8 @@ begin
 end;
 
 //004BC7A0
-{	*//procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);
-//begin
+procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);
+begin
 004BC7A0    push        ebp
 004BC7A1    mov         ebp,esp
 004BC7A3    add         esp,0FFFFFFE8
@@ -2950,11 +2588,13 @@ end;
 004BCA84    mov         esp,ebp
 004BCA86    pop         ebp
 004BCA87    ret         18
-//end;*}
+*}
+end;
 
 //004BCAA0
-{	*//procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);
-//begin
+procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);
+begin
+{*
 004BCAA0    push        ebp
 004BCAA1    mov         ebp,esp
 004BCAA3    add         esp,0FFFFFFE8
@@ -3051,7 +2691,8 @@ end;
 004BCBB6    mov         esp,ebp
 004BCBB8    pop         ebp
 004BCBB9    ret         8
-//end;*}
+*}
+end;
 
 //004BCBDC
 procedure sub_004BCBDC(StringList:TStringList);
@@ -3062,7 +2703,7 @@ begin//0
  //004BCBDC
    //004BCBFA
    Registry := TRegistry.Create;
-   Registry.RootKey := $80000001;
+   Registry.RootKey := HKEY_CURRENT_USER;
    if (Registry.KeyExists('Software\Carnet de Notes 2.x\Derniers fichiers')) then//004BCC27
 	 Registry.DeleteKey('Software\Carnet de Notes 2.x\Derniers fichiers');
    Registry.OpenKey('Software\Carnet de Notes 2.x\Derniers fichiers', True);
@@ -3084,7 +2725,7 @@ begin//0
  //004BCD14
  StringList := TStringList.Create;
  Registry := TRegistry.Create;
- Registry.RootKey := $80000001;
+ Registry.RootKey := HKEY_CURRENT_USER;
  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Derniers fichiers') ) then
  begin//1
    //004BCD4E
@@ -3128,7 +2769,8 @@ end;
 //004BCE80
 function sub_004BCE80:TStringList;
 begin
-{004BCE80    push        ebx
+{*
+004BCE80    push        ebx
 004BCE81    push        esi
 004BCE82    push        edi
 004BCE83    mov         dl,1
@@ -3172,7 +2814,8 @@ begin
 004BCF01    pop         edi
 004BCF02    pop         esi
 004BCF03    pop         ebx
-004BCF04    ret*}
+004BCF04    ret
+*}
 end;
 
 //004BCF84
@@ -3185,7 +2828,7 @@ begin//0
 
    StringList := TStringList.Create;
    Registry := TRegistry.Create;
-   Registry.RootKey := $80000001;
+   Registry.RootKey := HKEY_CURRENT_USER;
    if (Registry.KeyExists('Software\Carnet de Notes 2.x\Noms bulletins\' + a + '\noms')) then
    begin//004BCFF8
 	 Registry.OpenKey('Software\Carnet de Notes 2.x\Noms bulletins\' + a + '\noms', True);
@@ -3300,8 +2943,9 @@ begin//0
 end;//0
 
 //004BD51C
-{	*//procedure sub_004BD51C(?:?);
-//begin
+procedure sub_004BD51C(?:?);
+begin
+{*
 004BD51C    push        ebp
 004BD51D    mov         ebp,esp
 004BD51F    push        ecx
@@ -3332,11 +2976,13 @@ end;//0
 004BD56A    pop         ecx
 004BD56B    pop         ebp
 004BD56C    ret
-//end;*}
+*}
+end;
 
 //004BD59C
-{	*//procedure sub_004BD59C(?:?);
-//begin
+procedure sub_004BD59C(?:?);
+begin
+{*
 004BD59C    push        ebp
 004BD59D    mov         ebp,esp
 004BD59F    push        ecx
@@ -3402,150 +3048,78 @@ end;//0
 004BD66A    pop         ecx
 004BD66B    pop         ebp
 004BD66C    ret
-//end;*}
+*}
+end;
 
 //004BD69C
-{	*//procedure sub_004BD69C(?:?);
-//begin
-004BD69C    push        ebp
-004BD69D    mov         ebp,esp
-004BD69F    push        ecx
-004BD6A0    mov         dword ptr [ebp-4],eax
-004BD6A3    mov         eax,dword ptr [ebp-4]
-004BD6A6    call        @LStrAddRef
-004BD6AB    xor         eax,eax
-004BD6AD    push        ebp
-004BD6AE    push        4BD6E3
-004BD6B3    push        dword ptr fs:[eax]
-004BD6B6    mov         dword ptr fs:[eax],esp
-004BD6B9    push        0
-004BD6BB    mov         ecx,4BD6F8;'\Options'
-004BD6C0    mov         edx,dword ptr [ebp-4]
-004BD6C3    mov         eax,4BD70C;'enTeteCentre'
-004BD6C8    call        00497660
-004BD6CD    xor         eax,eax
-004BD6CF    pop         edx
-004BD6D0    pop         ecx
-004BD6D1    pop         ecx
-004BD6D2    mov         dword ptr fs:[eax],edx
-004BD6D5    push        4BD6EA
-004BD6DA    lea         eax,[ebp-4]
-004BD6DD    call        @LStrClr
-004BD6E2    ret
->	004BD6E3    jmp         @HandleFinally
->	004BD6E8    jmp         004BD6DA
-004BD6EA    pop         ecx
-004BD6EB    pop         ebp
-004BD6EC    ret
-//end;*}
+procedure sub_004BD69C(a:integer);
+var
+  lvar_4:integer;
+begin//0
+  //004BD69C
+  try
+    //004BD6B9
+    sub_00497660('enTeteCentre', a, '\Options');
+  finally//1
+    //004BD6DA
+    lvar_4 := '';
+  end;//1
+end;//0
 
 //004BD71C
-{	*//procedure sub_004BD71C(?:?);
-//begin
-004BD71C    push        ebp
-004BD71D    mov         ebp,esp
-004BD71F    push        ecx
-004BD720    mov         dword ptr [ebp-4],eax
-004BD723    mov         eax,dword ptr [ebp-4]
-004BD726    call        @LStrAddRef
-004BD72B    xor         eax,eax
-004BD72D    push        ebp
-004BD72E    push        4BD763
-004BD733    push        dword ptr fs:[eax]
-004BD736    mov         dword ptr fs:[eax],esp
-004BD739    push        0
-004BD73B    mov         ecx,4BD778;'\Options'
-004BD740    mov         edx,dword ptr [ebp-4]
-004BD743    mov         eax,4BD78C;'enTeteDroite'
-004BD748    call        00497660
-004BD74D    xor         eax,eax
-004BD74F    pop         edx
-004BD750    pop         ecx
-004BD751    pop         ecx
-004BD752    mov         dword ptr fs:[eax],edx
-004BD755    push        4BD76A
-004BD75A    lea         eax,[ebp-4]
-004BD75D    call        @LStrClr
-004BD762    ret
->	004BD763    jmp         @HandleFinally
->	004BD768    jmp         004BD75A
-004BD76A    pop         ecx
-004BD76B    pop         ebp
-004BD76C    ret
-//end;*}
+procedure sub_004BD71C(a:integer);
+var
+  lvar_4:string;
+begin//0
+  //004BD71C
+  try
+    //004BD739
+    sub_00497660('enTeteDroite', a, '\Options');
+  finally//1
+    //004BD75A
+    lvar_4 := '';
+  end;//1
+end;//0
+
 
 ///004BD79C
 function sub_004BD79C:byte;
 begin
  result := sub_00497268('taillePolice',9{,0});
-
 end;
 
 ///004BD7D0
 procedure sub_004BD7D0(var a:string);
 begin
   sub_0049733C('nomPolice','Times New Roman','\Options',a{,0});
-
 end;
 
 //004BD82C
-//procedure sub_004BD82C(?:Integer);
-//begin
-{	*
-004BD82C    xor         edx,edx
-004BD82E    mov         dl,al
-004BD830    xor         ecx,ecx
-004BD832    mov         eax,4BD848;'taillePolice'
-004BD837    call        004975A8
-004BD83C    ret
-*}
-//end;
+procedure sub_004BD82C(a:Integer);
+begin
+ sub_004975A8('taillePolice',a {,false});
+end;
 
 //004BD858
-{	*//procedure sub_004BD858(?:?);
-//begin
-004BD858    push        ebp
-004BD859    mov         ebp,esp
-004BD85B    push        ecx
-004BD85C    mov         dword ptr [ebp-4],eax
-004BD85F    mov         eax,dword ptr [ebp-4]
-004BD862    call        @LStrAddRef
-004BD867    xor         eax,eax
-004BD869    push        ebp
-004BD86A    push        4BD89F
-004BD86F    push        dword ptr fs:[eax]
-004BD872    mov         dword ptr fs:[eax],esp
-004BD875    push        0
-004BD877    mov         ecx,4BD8B4;'\Options'
-004BD87C    mov         edx,dword ptr [ebp-4]
-004BD87F    mov         eax,4BD8C8;'nomPolice'
-004BD884    call        00497660
-004BD889    xor         eax,eax
-004BD88B    pop         edx
-004BD88C    pop         ecx
-004BD88D    pop         ecx
-004BD88E    mov         dword ptr fs:[eax],edx
-004BD891    push        4BD8A6
-004BD896    lea         eax,[ebp-4]
-004BD899    call        @LStrClr
-004BD89E    ret
->	004BD89F    jmp         @HandleFinally
->	004BD8A4    jmp         004BD896
-004BD8A6    pop         ecx
-004BD8A7    pop         ebp
-004BD8A8    ret
-//end;*}
+procedure sub_004BD858(a:integer);
+var
+  lvar_4:string;
+begin//0
+  //004BD858
+  try
+    //004BD875
+    sub_00497660('nomPolice', a, '\Options');
+  finally//1
+    //004BD896
+    lvar_4 := '';
+  end;//1
+end;//0
+
 
 //004BD8D4
 procedure sub_004BD8D4(a:Boolean);
 begin
-{	*
-004BD8D4    xor         ecx,ecx
-004BD8D6    mov         edx,eax
-004BD8D8    mov         eax,4BD8EC;'impressionFermerBoite'
-004BD8DD    call        004974F0
-004BD8E2    ret
-*}
+  sub_004974F0('impressionFermerBoite', a{,0});
 end;
 
 //004BD904
@@ -3606,10 +3180,9 @@ end;
 
 Initialization
 //004BDAF8
-  gvar_00617C94 := gvar_00617C94 - 1;
+  {gvar_00617C94 := gvar_00617C94 - 1;
   if ( gvar_00617C94 <> 0 ) then
   begin//1
-    //004BDB01
     gvar_00617CB8 := true;
     gvar_00617CB9 := true;
     gvar_00617CBA := true;
@@ -3619,14 +3192,14 @@ Initialization
     gvar_00617CBE := true;
     gvar_00617CBF := true;
   end;//1
-
+}
 Finalization
   //004BDABC
-
+ {
     gvar_00617C94 := gvar_00617C94 + 1;
     if ( gvar_00617C94 <> 0  ) then//004BDAD5 
       sub_004B964C(sub_004B9500);
 
-
+}
 
 end.

@@ -34,7 +34,7 @@ begin//0
     StringList := TStringList.Create;
     StringList.Sorted := True;
     Registry := TRegistry.Create;
-    Registry.RootKey:= $80000001;
+    Registry.RootKey:= HKEY_CURRENT_USER;
     if (Registry.KeyExists('Software\Carnet de Notes 2.x\Utilisateurs')) then
     begin//2
       //0049834E
@@ -69,7 +69,7 @@ begin//0
     //0049847F
 
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
 
     if (Registry.KeyExists('Software\Carnet de Notes 2.x\Utilisateurs')) then
     begin//2
@@ -254,7 +254,7 @@ begin//0
 
 
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
     Registry.DeleteKey('Software\Carnet de Notes 2.x\Enregistrement');
     Registry.Free;
       for I := 1 to lvar_8.Count do//00498CB5

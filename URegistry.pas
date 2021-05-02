@@ -30,7 +30,7 @@ var
 begin//0
     result := b;
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x\Options', True);
     if (Registry.ValueExists(a)) then
     begin//0049712F
@@ -49,7 +49,7 @@ var
 begin//0
     result := y;
     Registry := TRegistry.Create;
-    Registry.RootKey :=$80000001;
+    Registry.RootKey :=HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x\Options', True);
     if (Registry.ValueExists(x)) then
     begin//004971F7
@@ -66,7 +66,7 @@ var
 	Registry :TRegistry;
 begin//0
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x\Options', True);
     if (Registry.ValueExists(x)) then//004972C0
       result := Registry.ReadInteger(x)
@@ -85,7 +85,7 @@ var
 begin//0
   //0049733C
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x' + z, True);
     if (Registry.ValueExists(x) ) then
     begin//004973BF
@@ -107,7 +107,7 @@ var
 begin//0
   
     Registry := TRegistry.Create;
-    Registry.RootKey :=$80000001;
+    Registry.RootKey :=HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x\Options', True);
     Registry.WriteInteger(a, b);
     Registry.CloseKey;
@@ -122,7 +122,7 @@ var
 begin//0
   //004974F0
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x\Options', True);
     Registry.WriteBool(a, b);
     Registry.CloseKey;
@@ -136,7 +136,7 @@ var
   Registry:TRegistry;
 begin//0
     Registry := TRegistry.Create;
-    Registry.RootKey :=$80000001;
+    Registry.RootKey :=HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x\Options', True);
     Registry.WriteInteger(a, b);
     Registry.CloseKey;
@@ -150,7 +150,7 @@ var
   Registry:TRegistry;
 begin//0
     Registry := TRegistry.Create;
-    Registry.RootKey :=$80000001;
+    Registry.RootKey :=HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x' + c, True);
     Registry.WriteString(a, b);
     Registry.CloseKey;
@@ -163,7 +163,7 @@ var
   Registry:TRegistry;
 begin//0
     Registry := TRegistry.Create;
-    Registry.RootKey :=$80000001;
+    Registry.RootKey :=HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x', True);
     Registry.WriteString('Chemin', a);
     Registry.CloseKey;
@@ -180,7 +180,7 @@ begin//0
   //push ESI
   //ESI := a;
     Registry := TRegistry.Create;
-    Registry.RootKey := $80000001;
+    Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x', True);
     if (Registry.ValueExists('Chemin')) then
     begin//0049787B

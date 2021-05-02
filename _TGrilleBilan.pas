@@ -78,7 +78,7 @@ begin//0
       Visible := (FichierCdn.sub_004C4790 = 0) Xor True;
     if (Visible = False) then Exit;
     lvar_14 := FichierCdn.sub_004C8AE8;
-    if (sub_004B9F60 ) then //004CB5B1
+    if (GetmoyennesEcritEtOral ) then //004CB5B1
       lvar_18 := 3
     else//004CB5BA
       lvar_18 := 0;
@@ -86,7 +86,7 @@ begin//0
     if (lvar_C < f2D8) then
     begin//2
       //004CB601
-      if (sub_004B9F30) then //004CB60A
+      if (GetmoyenneParTypeDeNotes) then //004CB60A
         lvar_4 := EDI.count + 3
       else//004CB620
         lvar_4 := 2;
@@ -95,7 +95,7 @@ begin//0
     else
     begin//2
       //004CB651     
-      if (sub_004B9F30) then//004CB65A
+      if (GetmoyenneParTypeDeNotes) then//004CB65A
         lvar_4 := EDI.count + 1
       else//004CB670
         lvar_4 := 0;
@@ -104,7 +104,7 @@ begin//0
     //EAX := ESI;//f2DC
     RowCount := FichierCdn.sub_004BEA58 + $9{gvar_006178FA};
     //lvar_1C := f2DC;
-    if (sub_004B9F30) then //moyenneParTypeDeNotes
+    if (GetmoyenneParTypeDeNotes) then //moyenneParTypeDeNotes
     begin//2
 		//004CB6D6
 		if (f2D8 < lvar_C) then
@@ -125,7 +125,7 @@ begin//0
 				end;//6
 			  end;//5
 			Cols[lvar_4 - 1].Clear;
-			if (sub_004B9F60) then
+			if (GetmoyennesEcritEtOral) then
 			begin//4
 				//004CB881
 				Cols[lvar_4].Clear;
@@ -154,7 +154,7 @@ begin//0
 			end;//5
 			Cols[lvar_4 + 1].Clear;
 			Cols[lvar_4 + 2].Clear;
-			Cols[lvar_4 + 2] :=FichierCdn.sub_004C5078(f2D8, sub_004B9EA0, sub_004B9E10, sub_004BC298, sub_004BC30C);
+			Cols[lvar_4 + 2] :=FichierCdn.sub_004C5078(f2D8, sub_004B9EA0, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			for I := 1 to lvar_4 - 3 do//004CBAF5
 			begin//5
 				//004CBAFF
@@ -189,14 +189,14 @@ begin//0
 				//004CBD2A
 				Strlist := FichierCdn.sub_004C3134(f2D8);
 				FichierCdn.sub_004C64CC(Strlist[I - 1], J,buf);
-				FichierCdn.sub_004C2410(buf,sub_004BC298, buf1);             
+				FichierCdn.sub_004C2410(buf,GetarrondirMoyennesAnnuelles, buf1);             
 				Cells[I + 1, J] := buf1;
 			end;//6
 			sub_004CD0B0(I);
 		end;//4
 		Cols[K + 2].Clear;
 		lvar_4 := 0;
-		if (sub_004B9F60) then
+		if (GetmoyennesEcritEtOral) then
 		begin//3
 			//004CBE2E
 			Cols[K + 3].Clear;
@@ -206,14 +206,14 @@ begin//0
 			for I := 1 to FichierCdn.sub_004BEA58  do//004CBE9C
 			begin//5
 				//004CBEA4
-				FichierCdn.sub_004C9708(I, sub_004BC298, buf);
+				FichierCdn.sub_004C9708(I, GetarrondirMoyennesAnnuelles, buf);
 				Cells[K + 3, I] := buf;
 			end;//5
 			Cells[K + 4, 0 ] := 'Moy. ''Oral''';
 			for I := 1 to FichierCdn.sub_004BEA58  do//004CBF29
 			begin//5
 				//004CBF31
-				FichierCdn.sub_004C9594(I, sub_004BC298, buf);
+				FichierCdn.sub_004C9594(I, GetarrondirMoyennesAnnuelles, buf);
 				Cells[K + 4, I ] := buf;
 			end;//5
 			sub_004CD0B0(K + 2);
@@ -237,12 +237,12 @@ begin//0
 		for I := 1 to FichierCdn.sub_004BEA58  do//004CC184
 		begin//4
 			//004CC18C
-			FichierCdn.sub_004C32B4(I, sub_004B9E10, sub_004BC298, sub_004BC30C, buf);
+			FichierCdn.sub_004C32B4(I, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf);
 			Cells[lvar_4 + 4 + K + lvar_C, I ] :=buf;
 		end;//4
 		Cols[lvar_4 + 5 + K + lvar_C].Clear;  
 		Cols[lvar_4 + 6 + K + lvar_C].Clear;
-		//Cols[ESI] := lvar_1C.sub_004C5078(EDX, ECX, sub_004B9E10, sub_004BC298, sub_004BC30C);
+		//Cols[ESI] := lvar_1C.sub_004C5078(EDX, ECX, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 		for I :=  K + 2 to lvar_C - 1 do //004CC2C2
 		begin//4
 			//004CC2C9
@@ -256,7 +256,7 @@ begin//0
 		begin//2
 			//004CC35D  
 			lvar_4 := 0;
-			if (sub_004B9F60) then
+			if (GetmoyennesEcritEtOral) then
 			begin//3
 				//004CC36F
 				Cols[2].Clear;
@@ -286,7 +286,7 @@ begin//0
 			end;//4
 			Cols[lvar_4 + 3].Clear;
 			Cols[lvar_4 + 4].Clear;
-			Cols[lvar_4 + 4] :=  FichierCdn.sub_004C5078(f2D8, sub_004B9EA0, sub_004B9E10, sub_004BC298, sub_004BC30C);
+			Cols[lvar_4 + 4] :=  FichierCdn.sub_004C5078(f2D8, sub_004B9EA0, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			sub_004CD0B0(lvar_4 + 1);
 			Cols[lvar_4 + 5].Clear;
 			for I := 1 to lvar_14 do//004CC624
@@ -321,7 +321,7 @@ begin//0
 			end;//3
 			Cols[lvar_C + 2].Clear;
 			lvar_4 := 0;
-			if (sub_004B9F60) then
+			if (GetmoyennesEcritEtOral) then
 			begin//2
 				//004CC857
 				Cols[lvar_C + 3].Clear;
@@ -331,14 +331,14 @@ begin//0
 				for I := 1 to FichierCdn.sub_004BEA58  do//004CC8CE
 				begin//4
 					//004CC8D6
-					FichierCdn.sub_004C9708(I, sub_004BC298, buf);
+					FichierCdn.sub_004C9708(I, GetarrondirMoyennesAnnuelles, buf);
 					Cells[lvar_C + 3, I ] := buf;
 				end;//4
 				Cells[lvar_C + 4, 0 ] := 'Moy. ''Oral''';
 				for I := 1 to FichierCdn.sub_004BEA58  do//004CC95B
 				begin//4
 					//004CC963
-					FichierCdn.sub_004C9594(I, sub_004BC298, buf);
+					FichierCdn.sub_004C9594(I, GetarrondirMoyennesAnnuelles, buf);
 					Cells[lvar_C + 4, I] := buf;
 				end;//4
 				sub_004CD0B0(lvar_C + 2);
@@ -349,13 +349,13 @@ begin//0
 			for I := 1 to FichierCdn.sub_004BEA58  do//004CCA69
 			begin//3
 				//004CCA71
-				FichierCdn.sub_004C32B4(I, sub_004B9E10, sub_004BC298, sub_004BC30C, buf); 
+				FichierCdn.sub_004C32B4(I, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf); 
 				Cells[lvar_4 + 3 + lvar_C, I ] := buf;
 			end;//3
 			sub_004CD0B0(lvar_4 + lvar_C + 2);
 			Cols[lvar_4 + 4 + lvar_C].Clear;
 			Cols[lvar_4 + 5 + lvar_C].Clear;
-			Cols[lvar_4 + 5 + lvar_C] := FichierCdn.sub_004C5078(lvar_C + 1, sub_004B9EA0, sub_004B9E10, sub_004BC298, sub_004BC30C);
+			Cols[lvar_4 + 5 + lvar_C] := FichierCdn.sub_004C5078(lvar_C + 1, sub_004B9EA0, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			sub_004CD0B0(lvar_4 + 4 + lvar_C);
 		end;
 	end;
@@ -391,7 +391,7 @@ begin//0
         FichierCdn.sub_004C8BB8(I, Buf);
         if (Trim(Buf) <> '') then
         begin//004CCEF8
-          if ({sub_004BB9B4} true) then
+          if ({GetafficherDatesDeNaissance} true) then
           begin//004CCF01
             FichierCdn.sub_004C8BB8(I, Buf);
             lvar_4 := lvar_4 + ' (' + Buf + ')';
@@ -399,7 +399,7 @@ begin//0
         end;//4
         if (FichierCdn.sub_004C8E50(I)) then
         begin//004CCF70
-          if ({sub_004BB95C} true) then
+          if ({GetafficherR} true) then
           begin//004CCF79
             lvar_4 := lvar_4 + ' (R)';
           end;//5
@@ -618,7 +618,7 @@ begin//0
       6:
       begin//3
         //004CEC68
-        sub_004B9ED4(sub_004B9F30 Xor true);
+        SetmoyenneParTypeDeNotes(GetmoyenneParTypeDeNotes Xor true);
         I := true;
       end;//3
       7,8,9,10,11:
@@ -635,10 +635,10 @@ begin//0
       12,13,14,15,16:
       begin//3
         //004CECC5
-        if (sub_004BC298  <> Message.ItemID - 12) then
+        if (GetarrondirMoyennesAnnuelles  <> Message.ItemID - 12) then
         begin//4
           //004CECE5
-          sub_004BC260(Message.ItemID - 12);
+          SetarrondirMoyennesAnnuelles(Message.ItemID - 12);
           I := true;
           J := true;
         end;//4
@@ -667,7 +667,7 @@ begin//0
       19:
       begin//3
         //004CEDF3
-        sub_004B9F04(sub_004B9F60 Xor true);
+        SetmoyennesEcritEtOral(GetmoyennesEcritEtOral Xor true);
         I := True;
       end;//3
     end;//2
@@ -721,9 +721,9 @@ begin//0
       if (sub_004BB458) then
       begin//004CD8F8
         if (ARow mod 2 - 1 <> 0) then//004CD90A
-          Canvas.Brush.Color := sub_004B9C80
+          Canvas.Brush.Color := GetColorlignesPaires
         else//004CD924
-          Canvas.Brush.Color := sub_004B9C34;
+          Canvas.Brush.Color := GetColorlignesPaires;
       end//3
       else//004CD93E
         Canvas.Brush.Color := $FFFFFF;
@@ -766,10 +766,10 @@ begin//0
 
 					
                     if (StrToFloat(Valeur) > sub_004B9E48/2) then //004CDB77
-                      Canvas.Font.Color := sub_004B9F8C
+                      Canvas.Font.Color := _Getcouleur1Note
                     else//004CDB91
                       if (StrToFloat(Valeur) <= 3/4*sub_004B9E48) then//004CDBBC
-                        Canvas.Font.Color := sub_004BA024
+                        Canvas.Font.Color := _Getcouleur3Note
                       else//004CDBD6
                         Canvas.Font.Color := sub_004BA26C;
 
@@ -777,14 +777,14 @@ begin//0
                     on E:EConvertError do
                     begin//004CDC14
                       if (sub_004BB458) then//004CDC1D
-                        Canvas.Brush.Color := sub_004BA0BC
+                        Canvas.Brush.Color := _Getcouleur5Note
                       else//004CDC37
                         Canvas.Brush.Color := $FFFFFF;
                     end;//10
                     on E:EMathError do
                     begin//004CDC4F
                       if (sub_004BB458 ) then//004CDC58
-                        Canvas.Brush.Color := sub_004BA0BC
+                        Canvas.Brush.Color := _Getcouleur5Note
                       else//004CDC72
                         Canvas.Brush.Color := $FFFFFF;
                     end;//10
@@ -801,7 +801,7 @@ begin//0
     begin//2
       //004CDCA8
       if (sub_004BB458 ) then//004CDCB1
-        Canvas.Brush.Color := sub_004B9D24
+        Canvas.Brush.Color := GetcouleurSelection
       else//004CDCCB
         Canvas.Brush.Color := $C0C0C0;
     end;//2
@@ -859,7 +859,7 @@ begin//0
       if (ICol = 0) then
       begin//3
         //004CE795
-        if (sub_004BB930) then
+        if (GetafficherFenetreInfo) then
         begin//4
           //004CE7A2
           FormHint.Color := sub_004BB87C;
@@ -924,7 +924,7 @@ begin//0
     AppendMenuA(f2F0, 0, 5, 'Autre ...');
     AppendMenuA(f2E8, $10{16}, f2F0, 'Moyennes calculées sur');
     AppendMenuA(f2E8, $800{2048}, 0, '-');
-    if (sub_004B9F30) then
+    if (GetmoyenneParTypeDeNotes) then
     begin//2
       //004CE0C7
       AppendMenuA(f2E8, 8, 6, 'Une moyenne par type de notes');
@@ -935,7 +935,7 @@ begin//0
       AppendMenuA(f2E8, 0, 6, 'Une moyenne par type de notes');
     end;//2
     AppendMenuA(f2E8, $800, 0, '-');
-    if (sub_004B9F60) then
+    if (GetmoyennesEcritEtOral) then
     begin//2
       //004CE114
       AppendMenuA(f2E8, 8, $13{19}, 'Afficher moyennes écrit et oral');
@@ -1005,7 +1005,7 @@ begin//0
       //004CE2C1
       DestroyMenu(f2F8);
       f2F8 := CreatePopupMenu;
-      I := sub_004BC298;
+      I := GetarrondirMoyennesAnnuelles;
       AppendMenuA(f2E8, $800{2048}, 0, '-');
       if (I = 0) then
       begin//3

@@ -38,14 +38,14 @@ function sub_00501C44:Boolean;
 begin//0
   //00501C44
 
-   result := sub_004971A0('afficherConseils', false);
+   result := GetValueRegBool('afficherConseils', false);
 end;//0
 
 //00501C70
 procedure afficherConseils(X:Boolean);
 begin
   //00501C70
-  sub_004974F0('afficherConseils', X);
+  SetValueRegBool('afficherConseils', X);
 end;
 
 //00501C9C

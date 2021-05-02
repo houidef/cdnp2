@@ -9,13 +9,13 @@ interface
 uses
 Forms, Windows,  SysUtils, Classes , Registry;
 
-    function sub_004970D8(a:AnsiString; b:dword):dword;//004970D8
-    function sub_004971A0(x:AnsiString; y:boolean):boolean;//004971A0
-    function sub_00497268(x:AnsiString; y:dword):byte;//00497268
+    function GetValueRegColor(a:AnsiString; b:dword):dword;//004970D8
+    function GetValueRegBool(x:AnsiString; y:boolean):boolean;//004971A0
+    function GetValueRegInt(x:AnsiString; y:dword):byte;//00497268
     procedure sub_0049733C(x:String; y:String; z:String;var t:string);//0049733C
-    procedure sub_00497438(a:string; b:integer);//00497438
-    procedure sub_004974F0(a:string; b:Boolean);//004974F0
-    function sub_004975A8(a:AnsiString; b:dword):dword;//004975A8
+    procedure SetValueReg1(a:string; b:integer);//00497438
+    procedure SetValueRegBool(a:string; b:Boolean);//004974F0
+    function SetValueRegInt(a:AnsiString; b:dword):dword;//004975A8
     procedure sub_00497660(a:AnsiString; b:AnsiString; c:AnsiString);//00497660
     procedure sub_00497740(a:ShortString);//00497740
     procedure sub_0049782C(var a:String);//0049782C
@@ -24,7 +24,7 @@ Forms, Windows,  SysUtils, Classes , Registry;
 implementation
 
 //004970D8
-function sub_004970D8(a:AnsiString; b:dword):dword;
+function GetValueRegColor(a:AnsiString; b:dword):dword;
 var
   Registry :TRegistry;
 begin//0
@@ -43,7 +43,7 @@ end;//0
 
 
 //004971A0
-function sub_004971A0(x:AnsiString; y:boolean):boolean;
+function GetValueRegBool(x:AnsiString; y:boolean):boolean;
 var
   Registry :TRegistry;
 begin//0
@@ -61,7 +61,7 @@ end;//0
 
 
 //00497268
-function sub_00497268(x:AnsiString; y:dword):byte;
+function GetValueRegInt(x:AnsiString; y:dword):byte;
 var
 	Registry :TRegistry;
 begin//0
@@ -101,7 +101,7 @@ end;//0
 
 
 //00497438
-procedure sub_00497438(a:string; b:integer);
+procedure SetValueReg1(a:string; b:integer);
 var
   Registry : TRegistry;
 begin//0
@@ -116,7 +116,7 @@ end;
 
 
 //004974F0
-procedure sub_004974F0(a:string; b:Boolean);
+procedure SetValueRegBool(a:string; b:Boolean);
 var
   Registry:TRegistry;
 begin//0
@@ -131,7 +131,7 @@ end;//0
 
 
 //004975A8
-function sub_004975A8(a:AnsiString; b:dword):dword;
+function SetValueRegInt(a:AnsiString; b:dword):dword;
 var
   Registry:TRegistry;
 begin//0

@@ -12,12 +12,12 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	procedure sub_004B901C(a:AnsiString);//004B901C
 	procedure sub_004B90CC(MainMenu:TMainMenu; ItemIndex:dword);//004B90CC
 	procedure sub_004B91F0(MainMenu:TMainMenu; ItemIndex:dword; {c:dword;} DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);//004B91F0
-	function sub_004B9410:boolean;//004B9410
-	procedure sub_004B943C(a:Boolean);//004B943C
-	function sub_004B9468:dword;//004B9468 nbFichiersHistorique
-	procedure sub_004B94A4(a:Int64);//004B94A4
+	function GetutiliserHistorique:boolean;//004B9410
+	procedure SetutiliserHistorique(a:Boolean);//004B943C
+	function GetnbFichiersHistorique:dword;//004B9468 nbFichiersHistorique
+	procedure SetnbFichiersHistorique(a:Int64);//004B94A4
 	procedure sub_004B94D8(MainMenu:TMainMenu; ItemIndex:dword; DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);//004B94D8
-	function sub_004B9500:TStringList;//004B9500
+	function HistoriqueList:TStringList;//sub_004B9500
 	procedure sub_004B964C(a:TStrings);//004B964C
 	function sub_004B9794:TStringList;//004B9794
 	function sub_004B9840:TStringlist;//004B9840
@@ -25,35 +25,35 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004B9A44:TStringList;//004B9A44
 	//function sub_004B9B44:?;//004B9B44
 	procedure sub_004B9BBC(a:TColor);//004B9BBC
-	procedure sub_004B9BF8(a:TColor);//004B9BF8
-	function sub_004B9C34:TColor;//004B9C34
-	function sub_004B9C80:TColor;//004B9C80
+	procedure SetColorlignesPaires(a:TColor);//004B9BF8
+	function GetColorlignesPaires:TColor;//004B9C34
+	function GetColorlignesPaires:TColor;//004B9C80
 	function sub_004B9CCC:TColor;//004B9CCC
 	function sub_004B9CD4:TColor;//004B9CD4
 	//function sub_004B9CDC:?;//004B9CDC
-	procedure sub_004B9CE4(a:TColor);//004B9CE4
-	function sub_004B9D24:TColor;//004B9D24
+	procedure SetcouleurSelection(a:TColor);//004B9CE4
+	function GetcouleurSelection:TColor;//004B9D24
 	procedure sub_004B9D74(a:Integer);//004B9D74
 	procedure sub_004B9DA4(a:Integer);//004B9DA4
 	procedure sub_004B9DE4(a:Integer);//004B9DE4
 	function sub_004B9E10:integer;//004B9E10
 	function sub_004B9E48:integer;//004B9E48
 	function sub_004B9EA0:dword;//004B9EA0
-	procedure sub_004B9ED4(a:Boolean);//004B9ED4
-	procedure sub_004B9F04(a:Boolean);//004B9F04
-	function sub_004B9F30:boolean;//004B9F30
-	function sub_004B9F60:boolean;//004B9F60
-	function sub_004B9F8C:TColor;//004B9F8C
-	function sub_004B9FD8:TColor;//004B9FD8
-	function sub_004BA024:TColor;//004BA024
-	function sub_004BA070:TColor;//004BA070
-	function sub_004BA0BC:TColor;//004BA0BC
-	function sub_004BA108:TColor;//004BA108
-	procedure sub_004BA138(a:TColor);//004BA138
-	procedure sub_004BA174(a:TColor);//004BA174
-	procedure sub_004BA1B0(a:TColor);//004BA1B0
-	procedure sub_004BA1EC(a:TColor);//004BA1EC
-	procedure sub_004BA228(a:TColor);//004BA228
+	procedure SetmoyenneParTypeDeNotes(a:Boolean);//004B9ED4
+	procedure SetmoyennesEcritEtOral(a:Boolean);//004B9F04
+	function GetmoyenneParTypeDeNotes:boolean;//004B9F30
+	function GetmoyennesEcritEtOral:boolean;//004B9F60
+	function _Getcouleur1Note:TColor;//004B9F8C
+	function _Getcouleur2Note:TColor;//004B9FD8
+	function _Getcouleur3Note:TColor;//004BA024
+	function _Getcouleur4Note:TColor;//004BA070
+	function _Getcouleur5Note:TColor;//004BA0BC
+	function _GetcouleurMurGauche:TColor;//004BA108
+	procedure Setcouleur1Note(a:TColor);//004BA138
+	procedure Setcouleur2Note(a:TColor);//004BA174
+	procedure Setcouleur3Note(a:TColor);//004BA1B0
+	procedure Setcouleur4Note(a:TColor);//004BA1EC
+	procedure Setcouleur5Note(a:TColor);//004BA228
 	function sub_004BA264:TColor;//004BA264
 	function sub_004BA26C:TColor;//004BA26C
 	function sub_004BA274:TColor;//004BA274
@@ -70,16 +70,16 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BA3F8(a:String):TStringlist;//004BA3F8
 	//procedure sub_004BA7B0(?:?; ?:TStrings);//004BA7B0
 	//procedure sub_004BA964(?:?);//004BA964
-	function sub_004BAA88(a:dword):TInclureImpression;//004BAA88
-	function sub_004BAEC4:boolean;//004BAEC4
+	function _GetSeriesdenotes(a:dword):TInclureImpression;//004BAA88
+	function GetnumeroterElevesSeriesDeNotes:boolean;//004BAEC4
 	procedure sub_004BAEFC(a:Boolean);//004BAEFC
 	function sub_004BAF34:boolean;//004BAF34
 	procedure sub_004BAF64(a:Boolean);//004BAF64
 	procedure sub_004BAF94(a:byte; U:TInclureImpression);//004BAF94
-	function sub_004BB35C:boolean;//004BB35C
-	procedure sub_004BB38C(a:Boolean);//004BB38C
-	procedure sub_004BB3BC(a:Integer);//004BB3BC
-	function sub_004BB3F0:byte;//004BB3F0
+	function GetcolonnesBilanDetaillees:boolean;//004BB35C
+	procedure SetcolonnesBilanDetaillee(a:Boolean);//004BB38C
+	procedure SettrierMoyennesImpression(a:Integer);//004BB3BC
+	function GettrierMoyennesImpression:byte;//004BB3F0
 	procedure sub_004BB42C(a:Boolean);//004BB42C
 	function sub_004BB458:Boolean;//004BB458
 	procedure sub_004BB484(a:Boolean);//004BB484
@@ -107,92 +107,92 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BB87C:TColor;//004BB87C
 	function sub_004BB8AC:TColor;//004BB8AC
 	procedure sub_004BB8B4(a:TColor);//004BB8B4
-	procedure sub_004BB8E0(a:Boolean);//004BB8E0
-	procedure sub_004BB90C(a:Boolean);//004BB90C
-	function sub_004BB930:boolean;//004BB930
-	function sub_004BB95C:Boolean;//004BB95C
-	procedure sub_004BB980(a:Boolean);//004BB980
-	function sub_004BB9B4:Boolean;//004BB9B4
-	procedure sub_004BB9E8(a:Boolean);//004BB9E8
-	function sub_004BBA0C:boolean;//004BBA0C
-	procedure sub_004BBA30(a:Boolean);//004BBA30
-	procedure sub_004BBA58(a:Boolean);//004BBA58
-	function sub_004BBA80:boolean;//004BBA80
-	function sub_004BBAA8:boolean;//004BBAA8
-	procedure sub_004BBAD0(a:Boolean);//004BBAD0
-	function sub_004BBAF8:boolean;//004BBAF8
-	procedure sub_004BBB20(a:TColor);//004BBB20
-	procedure sub_004BBB4C(a:TColor);//004BBB4C
-	function sub_004BBB78:TColor;//004BBB78
-	function sub_004BBBA8:TColor;//004BBBA8
+	procedure SetafficherFenetreInfo(a:Boolean);//004BB8E0
+	procedure SetafficherR(a:Boolean);//004BB90C
+	function GetafficherFenetreInfo:boolean;//004BB930
+	function GetafficherR:Boolean;//004BB95C
+	procedure SetafficherDatesDeNaissance(a:Boolean);//004BB980
+	function GetafficherDatesDeNaissance:Boolean;//004BB9B4
+	procedure Setgraphe3D(a:Boolean);//004BB9E8
+	function Getgraphe3D:boolean;//004BBA0C
+	procedure SetgrapheDegrade(a:Boolean);//004BBA30
+	procedure SetgrapheEnCouleur(a:Boolean);//004BBA58
+	function GetgrapheDegrade:boolean;//004BBA80
+	function GetgrapheEnCouleur:boolean;//004BBAA8
+	procedure SetgrapheLegende(a:Boolean);//004BBAD0
+	function GetgrapheLegende:boolean;//004BBAF8
+	procedure SetcouleurDebutDegrade(a:TColor);//004BBB20
+	procedure SetcouleurFinDegrade(a:TColor);//004BBB4C
+	function GetcouleurDebutDegrade:TColor;//004BBB78
+	function GetcouleurFinDegrade:TColor;//004BBBA8
 	function sub_004BBBD8:TColor;//004BBBD8
 	function sub_004BBBE0:TColor;//004BBBE0
-	procedure sub_004BBBE8(a:TColor);//004BBBE8
-	procedure sub_004BBC10(a:TColor);//004BBC10
-	procedure sub_004BBC34(a:TColor);//004BBC34
-	procedure sub_004BBC58(a:TColor);//004BBC58
-	function sub_004BBC80:TColor;//004BBC80
+	procedure SetcouleurEleve(a:TColor);//004BBBE8
+	procedure SetcouleurMax(a:TColor);//004BBC10
+	procedure GetcouleurMin(a:TColor);//004BBC34
+	procedure SetcouleurMoyenne(a:TColor);//004BBC58
+	function GetcouleurEleve:TColor;//004BBC80
 	function sub_004BBCAC:TColor;//004BBCAC
-	function sub_004BBCB4:TColor;//004BBCB4
+	function GetcouleurMax:TColor;//004BBCB4
 	function sub_004BBCDC:TColor;//004BBCDC
-	function sub_004BBCE4:TColor;//004BBCE4
+	function GetcouleurMin:TColor;//004BBCE4
 	function sub_004BBD0C:TColor;//004BBD0C
-	function sub_004BBD14:TColor;//004BBD14
+	function GetcouleurMoyenne:TColor;//004BBD14
 	function sub_004BBD40:TColor;//004BBD40
-	procedure sub_004BBD48(a:TColor);//004BBD48
-	function sub_004BBD70:TColor;//004BBD70
+	procedure SetcouleurMurBas(a:TColor);//004BBD48
+	function GetcouleurMurBas:TColor;//004BBD70
 	function sub_004BBD9C:TColor;//004BBD9C
-	procedure sub_004BBDA4(a:TColor);//004BBDA4
+	procedure SetcouleurMurGauche(a:TColor);//004BBDA4
 	function sub_004BBDD0:TColor;//004BBDD0
-	procedure sub_004BBDD8(a:Boolean);//004BBDD8
-	procedure sub_004BBE04(a:Boolean);//004BBE04
-	procedure sub_004BBE2C(a:Boolean);//004BBE2C
-	procedure sub_004BBE54(a:Boolean);//004BBE54
-	function sub_004BBE80:boolean;//004BBE80
-	function sub_004BBEAC:boolean;//004BBEAC
-	function sub_004BBED4:boolean;//004BBED4
-	function sub_004BBEFC:boolean;//004BBEFC
-	procedure sub_004BBF28(a:Integer);//004BBF28
-	function sub_004BBF54:dword;//004BBF54
-	procedure sub_004BBF88(a:Boolean);//004BBF88
-	function sub_004BBFB8:boolean;//004BBFB8
-	procedure sub_004BBFE8(a:Boolean);//004BBFE8
-	function sub_004BC01C:boolean;//004BC01C
-	procedure sub_004BC050(a:Integer);//004BC050
-	function sub_004BC080:byte;//004BC080
-	procedure sub_004BC0B8(a:Boolean);//004BC0B8
-	function sub_004BC0EC:boolean;//004BC0EC
-	procedure sub_004BC120(a:Boolean);//004BC120
-	procedure sub_004BC154(a:Boolean);//004BC154
-	function sub_004BC188:boolean;//004BC188
-	function sub_004BC1BC:boolean;//004BC1BC
-	procedure sub_004BC1F0(a:Boolean);//004BC1F0
-	function sub_004BC228:boolean;//004BC228
-	procedure sub_004BC260(a:Integer);//004BC260
-	function sub_004BC298:dword;//004BC298
-	procedure sub_004BC2D8(a:Integer);//004BC2D8
-	function sub_004BC30C:dword;//004BC30C
-	function sub_004BC348:TStringList;//004BC348
+	procedure SetgrapheLigneEleve(a:Boolean);//004BBDD8
+	procedure SetgrapheLigneMax(a:Boolean);//004BBE04
+	procedure SetgrapheLigneMin(a:Boolean);//004BBE2C
+	procedure SetgrapheLigneMoyenne(a:Boolean);//004BBE54
+	function GetgrapheLigneEleve:boolean;//004BBE80
+	function GetgrapheLigneMax:boolean;//004BBEAC
+	function GetgrapheLigneMin:boolean;//004BBED4
+	function GetgrapheLigneMoyenne:boolean;//004BBEFC
+	procedure SetongletsGraphes(a:Integer);//004BBF28
+	function GetongletsGraphes:dword;//004BBF54
+	procedure SetimpressionCouleurNote(a:Boolean);//004BBF88
+	function GetimpressionCouleurNote:boolean;//004BBFB8
+	procedure SetnumeroterElevesGrilleVierge(a:Boolean);//004BBFE8
+	function GetnumeroterElevesGrilleVierge:boolean;//004BC01C
+	procedure SetlargeurGrilleVierge(a:Integer);//004BC050
+	function SetlargeurGrilleVierge:byte;//004BC080
+	procedure SetimpressionColonneMoyenne(a:Boolean);//004BC0B8
+	function GetimpressionColonneMoyenne:boolean;//004BC0EC
+	procedure SetimpressionColonneClassement(a:Boolean);//004BC120
+	procedure SetimpressionMoyennesEcritOral(a:Boolean);//004BC154
+	function GetimpressionMoyennesEcritOral:boolean;//004BC188
+	function GetimpressionColonneClassement:boolean;//004BC1BC
+	procedure SetnumeroterElevesAppreciations(a:Boolean);//004BC1F0
+	function GetnumeroterElevesAppreciations:boolean;//004BC228
+	procedure SetarrondirMoyennesAnnuelles(a:Integer);//004BC260
+	function GetarrondirMoyennesAnnuelles:dword;//004BC298
+	procedure SettypeMoyennesAnnuelles(a:Integer);//004BC2D8
+	function GettypeMoyennesAnnuelles:dword;//004BC30C
+	function GetMatieres:TStringList;//004BC348
 	function sub_004BC3F0:TStringList;//004BC3F0
-	procedure sub_004BC698(a:TStrings);//004BC698
+	procedure SetMatieres(a:TStrings);//004BC698
 	//procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);//004BC7A0
 	//procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);//004BCAA0
-	procedure sub_004BCBDC(StringList:TStringList);//004BCBDC
-	function sub_004BCD14:TStringlist;//004BCD14
-	function sub_004BCDB0:boolean;//004BCDB0
-	procedure sub_004BCDE8(a:Boolean);//004BCDE8
-	function sub_004BCE20:boolean;//004BCE20
-	procedure sub_004BCE50(a:Boolean);//004BCE50
-	function sub_004BCE80:TStringList;//004BCE80
-	function sub_004BCF84(a:String):TStringList;//004BCF84
-	function sub_004BD1BC:boolean;//004BD1BC
-	function sub_004BD1FC:boolean;//004BD1FC
-	function sub_004BD238:boolean;//004BD238
-	function sub_004BD278:boolean;//004BD278
-	procedure sub_004BD2B8(a:Boolean);//004BD2B8
-	procedure sub_004BD2F8(a:Boolean);//004BD2F8
-	procedure sub_004BD334(a:Boolean);//004BD334
-	procedure sub_004BD374(a:Boolean);//004BD374
+	procedure SetDerniersfichiers(StringList:TStringList);//004BCBDC
+	function GetDerniersfichiers:TStringlist;//004BCD14
+	function GetafficherNomEnseignantOnglets:boolean;//004BCDB0
+	procedure SetafficherNomEnseignantOnglets(a:Boolean);//004BCDE8
+	function GetafficherMatiereOnglets:boolean;//004BCE20
+	procedure SetafficherMatiereOnglets(a:Boolean);//004BCE50
+	function GetNomsbulletins:TStringList;//004BCE80
+	function SetNomsbulletins(a:String):TStringList;//004BCF84
+	function GetimpressionDatesDeNaissanceSeriesDeNotes:boolean;//004BD1BC
+	function GetimpressionDatesDeNaissanceBilans:boolean;//004BD1FC
+	function GetimpressionDatesDeNaissanceAppreciations:boolean;//004BD238
+	function GetimpressionDatesDeNaissanceGrilleVierge:boolean;//004BD278
+	procedure SetimpressionDatesDeNaissanceSeriesDeNotes(a:Boolean);//004BD2B8
+	procedure SetimpressionDatesDeNaissanceBilans(a:Boolean);//004BD2F8
+	procedure SetimpressionDatesDeNaissanceAppreciations(a:Boolean);//004BD334
+	procedure SetimpressionDatesDeNaissanceGrilleVierge(a:Boolean);//004BD374
 	procedure sub_004BD3B4(var a:string);//004BD3B4
 	procedure sub_004BD3FC(var a:string);//004BD3FC
 	procedure sub_004BD444(var a:string);//004BD444
@@ -203,31 +203,30 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	//procedure sub_004BD61C(?:?);//004BD61C
 	//procedure sub_004BD69C(?:?);//004BD69C
 	//procedure sub_004BD71C(?:?);//004BD71C
-	function sub_004BD79C:byte;//004BD79C
+	function GettaillePolice:byte;//004BD79C
 	procedure sub_004BD7D0(var a:string);//004BD7D0
-	//procedure sub_004BD82C(?:Integer);//004BD82C
+	//procedure SettaillePolice(?:Integer);//004BD82C
 	//procedure sub_004BD858(?:?);//004BD858
-	procedure sub_004BD8D4(a:Boolean);//004BD8D4
-	function sub_004BD904:boolean;//004BD904
-	procedure sub_004BD934(a:Boolean);//004BD934
-	procedure sub_004BD968(a:Boolean);//004BD968
-	procedure sub_004BD994(a:Boolean);//004BD994
-	procedure sub_004BD9C8(a:Boolean);//004BD9C8
-	function sub_004BD9F8:boolean;//004BD9F8
+	procedure SetimpressionFermerBoite(a:Boolean);//004BD8D4
+	function GetimpressionFermerBoite:boolean;//004BD904
+	procedure SetimpressionRSeriesDeNotes(a:Boolean);//004BD934
+	procedure SetimpressionRBilans(a:Boolean);//004BD968
+	procedure SetimpressionRAppreciations(a:Boolean);//004BD994
+	procedure SetimpressionRGrilleVierge(a:Boolean);//004BD9C8
+	function GetimpressionRSeriesDeNotes:boolean;//004BD9F8
 	function sub_004BDA2C:boolean;//004BDA2C
-	function sub_004BDA58:boolean;//004BDA58
-	function sub_004BDA8C:boolean;//004BDA8C
+	function GetimpressionRAppreciations:boolean;//004BDA58
+	function GetimpressionRGrilleVierge:boolean;//004BDA8C
     var 
-	   gvar_00617C94 : integer;
-	   gvar_00617C98 : integer;
-	   gvar_00617CB8 : boolean;
-	   gvar_00617CB9 : boolean;
-	   gvar_00617CBA : boolean;
-	   gvar_00617CBB : boolean;
-	   gvar_00617CBC : boolean;
-	   gvar_00617CBD : boolean;
-	   gvar_00617CBE : boolean;
-	   gvar_00617CBF : boolean;
+	   DefaultColor : TColor;
+	   couleur1Note : boolean = true; //gvar_00617CB8
+	   couleur2Note : boolean = true; //gvar_00617CB9
+	   couleur3Note : boolean = true; //gvar_00617CBA
+	   couleur4Note : boolean = true; //gvar_00617CBB
+	   couleur5Note : boolean = true; //gvar_00617CBC
+	   lignesPaires : boolean = true; //gvar_00617CBD
+	   lignesImpaires : boolean = true; //gvar_00617CBE
+	   couleurSelection : boolean = true; //gvar_00617CBF
 implementation
 
 //004B901C
@@ -235,16 +234,14 @@ procedure sub_004B901C(a:AnsiString);
 var
   StringList:TStringList;
 begin//0
-  //004B901C..004B9040
-	StringList := sub_004B9500;
-	if (StringList.IndexOf(LowerCase(a)) + 1 = 0) then
-	begin//004B905F
+	StringList := HistoriqueList;
+	
+	if (StringList.IndexOf(LowerCase(a)) + 1 = 0) then //004B905F
 	  StringList.Add(LowerCase(a));
-	end;//2
-	if (StringList.Count > sub_004B9468) then
-	begin//004B908B
-	  StringList.Delete(0);
-	end;//2
+
+	if (StringList.Count > GetnbFichiersHistorique) then //004B908B
+	   StringList.Delete(0);
+	   
 	sub_004B964C(StringList);
 end;//0
 
@@ -261,43 +258,40 @@ begin//0
 	  if (MainMenu.Items.Items[ItemIndex].Items[I].Caption = '&Quitter') then//004B9150
 		J := I;
 	 
-  if (MainMenu.Items.Items[ItemIndex].Count - 1 = J) then Exit;
-
-
+  if (MainMenu.Items.Items[ItemIndex].Count - 1 <> J) then 
 	for I := 1 to J do //004B91AF
-	begin//004B91B0
 	  MainMenu.Items.Items[ItemIndex].Delete(J + 1);
-	end;//2
   
 end;
 
 //004B91F0
 procedure sub_004B91F0(MainMenu:TMainMenu; ItemIndex:dword; {c:dword;} DrawItem:TMenuDrawItemEvent; Click:TNotifyEvent);
 var
-  lvar_C:TStringList;
-  lvar_D,I :integer;
+  Files:TStringList;
+  I :integer;
+  Find : boolean;
   MenuItem : TMenuItem;
 begin//0
   //004B91F0
-	if (sub_004B9410) then // utiliser Historique
+	if (GetutiliserHistorique) then // utiliser Historique
 	begin //004B9223
-	  lvar_D := 0;
-	  lvar_C := sub_004B9500;
-	  if (lvar_C.count <> 0) then
+	  Find := false;
+	  Files := HistoriqueList;
+	  if (Files.count <> 0) then
 	  begin//004B923F
-		  for I := 1 to lvar_C.count do //004B9265
+		  for I := 1 to Files.count do //004B9265
 		  begin//004B926B
-			if (FileExists(lvar_C[I])) then 
+			if (FileExists(Files[I])) then 
 			begin
-				if (lvar_D = 0) then
+				if (not Find ) then
 				begin//004B9290
 				  MenuItem := TMenuItem.Create(Nil);
 				  MenuItem.Caption := '-';
 				   MainMenu.Items.Items[ItemIndex].Insert(MainMenu.Items.Items[ItemIndex].Count, MenuItem);
-				  lvar_D := 1;
+				  Find := true;
 				end;//6
 				MenuItem := TMenuItem.Create(Nil);
-				MenuItem.Caption := lvar_C[I];
+				MenuItem.Caption := Files[I];
 				MenuItem.OnClick := Click;
 				MenuItem.OnDrawItem := DrawItem;
 				if (I <= 9) then//004B931C
@@ -314,31 +308,30 @@ end;//0
 
 
 //004B9410
-function sub_004B9410:boolean;
+function GetutiliserHistorique:boolean;
 begin//0
-  //004B9410
-  result := sub_004971A0('utiliserHistorique', true{,0});
+  result := GetValueRegBool('utiliserHistorique', true{,0});
 end;//0
 
 
 //004B943C
-procedure sub_004B943C(a:Boolean);
+procedure SetutiliserHistorique(a:Boolean);
 begin
-  sub_004974F0('utiliserHistorique', a);
+  SetValueRegBool('utiliserHistorique', a);
 end;
 
 //004B9468
-function sub_004B9468:dword;
+function GetnbFichiersHistorique:dword;
 begin//0
   //004B9468
-  result := sub_00497268('nbFichiersHistorique', 5{, 0});
+  result := GetValueRegInt('nbFichiersHistorique', 5{, 0});
 end;//0
 
 
 //004B94A4
-procedure sub_004B94A4(a:Int64);
+procedure SetnbFichiersHistorique(a:Int64);
 begin
-  sub_004975A8('nbFichiersHistorique',a{,false});
+  SetValueRegInt('nbFichiersHistorique',a{,false});
 end;
 
 //004B94D8  
@@ -349,7 +342,7 @@ begin//0
 end;//0
 
 //004B9500
-function sub_004B9500:TStringList;
+function HistoriqueList:TStringList; //sub_004B9500
 var
  StringList,lvar_4 :TStringList;
  Registry:TRegistry;
@@ -390,7 +383,7 @@ begin//0
  
 	  for I := 0 to a.Count - 1 do//004B96CB
 	  begin//004B96CE
-		if (I > sub_004B9468 - 1) then Continue;
+		if (I > GetnbFichiersHistorique - 1) then Continue;
 		if (FileExists(a[I]) = False) then Continue;
 		Registry.WriteString(LowerCase(a[I]), '');
 	  end;//3
@@ -510,47 +503,48 @@ end;
 //004B9BBC
 procedure sub_004B9BBC(a:TColor);
 begin
-  if(sub_004B9C34 <> a ) then 
+  if(GetColorlignesPaires <> a ) then 
   begin
-	sub_00497438('lignesImpaires',a{,0});
-	gvar_00617CBE := true;
+	SetValueReg1('lignesImpaires',a{,0});
+	lignesImpaires := true;
  end;
 end;
 
 //004B9BF8
-procedure sub_004B9BF8(a:TColor);
+procedure SetColorlignesPaires(a:TColor);
 begin
-  if(sub_004B9C80 <> a ) then 
+  if(GetColorlignesPaires <> a ) then 
   begin
-	sub_00497438('lignesPaires',a{,0});
-	gvar_00617CBD := true;
+	SetValueReg1('lignesPaires',a{,0});
+	lignesPaires := true;
  end;
 end;
 
 //004B9C34
-function sub_004B9C34:TColor;
+function GetColorlignesPaires:TColor;
 begin	  
-  //004B9C34
- // if (gvar_00617CBE = 0) then Exit;
-  result {gvar_00617CAC}:= sub_004970D8('lignesImpaires', sub_004B9CCC);
- // gvar_00617CBE := 0;
-  end;//0
+  if (lignesImpaires) then 
+  begin
+    gvar_00617CAC:= GetValueRegColor('lignesImpaires', sub_004B9CCC);
+	result  := gvar_00617CAC;
+  end;
+  lignesImpaires := false;
+end;//0
 
 //004B9C80
-  function sub_004B9C80:TColor;
-
-  begin
-		//004B9C80
-	  //if (gvar_00617CBD = 0) then Exit;
-	  result{gvar_00617CB0} := sub_004970D8('lignesPaires', sub_004B9CD4);
-	  //result := gvar_00617CB0;
-	  //gvar_00617CBD := 0;
-  end;//0
+function GetColorlignesPaires:TColor;
+begin
+	  if (lignesPaires) then 
+	  begin
+	  gvar_00617CB0 := GetValueRegColor('lignesPaires', sub_004B9CD4);
+	  result := gvar_00617CB0;
+	  end;
+	  lignesPaires := false;
+end;//0
 
 //004B9CCC
 function sub_004B9CCC:TColor;
 begin//0
-  //004B9CCC
   result := $E2FFFF;
 end;//0
 
@@ -567,53 +561,56 @@ begin
 end;
 
 //004B9CE4
-procedure sub_004B9CE4(a:TColor);
+procedure SetcouleurSelection(a:TColor);
 begin
- if(sub_004B9D24<>a)then
+ if(GetcouleurSelection<>a)then
  begin
-   sub_00497438('couleurSelection',a{,0});
-   gvar_00617CBF := true;
+   SetValueReg1('couleurSelection',a{,0});
+   couleurSelection := true;
  end;
 end;
 
 //004B9D24
-function sub_004B9D24:TColor;
+function GetcouleurSelection:TColor;
 var
  gvar_00617CB4:TColor;
 begin//0
   //004B9D24
-  //if (gvar_00617CBF = 0) then Exit;
-  gvar_00617CB4 := sub_004970D8('couleurSelection', $FFFF00);
-  result := gvar_00617CB4;
-  //gvar_00617CBF := 0;
+  if (couleurSelection) then 
+  begin
+	  gvar_00617CB4 := GetValueRegColor('couleurSelection', $FFFF00);
+	  result := gvar_00617CB4;
+	  couleurSelection := false;
+  end;
+  
 end;//0
 
 //004B9D74
 procedure sub_004B9D74(a:Integer);
 begin
-  sub_004975A8('arrondirMoyennes',a{,0});
+  SetValueRegInt('arrondirMoyennes',a{,0});
 end;
 
 //004B9DA4
 procedure sub_004B9DA4(a:Integer);
 begin
 if(gvar_00617904  ) then 
- sub_004975A8('moyennesSur',a{,true})
+ SetValueRegInt('moyennesSur',a{,true})
 else 
- sub_004975A8('moyennesSur',a{,false});
+ SetValueRegInt('moyennesSur',a{,false});
 end;
 
 //004B9DE4
 procedure sub_004B9DE4(a:Integer);
 begin
- sub_004975A8('trierMoyennes',a{,false})
+ SetValueRegInt('trierMoyennes',a{,false})
 end;
 
 //004B9E10
 function sub_004B9E10:integer; //arrondirMoyennes
 begin//0
   //004B9E10
-  result := sub_00497268('arrondirMoyennes', 0);
+  result := GetValueRegInt('arrondirMoyennes', 0);
 end;//0
 
 
@@ -621,13 +618,12 @@ end;//0
 function sub_004B9E48:integer; //moyennesSur
 begin//0
   //004B9E48
-  {if (gvar_00617905 <> 0) then//004B9E52
-	 result := sub_00497268('moyennesSur',20, 1);
+  if (gvar_00617905) then//004B9E52
+	 result := GetValueRegInt('moyennesSur',20{, 1});
    else
   if (gvar_00617904 <> 0) then//004B9E6B
-	 result:= sub_00497268('moyennesSur',20, 1);
-   }
-   result := sub_00497268('moyennesSur',20{, 1});
+	 result:= GetValueRegInt('moyennesSur',20,{, 1});
+   
 end;//0
 
 
@@ -635,148 +631,155 @@ end;//0
 function sub_004B9EA0:dword;
 begin//0
   //004B9EA0
-  result := sub_00497268('trierMoyennes', 0);
+  result := GetValueRegInt('trierMoyennes', 0);
 end;//0
 
 
 //004B9ED4
-procedure sub_004B9ED4(a:Boolean);
+procedure SetmoyenneParTypeDeNotes(a:Boolean);
 begin
- sub_004974F0('moyenneParTypeDeNotes',a{,0});
+ SetValueRegBool('moyenneParTypeDeNotes',a{,0});
 end;
 
 //004B9F04
-procedure sub_004B9F04(a:Boolean);
+procedure SetmoyennesEcritEtOral(a:Boolean);
 begin
-  sub_004974F0('moyennesEcritEtOral',a{,0});
+  SetValueRegBool('moyennesEcritEtOral',a{,0});
 end;
 
 //004B9F30
-function sub_004B9F30:boolean;
+function GetmoyenneParTypeDeNotes:boolean;
 begin
- result := sub_004971A0('moyenneParTypeDeNotes', false{,0});
+ result := GetValueRegBool('moyenneParTypeDeNotes', false{,0});
 end;
 
 //004B9F60
-function sub_004B9F60:boolean;
+function GetmoyennesEcritEtOral:boolean;
 begin
- result := sub_004971A0('moyennesEcritEtOral', false{,0});
+ result := GetValueRegBool('moyennesEcritEtOral', false{,0});
 end;
 
 //004B9F8C
-function sub_004B9F8C:TColor;
+function _Getcouleur1Note:TColor;
 begin//0
   //004B9F8C
-  if (gvar_00617CB8) then 
+  if (couleur1Note) then 
   begin
-	gvar_00617C98 := sub_004970D8('couleur1Note', sub_004BA264);
-	Result := gvar_00617C98;
-	gvar_00617CB8 := false;
+	DefaultColor := GetValueRegColor('couleur1Note', sub_004BA264);
+	Result := DefaultColor;
+	couleur1Note := false;
   end
   else 
-  Result := gvar_00617C98;
+	Result := DefaultColor;
 end;//0
 
 
 //004B9FD8
-function sub_004B9FD8:TColor;
+function _Getcouleur2Note:TColor;
 begin//0
   //004B9FD8
-  //if (gvar_00617CB9 <> 0) then 
-  {gvar_00617C9C} result := sub_004970D8('couleur2Note', sub_004BA26C);
-  //gvar_00617CB9 := 0;
+  if (couleur2Note) then 
+  begin
+  gvar_00617C9C := GetValueRegColor('couleur2Note', sub_004BA26C);
+  result :=gvar_00617C9C ;
+  end;
+  couleur2Note := false;
 end;//0
 
 
 //004BA024
-function sub_004BA024:TColor;
+function _Getcouleur3Note:TColor;
 begin//0
   //004BA024
-  //if (gvar_00617CBA = 0) then Exit;
-  {gvar_00617CA0}result := sub_004970D8('couleur3Note', sub_004BA274);
-  //gvar_00617CBA := 0;
+  if (couleur3Note) then 
+  begin
+  gvar_00617CA0 := GetValueRegColor('couleur3Note', sub_004BA274);
+  result :=gvar_00617CA0;
+  end;
+  couleur3Note := false;
 end;//0
 
 
 //004BA070
-function sub_004BA070:TColor;
+function _Getcouleur4Note:TColor;
 begin//0
-  //004BA070
-  //if (gvar_00617CBB = 0) then Exit;
-  {gvar_00617CA4} result := sub_004970D8('couleur4Note', sub_004BA27C);
-  
-  //gvar_00617CBB := 0;
-  
+  if (couleur4Note) then 
+  begin
+   gvar_00617CA4 := GetValueRegColor('couleur4Note', sub_004BA27C);
+   result := gvar_00617CA4;
+  end;
+  couleur4Note := false;
 end;//0
 
 
 //004BA0BC
-function sub_004BA0BC:TColor;
+function _Getcouleur5Note:TColor;
 begin//0
   //004BA0BC
-  //if (gvar_00617CBC = 0) then Exit;
-
-  {gvar_00617CA8}result := sub_004970D8('couleur5Note', sub_004BA280);
-   
-  //gvar_00617CBC := 0;
+  if (couleur5Note) then 
+  begin
+  gvar_00617CA8 := GetValueRegColor('couleur5Note', sub_004BA280);
+  result := gvar_00617CA8;
+  end;
+  couleur5Note := false;
  
 end;//0
 
 
 //004BA108
-function sub_004BA108:TColor;
+function _GetcouleurMurGauche:TColor;
 begin
- result := sub_004970D8('couleurMurGauche', sub_004BBDD0);
+ result := GetValueRegColor('couleurMurGauche', sub_004BBDD0);
 end;
 
 //004BA138
-procedure sub_004BA138(a:TColor);
+procedure Setcouleur1Note(a:TColor);
 begin
- if(sub_004B9F8C <> a) then 
+ if(_Getcouleur1Note <> a) then 
  begin
-   sub_00497438('couleur1Note',a{,false});
-   gvar_00617CB8 := true;
+   SetValueReg1('couleur1Note',a{,false});
+   couleur1Note := true;
  end;
 end;
 
 //004BA174
-procedure sub_004BA174(a:TColor);
+procedure Setcouleur2Note(a:TColor);
 begin
- if(sub_004B9FD8 <> a) then 
+ if(_Getcouleur2Note <> a) then 
  begin
-   sub_00497438('couleur1Note',a{,false});
-   gvar_00617CB9 := true;
+   SetValueReg1('couleur2Note',a{,false});
+   couleur2Note := true;
  end;
 end;
 
 //004BA1B0
-procedure sub_004BA1B0(a:TColor);
+procedure Setcouleur3Note(a:TColor);
 begin
 begin
- if(sub_004B9FD8 <> a) then 
+ if(_Getcouleur2Note <> a) then 
  begin
-   sub_004BA024('couleur3Note',a{,false});
-   gvar_00617CBA := true;
+   _Getcouleur3Note('couleur3Note',a{,false});
+   couleur3Note := true;
  end;
 end;
 
 //004BA1EC
-procedure sub_004BA1EC(a:TColor);
+procedure Setcouleur4Note(a:TColor);
 begin
- if(sub_004BA070 <> a) then 
+ if(_Getcouleur4Note <> a) then 
  begin
-   sub_004BA024('couleur4Note',a{,false});
-   gvar_00617CBB := true;
+   _Getcouleur3Note('couleur4Note',a{,false});
+   couleur4Note := true;
  end;
 end;
 
 //004BA228
-procedure sub_004BA228(a:TColor);
+procedure Setcouleur5Note(a:TColor);
 begin
- if(sub_004BA0BC <> a) then 
+ if(_Getcouleur5Note <> a) then 
  begin
-   sub_004BA024('couleur5Note',a{,false});
-   gvar_00617CBC := true;
+   _Getcouleur3Note('couleur5Note',a{,false});
+   couleur5Note := true;
  end;
 end;
 
@@ -814,47 +817,47 @@ end;
 //004BA288
 procedure sub_004BA288(a:Boolean);
 begin
- sub_004974F0('colorationNote',a{,0});
+ SetValueRegBool('colorationNote',a{,0});
 end;
 
 //004BA2B0
 function sub_004BA2B0:boolean;
 begin//0
-   result:= sub_004971A0('colorationNote', true{,0});
+   result:= GetValueRegBool('colorationNote', true{,0});
 end;//0
 
 
 //004BA2D8
 procedure sub_004BA2D8(a:Boolean);
 begin
-  sub_004974F0('fichierBak',a{,0});
+  SetValueRegBool('fichierBak',a{,0});
 end;
 
 //004BA2FC
 function sub_004BA2FC:boolean;
 begin//0
   //004BA2FC
-  result := sub_004971A0('fichierBak', true{,0});
+  result := GetValueRegBool('fichierBak', true{,0});
 end;//0
 
 
 //004BA320
 procedure sub_004BA320(a:Integer);
 begin
- sub_004975A8('ongletsGrillesBilans',a{,0});
+ SetValueRegInt('ongletsGrillesBilans',a{,0});
 end;
 
 //004BA354
 procedure sub_004BA354(a:Integer);
 begin
- sub_004975A8('ongletsGrillesNotes',a{,0});
+ SetValueRegInt('ongletsGrillesNotes',a{,0});
 end;
 
 //004BA384
 function sub_004BA384:dword;
 begin//0
   //004BA384
-  result := sub_00497268('ongletsGrillesBilans', 0{, 0});
+  result := GetValueRegInt('ongletsGrillesBilans', 0{, 0});
 end;//0
 
 
@@ -862,7 +865,7 @@ end;//0
 function sub_004BA3C0:dword;
 begin//0
   //004BA3C0
- result:=sub_00497268('ongletsGrillesNotes', 0{, 0});
+ result:=GetValueRegInt('ongletsGrillesNotes', 0{, 0});
 end;//0
 
 
@@ -1200,7 +1203,7 @@ begin
 end;
 
 ///004BAA88
-function sub_004BAA88(a:dword):TInclureImpression;
+function _GetSeriesdenotes(a:dword):TInclureImpression;
 var
  Registry:TRegistry;
  I:integer;
@@ -1297,34 +1300,81 @@ begin//0
 end;//0
 
 //004BAEC4
-function sub_004BAEC4:boolean;
+function GetnumeroterElevesSeriesDeNotes:boolean;
 begin//0
  //004BAEC4
- result := sub_004971A0('numeroterElevesSeriesDeNotes', true{,0});
+ result := GetValueRegBool('numeroterElevesSeriesDeNotes', true{,0});
 end;//0
 
 
 //004BAEFC
 procedure sub_004BAEFC(a:Boolean);
 begin
-  sub_004974F0('numeroterElevesSeriesDeNotes',a{,0});
+  SetValueRegBool('numeroterElevesSeriesDeNotes',a{,0});
 end;
 
 //004BAF34
 function sub_004BAF34:boolean;
 begin
- result := sub_004971A0('numeroterElevesBilans',true{,0});
+ result := GetValueRegBool('numeroterElevesBilans',true{,0});
 end;
 
 //004BAF64
 procedure sub_004BAF64(a:Boolean);
 begin
-  sub_004974F0('numeroterElevesBilans',a{,0});
+  SetValueRegBool('numeroterElevesBilans',a{,0});
 end;
 
 //004BAF94
 procedure sub_004BAF94(a:byte; U:TInclureImpression);
-begin
+procedure sub_004BAF94(a:integer; b:dword);
+var
+  lvar_4:;
+  lvar_C:;
+  lvar_14:;
+  lvar_18:;
+  lvar_1C:;
+  lvar_4:dword;
+  lvar_8:TRegistry;
+  lvar_C:TRegistry;
+  lvar_10:TRegistry;
+  lvar_14:AnsiString;
+  lvar_18:AnsiString;
+  lvar_1C:AnsiString;
+begin//0
+  //004BAF94
+  ECX := 0;
+  lvar_1C := ECX;
+  lvar_18 := ECX;
+  lvar_14 := ECX;
+  lvar_4 := b;
+  try
+    //004BAFB9
+    case a of
+      0..0:
+      begin//3
+        //004BB0AC
+        EDX := 1;
+        EAX := TRegistry.Create;
+        lvar_C := TRegistry.Create;
+        EDX := $80000001{-2147483647};
+        EAX := lvar_C;
+        lvar_C.SetRootKey{RootKey}(2147483649);
+        EDX := $4BB2DC;
+        EAX := lvar_C;
+        if (EAX{lvar_C.KeyExists('Software\Carnet de Notes 2.x\Inclure impression\Séries de notes')} <> False) then
+        begin//4
+          //004BB0D9
+          EDX := $4BB2DC;
+          EAX := lvar_C;
+          EAX := lvar_C.DeleteKey('Software\Carnet de Notes 2.x\Inclure impression\Séries de notes');
+        end;//4
+        ECX := 1;
+        EDX := $4BB2DC;
+        EAX := lvar_C;
+        EAX := lvar_C.OpenKey('Software\Carnet de Notes 2.x\Inclure impression\Séries de notes', ECX{True});
+        EAX := gvar_00617CC0;
+
 {
 004BAF94    push        ebp
 004BAF95    mov         ebp,esp
@@ -1561,82 +1611,83 @@ begin
 004BB285    pop         ebx
 004BB286    mov         esp,ebp
 004BB288    pop         ebp
-004BB289    ret*}
+004BB289    ret
+}
 end;
 
 //004BB35C
-function sub_004BB35C:boolean;
+function GetcolonnesBilanDetaillees:boolean;
 begin
- result := sub_004971A0('colonnesBilanDetaillees',false{,0});
+ result := GetValueRegBool('colonnesBilanDetaillees',false{,0});
 
 end;
 
 ///004BB38C
-procedure sub_004BB38C(a:Boolean);
+procedure SetcolonnesBilanDetaillee(a:Boolean);
 begin
- sub_004974F0('colonnesBilanDetaillees',a{,0});
+ SetValueRegBool('colonnesBilanDetaillees',a{,0});
 end;
 
 //004BB3BC
-procedure sub_004BB3BC(a:Integer);
+procedure SettrierMoyennesImpression(a:Integer);
 begin
- sub_004975A8('trierMoyennesImpression',a{,0});
+ SetValueRegInt('trierMoyennesImpression',a{,0});
 end;
 
 //004BB3F0
-function sub_004BB3F0:byte;
+function GettrierMoyennesImpression:byte;
 begin
-  result := sub_00497268('trierMoyennesImpression',0{,0});
+  result := GetValueRegInt('trierMoyennesImpression',0{,0});
 
 end;
 
 //004BB42C
 procedure sub_004BB42C(a:Boolean);
 begin
- sub_004974F0('colorationGrille',a{,0});
+ SetValueRegBool('colorationGrille',a{,0});
 end;
 
 //004BB458
 function sub_004BB458:Boolean;
 begin
- result:= sub_004971A0('colorationGrille', true);
+ result:= GetValueRegBool('colorationGrille', true);
 end;
 
 //004BB484
 procedure sub_004BB484(a:Boolean);
 begin
-  sub_004974F0('afficherBarreOutils',a{,0});
+  SetValueRegBool('afficherBarreOutils',a{,0});
 end;
 
 //004BB4B0
 procedure sub_004BB4B0(a:Boolean);
 begin
- sub_004974F0('tailleMaximumAuDemarrage',a{,0});
+ SetValueRegBool('tailleMaximumAuDemarrage',a{,0});
 end;
 
 //004BB4E4
 procedure sub_004BB4E4(a:Boolean);
 begin
-  sub_004974F0('afficherHeure',a{,0});
+  SetValueRegBool('afficherHeure',a{,0});
 end;
 
 //004BB50C
 procedure sub_004BB50C(a:Boolean);
 begin
-  sub_004974F0('afficherDate',a{,0});
+  SetValueRegBool('afficherDate',a{,0});
 end;
 
 //004BB534
 procedure sub_004BB534(a:Integer);
 begin
-	sub_004975A8('auDemarrage',a {,true});
+	SetValueRegInt('auDemarrage',a {,true});
 end;
 
 //004BB55C
 function sub_004BB55C:boolean;
 begin//0
  //004BB55C
- result := sub_004971A0('afficherBarreOutils', true{,0});
+ result := GetValueRegBool('afficherBarreOutils', true{,0});
 end;//0
 
 
@@ -1644,7 +1695,7 @@ end;//0
 function sub_004BB588:boolean;
 begin//0
  //004BB588
- result := sub_004971A0('tailleMaximumAuDemarrage', true {,1});
+ result := GetValueRegBool('tailleMaximumAuDemarrage', true {,1});
 end;//0
 
 
@@ -1653,7 +1704,7 @@ function sub_004BB5BC:boolean;
 begin//0
  //004BB5BC
 
- result := sub_004971A0('afficherHeure', true {,0});
+ result := GetValueRegBool('afficherHeure', true {,0});
 end;//0
 
 
@@ -1661,7 +1712,7 @@ end;//0
 function sub_004BB5E4:boolean;
 begin//0
  //004BB5E4
- result := sub_004971A0('afficherDate', true{,false});
+ result := GetValueRegBool('afficherDate', true{,false});
 end;//0
 
 
@@ -1669,14 +1720,14 @@ end;//0
 function sub_004BB60C:dword;
 begin//0
  //004BB60C
- result := sub_00497268('auDemarrage', 0{, 1});
+ result := GetValueRegInt('auDemarrage', 0{, 1});
 end;//0
 
 
 //004BB63C
 procedure sub_004BB63C(a:Boolean);
 begin
-  sub_004974F0('rappelSauvegarde', a{, true});
+  SetValueRegBool('rappelSauvegarde', a{, true});
 
 end;
 
@@ -1684,42 +1735,42 @@ end;
 function sub_004BB668:boolean;
 begin//0
  //004BB668
- Result := sub_004971A0('rappelSauvegarde', true{,true});
+ Result := GetValueRegBool('rappelSauvegarde', true{,true});
 end;//0
 
 
 //004BB694
 procedure sub_004BB694(a:Boolean);
 begin
- sub_004974F0('rappelMiseAJourDisponible', a{, true});
+ SetValueRegBool('rappelMiseAJourDisponible', a{, true});
 end;
 
 //004BB6C8
 function sub_004BB6C8:boolean;
 begin//0
  //004BB6C8
- result := sub_004971A0('rappelMiseAJourDisponible', true{,1});
+ result := GetValueRegBool('rappelMiseAJourDisponible', true{,1});
 end;//0
 
 
 //004BB6FC
 procedure sub_004BB6FC(a:Integer);
 begin
- sub_004975A8('frequenceRappel', a{, true});
+ SetValueRegInt('frequenceRappel', a{, true});
 end;
 
 //004BB728
 function sub_004BB728:dword;
 begin//0
  //004BB728
- result := sub_00497268('frequenceRappel', 0{, true});
+ result := GetValueRegInt('frequenceRappel', 0{, true});
 end;//0
 
 //004BB75C
 function sub_004BB75C:dword;
 begin//0
  //004BB75C
- result := sub_00497268('numeroRappel', 1{, 1});
+ result := GetValueRegInt('numeroRappel', 1{, 1});
 end;//0
 
 //end;
@@ -1728,39 +1779,39 @@ end;//0
 procedure sub_004BB790(x:dword);
 begin//0
  //004BB790
- sub_004975A8('numeroRappel', x{,1});
+ SetValueRegInt('numeroRappel', x{,1});
 end;//0
 
 
 //004BB7BC
 procedure sub_004BB7BC(a:Integer);
 begin
- sub_004975A8('ongletClasses', a{,1});
+ SetValueRegInt('ongletClasses', a{,1});
 end;
 
 //004BB7E8
 function sub_004BB7E8:dword;
 begin//0
- result := sub_00497268('ongletClasses', 1{, 0});
+ result := GetValueRegInt('ongletClasses', 1{, 0});
 end;//0
 
 //004BB81C
 procedure sub_004BB81C(a:Boolean);
 begin
- sub_004974F0('afficherOngletsClasses', a{,0});
+ SetValueRegBool('afficherOngletsClasses', a{,0});
 end;
 
 //004BB84C
 function sub_004BB84C:boolean;
 begin//0
- result := sub_004971A0('afficherOngletsClasses', true{,0});
+ result := GetValueRegBool('afficherOngletsClasses', true{,0});
 end;//0
 
 
 //004BB87C
 function sub_004BB87C:TColor;
 begin//0
- result := sub_004970D8('couleurFenetreInfo', sub_004BB8AC{,0});
+ result := GetValueRegColor('couleurFenetreInfo', sub_004BB8AC{,0});
 end;//0
 
 //004BB8AC
@@ -1772,136 +1823,136 @@ end;
 //004BB8B4
 procedure sub_004BB8B4(a:TColor);
 begin
- sub_00497438('couleurFenetreInfo', a{,0});
+ SetValueReg1('couleurFenetreInfo', a{,0});
 end;
 
 //004BB8E0
-procedure sub_004BB8E0(a:Boolean);
+procedure SetafficherFenetreInfo(a:Boolean);
 begin
- sub_004974F0('afficherFenetreInfo', a{,0});
+ SetValueRegBool('afficherFenetreInfo', a{,0});
 end;
 
 //004BB90C
-procedure sub_004BB90C(a:Boolean);
+procedure SetafficherR(a:Boolean);
 begin
- sub_004974F0('afficherR', a{,0});
+ SetValueRegBool('afficherR', a{,0});
 end;
 
 //004BB930
-function sub_004BB930:boolean;
+function GetafficherFenetreInfo:boolean;
 begin//0
  //004BB930
- Result := sub_004971A0('afficherFenetreInfo', true{,0});
+ Result := GetValueRegBool('afficherFenetreInfo', true{,0});
 end;//0
 
 
 //004BB95C
-function sub_004BB95C:Boolean;
+function GetafficherR:Boolean;
 begin//0
  //004BB95C
- Result := sub_004971A0('afficherR', true{,0});
+ Result := GetValueRegBool('afficherR', true{,0});
 end;//0
 
 
 //004BB980
-procedure sub_004BB980(a:Boolean);
+procedure SetafficherDatesDeNaissance(a:Boolean);
 begin
- sub_004974F0('afficherDatesDeNaissance', a{,0});
+ SetValueRegBool('afficherDatesDeNaissance', a{,0});
 end;
 
 //004BB9B4
-function sub_004BB9B4:Boolean;
+function GetafficherDatesDeNaissance:Boolean;
 begin//0
  //004BB9B4
- Result := sub_004971A0('afficherDatesDeNaissance', true{,0});
+ Result := GetValueRegBool('afficherDatesDeNaissance', true{,0});
 end;//0
 
 
 //004BB9E8
-procedure sub_004BB9E8(a:Boolean);
+procedure Setgraphe3D(a:Boolean);
 begin//0
  //004BB9E8
- sub_004974F0('graphe3D', a {,0});
+ SetValueRegBool('graphe3D', a {,0});
 end;//0
 
 
 //004BBA0C
-function sub_004BBA0C:boolean;
+function Getgraphe3D:boolean;
 begin//0
  //004BBA0C
- result := sub_004971A0('graphe3D', true{,0});
+ result := GetValueRegBool('graphe3D', true{,0});
 end;//0
 
 
 //004BBA30
-procedure sub_004BBA30(a:Boolean);
+procedure SetgrapheDegrade(a:Boolean);
 begin//0
  //004BBA30
- sub_004974F0('grapheDegrade', a{,0});
+ SetValueRegBool('grapheDegrade', a{,0});
 end;//0
 
 
 //004BBA58
-procedure sub_004BBA58(a:Boolean);
+procedure SetgrapheEnCouleur(a:Boolean);
 begin//0
  //004BBA58
- sub_004974F0('grapheEnCouleur', a{,0});
+ SetValueRegBool('grapheEnCouleur', a{,0});
 end;//0
 
 
 //004BBA80
-function sub_004BBA80:boolean;
+function GetgrapheDegrade:boolean;
 begin//0
  //004BBA80
- result := sub_004971A0('grapheDegrade', true{,0});
+ result := GetValueRegBool('grapheDegrade', true{,0});
 end;//0
 
 
 //004BBAA8
-function sub_004BBAA8:boolean;
+function GetgrapheEnCouleur:boolean;
 begin//0
  //004BBAA8
- result := sub_004971A0('grapheEnCouleur', true{,0});
+ result := GetValueRegBool('grapheEnCouleur', true{,0});
 end;//0
 
 
 //004BBAD0
-procedure sub_004BBAD0(a:Boolean);
+procedure SetgrapheLegende(a:Boolean);
 begin//0
- sub_004974F0('grapheLegende', a{,0});
+ SetValueRegBool('grapheLegende', a{,0});
 end;//0
 
 
 //004BBAF8
-function sub_004BBAF8:boolean;
+function GetgrapheLegende:boolean;
 begin//0
- result := sub_004971A0('grapheLegende', true{,0});
+ result := GetValueRegBool('grapheLegende', true{,0});
 end;//0
 
 
 //004BBB20
-procedure sub_004BBB20(a:TColor);
+procedure SetcouleurDebutDegrade(a:TColor);
 begin
- sub_00497438('couleurDebutDegrade', a{,0});
+ SetValueReg1('couleurDebutDegrade', a{,0});
 end;
 
 //004BBB4C
-procedure sub_004BBB4C(a:TColor);
+procedure SetcouleurFinDegrade(a:TColor);
 begin
- sub_00497438('couleurFinDegrade', a{,0});
+ SetValueReg1('couleurFinDegrade', a{,0});
 end;
 
 //004BBB78
-function sub_004BBB78:TColor;
+function GetcouleurDebutDegrade:TColor;
 begin//0
-  result := sub_004970D8('couleurDebutDegrade', sub_004BBBD8);
+  result := GetValueRegColor('couleurDebutDegrade', sub_004BBBD8);
 end;//0
 
 
 //004BBBA8
-function sub_004BBBA8:TColor;
+function GetcouleurFinDegrade:TColor;
 begin//0
-  result := sub_004970D8('couleurFinDegrade', sub_004BBBE0);
+  result := GetValueRegColor('couleurFinDegrade', sub_004BBBE0);
 end;//0
 
 //004BBBD8
@@ -1918,33 +1969,33 @@ result := $0FF8080;
 end;
 
 //004BBBE8
-procedure sub_004BBBE8(a:TColor);
+procedure SetcouleurEleve(a:TColor);
 begin
-  sub_00497438('couleurEleve', a{,0});
+  SetValueReg1('couleurEleve', a{,0});
 end;
 
 //004BBC10
-procedure sub_004BBC10(a:TColor);
+procedure SetcouleurMax(a:TColor);
 begin
- sub_00497438('couleurMax', a{,0});
+ SetValueReg1('couleurMax', a{,0});
 end;
 
 //004BBC34
-procedure sub_004BBC34(a:TColor);
+procedure GetcouleurMin(a:TColor);
 begin
- sub_00497438('couleurMin', a{,0});
+ SetValueReg1('couleurMin', a{,0});
 end;
 
 //004BBC58
-procedure sub_004BBC58(a:TColor);
+procedure SetcouleurMoyenne(a:TColor);
 begin
- sub_00497438('couleurMoyenne', a{,0});
+ SetValueReg1('couleurMoyenne', a{,0});
 end;
 
 //004BBC80
-function sub_004BBC80:TColor;
+function GetcouleurEleve:TColor;
 begin//0
- result := sub_004970D8('couleurEleve',  sub_004BBCAC{,0});
+ result := GetValueRegColor('couleurEleve',  sub_004BBCAC{,0});
 end;//0
 
 
@@ -1955,9 +2006,9 @@ begin
 end;
 
 //004BBCB4
-function sub_004BBCB4:TColor;
+function GetcouleurMax:TColor;
 begin
- result := sub_004970D8('couleurMax',  sub_004BBCDC{,0});
+ result := GetValueRegColor('couleurMax',  sub_004BBCDC{,0});
 end;
 
 //004BBCDC
@@ -1967,9 +2018,9 @@ begin
 end;
 
 //004BBCE4
-function sub_004BBCE4:TColor;
+function GetcouleurMin:TColor;
 begin
-result := sub_004970D8('couleurMin',sub_004BBD0C{,0});
+result := GetValueRegColor('couleurMin',sub_004BBD0C{,0});
 end;
 
 //004BBD0C
@@ -1979,9 +2030,9 @@ begin
 end;
 
 //004BBD14
-function sub_004BBD14:TColor;
+function GetcouleurMoyenne:TColor;
 begin//0
- result := sub_004970D8('couleurMoyenne',sub_004BBD40{,0});
+ result := GetValueRegColor('couleurMoyenne',sub_004BBD40{,0});
 end;//0
 
 
@@ -1992,15 +2043,15 @@ result := $80FF80;
 end;
 
 //004BBD48
-procedure sub_004BBD48(a:TColor);
+procedure SetcouleurMurBas(a:TColor);
 begin
-  sub_00497438('couleurMurBas',a{,0});
+  SetValueReg1('couleurMurBas',a{,0});
 end;
 
 //004BBD70
-function sub_004BBD70:TColor;
+function GetcouleurMurBas:TColor;
 begin
- result := sub_004970D8('couleurMurBas',sub_004BBD9C);
+ result := GetValueRegColor('couleurMurBas',sub_004BBD9C);
 end;
 
 //004BBD9C
@@ -2010,9 +2061,9 @@ result := $0FFFFFF;
 end;
 
 //004BBDA4
-procedure sub_004BBDA4(a:TColor);
+procedure SetcouleurMurGauche(a:TColor);
 begin
-  sub_00497438('couleurMurGauche',a{,0});
+  SetValueReg1('couleurMurGauche',a{,0});
 end;
 
 //004BBDD0
@@ -2022,192 +2073,191 @@ result := $0FFFFFF;
 end;
 
 //004BBDD8
-procedure sub_004BBDD8(a:Boolean);
+procedure SetgrapheLigneEleve(a:Boolean);
 begin//0
  //004BBDD8
- sub_004974F0('grapheLigneEleve', a{,0});
+ SetValueRegBool('grapheLigneEleve', a{,0});
 end;//0
 
 
 //004BBE04
-procedure sub_004BBE04(a:Boolean);
+procedure SetgrapheLigneMax(a:Boolean);
 begin//0
  //004BBE04
- sub_004974F0('grapheLigneMax', a{,0});
+ SetValueRegBool('grapheLigneMax', a{,0});
 end;//0
 
 
 //004BBE2C
-procedure sub_004BBE2C(a:Boolean);
+procedure SetgrapheLigneMin(a:Boolean);
 begin//0
  //004BBE2C
- sub_004974F0('grapheLigneMin', a{,0});
+ SetValueRegBool('grapheLigneMin', a{,0});
 end;//0
 
 
 //004BBE54
-procedure sub_004BBE54(a:Boolean);
+procedure SetgrapheLigneMoyenne(a:Boolean);
 begin
-sub_004974F0('grapheLigneMoyenne', a{,0});
+SetValueRegBool('grapheLigneMoyenne', a{,0});
 end;
 
 //004BBE80
-function sub_004BBE80:boolean;
+function GetgrapheLigneEleve:boolean;
 begin//0
- result := sub_004971A0('grapheLigneEleve', true{,0});
+ result := GetValueRegBool('grapheLigneEleve', true{,0});
 end;//0
 
 
 //004BBEAC
-function sub_004BBEAC:boolean;
+function GetgrapheLigneMax:boolean;
 begin//0
- result := sub_004971A0('grapheLigneMax', true{,0});
+ result := GetValueRegBool('grapheLigneMax', true{,0});
 end;//0
 
 
 //004BBED4
-function sub_004BBED4:boolean;
+function GetgrapheLigneMin:boolean;
 begin//0
- result := sub_004971A0('grapheLigneMin', true{,0});
+ result := GetValueRegBool('grapheLigneMin', true{,0});
 end;//0
 
 
 //004BBEFC
-function sub_004BBEFC:boolean;
+function GetgrapheLigneMoyenne:boolean;
 begin
-result := sub_004971A0('grapheLigneMoyenne', true{,0});
+result := GetValueRegBool('grapheLigneMoyenne', true{,0});
 end;
 
 //004BBF28
-procedure sub_004BBF28(a:Integer);
+procedure SetongletsGraphes(a:Integer);
 begin
-  sub_004975A8('ongletsGraphes', a{,0});
+  SetValueRegInt('ongletsGraphes', a{,0});
 
 end;
 
 //004BBF54
-function sub_004BBF54:dword;
+function GetongletsGraphes:dword;
 begin//0
  //004BBF54
- result := sub_00497268('ongletsGraphes', 0{, 0});
+ result := GetValueRegInt('ongletsGraphes', 0{, 0});
 end;//0
 
-//end;
-
 //004BBF88
-procedure sub_004BBF88(a:Boolean);
+procedure SetimpressionCouleurNote(a:Boolean);
 begin
-  sub_004974F0('impressionCouleurNote',a{,0});
+  SetValueRegBool('impressionCouleurNote',a{,0});
 end;
 
 //004BBFB8
-function sub_004BBFB8:boolean;
+function GetimpressionCouleurNote:boolean;
 begin
- result := sub_004971A0('impressionCouleurNote',false{,false});
+ result := GetValueRegBool('impressionCouleurNote',false{,false});
 end;
+//================================================================================================================
 
 //004BBFE8
-procedure sub_004BBFE8(a:Boolean);
+procedure SetnumeroterElevesGrilleVierge(a:Boolean);
 begin
-  sub_004974F0('numeroterElevesGrilleVierge',a{,false});
+  SetValueRegBool('numeroterElevesGrilleVierge',a{,false});
 end;
 
 //004BC01C
-function sub_004BC01C:boolean;
+function GetnumeroterElevesGrilleVierge:boolean;
 begin
- result := sub_004971A0('numeroterElevesGrilleVierge',true{,0});
+ result := GetValueRegBool('numeroterElevesGrilleVierge',true{,0});
 end;
 
 //004BC050
-procedure sub_004BC050(a:Integer);
+procedure SetlargeurGrilleVierge(a:Integer);
 begin
- sub_004975A8('largeurGrilleVierge',a{,0});
+ SetValueRegInt('largeurGrilleVierge',a{,0});
 end;
 
 //004BC080
-function sub_004BC080:byte;
+function SetlargeurGrilleVierge:byte;
 begin
- result := sub_00497268('largeurGrilleVierge',10{,0});
+ result := GetValueRegInt('largeurGrilleVierge',10{,0});
 end;
 
 //004BC0B8
-procedure sub_004BC0B8(a:Boolean);
+procedure SetimpressionColonneMoyenne(a:Boolean);
 begin
-  sub_004974F0('impressionColonneMoyenne',a{,0});
+  SetValueRegBool('impressionColonneMoyenne',a{,0});
 end;
 
 //004BC0EC
-function sub_004BC0EC:boolean;
+function GetimpressionColonneMoyenne:boolean;
 begin
-  result := sub_004971A0('impressionColonneMoyenne',false{,0});
+  result := GetValueRegBool('impressionColonneMoyenne',false{,0});
 end;
 
 //004BC120
-procedure sub_004BC120(a:Boolean);
+procedure SetimpressionColonneClassement(a:Boolean);
 begin
- sub_004974F0('impressionColonneClassement',a{,0});
+ SetValueRegBool('impressionColonneClassement',a{,0});
 end;
 
 //004BC154
-procedure sub_004BC154(a:Boolean);
+procedure SetimpressionMoyennesEcritOral(a:Boolean);
 begin
- sub_004974F0('impressionMoyennesEcritOral',a{,0});
+ SetValueRegBool('impressionMoyennesEcritOral',a{,0});
 end;
-
+//==========================================================================================================
 //004BC188
-function sub_004BC188:boolean;
+function GetimpressionMoyennesEcritOral:boolean;
 begin
-result := sub_004971A0('impressionMoyennesEcritOral',true{,false});
+result := GetValueRegBool('impressionMoyennesEcritOral',true{,false});
 end;
 
 //004BC1BC
-function sub_004BC1BC:boolean;
+function GetimpressionColonneClassement:boolean;
 begin
-  result := sub_004971A0('impressionColonneClassement',true{,false});
+  result := GetValueRegBool('impressionColonneClassement',true{,false});
 end;
 
 //004BC1F0
-procedure sub_004BC1F0(a:Boolean);
+procedure SetnumeroterElevesAppreciations(a:Boolean);
 begin
- sub_004974F0('numeroterElevesAppreciations',a{,0});
+ SetValueRegBool('numeroterElevesAppreciations',a{,0});
 end;
 
 //004BC228
-function sub_004BC228:boolean;
+function GetnumeroterElevesAppreciations:boolean;
 begin
-	result:= sub_004971A0('numeroterElevesAppreciations',true{,0});
+	result:= GetValueRegBool('numeroterElevesAppreciations',true{,0});
 end;
 
 //004BC260
-procedure sub_004BC260(a:Integer);
+procedure SetarrondirMoyennesAnnuelles(a:Integer);
 begin
- sub_004975A8('arrondirMoyennesAnnuelles',a{,0});
+ SetValueRegInt('arrondirMoyennesAnnuelles',a{,0});
 end;
 
 //004BC298
-function sub_004BC298:dword;
+function GetarrondirMoyennesAnnuelles:dword;
 begin//0
  //004BC298
- result := sub_00497268('arrondirMoyennesAnnuelles', 0{, 0});
+ result := GetValueRegInt('arrondirMoyennesAnnuelles', 0{, 0});
 end;//0
 
 
 //004BC2D8
-procedure sub_004BC2D8(a:Integer);
+procedure SettypeMoyennesAnnuelles(a:Integer);
 begin
-  sub_004975A8('typeMoyennesAnnuelles',a{,0});
+  SetValueRegInt('typeMoyennesAnnuelles',a{,0});
 end;
 
 //004BC30C
-function sub_004BC30C:dword;
+function GettypeMoyennesAnnuelles:dword;
 begin//0
  //004BC30C
- result := sub_00497268('typeMoyennesAnnuelles', 0{, 0});
+ result := GetValueRegInt('typeMoyennesAnnuelles', 0{, 0});
 end;//0
 
 
 //004BC348
-function sub_004BC348:TStringList;
+function GetMatieres:TStringList;
 var
   StringList : TStringList;
   Registry : TRegistry;
@@ -2271,9 +2321,73 @@ end;//0
 
 
 //004BC698
-procedure sub_004BC698(a:TStrings);
-begin
-{	*
+procedure SetMatieres(a:TStrings);
+var
+  lvar_4:;
+  lvar_8:;
+  lvar_C:;
+  lvar_4:TStrings;
+  lvar_8:;
+  lvar_C:AnsiString;
+begin//0
+  //004BC698
+  EDX := 0;
+  lvar_C := EDX;
+  lvar_4 := a;
+  try
+    //004BC6B7
+    EDX := 1;
+    EAX := TRegistry.Create;
+    EBX := TRegistry.Create;
+    EDX := $80000001{-2147483647};
+    EAX := EBX;//EBX
+    EBX.SetRootKey{RootKey}(2147483649);
+    EDX := $4BC778;
+    EAX := EBX;//EBX
+    EAX := EBX.KeyExists('Software\Carnet de Notes 2.x\Matieres');
+    if (EAX{EBX.KeyExists('Software\Carnet de Notes 2.x\Matieres')} <> False) then
+    begin//2
+      //004BC6E1
+      EDX := $4BC778;
+      EAX := EBX;//EBX
+      EAX := EBX.DeleteKey('Software\Carnet de Notes 2.x\Matieres');
+    end;//2
+    ECX := 1;
+    EDX := $4BC778;
+    EAX := EBX;//EBX
+    EAX := EBX.OpenKey('Software\Carnet de Notes 2.x\Matieres', ECX{True});
+    EAX := a;
+    EAX := a.GetCount;
+    ESI := a.GetCount;
+    ESI := ESI - 1;//ESI
+    if (ESI >= 0) then
+    begin//2
+      //004BC713
+      ESI := ESI + 1;//ESI
+      lvar_8 := 0;
+      for lvar_8 := 0 to ESI - 1 do
+      begin//3
+        //004BC71B
+        EDX := lvar_8;
+        EAX := a;
+        lvar_C := a.Get(lvar_8);
+        EDX := lvar_C;
+        ECX := 0;
+        EAX := EBX;//EBX
+        EBX.WriteString(lvar_C, '');
+      end;//3
+    end;//2
+    EAX := EBX;//EBX
+    EBX.CloseKey;
+    EAX := EBX;//EBX
+    EBX.Free;
+  finally//1
+    //004BC756
+    lvar_C := '';
+  end;//1
+end;//0
+
+{
 004BC698    push        ebp
 004BC699    mov         ebp,esp
 004BC69B    add         esp,0FFFFFFF4
@@ -2351,12 +2465,223 @@ begin
 004BC769    mov         esp,ebp
 004BC76B    pop         ebp
 004BC76C    ret
-*}
+}
 end;
 
 //004BC7A0
-procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);
-begin
+procedure sub_004BC7A0(a0:integer; a1:integer; a2:integer; a3:integer; a4:integer; a5:integer; a6:integer; a7:integer; a8:integer);
+var
+  lvar_4:integer;
+  lvar_8:integer;
+  lvar_9:;
+  lvar_A:;
+  lvar_10:AnsiString;
+  lvar_14:AnsiString;
+  lvar_18:AnsiString;
+begin//0
+  //004BC7A0
+  EBX := 0;
+  lvar_18 := EBX;
+  lvar_14 := EBX;
+  lvar_10 := EBX;
+  lvar_9 := a2;
+  lvar_8 := a1;
+  lvar_4 := a0;
+  try
+    //004BC7CB
+    EAX := a1;
+    call(
+    
+    );
+    if (EAX{a1} <> 0) then
+    begin//2
+      //004BC7DB
+      EAX := a1;
+      call(
+      
+      );
+      EBX := EAX;//a1
+      EBX := EBX - 1;//EBX
+      if (EBX >= 0) then
+      begin//3
+        //004BC804
+        EBX := EBX + 1;//EBX
+        lvar_A := 0;
+        for lvar_A := 0 to EBX - 1 do
+        begin//4
+          //004BC809
+          ECX := 0;
+          EDX := 1;
+          EAX := TMenuItem.Create(Nil);
+          ESI := TMenuItem.Create(Nil);
+          EDX := lvar_A;
+          EAX := a1;
+          call(
+          
+          );
+          EDX := lvar_10;
+          EAX := ESI;//ESI
+          ESI.SetCaption{Caption}(lvar_10);
+          EAX := a4;
+          ESI.OnClick := EAX;//a4
+          EAX := a3;
+          ESI.f84 := EAX;//a3
+          EDI := a2;
+          EDX := EDI;//a2
+          EAX := a0;
+          EAX := ;
+          EAX := .GetItem{Items}(a2);
+          EDX := 0;
+          EAX := .GetItem{Items}(a2).GetItem{Items}({0});
+          EAX := .GetItem{Items}(a2).GetItem{Items}({0}).GetCount{Count};
+          //push EAX
+          EDX := EDI;//a2
+          EAX := a0;
+          EAX := ;
+          EAX := .GetItem{Items}(a2);
+          EDX := 0;
+          EAX := .GetItem{Items}(a2).GetItem{Items}({0});
+          ECX := ESI;//ESI
+          //pop EDX
+          .GetItem{Items}(a2).GetItem{Items}({0}).Insert(.GetItem{Items}(a2).GetItem{Items}({0}).GetCount{Count}{EAX}{EDX}, ESI);
+        end;//4
+      end;//3
+      EAX := a1;
+      call(
+      .GetItem{Items}(a2).GetItem{Items}({0}).GetCount{Count}{EAX}{EDX}
+      );
+      EBX := EAX;//a1
+      EBX := EBX - 1;//EBX
+      if (EBX >= 0) then
+      begin//3
+        //004BC8AF
+        EBX := EBX + 1;//EBX
+        lvar_A := 0;
+        for lvar_A := 0 to EBX - 1 do
+        begin//4
+          //004BC8B4
+          ECX := 0;
+          EDX := 1;
+          EAX := TMenuItem.Create(Nil);
+          ESI := TMenuItem.Create(Nil);
+          EDX := lvar_A;
+          EAX := a1;
+          call(
+          0
+          );
+          EDX := lvar_14;
+          EAX := ESI;//ESI
+          ESI.SetCaption{Caption}(lvar_14);
+          EAX := a6;
+          ESI.OnClick := EAX;//a6
+          EAX := a5;
+          ESI.f84 := EAX;//a5
+          EDI := a2;
+          EDX := EDI;//a2
+          EAX := a0;
+          EAX := ;
+          EAX := .GetItem{Items}(a2);
+          EDX := 1;
+          EAX := .GetItem{Items}(a2).GetItem{Items}({1});
+          EAX := .GetItem{Items}(a2).GetItem{Items}({1}).GetCount{Count};
+          //push EAX
+          EDX := EDI;//a2
+          EAX := a0;
+          EAX := ;
+          EAX := .GetItem{Items}(a2);
+          EDX := 1;
+          EAX := .GetItem{Items}(a2).GetItem{Items}({1});
+          ECX := ESI;//ESI
+          //pop EDX
+          .GetItem{Items}(a2).GetItem{Items}({1}).Insert(.GetItem{Items}(a2).GetItem{Items}({1}).GetCount{Count}{EAX}{EDX}, ESI);
+        end;//4
+      end;//3
+      ECX := 0;
+      EDX := 1;
+      EAX := TMenuItem.Create(Nil);
+      ESI := TMenuItem.Create(Nil);
+      EDX := $4BCA94;
+      EAX := ESI;//ESI
+      ESI.SetCaption{Caption}('Sur l'année');
+      EAX := a6;
+      ESI.OnClick := EAX;//a6
+      EAX := a5;
+      ESI.f84 := EAX;//a5
+      EBX := a2;
+      EDX := EBX;//a2
+      EAX := a0;
+      EAX := ;
+      EAX := .GetItem{Items}(a2);
+      EDX := 1;
+      EAX := .GetItem{Items}(a2).GetItem{Items}({1});
+      EAX := .GetItem{Items}(a2).GetItem{Items}({1}).GetCount{Count};
+      //push EAX
+      EDX := EBX;//a2
+      EAX := a0;
+      EAX := ;
+      EAX := .GetItem{Items}(a2);
+      EDX := 1;
+      EAX := .GetItem{Items}(a2).GetItem{Items}({1});
+      ECX := ESI;//ESI
+      //pop EDX
+      .GetItem{Items}(a2).GetItem{Items}({1}).Insert(.GetItem{Items}(a2).GetItem{Items}({1}).GetCount{Count}{EAX}{EDX}, ESI);
+      EAX := a1;
+      call(
+      .GetItem{Items}(a2).GetItem{Items}({1}).GetCount{Count}{EAX}{EDX}
+      );
+      EBX := EAX;//a1
+      EBX := EBX - 1;//EBX
+      if (EBX >= 0) then
+      begin//3
+        //004BC9D3
+        EBX := EBX + 1;//EBX
+        lvar_A := 0;
+        for lvar_A := 0 to EBX - 1 do
+        begin//4
+          //004BC9D8
+          ECX := 0;
+          EDX := 1;
+          EAX := TMenuItem.Create(Nil);
+          ESI := TMenuItem.Create(Nil);
+          EDX := lvar_A;
+          EAX := a1;
+          call(
+          0
+          );
+          EDX := lvar_18;
+          EAX := ESI;//ESI
+          ESI.SetCaption{Caption}(lvar_18);
+          EAX := a8;
+          ESI.OnClick := EAX;//a8
+          EAX := a7;
+          ESI.f84 := EAX;//a7
+          EDI := a2;
+          EDX := EDI;//a2
+          EAX := a0;
+          EAX := ;
+          EAX := .GetItem{Items}(a2);
+          EDX := 2;
+          EAX := .GetItem{Items}(a2).GetItem{Items}({2});
+          EAX := .GetItem{Items}(a2).GetItem{Items}({2}).GetCount{Count};
+          //push EAX
+          EDX := EDI;//a2
+          EAX := a0;
+          EAX := ;
+          EAX := .GetItem{Items}(a2);
+          EDX := 2;
+          EAX := .GetItem{Items}(a2).GetItem{Items}({2});
+          ECX := ESI;//ESI
+          //pop EDX
+          .GetItem{Items}(a2).GetItem{Items}({2}).Insert(.GetItem{Items}(a2).GetItem{Items}({2}).GetCount{Count}{EAX}{EDX}, ESI);
+        end;//4
+      end;//3
+    end;//2
+  finally//1
+    //004BCA6C
+    EDX := 3;
+  end;//1
+end;//0
+{
 004BC7A0    push        ebp
 004BC7A1    mov         ebp,esp
 004BC7A3    add         esp,0FFFFFFE8
@@ -2588,13 +2913,64 @@ begin
 004BCA84    mov         esp,ebp
 004BCA86    pop         ebp
 004BCA87    ret         18
-*}
+}
 end;
 
 //004BCAA0
-procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);
-begin
-{*
+procedure sub_004BCAA0(a:integer; b:integer; c:integer; d:integer);
+var
+  lvar_4:;
+  lvar_5:;
+  lvar_C:;
+  lvar_D:;
+  lvar_14:;
+  lvar_18:;
+  lvar_4:integer;
+  lvar_5:;
+  lvar_C:;
+  lvar_D:;
+  lvar_14:AnsiString;
+  lvar_18:AnsiString;
+begin//0
+  //004BCAA0
+  ECX := 0;
+  lvar_14 := ECX;
+  lvar_18 := ECX;
+  lvar_5 := b;
+  lvar_4 := a;
+  try
+    //004BCAC5
+    EAX := sub_00497908;
+    lvar_C := sub_00497908;
+    EAX := lvar_C;
+    call();
+    if (EAX{lvar_C} <> 0) then
+    begin//2
+      //004BCADD
+      EAX := lvar_C;
+      call( );
+      EAX := EAX - 1;//EAX
+      if (EAX >= 0) then
+      begin//3
+        //004BCB03
+        EAX := EAX + 1;//EAX
+        lvar_D := EAX;
+        EBX := 0;
+        for EBX := 1 to EAX do
+        begin//4
+          //004BCB09
+          ESI := TMenuItem.Create(Nil);
+          EDX := EBX;//EBX
+          EAX := lvar_C;
+          call('lecteur ');
+          EDX := 3;
+          lvar_14 :=  + lvar_18 + ':';
+          EDX := lvar_14;
+          EAX := ESI;//ESI
+          ESI.tCaption{Caption}(lvar_14);
+          EAX := d;
+          ESI.OnClick := EAX;//d
+{
 004BCAA0    push        ebp
 004BCAA1    mov         ebp,esp
 004BCAA3    add         esp,0FFFFFFE8
@@ -2691,11 +3067,11 @@ begin
 004BCBB6    mov         esp,ebp
 004BCBB8    pop         ebp
 004BCBB9    ret         8
-*}
+}
 end;
 
 //004BCBDC
-procedure sub_004BCBDC(StringList:TStringList);
+procedure SetDerniersfichiers(StringList:TStringList);
 var
 Registry : TRegistry;
 I:integer;
@@ -2717,7 +3093,7 @@ begin//0
 end;//0
 
 //004BCD14
-function sub_004BCD14:TStringlist;
+function GetDerniersfichiers:TStringlist;
 var
  StringList : TStringList;
  Registry : TRegistry;
@@ -2738,88 +3114,56 @@ begin//0
 end;//0
 
 //004BCDB0
-function sub_004BCDB0:boolean;
+function GetafficherNomEnseignantOnglets:boolean;
 begin//0
  //004BCDB0
- result := sub_004971A0('afficherNomEnseignantOnglets', false{,0});
+ result := GetValueRegBool('afficherNomEnseignantOnglets', false{,0});
 end;//0
 
 
 //004BCDE8
-procedure sub_004BCDE8(a:Boolean);
+procedure SetafficherNomEnseignantOnglets(a:Boolean);
 begin
-   sub_004974F0('afficherNomEnseignantOnglets',a{,0});
+   SetValueRegBool('afficherNomEnseignantOnglets',a{,0});
 end;
 
 //004BCE20
-function sub_004BCE20:boolean;
+function GetafficherMatiereOnglets:boolean;
 begin//0
  //004BCE20
-
- result := sub_004971A0('afficherMatiereOnglets', false{,0});
+	result := GetValueRegBool('afficherMatiereOnglets', false{,0});
 end;//0
 
 
 //004BCE50
-procedure sub_004BCE50(a:Boolean);
+procedure SetafficherMatiereOnglets(a:Boolean);
 begin
- sub_004974F0('afficherMatiereOnglets',a{,0});
+	SetValueRegBool('afficherMatiereOnglets',a{,0});
 end;
 
 //004BCE80
-function sub_004BCE80:TStringList;
-begin
-{*
-004BCE80    push        ebx
-004BCE81    push        esi
-004BCE82    push        edi
-004BCE83    mov         dl,1
-004BCE85    mov         eax,[004120B8];TStringList
-004BCE8A    call        TObject.Create;TStringList.Create
-004BCE8F    mov         esi,eax
-004BCE91    mov         dl,1
-004BCE93    mov         eax,[00490114];TRegistry
-004BCE98    call        TRegistry.Create;TRegistry.Create
-004BCE9D    mov         ebx,eax
-004BCE9F    mov         edx,80000001
-004BCEA4    mov         eax,ebx
-004BCEA6    call        TRegistry.SetRootKey
-004BCEAB    mov         edx,4BCF10;'Software\Carnet de Notes 2.x\Noms bulletins'
-004BCEB0    mov         eax,ebx
-004BCEB2    call        TRegistry.KeyExists
-004BCEB7    test        al,al
->	004BCEB9    je          004BCED9
-004BCEBB    mov         cl,1
-004BCEBD    mov         edx,4BCF10;'Software\Carnet de Notes 2.x\Noms bulletins'
-004BCEC2    mov         eax,ebx
-004BCEC4    call        TRegistry.OpenKey
-004BCEC9    mov         edx,esi
-004BCECB    mov         eax,ebx
-004BCECD    call        TRegistry.GetValueNames
-004BCED2    mov         eax,ebx
-004BCED4    call        TRegistry.CloseKey
-004BCED9    mov         ecx,4BCF44;'Bulletins par défaut'
-004BCEDE    xor         edx,edx
-004BCEE0    mov         eax,esi
-004BCEE2    mov         edi,dword ptr [eax]
-004BCEE4    call        dword ptr [edi+54];TStringList.Insert
-004BCEE7    mov         ecx,4BCF64;'Nouveaux bulletins du collège'
-004BCEEC    mov         edx,1
-004BCEF1    mov         eax,esi
-004BCEF3    mov         edi,dword ptr [eax]
-004BCEF5    call        dword ptr [edi+54];TStringList.Insert
-004BCEF8    mov         eax,ebx
-004BCEFA    call        TObject.Free
-004BCEFF    mov         eax,esi
-004BCF01    pop         edi
-004BCF02    pop         esi
-004BCF03    pop         ebx
-004BCF04    ret
-*}
-end;
+function GetNomsbulletins:TStringlist;
+var 
+  StringList: TStringList;
+begin//0
+  //004BCE80
+  StringList := TStringList.Create;
+  Registry := TRegistry.Create;
+  Registry.RootKey := HKEY_CURRENT_USER;
+  if (Registry.KeyExists('Software\Carnet de Notes 2.x\Noms bulletins')) then
+  begin//1
+    //004BCEBB
+    Registry.OpenKey('Software\Carnet de Notes 2.x\Noms bulletins', True);
+    Registry.GetValueNames(StringList);
+    Registry.CloseKey;
+  end;//1
+  StringList.Insert(1, 'Nouveaux bulletins du collège');
+  Registry.Free;
+  result := StringList;
+end;//0
 
 //004BCF84
-function sub_004BCF84(a:String):TStringList;
+function SetNomsbulletins(a:String):TStringList;
 var
 Registry: TRegistry;
 StringList : TStringList;
@@ -2856,51 +3200,51 @@ begin//0
  result := StringList;//ESI
 end;//0
 
-function sub_004BD1BC:boolean;
+function GetimpressionDatesDeNaissanceSeriesDeNotes:boolean;
 begin
- sub_004971A0('impressionDatesDeNaissanceSeriesDeNotes',true{,0});
+ GetValueRegBool('impressionDatesDeNaissanceSeriesDeNotes',true{,0});
 
 end;
 //004BD1FC
-function sub_004BD1FC:boolean;
+function GetimpressionDatesDeNaissanceBilans:boolean;
 begin
-	sub_004971A0('impressionDatesDeNaissanceBilans',true{,0});
+	GetValueRegBool('impressionDatesDeNaissanceBilans',true{,0});
 end;
 
 //004BD238
-function sub_004BD238:boolean;
+function GetimpressionDatesDeNaissanceAppreciations:boolean;
 begin
-	sub_004971A0('impressionDatesDeNaissanceAppreciations',true{,0});
+	GetValueRegBool('impressionDatesDeNaissanceAppreciations',true{,0});
 end;
 
 //004BD278
-function sub_004BD278:boolean;
+function GetimpressionDatesDeNaissanceGrilleVierge:boolean;
 begin
-	sub_004971A0('impressionDatesDeNaissanceGrilleVierge',true{,0});
+	GetValueRegBool('impressionDatesDeNaissanceGrilleVierge',true{,0});
 end;
 
 //004BD2B8
-procedure sub_004BD2B8(a:Boolean);
+procedure SetimpressionDatesDeNaissanceSeriesDeNotes(a:Boolean);
 begin
-	sub_004974F0('impressionDatesDeNaissanceSeriesDeNotes',a{,0});
+	SetValueRegBool('impressionDatesDeNaissanceSeriesDeNotes',a{,0});
 end;
 
 //004BD2F8
-procedure sub_004BD2F8(a:Boolean);
+procedure SetimpressionDatesDeNaissanceBilans(a:Boolean);
 begin
-   sub_004974F0('impressionDatesDeNaissanceBilans',a{,0});
+   SetValueRegBool('impressionDatesDeNaissanceBilans',a{,0});
 end;
 
 //004BD334
-procedure sub_004BD334(a:Boolean);
+procedure SetimpressionDatesDeNaissanceAppreciations(a:Boolean);
 begin
-   sub_004974F0('impressionDatesDeNaissanceAppreciations',a{,0});
+   SetValueRegBool('impressionDatesDeNaissanceAppreciations',a{,0});
 end;
 
 //004BD374
-procedure sub_004BD374(a:Boolean);
+procedure SetimpressionDatesDeNaissanceGrilleVierge(a:Boolean);
 begin
-   sub_004974F0('impressionDatesDeNaissanceGrilleVierge',a{,0});
+   SetValueRegBool('impressionDatesDeNaissanceGrilleVierge',a{,0});
 end;
 
 //004BD3B4
@@ -2943,113 +3287,51 @@ begin//0
 end;//0
 
 //004BD51C
-procedure sub_004BD51C(?:?);
-begin
-{*
-004BD51C    push        ebp
-004BD51D    mov         ebp,esp
-004BD51F    push        ecx
-004BD520    mov         dword ptr [ebp-4],eax
-004BD523    mov         eax,dword ptr [ebp-4]
-004BD526    call        @LStrAddRef
-004BD52B    xor         eax,eax
-004BD52D    push        ebp
-004BD52E    push        4BD563
-004BD533    push        dword ptr fs:[eax]
-004BD536    mov         dword ptr fs:[eax],esp
-004BD539    push        0
-004BD53B    mov         ecx,4BD578;'\Options'
-004BD540    mov         edx,dword ptr [ebp-4]
-004BD543    mov         eax,4BD58C;'basDePageGauche'
-004BD548    call        00497660
-004BD54D    xor         eax,eax
-004BD54F    pop         edx
-004BD550    pop         ecx
-004BD551    pop         ecx
-004BD552    mov         dword ptr fs:[eax],edx
-004BD555    push        4BD56A
-004BD55A    lea         eax,[ebp-4]
-004BD55D    call        @LStrClr
-004BD562    ret
->	004BD563    jmp         @HandleFinally
->	004BD568    jmp         004BD55A
-004BD56A    pop         ecx
-004BD56B    pop         ebp
-004BD56C    ret
-*}
-end;
+procedure sub_004BD51C(a:string);
+var
+  lvar_4:string;
+begin//0
+  //004BD51C
+  try
+    //004BD539
+    sub_00497660('basDePageGauche', a, '\Options');
+  finally//1
+    //004BD55A
+    lvar_4 := '';
+  end;//1
+end;//0
+
 
 //004BD59C
-procedure sub_004BD59C(?:?);
-begin
-{*
-004BD59C    push        ebp
-004BD59D    mov         ebp,esp
-004BD59F    push        ecx
-004BD5A0    mov         dword ptr [ebp-4],eax
-004BD5A3    mov         eax,dword ptr [ebp-4]
-004BD5A6    call        @LStrAddRef
-004BD5AB    xor         eax,eax
-004BD5AD    push        ebp
-004BD5AE    push        4BD5E3
-004BD5B3    push        dword ptr fs:[eax]
-004BD5B6    mov         dword ptr fs:[eax],esp
-004BD5B9    push        0
-004BD5BB    mov         ecx,4BD5F8;'\Options'
-004BD5C0    mov         edx,dword ptr [ebp-4]
-004BD5C3    mov         eax,4BD60C;'basDePageDroite'
-004BD5C8    call        00497660
-004BD5CD    xor         eax,eax
-004BD5CF    pop         edx
-004BD5D0    pop         ecx
-004BD5D1    pop         ecx
-004BD5D2    mov         dword ptr fs:[eax],edx
-004BD5D5    push        4BD5EA
-004BD5DA    lea         eax,[ebp-4]
-004BD5DD    call        @LStrClr
-004BD5E2    ret
->	004BD5E3    jmp         @HandleFinally
->	004BD5E8    jmp         004BD5DA
-004BD5EA    pop         ecx
-004BD5EB    pop         ebp
-004BD5EC    ret
-//end;*}
+procedure sub_004BD59C(a:string);
+var
+  lvar_4:string;
+begin//0
+  //004BD59C
+  try
+    sub_00497660('basDePageDroite', a, '\Options');
+  finally//1
+    //004BD5DA
+    lvar_4 := '';
+  end;//1
+end;//0
+
 
 //004BD61C
-{	*//procedure sub_004BD61C(?:?);
-//begin
-004BD61C    push        ebp
-004BD61D    mov         ebp,esp
-004BD61F    push        ecx
-004BD620    mov         dword ptr [ebp-4],eax
-004BD623    mov         eax,dword ptr [ebp-4]
-004BD626    call        @LStrAddRef
-004BD62B    xor         eax,eax
-004BD62D    push        ebp
-004BD62E    push        4BD663
-004BD633    push        dword ptr fs:[eax]
-004BD636    mov         dword ptr fs:[eax],esp
-004BD639    push        0
-004BD63B    mov         ecx,4BD678;'\Options'
-004BD640    mov         edx,dword ptr [ebp-4]
-004BD643    mov         eax,4BD68C;'enTeteGauche'
-004BD648    call        00497660
-004BD64D    xor         eax,eax
-004BD64F    pop         edx
-004BD650    pop         ecx
-004BD651    pop         ecx
-004BD652    mov         dword ptr fs:[eax],edx
-004BD655    push        4BD66A
-004BD65A    lea         eax,[ebp-4]
-004BD65D    call        @LStrClr
-004BD662    ret
->	004BD663    jmp         @HandleFinally
->	004BD668    jmp         004BD65A
-004BD66A    pop         ecx
-004BD66B    pop         ebp
-004BD66C    ret
-*}
-end;
+procedure sub_004BD61C(a:string);
+var
+  lvar_4:string;
+begin//0
+  //004BD61C
+  try
+    //004BD639
+    sub_00497660('enTeteGauche', a, '\Options');
+  finally//1
+    //004BD65A
+    lvar_4 := '';
+  end;//1
+end;//0
+
 
 //004BD69C
 procedure sub_004BD69C(a:integer);
@@ -3083,9 +3365,9 @@ end;//0
 
 
 ///004BD79C
-function sub_004BD79C:byte;
+function GettaillePolice:byte;
 begin
- result := sub_00497268('taillePolice',9{,0});
+ result := GetValueRegInt('taillePolice',9{,0});
 end;
 
 ///004BD7D0
@@ -3095,9 +3377,9 @@ begin
 end;
 
 //004BD82C
-procedure sub_004BD82C(a:Integer);
+procedure SettaillePolice(a:Integer);
 begin
- sub_004975A8('taillePolice',a {,false});
+ SetValueRegInt('taillePolice',a {,false});
 end;
 
 //004BD858
@@ -3117,89 +3399,64 @@ end;//0
 
 
 //004BD8D4
-procedure sub_004BD8D4(a:Boolean);
+procedure SetimpressionFermerBoite(a:Boolean);
 begin
-  sub_004974F0('impressionFermerBoite', a{,0});
+  SetValueRegBool('impressionFermerBoite', a{,0});
 end;
 
 //004BD904
-function sub_004BD904:boolean;
+function GetimpressionFermerBoite:boolean;
 begin//0
- //004BD904
- result := sub_004971A0('impressionFermerBoite', true{,0});
+	result := GetValueRegBool('impressionFermerBoite', true{,0});
 end;//0
 
 
 //004BD934
-procedure sub_004BD934(a:Boolean);
+procedure SetimpressionRSeriesDeNotes(a:Boolean);
 begin
- sub_004974F0('impressionRSeriesDeNotes',a{,0});
+	SetValueRegBool('impressionRSeriesDeNotes',a{,0});
 end;
 
 //004BD968
-procedure sub_004BD968(a:Boolean);
+procedure SetimpressionRBilans(a:Boolean);
 begin
- sub_004974F0('impressionRBilans',a{,0});
+	SetValueRegBool('impressionRBilans',a{,0});
 end;
 
 //004BD994
-procedure sub_004BD994(a:Boolean);
+procedure SetimpressionRAppreciations(a:Boolean);
 begin
- sub_004974F0('impressionRAppreciations',a{,0});
+	SetValueRegBool('impressionRAppreciations',a{,0});
 end;
 
 //004BD9C8
-procedure sub_004BD9C8(a:Boolean);
+procedure SetimpressionRGrilleVierge(a:Boolean);
 begin
- sub_004974F0('impressionRGrilleVierge',a{,0});
+	SetValueRegBool('impressionRGrilleVierge',a{,0});
 end;
 
 //004BD9F8
-function sub_004BD9F8:boolean;
+function GetimpressionRSeriesDeNotes:boolean;
 begin
-result := sub_004971A0('impressionRSeriesDeNotes', true{,0});
+	result := GetValueRegBool('impressionRSeriesDeNotes', true{,0});
 end;
 
 //004BDA2C
 function sub_004BDA2C:boolean;
 begin
-result := sub_004971A0('impressionRBilans', true{,0});
+	result := GetValueRegBool('impressionRBilans', true{,0});
 end;
 
 //004BDA58
-function sub_004BDA58:boolean;
+function GetimpressionRAppreciations:boolean;
 begin
-result := sub_004971A0('impressionRAppreciations', true{,0});
+	result := GetValueRegBool('impressionRAppreciations', true{,0});
 end;
 
 //004BDA8C
-function sub_004BDA8C:boolean;
+function GetimpressionRGrilleVierge:boolean;
 begin
-result := sub_004971A0('impressionRGrilleVierge', true{,0});
+	result := GetValueRegBool('impressionRGrilleVierge', true{,0});
 end;
-
-Initialization
-//004BDAF8
-  {gvar_00617C94 := gvar_00617C94 - 1;
-  if ( gvar_00617C94 <> 0 ) then
-  begin//1
-    gvar_00617CB8 := true;
-    gvar_00617CB9 := true;
-    gvar_00617CBA := true;
-    gvar_00617CBB := true;
-    gvar_00617CBC := true;
-    gvar_00617CBD := true;
-    gvar_00617CBE := true;
-    gvar_00617CBF := true;
-  end;//1
-}
-Finalization
-  //004BDABC
- {
-    gvar_00617C94 := gvar_00617C94 + 1;
-    if ( gvar_00617C94 <> 0  ) then//004BDAD5 
-      sub_004B964C(sub_004B9500);
-
-}
 
 end.

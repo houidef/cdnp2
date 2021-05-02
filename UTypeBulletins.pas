@@ -104,7 +104,7 @@ end;//0
 procedure TTypeBulletins.sub_004C9BC0(a:Boolean);
 begin//0
   //004C9BC0
-  sub_004974F0('inclureNomEnseignantBulletin', a{,1});
+  SetValueRegBool('inclureNomEnseignantBulletin', a{,1});
 end;//0
 
 
@@ -112,7 +112,7 @@ end;//0
 procedure TTypeBulletins.sub_004C9BF8(a:Boolean);
 begin//0
   //004C9BF8
-  sub_004974F0('inclureAppreciationsBulletin', a{,1});
+  SetValueRegBool('inclureAppreciationsBulletin', a{,1});
 end;//0
 
 

@@ -320,7 +320,7 @@ begin
         Notebook1.PageIndex := TabSet1.TabIndex; 
 		//unit111
         {sub_004B901C(FileName); 
-        if (sub_004B9410) then //00539BC7
+        if (GetutiliserHistorique) then //00539BC7
           sub_004B91F0(MainMenuPrincipal, 0, ?, Self); //unit111
         
 
@@ -529,7 +529,7 @@ begin//0
       //sub_00539DA4(lvar_10C);
       sub_004B901C(FileName);
 
-      if (sub_004B9410 ) then
+      if (GetutiliserHistorique ) then
       begin//3
         //0053A644
         //sub_004B94D8(MainMenuPrincipal, 0, ECX, Self,  Ouvrir1Click);
@@ -574,7 +574,7 @@ begin//0
       sub_00539DA4(Buf);
       sub_004B901C(Buf);
       
-      if (sub_004B9410) then
+      if (GetutiliserHistorique) then
       begin//0053A9D7
         sub_004B94D8(MainMenuPrincipal, 0, {ECX,} {Self}Nil,Ouvrir1Click);
         SendMessageA(f4D8, $410{1040}, 0, 0);
@@ -1138,7 +1138,7 @@ begin//0
     
   end;//1
 
-  case sub_004BBF54 of
+  case GetongletsGraphes of
     0://0053CBEA
       TabControlGraphes.TabPosition := tpTop;
       
@@ -1665,9 +1665,9 @@ begin//0
     if (lvar_14 > 0) then
     begin//0053E4AB
       Chart1.Visible := True;
-      Chart1.View3D := sub_004BBA0C;
-      //Chart1..Visible := sub_004BBAF8;
-      if (sub_004BBAF8) then
+      Chart1.View3D := Getgraphe3D;
+      //Chart1..Visible := GetgrapheLegende;
+      if (GetgrapheLegende) then
       begin//3
         //0053E4F2
         lvar_18 := 0;
@@ -1687,22 +1687,22 @@ begin//0
         //Chart1..Visible := (lvar_18 <> 0);
       end;//3
 	  (*
-      Chart1..Visible := sub_004BBA80;
-      Chart1..StartColor :=sub_004BBB78;
-      Chart1..EndColor := sub_004BBBA8;
-      Chart1..SetColor := sub_004BA108;
-      Chart1..Color := sub_004BBD70;
-      Chart1.Monochrome := sub_004BBAA8 Xor true;*)
+      Chart1..Visible := GetgrapheDegrade;
+      Chart1..StartColor :=GetcouleurDebutDegrade;
+      Chart1..EndColor := GetcouleurFinDegrade;
+      Chart1..SetColor := _GetcouleurMurGauche;
+      Chart1..Color := GetcouleurMurBas;
+      Chart1.Monochrome := GetgrapheEnCouleur Xor true;*)
       Chart1.RemoveAllSeries;
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  
-      (*Chart1.Series[0].ShowInLegend := sub_004BBE80;
-      Chart1.Series[1].ShowInLegend := sub_004BBED4;
-      Chart1.Series[2].ShowInLegend := sub_004BBEAC;
-      Chart1.Series[3].ShowInLegend := sub_004BBEFC;*)
+      (*Chart1.Series[0].ShowInLegend := GetgrapheLigneEleve;
+      Chart1.Series[1].ShowInLegend := GetgrapheLigneMin;
+      Chart1.Series[2].ShowInLegend := GetgrapheLigneMax;
+      Chart1.Series[3].ShowInLegend := GetgrapheLigneMoyenne;*)
     end//2
     else
     begin//0053E71C
@@ -1714,7 +1714,7 @@ begin//0
       try
         //0053E75B
 
-        if (sub_004BBE80) then
+        if (GetgrapheLigneEleve) then
         begin//4
           //0053E768
           FichierCdn.sub_004BEF5C(lvar_10, I, lvar_C, buf);
@@ -1725,14 +1725,14 @@ begin//0
           
           FichierCdn.sub_004BED04( lvar_10, Buf, I);
 
-          Chart1.Series[0].AddXY(I, lvar_28, buf, sub_004BBC80); // 0053E8B1 
+          Chart1.Series[0].AddXY(I, lvar_28, buf, GetcouleurEleve); // 0053E8B1 
           FichierCdn.sub_004BEA64(lvar_C, buf);
           Chart1.Series[0].Title := buf;
-          Chart1.Series[0].SeriesColor := sub_004BBC80;
+          Chart1.Series[0].SeriesColor := GetcouleurEleve;
           TLineSeries(Chart1.Series[0]).LinePen.Width := 2;
         end;//4
 
-        if (sub_004BBED4) then
+        if (GetgrapheLigneMin) then
         begin//4
           //0053E967
           //FichierCdn.sub_004C3958(lvar_10, buf, I);
@@ -1740,15 +1740,15 @@ begin//0
           FichierCdn.sub_004BED2C( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04(lvar_10, buf, I);
-          //Chart1.Series[1}.AddXY(, 0, lvar_170, sub_004BBCE4);
+          //Chart1.Series[1}.AddXY(, 0, lvar_170, GetcouleurMin);
           
           Chart1.Series[1].Title := 'Minimum de la classe';
-          //Chart1.Series[1].SeriesColor := sub_004BBCE4;
+          //Chart1.Series[1].SeriesColor := GetcouleurMin;
           
           TLineSeries(Chart1.Series[1]).LinePen.Width := 2;
         end;//4
 
-        if (sub_004BBEAC) then
+        if (GetgrapheLigneMax) then
         begin//4
           //0053EB30
           
@@ -1762,15 +1762,15 @@ begin//0
           
           FichierCdn.sub_004BED04( lvar_10, buf, I);
           
-          //Chart1.Series[2].AddXY(, 0, lvar_17C, sub_004BBCB4);
+          //Chart1.Series[2].AddXY(, 0, lvar_17C, GetcouleurMax);
           
           Chart1.Series[2].Title := 'Maximum de la classe';
           
-          //Chart1.Series[2].SeriesColor := sub_004BBCB4;
+          //Chart1.Series[2].SeriesColor := GetcouleurMax;
          
           TLineSeries(Chart1.Series[2]).LinePen.Width  := 2;
         end;//4
-        if (sub_004BBEFC) then
+        if (GetgrapheLigneMoyenne) then
         begin//4
           //0053ECF9
           
@@ -1784,9 +1784,9 @@ begin//0
           
           FichierCdn.sub_004BED04( lvar_10, buf, I);
           
-          Chart1.Series[3].AddXY(I, lvar_28, buf, sub_004BBD14);
+          Chart1.Series[3].AddXY(I, lvar_28, buf, GetcouleurMoyenne);
           Chart1.Series[3].Title := 'Moyenne de la classe';
-          Chart1.Series[3].SeriesColor := sub_004BBD14;
+          Chart1.Series[3].SeriesColor := GetcouleurMoyenne;
           TLineSeries(Chart1.Series[3]).LinePen.Width := 2;
         end;//4
       except//3
@@ -1811,15 +1811,15 @@ procedure TFeuilleClasse.PopupMenu1Popup(Sender:TObject);
 begin//0
   //0053EFBC
   
-  Grapheen3D1.Checked := sub_004BBA0C;
-  Grapheendgrad1.Checked := sub_004BBA80;
-  Grapheendgrad1.Enabled :=sub_004BBAA8;
-  Grapheencouleur1.Checked := sub_004BBAA8;
-  Afficherlalgende1.Checked := sub_004BBAF8
-  //AfficherligneElve1.Checked := sub_004BBE80;
-  //AfficherligneMinimum1.Checked := sub_004BBED4;
-  //AfficherligneMaximum1.Checked := sub_004BBEAC;
-  //AfficherligneMoyenne1.Checked := sub_004BBEFC;
+  Grapheen3D1.Checked := Getgraphe3D;
+  Grapheendgrad1.Checked := GetgrapheDegrade;
+  Grapheendgrad1.Enabled :=GetgrapheEnCouleur;
+  Grapheencouleur1.Checked := GetgrapheEnCouleur;
+  Afficherlalgende1.Checked := GetgrapheLegende
+  //AfficherligneElve1.Checked := GetgrapheLigneEleve;
+  //AfficherligneMinimum1.Checked := GetgrapheLigneMin;
+  //AfficherligneMaximum1.Checked := GetgrapheLigneMax;
+  //AfficherligneMoyenne1.Checked := GetgrapheLigneMoyenne;
 end;//0
 
 
@@ -1827,7 +1827,7 @@ end;//0
 procedure TFeuilleClasse.Grapheen3D1Click(Sender:TObject);
 begin//0
   //0053F064
-  sub_004BB9E8(sub_004BBA0C Xor true);
+  Setgraphe3D(Getgraphe3D Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027}, TabControlGraphes.TabIndex + 1 , 0);
 end;//0
 
@@ -1836,7 +1836,7 @@ end;//0
 procedure TFeuilleClasse.Grapheendgrad1Click(Sender:TObject);
 begin//0
   //0053F0A4
-  sub_004BBA30(sub_004BBA80 Xor true);
+  SetgrapheDegrade(GetgrapheDegrade Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex + 1 , 0);
 end;//0
 
@@ -1845,7 +1845,7 @@ end;//0
 procedure TFeuilleClasse.Grapheencouleur1Click(Sender:TObject);
 begin//0
   //0053F0E4
-  sub_004BBA58(sub_004BBAA8 Xor true);
+  SetgrapheEnCouleur(GetgrapheEnCouleur Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex +1 , 0);
 end;//0
 
@@ -1854,7 +1854,7 @@ end;//0
 procedure TFeuilleClasse.Afficherlalgende1Click(Sender:TObject);
 begin//0
   //0053F124
-  sub_004BBAD0(sub_004BBAF8 Xor true);
+  SetgrapheLegende(GetgrapheLegende Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex +1, 0);
 end;//0
 
@@ -1940,7 +1940,7 @@ end;//0
 procedure TFeuilleClasse.AfficherligneElve1Click(Sender:TObject);
 begin//0
   //0053F418
-  sub_004BBDD8(sub_004BBE80 Xor true);
+  SetgrapheLigneEleve(GetgrapheLigneEleve Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex + 1 , 0);
 end;//0
 
@@ -1948,7 +1948,7 @@ end;//0
 procedure TFeuilleClasse.AfficherligneMinimum1Click(Sender:TObject);
 begin//0
   //0053F458
-  sub_004BBE2C(sub_004BBED4 Xor true);
+  SetgrapheLigneMin(GetgrapheLigneMin Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex + 1 , 0);
 end;//0
 
@@ -1956,7 +1956,7 @@ end;//0
 procedure TFeuilleClasse.AfficherligneMaximum1Click(Sender:TObject);
 begin//0
   //0053F498
-  sub_004BBE04(sub_004BBEAC Xor true);
+  SetgrapheLigneMax(GetgrapheLigneMax Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex + 1 , 0);
 end;//0
 
@@ -1964,7 +1964,7 @@ end;//0
 procedure TFeuilleClasse.AfficherligneMoyenne1Click(Sender:TObject);
 begin//0
   //0053F4D8
-  sub_004BBE54(sub_004BBEFC Xor true);
+  SetgrapheLigneMoyenne(GetgrapheLigneMoyenne Xor true);
   SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $403{1027},TabControlGraphes.TabIndex + 1 , 0);
 end;//0
 
@@ -2541,7 +2541,7 @@ begin//0
       //0054162F
       sub_00539DA4(FileNamex);
       sub_004B901C(FileNamex);
-      if (sub_004B9410) then
+      if (GetutiliserHistorique) then
       begin//3
         //00541661  
         //sub_004B94D8(MainMenuPrincipal, 0, ECX, Self,  Ouvrir1Click); //006159A0A1

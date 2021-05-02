@@ -196,7 +196,7 @@ begin//0
       begin//004D1D03
         if (ARow < Count) then
         begin//004D1D0D
-          if (sub_004BB930) then
+          if (GetafficherFenetreInfo) then
           begin//004D1D1A
             FormHint.Color := sub_004BB87C;
             if (FichierCdn.sub_004C8E50(ARow)) then
@@ -239,7 +239,7 @@ begin//0
               lvar_18 := lvar_18 + '?'; //$4D2348
             end;//6
             FormHint.Label4.Caption := 'Moyennes bulletin sur ' + IntToStr(sub_004B9E48) + ' : ' + lvar_18;
-            FichierCdn.sub_004C32B4(ARow, sub_004B9E10, sub_004BC298, sub_004BC30C, Buf0);
+            FichierCdn.sub_004C32B4(ARow, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, Buf0);
             FormHint.Label5.Caption := 'Moyenne annuelle sur ' + IntToStr(sub_004B9E48) + ' : ' + Buf0;
             FormHint.f2F0 := 5;
             FormHint.Show;
@@ -323,14 +323,14 @@ begin//0
         FichierCdn.sub_004C8BB8(I, Buf);
         if (Trim(Buf) <> '') then
         begin//004D26B5
-          if (sub_004BB9B4) then
+          if (GetafficherDatesDeNaissance) then
           begin//004D26BE
             lvar_8 := lvar_8 + ' (' +Buf + ')';
           end;//5
         end;//4
         if (FichierCdn.sub_004C8E50(I)) then
         begin//004D2713
-          if (sub_004BB95C) then
+          if (GetafficherR) then
           begin//004D271C
             lvar_8 := lvar_8 + ' (R)';
           end;//5

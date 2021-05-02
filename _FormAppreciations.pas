@@ -316,15 +316,15 @@ begin//0
         lvar_10 := StrToFloat(buf);
         //00514078
         if (lvar_10 < 0) Or (lvar_10 <  moyennesSur) then //00514090
-          Label7.Font.Color := sub_004BA070
+          Label7.Font.Color := _Getcouleur4Note
         else//005140AD
           if (lvar_10 >= 0) and (lvar_10 <  moyennesSur/2) then//005140BB  //005140CE
-              Label7.Font.Color:= sub_004B9F8C
+              Label7.Font.Color:= _Getcouleur1Note
           else //005140E8
 		     if (lvar_10 >=  moyennesSur*3/4 ) and (lvar_10 <  moyennesSur) then//00514101//0051410E
-               Label7.Font.Color := sub_004BA024
+               Label7.Font.Color := _Getcouleur3Note
 			  else 
-			    Label7.Font.Color := sub_004B9FD8;
+			    Label7.Font.Color := _Getcouleur2Note;
         
       except//3
         on E:EConvertError do

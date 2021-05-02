@@ -98,7 +98,7 @@ begin//0
     f370 := TFont.Create;
     sub_004BD7D0(buf);
     f370.Name := buf;
-    f370.Size := sub_004BD79C();
+    f370.Size := GettaillePolice();
     Panel1.Color := $E2FFFF;
     Label3.Caption := f370.Name + ' (' + IntToStr(f370.Size) + ')';
     FontDialog1.Font.Name := 'Times New Roman';
@@ -213,7 +213,7 @@ var
 begin//0
   //005252F0
     //0052530F
-    CheckBox1.Checked := sub_004BD904;
+    CheckBox1.Checked := GetimpressionFermerBoite;
     TabSet1.Tabs := Notebook1.Pages;
     //EDI := ComboBoxBasdepageCentre;
     if (sub_00498A40) then
@@ -292,7 +292,7 @@ begin//0
     sub_004BD69C(ComboBoxEnteteCentre.Text);
     sub_004BD71C(ComboBoxEnteteDroite.Text);
     sub_004BD858(f370.Name);
-    sub_004BD82C(f370.Size);
+    SettaillePolice(f370.Size);
     EDX := 1;
     f378.call();}
     inherited Destroy;
@@ -402,15 +402,15 @@ begin//0
 								     TBlocTexte.Create(ComboBoxBasdepageDroite.Text,CheckBoxBasdepageDroite.Checked));
     case a of
       0://00525A5C        
-        lvar_18 := TImpressionGrilleNotes.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, sub_004BAA88(0), sub_004BAEC4,f370);
+        lvar_18 := TImpressionGrilleNotes.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, _GetSeriesdenotes(0), GetnumeroterElevesSeriesDeNotes,f370);
       (*1://00525AA1
-        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, sub_004BAA88(1), sub_004BAF34,f370);
+        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, _GetSeriesdenotes(1), sub_004BAF34,f370);
 
       2://00525AE3
-        lvar_20 := TImpressionAppreciation.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, sub_004BC228);
+        lvar_20 := TImpressionAppreciation.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, GetnumeroterElevesAppreciations);
 
       3://00525B1D        
-        lvar_24 := TImpressionGrilleVierge.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, sub_004BAA88(2), sub_004BC01C, sub_004BC01C);*)
+        lvar_24 := TImpressionGrilleVierge.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, _GetSeriesdenotes(2), GetnumeroterElevesGrilleVierge, GetnumeroterElevesGrilleVierge);*)
 
     end;//2
 
@@ -558,7 +558,7 @@ end;//0
 procedure TFormImprimer.FormDestroy(Sender:TObject);
 begin//0
   //005263D0
-  sub_004BD8D4(CheckBox1.Checked);
+  SetimpressionFermerBoite(CheckBox1.Checked);
 end;//0
 
 

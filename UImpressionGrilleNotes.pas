@@ -47,7 +47,7 @@ begin//0
     RHEIGHT{lvar_18} := f40.TextHeight('ALEXANDRE')+ 4;
     lvar_C := f50[b] - f50[b - 1];
 	 
-    lvar_20 := sub_00519AF8(sub_004BD1BC, sub_004BD9F8); //la taille de 2eme colone 'Noms&prenom etudiant'
+    lvar_20 := sub_00519AF8(GetimpressionDatesDeNaissanceSeriesDeNotes, GetimpressionRSeriesDeNotes); //la taille de 2eme colone 'Noms&prenom etudiant'
 	
     lvar_10 := f3C.sub_004BEA58;
     lvar_28 := sub_0051C894(b);
@@ -117,7 +117,7 @@ begin//0
           R.Top := RHEIGHT * I + RTOP;//EAX
           R.Right := R.Left + lvar_20 + lvar_4C;//EAX
           R.Bottom := R.Top + RHEIGHT;//EAX
-          if (f3C.sub_004C8E50(I)) and (sub_004BD9F8) then//0051A675 redoublant and imprRedoublant
+          if (f3C.sub_004C8E50(I)) and (GetimpressionRSeriesDeNotes) then//0051A675 redoublant and imprRedoublant
           begin//5
               //0051A67E
               f3C.sub_004BEA64(I, buf);
@@ -128,7 +128,7 @@ begin//0
             f3C.sub_004BEA64(I, buf);
 			lvar_60 := buf;
           end;//5
-          if (sub_004BD1BC) then
+          if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
           begin//5
             //0051A703
             f3C.sub_004C8BB8(I, buf);
@@ -160,7 +160,7 @@ begin//0
           if (f3C.sub_004C8E50(I)) then
           begin//5
             //0051A848
-            if (sub_004BD9F8) then
+            if (GetimpressionRSeriesDeNotes) then
             begin//6
               //0051A851
               f3C.sub_004BEA64(I, buf);
@@ -177,7 +177,7 @@ begin//0
             f3C.sub_004BEA64(I, buf);
           end;//5
           
-          if (sub_004BD1BC) then
+          if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
           begin//5
             //0051A8D6
             f3C.sub_004C8BB8(I, buf);
@@ -214,7 +214,7 @@ begin//0
               f3C.sub_004BEF5C(f2C, J, I, text)
             else//0051AAF4
               f3C.sub_004C2D10(f2C, I, sub_004B9E10, text);
-            if (sub_004BBFB8) then //0051AB46
+            if (GetimpressionCouleurNote) then //0051AB46
               if (text = 'abs') Or (text = '') then//0051AB5B
                 f40.font.Color := 0
               else
@@ -238,7 +238,7 @@ begin//0
                   if ( lvar_80< 0) Or (lvar_70 < 0) then //!!!!!!!
                   begin//9
                     //0051AC39
-                    f40.font.Color := sub_004BA070;
+                    f40.font.Color := _Getcouleur4Note;
                   end//9
                   else
                   begin//9
@@ -249,7 +249,7 @@ begin//0
                       if (lvar_80 <0 ) then
                       begin//11
                         //0051AC74
-                        f40.font.Color:= sub_004B9F8C;
+                        f40.font.Color:= _Getcouleur1Note;
                       end//11
                       else
                       begin//11
@@ -269,7 +269,7 @@ begin//0
                         {if ( >= ) then
                         begin//12
                           //0051ACB1
-                          f40.font.Color:=sub_004BA024;
+                          f40.font.Color:=_Getcouleur3Note;
                         end//12
                         else
                         begin//12
@@ -804,7 +804,7 @@ begin//0
 	
     if (Res > Max) then//0051C581
       Max := Res;//ESI
-    if (sub_004BC0EC) then
+    if (GetimpressionColonneMoyenne) then
     begin//2
       //0051C58C
       Res := sub_00519AA8(f40, ' Moyennes ');
@@ -827,16 +827,16 @@ begin//0
   //0051C60C
   SetLength(f50, 1);
   f50[0] := 1;  
-  //sub_004BD1BC:imprime date naissance
-  //sub_004BD9F8:imprime (R) 
+  //GetimpressionDatesDeNaissanceSeriesDeNotes:imprime date naissance
+  //GetimpressionRSeriesDeNotes:imprime (R) 
   //f24: Printer.PageWidth
-  NbCell :=  (f24 - sub_00519AF8(sub_004BD1BC,sub_004BD9F8)) div sub_0051BFF0; //Nbre de cell par page
+  NbCell :=  (f24 - sub_00519AF8(GetimpressionDatesDeNaissanceSeriesDeNotes,GetimpressionRSeriesDeNotes)) div sub_0051BFF0; //Nbre de cell par page
   
   if (NbCell = 0) then //0051C67B error!
     result := 0
   else 
   begin
-	  if (sub_004BC0EC) then //0051C68B test if impressionColonneMoyenne
+	  if (GetimpressionColonneMoyenne) then //0051C68B test if impressionColonneMoyenne
 		lvar_18 := f3C.sub_004BEAD0(f2C) + 1 //Nbre des Modules dans chaque Periode
 	  else//0051C6B7
 		lvar_18 := f3C.sub_004BEAD0(f2C) ;
@@ -879,7 +879,7 @@ function TImpressionGrilleNotes.sub_0051C894(b:dword):dword;
 begin//0
   //0051C894
 
-  result := sub_0051BFF0 * (f50[b] - f50[b - 1]) + sub_00519AF8(sub_004BD1BC, sub_004BD9F8);
+  result := sub_0051BFF0 * (f50[b] - f50[b - 1]) + sub_00519AF8(GetimpressionDatesDeNaissanceSeriesDeNotes, GetimpressionRSeriesDeNotes);
 
 end;//0
 

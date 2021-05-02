@@ -72,7 +72,7 @@ begin//0
     //005097CC
     f31C.sub_004BE988(text);
     CheckBox1.Enabled := (text = 'Trimestres');
-    ComboBox1.Items := sub_004BC348;
+    ComboBox1.Items := GetMatieres;
     ComboBox1.ItemIndex := 0;
     f31C.sub_004BE8FC(text);
     Edit2.Text := text;
@@ -153,7 +153,7 @@ begin//0
   FormOptions.PageControl1.ActivePage := FormOptions.TabSheet17;
   FormOptions.ShowModal;
   FormOptions.Destroy;
-  ComboBox1.Items :=sub_004BC348;
+  ComboBox1.Items :=GetMatieres;
 end;//0
 
 end.

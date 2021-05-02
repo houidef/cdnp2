@@ -121,11 +121,11 @@ label_004CA164:}
         begin//004CA298*)
           if (ARow mod 2  = 0) then 
           begin//004CA2AA
-            Canvas.Brush.Color := sub_004B9C80;
+            Canvas.Brush.Color := GetColorlignesPaires;
           end//5
           else
           begin//004CA2C1
-            Canvas.Brush.Color := sub_004B9C34;
+            Canvas.Brush.Color := GetColorlignesPaires;
           end;//5
         end//4
         else
@@ -146,7 +146,7 @@ label_004CA164:}
         begin//004CA336
           if (sub_004BB458) then
           begin//004CA33F
-            Canvas.Brush.Color := sub_004B9D24;
+            Canvas.Brush.Color := GetcouleurSelection;
             Exit;
           end;//5
           Canvas.Brush.Color := $C0C0C0;

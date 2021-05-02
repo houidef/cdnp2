@@ -119,12 +119,12 @@ begin//0
               //0054243B
               FichierCdn.sub_004BED2C( f2D8, ACol + 1, buf);
               if (StrToFloat(Cells[ACol, ARow]) < 0{gvar_005428A4}) Or ( StrToFloat(Cells[ACol, ARow]) > StrToFloat(buf)) then //005424CC
-				Canvas.Brush.Color := sub_004BA0BC;
+				Canvas.Brush.Color := _Getcouleur5Note;
             except//6
               on E:EConvertError do
               begin//005424FF
                 if (sub_004BB458) then//00542508
-                  Canvas.Brush.Color := sub_004BA0BC
+                  Canvas.Brush.Color := _Getcouleur5Note
                 else//00542522;
                   Canvas.Brush.Color := $FFFFFF;
               end;//7
@@ -141,29 +141,29 @@ begin//0
               //005425B5
               fichierCdn.sub_004BED2C(f2D8, ACol + 1, buf);
               if (StrToFloat(Cells[ACol, ARow]) < 0{gvar_005428A4}) Or (StrToFloat(Cells[ACol, ARow]) > StrToFloat(buf)) then//0054264C
-                Canvas.Font.Color := sub_004BA070
+                Canvas.Font.Color := _Getcouleur4Note
               else
               begin//00542669
 			    if (StrToFloat(Cells[ACol, ARow]) < StrToFloat(buf)/2) then//0054268A
-			       Canvas.Font.Color := sub_004B9F8C
+			       Canvas.Font.Color := _Getcouleur1Note
 				else
 				  if (StrToFloat(Cells[ACol, ARow]) >= StrToFloat(buf)*3/4) then
-				   Canvas.Font.Color := sub_004BA024
+				   Canvas.Font.Color := _Getcouleur3Note
 				  else //005426CA
-				   Canvas.Font.Color:= sub_004B9FD8;
+				   Canvas.Font.Color:= _Getcouleur2Note;
               end;//7
             except//6
               on E:EConvertError do
               begin//00542722
                 if (sub_004BB458) then//0054272B
-                  Canvas.Brush.Color := sub_004BA0BC
+                  Canvas.Brush.Color := _Getcouleur5Note
                 else//00542745
                   Canvas.Brush.Color := $FFFFFF;
               end;//7
               on E:EMathError do
               begin//0054275D
                 if (sub_004BB458) then//00542766
-                  Canvas.Brush.Color := sub_004BA0BC
+                  Canvas.Brush.Color := _Getcouleur5Note
                 else//00542780
                   Canvas.Brush.Color := $FFFFFF;
               end;//7
@@ -174,7 +174,7 @@ begin//0
     end;//2
     if (gdSelected in AState) then//005427A1
       if (sub_004BB458) then//005427AA
-        Canvas.Brush.Color := sub_004B9D24
+        Canvas.Brush.Color := GetcouleurSelection
       else//005427C4
         Canvas.Brush.Color := $C0C0C0;
 
@@ -837,7 +837,7 @@ begin//0
       if (ARow = 0) then
       begin//3
         //00542CB9
-        if (sub_004BB930) then
+        if (GetafficherFenetreInfo) then
         begin//4
           //00542CC6
           FormHint.Color := sub_004BB87C;

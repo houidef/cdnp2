@@ -54,7 +54,7 @@ begin//0
 
   inherited create(Owner);
   Image1.Picture := logo.Picture;
-  CheckListBox1.Items := sub_004B9500;
+  CheckListBox1.Items := HistoriqueList;
  
     for I := 0 to CheckListBox1.Items.Count - 1 do//00554277
       CheckListBox1.Checked[I] :=True;// EDI, ECX{});
@@ -189,7 +189,7 @@ begin//0
     //005546F8
 
     CheckListBox1.Clear;
-    CheckListBox1.Items := sub_004B9500;
+    CheckListBox1.Items := HistoriqueList;
       for I := 0 to CheckListBox1.Items.Count - 1 do//00554736
       begin//3
         //00554739

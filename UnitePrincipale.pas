@@ -361,7 +361,7 @@ begin
           1:
           begin//5
             //0060C43D
-            lvar_4 := sub_004BCD14;
+            lvar_4 := GetDerniersfichiers;
             FormPatientez{gvar_00617C64} := TFormPatientez.Create(Self);
             FormPatientez.ProgressBar1.Position := 0;
             FormPatientez.caption := 'Ouverture de vos fichiers ... patientez';
@@ -421,7 +421,7 @@ begin
       if (K <> 0) then
       begin//3
         //0060C644
-        if (sub_004B9500(*(sub_00501C44, $3E8{1000})*).Count <> 0) then
+        if (HistoriqueList(*(sub_00501C44, $3E8{1000})*).Count <> 0) then
         begin//4
           //0060C652
           FormRappelSauvegarde{gvar_006182F4} := TFormRappelSauvegarde.Create(Self,Logo);
@@ -493,7 +493,7 @@ begin//0
         StringList.Add(FileName);
       end;
 
-    sub_004BCBDC(StringList);
+    SetDerniersfichiers(StringList);
     StringList.Destroy;
 
        for I:=0 to  MDIChildCount-1 do //0060CA7D
@@ -644,7 +644,7 @@ begin//0
       for I:=0 to MDIChildCount - 1 do //0060D117
 	  begin
         //0060D117
-        if (sub_004BCE20) then
+        if (GetafficherMatiereOnglets) then
         begin//4
           //0060D120
           TFeuilleClasse(MDIChildren[I]).sub_0053DDF4(buf0);
@@ -654,7 +654,7 @@ begin//0
         else//0060D184
           TFeuilleClasse(MDIChildren[I]).sub_0053DDF4(buf);
         
-        if (sub_004BCDB0) then
+        if (GetafficherNomEnseignantOnglets) then
         begin//4
           //0060D1AF
           TFeuilleClasse(MDIChildren[I]).sub_0053DE0C(buf);

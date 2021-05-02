@@ -94,7 +94,7 @@ begin//0
           if (Trim(Buf) <> '') then
           begin//5
             //004F5DD6
-            if ({sub_004BB9B4} true) then
+            if ({GetafficherDatesDeNaissance} true) then
             begin//6
               //004F5DDF
               FichierCdn.sub_004C8BB8(I, Buf);
@@ -104,7 +104,7 @@ begin//0
           if (FichierCdn.sub_004C8E50(I)) then
           begin//5
             //004F5E34
-            if ({sub_004BB95C} true) then
+            if ({GetafficherR} true) then
             begin//6
               //004F5E3D
               lvar_8 := lvar_8 + ' (R)';

@@ -570,7 +570,7 @@ begin//0
     f918.sub_004B6D38(buf0);
     f918.sub_004B6D84(sub_004BA3F8(buf0));
     f914.sub_004C9AA0(buf1);
-    f914.sub_004C9A84(sub_004BCF84(buf1));
+    f914.sub_004C9A84(SetNomsbulletins(buf1));
     f920.Clear;
     //call();
       for I := 1 to sub_004BA3F8(buf0).count do //004BF384
@@ -1261,7 +1261,7 @@ begin//0
         begin//004C082E
 		  Buf :=  'Nouveaux bulletins du collège';
           FluxCdn.sub_004B6A80(Buf);
-          lvar_14 := sub_004BCF84(Buf);
+          lvar_14 := SetNomsbulletins(Buf);
           FluxCdn.sub_004B6A80(IntToStr(lvar_14.count));
           for I := 1 to lvar_14.count do //004C08B8
           begin//004C08BF
@@ -5365,8 +5365,8 @@ begin//0
   //lvar_4 := Self;
   //004C82C4
     f910 := sub_004B9E10;
-    f911 := sub_004BC298;
-    f912 := sub_004BC30C;
+    f911 := GetarrondirMoyennesAnnuelles;
+    f912 := GettypeMoyennesAnnuelles;
     f914 := TTypeBulletins.Create;
     f918 := TPeriodes.Create;
     f91C := TEleves.Create;
@@ -5712,8 +5712,8 @@ begin//0
     f810 := '';
     f310 := '';
     f910 := sub_004B9E10;
-    f911 := sub_004BC298;
-    f912 := sub_004BC30C;
+    f911 := GetarrondirMoyennesAnnuelles;
+    f912 := GettypeMoyennesAnnuelles;
     FileName := f410;
     f920 := TStringList.Create;
     for I := 1 to 52 do//004C8982

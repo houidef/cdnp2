@@ -559,15 +559,15 @@ begin//0
               Valeur:= StrToFloat(Cells[ACol, ARow]);
               //004D04AF
               if ( Valeur < 0) Or ( Valeur > sub_004B9E48) then //004D04CF
-                Canvas.Font.Color := sub_004BA070
+                Canvas.Font.Color := _Getcouleur4Note
               else//004D04EC
                 if (Valeur >= 0) and(Valeur < sub_004B9E48/2  ) then//004D04FA //004D0515
-                    Canvas.Font.Color := sub_004B9F8C
+                    Canvas.Font.Color := _Getcouleur1Note
                 else//004D052F       
                   if (Valeur >= 3/4 * sub_004B9E48 ) then //004D0554
-                    Canvas.Font.Color := sub_004BA024
+                    Canvas.Font.Color := _Getcouleur3Note
                   else//004D056E
-                    Canvas.Font.Color := sub_004B9FD8;
+                    Canvas.Font.Color := _Getcouleur2Note;
 
             except//6
               on E:EConvertError do
@@ -576,7 +576,7 @@ begin//0
                 if (sub_004BB458) then
                 begin//8
                   //004D05B5
-                  Canvas.Brush.Color := sub_004BA0BC;
+                  Canvas.Brush.Color := _Getcouleur5Note;
                 end//8
                 else
                 begin//8
@@ -591,7 +591,7 @@ begin//0
                 if (sub_004BB458) then
                 begin//8
                   //004D05F0
-                  Canvas.Brush.Color := sub_004BA0BC;
+                  Canvas.Brush.Color := _Getcouleur5Note;
                 end//8
                 else
                 begin//8
@@ -610,7 +610,7 @@ begin//0
       if (sub_004BB458) then
       begin//3
         //004D0634
-        Canvas.Brush.Color := sub_004B9D24;
+        Canvas.Brush.Color := GetcouleurSelection;
       end//3
       else
       begin//3

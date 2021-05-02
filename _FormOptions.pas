@@ -363,19 +363,19 @@ begin//0
   //00504B24
     inherited Create(AOwner);
     Image1.Picture := logo.Picture;
-    f664 := sub_004BAA88(0);
-    f668 := sub_004BAA88(1);
-    f66C := sub_004BAA88(2);
+    f664 := _GetSeriesdenotes(0);
+    f668 := _GetSeriesdenotes(1);
+    f66C := _GetSeriesdenotes(2);
     Caption := Caption + 'Carnet de Notes version Personnelle';
     RadioGroupGrilleNotes.ItemIndex := sub_004BA3C0;
     RadioGroupGrilleBilans.ItemIndex := sub_004BA384;
-    RadioGroupGraphes.ItemIndex := sub_004BBF54;
+    RadioGroupGraphes.ItemIndex := GetongletsGraphes;
     CheckBox10.Checked :=sub_004BB84C;
     RadioGroup3.Enabled := CheckBox10.Checked;
     RadioGroup3.ItemIndex  := sub_004BB7E8;
     TabControl1.Visible := CheckBox10.Checked;
-    CheckBox25.Checked  := sub_004BCE20;
-    CheckBoxAfficherNomEnseignantOnglets.Checked  := sub_004BCDB0;
+    CheckBox25.Checked  := GetafficherMatiereOnglets;
+    CheckBoxAfficherNomEnseignantOnglets.Checked  := GetafficherNomEnseignantOnglets;
     CheckBoxVerificationMAJ.Checked := sub_004BB6C8;
     optionsAuDemarrage.ItemIndex  := sub_004BB60C;
     CheckBox8.Checked := sub_004BB668;
@@ -388,42 +388,42 @@ begin//0
     afficherHeure.Checked := sub_004BB5BC;
     afficherDate.Checked := sub_004BB5E4;
     CheckBox2.Checked := sub_004BA2FC;
-    CheckBox11.Checked :=sub_004BB930;
-    CheckBoxAfficherR.Checked :=sub_004BB95C;
-    CheckBoxAfficherDatesDeNaissance.Checked :=sub_004BB9B4;
-    CheckBox14.Checked :=sub_004BBA0C;
-    CheckBox15.Checked :=sub_004BBA80;
-    CheckBox16.Checked :=sub_004BBAA8;
-    CouleurDebutDegrade.SelectionColor := sub_004BBB78;
-    CouleurFinDegrade.SelectionColor := sub_004BBBA8;
-    CouleurNotesEleve.SelectionColor := sub_004BBC80;
-    CouleurMinimumClasse.SelectionColor := sub_004BBCE4;
-    CouleurMaximumClasse.SelectionColor := sub_004BBCB4;
-    CouleurMoyenneClasse.SelectionColor := sub_004BBD14;
-    CouleurMurGauche.SelectionColor := sub_004BA108;
-    CouleurMurBas.SelectionColor := sub_004BBD70;
-    CheckBox17.Checked :=sub_004BBE80;
-    CheckBox18.Checked :=sub_004BBED4;
-    CheckBox19.Checked :=sub_004BBEAC;
-    CheckBox20.Checked :=sub_004BBEFC;
-    CheckBox21.Checked :=sub_004BBAF8;
+    CheckBox11.Checked :=GetafficherFenetreInfo;
+    CheckBoxAfficherR.Checked :=GetafficherR;
+    CheckBoxAfficherDatesDeNaissance.Checked :=GetafficherDatesDeNaissance;
+    CheckBox14.Checked :=Getgraphe3D;
+    CheckBox15.Checked :=GetgrapheDegrade;
+    CheckBox16.Checked :=GetgrapheEnCouleur;
+    CouleurDebutDegrade.SelectionColor := GetcouleurDebutDegrade;
+    CouleurFinDegrade.SelectionColor := GetcouleurFinDegrade;
+    CouleurNotesEleve.SelectionColor := GetcouleurEleve;
+    CouleurMinimumClasse.SelectionColor := GetcouleurMin;
+    CouleurMaximumClasse.SelectionColor := GetcouleurMax;
+    CouleurMoyenneClasse.SelectionColor := GetcouleurMoyenne;
+    CouleurMurGauche.SelectionColor := _GetcouleurMurGauche;
+    CouleurMurBas.SelectionColor := GetcouleurMurBas;
+    CheckBox17.Checked :=GetgrapheLigneEleve;
+    CheckBox18.Checked :=GetgrapheLigneMin;
+    CheckBox19.Checked :=GetgrapheLigneMax;
+    CheckBox20.Checked :=GetgrapheLigneMoyenne;
+    CheckBox21.Checked :=GetgrapheLegende;
     typesDeNotes.Items:=sub_004B9794;
     ListBoxUtilisateurs.Items :=sub_004982F8;
-    ListBoxMatieres.Items :=sub_004BC348;
-    Shape1.Brush.Color := sub_004B9C80;
-    Shape2.Brush.Color := sub_004B9C34;
-    Shape3.Brush.Color := sub_004B9D24;
-    Shape8.Brush.Color := sub_004BA0BC;
-    Shape1.Pen.Color := sub_004B9C80;
-    Shape2.Pen.Color := sub_004B9C34;
-    Shape3.Pen.Color := sub_004B9D24;
-    Shape8.Pen.Color := sub_004BA0BC;
+    ListBoxMatieres.Items :=GetMatieres;
+    Shape1.Brush.Color := GetColorlignesPaires;
+    Shape2.Brush.Color := GetColorlignesPaires;
+    Shape3.Brush.Color := GetcouleurSelection;
+    Shape8.Brush.Color := _Getcouleur5Note;
+    Shape1.Pen.Color := GetColorlignesPaires;
+    Shape2.Pen.Color := GetColorlignesPaires;
+    Shape3.Pen.Color := GetcouleurSelection;
+    Shape8.Pen.Color := _Getcouleur5Note;
     CheckBox5.Checked :=sub_004BB458;
     Periodes.Items :=sub_004B9A44;
-    historiqueDesFichiers.Checked :=sub_004B9410;
-	NombreFichiersHistorique.Value := sub_004B9468;
+    historiqueDesFichiers.Checked :=GetutiliserHistorique;
+	NombreFichiersHistorique.Value := GetnbFichiersHistorique;
     NombreFichiersHistorique.Enabled := historiqueDesFichiers.Checked;
-    ListBoxFichiers.Items :=sub_004B9500;
+    ListBoxFichiers.Items :=HistoriqueList;
     if (ListBoxFichiers.Items.Count <> 0) then
     begin//2
       //00505087
@@ -438,30 +438,30 @@ begin//0
       Label38.Caption := '';
     end;//2
     RadioGroupArrondir.ItemIndex := sub_004B9E10;
-    RadioGroupArrondirAnnuelle.ItemIndex := sub_004BC298;
+    RadioGroupArrondirAnnuelle.ItemIndex := GetarrondirMoyennesAnnuelles;
     RadioGroupTrier.ItemIndex := sub_004B9EA0; 
     MoyennesSur.Value := sub_004B9E48;
-    CheckBox3.Checked := sub_004B9F30;
-    RadioGroupTypeMoyenneAnnuelle.ItemIndex := sub_004BC30C;
-    CheckBox34.Checked := sub_004B9F60;
+    CheckBox3.Checked := GetmoyenneParTypeDeNotes;
+    RadioGroupTypeMoyenneAnnuelle.ItemIndex := GettypeMoyennesAnnuelles;
+    CheckBox34.Checked := GetmoyennesEcritEtOral;
     CheckBox4.Checked  := sub_004BA2B0;
-    Shape4.Brush.Color := sub_004B9F8C;
-    Shape5.Brush.Color := sub_004B9FD8;
-    Shape6.Brush.Color := sub_004BA024;
-    Shape7.Brush.Color := sub_004BA070;
-    Shape4.Pen.Color := sub_004B9F8C;
-    Shape5.Pen.Color := sub_004B9FD8;
-    Shape6.Pen.Color := sub_004BA024;
-    Shape7.Pen.Color := sub_004BA070;
-    CheckBox35.Checked :=sub_004BC188;
-    CheckBox30.Checked :=sub_004BDA58;
-    CheckBox31.Checked :=sub_004BDA8C;
+    Shape4.Brush.Color := _Getcouleur1Note;
+    Shape5.Brush.Color := _Getcouleur2Note;
+    Shape6.Brush.Color := _Getcouleur3Note;
+    Shape7.Brush.Color := _Getcouleur4Note;
+    Shape4.Pen.Color := _Getcouleur1Note;
+    Shape5.Pen.Color := _Getcouleur2Note;
+    Shape6.Pen.Color := _Getcouleur3Note;
+    Shape7.Pen.Color := _Getcouleur4Note;
+    CheckBox35.Checked :=GetimpressionMoyennesEcritOral;
+    CheckBox30.Checked :=GetimpressionRAppreciations;
+    CheckBox31.Checked :=GetimpressionRGrilleVierge;
     CheckBox32.Checked :=sub_004BDA2C;
-    CheckBox33.Checked :=sub_004BD9F8;
-    CheckBox26.Checked :=sub_004BD238;
-    CheckBox27.Checked :=sub_004BD278;
-    CheckBox28.Checked :=sub_004BD1FC;
-    CheckBox29.Checked :=sub_004BD1BC;
+    CheckBox33.Checked :=GetimpressionRSeriesDeNotes;
+    CheckBox26.Checked :=GetimpressionDatesDeNaissanceAppreciations;
+    CheckBox27.Checked :=GetimpressionDatesDeNaissanceGrilleVierge;
+    CheckBox28.Checked :=GetimpressionDatesDeNaissanceBilans;
+    CheckBox29.Checked :=GetimpressionDatesDeNaissanceSeriesDeNotes;
 	
     CheckListBox1.Items :=f664.f8;
 	
@@ -493,18 +493,18 @@ begin//0
 
 	
 	
-    CheckBox1.Checked :=sub_004BAEC4;
-    CheckBox13.Checked :=sub_004BC01C;
-    CheckBox7.Checked :=sub_004BB35C;
+    CheckBox1.Checked :=GetnumeroterElevesSeriesDeNotes;
+    CheckBox13.Checked :=GetnumeroterElevesGrilleVierge;
+    CheckBox7.Checked :=GetcolonnesBilanDetaillees;
     CheckBox9.Checked :=sub_004BAF34;
-    CheckBox12.Checked :=sub_004BBFB8;
-    RadioGroup1.ItemIndex := sub_004BB3F0;
-    Edit8.text := IntToStr(sub_004BC080);
-    UpDown3.Position := sub_004BC080;
-    CheckBox22.Checked :=sub_004BC0EC;
-    CheckBox23.Checked :=sub_004BC1BC;
+    CheckBox12.Checked :=GetimpressionCouleurNote;
+    RadioGroup1.ItemIndex := GettrierMoyennesImpression;
+    Edit8.text := IntToStr(SetlargeurGrilleVierge);
+    UpDown3.Position := SetlargeurGrilleVierge;
+    CheckBox22.Checked :=GetimpressionColonneMoyenne;
+    CheckBox23.Checked :=GetimpressionColonneClassement;
     RadioGroup1.Enabled := CheckBox23.Checked;
-    CheckBox24.Checked :=sub_004BC228;
+    CheckBox24.Checked :=GetnumeroterElevesAppreciations;
 end;
 
 //005055A4
@@ -526,42 +526,42 @@ begin//0
     afficherConseils(CheckBox6.Checked); //sub_00501C70
     sub_004BB694(CheckBoxVerificationMAJ.Checked);
     sub_004BB8B4(CouleurFondFenetreInfos.SelectionColor);
-    sub_004BB8E0(CheckBox11.Checked);
+    SetafficherFenetreInfo(CheckBox11.Checked);
     sub_004BB484(afficherBarreOutils.Checked);
     sub_004BB4B0(tailleMaximumAuDemarrage.Checked);
     sub_004BB4E4(afficherHeure.Checked);
     sub_004BB50C(afficherDate.Checked);
     sub_004BA2D8(CheckBox2.Checked);
     sub_004B9938(typesDeNotes.Items);
-    sub_004BC698(ListBoxMatieres.Items);
-    sub_004BB90C(CheckBoxAfficherR.Checked);
-    sub_004BB980(CheckBoxAfficherDatesDeNaissance.Checked);
-    sub_004B943C(historiqueDesFichiers.Checked);
+    SetMatieres(ListBoxMatieres.Items);
+    SetafficherR(CheckBoxAfficherR.Checked);
+    SetafficherDatesDeNaissance(CheckBoxAfficherDatesDeNaissance.Checked);
+    SetutiliserHistorique(historiqueDesFichiers.Checked);
     //if (TRUNC(NombreFichiersHistorique.Value) = 0) then
     //begin//2
       //00505753
-      sub_004B94A4(TRUNC(NombreFichiersHistorique.Value));
+      SetnbFichiersHistorique(TRUNC(NombreFichiersHistorique.Value));
       sub_004B9BBC(Shape2.Brush.Color);
-      sub_004B9BF8(Shape1.Brush.Color);
-      sub_004B9CE4(Shape3.Brush.Color);
+      SetColorlignesPaires(Shape1.Brush.Color);
+      SetcouleurSelection(Shape3.Brush.Color);
       sub_004BB42C(CheckBox5.Checked);
       sub_004B964C(ListBoxFichiers.Items);
       sub_004B9D74(RadioGroupArrondir.ItemIndex);
-      sub_004BC260(RadioGroupArrondirAnnuelle.ItemIndex);
+      SetarrondirMoyennesAnnuelles(RadioGroupArrondirAnnuelle.ItemIndex);
       sub_004B9DE4(RadioGroupTrier.ItemIndex);
       //EAX := MoyennesSur.Value Div -2147483648
       sub_004B9DA4(TRUNC(MoyennesSur.Value));
-      sub_004B9ED4(CheckBox3.Checked);
-      sub_004B9F04(CheckBox34.Checked);
-      sub_004BA138(Shape4.Brush.Color);
-      sub_004BA174(Shape5.Brush.Color);
-      sub_004BA1B0(Shape6.Brush.Color);
-      sub_004BA1EC(Shape7.Brush.Color);
-      sub_004BA228(Shape8.Brush.Color);
+      SetmoyenneParTypeDeNotes(CheckBox3.Checked);
+      SetmoyennesEcritEtOral(CheckBox34.Checked);
+      Setcouleur1Note(Shape4.Brush.Color);
+      Setcouleur2Note(Shape5.Brush.Color);
+      Setcouleur3Note(Shape6.Brush.Color);
+      Setcouleur4Note(Shape7.Brush.Color);
+      Setcouleur5Note(Shape8.Brush.Color);
       sub_004BA288(CheckBox4.Checked);
       sub_004BA354(RadioGroupGrilleNotes.ItemIndex);
       sub_004BA320(RadioGroupGrilleBilans.ItemIndex);
-      sub_004BBF28(RadioGroupGraphes.ItemIndex);
+      SetongletsGraphes(RadioGroupGraphes.ItemIndex);
       sub_004BAEFC(CheckBox1.Checked);
         for I := 0 to CheckListBox1.Items.Count - 1 do //00505976
         begin//4
@@ -583,47 +583,47 @@ begin//0
         end;//4
 
       sub_004BAF94(2, f66C);
-      sub_004BB38C(CheckBox7.Checked);
+      SetcolonnesBilanDetaillee(CheckBox7.Checked);
       sub_004BAF64(CheckBox9.Checked);
-      sub_004BBFE8(CheckBox13.Checked);
-      sub_004BC1F0(CheckBox24.Checked);
-      sub_004BB3BC(RadioGroup1.ItemIndex);
+      SetnumeroterElevesGrilleVierge(CheckBox13.Checked);
+      SetnumeroterElevesAppreciations(CheckBox24.Checked);
+      SettrierMoyennesImpression(RadioGroup1.ItemIndex);
       sub_004BB81C(CheckBox10.Checked);
-      sub_004BCE50(CheckBox25.Checked);
-      sub_004BCDE8(CheckBoxAfficherNomEnseignantOnglets.Checked);
+      SetafficherMatiereOnglets(CheckBox25.Checked);
+      SetafficherNomEnseignantOnglets(CheckBoxAfficherNomEnseignantOnglets.Checked);
       if (CheckBox10.Checked ) then//00505B11
         sub_004BB7BC(RadioGroup3.ItemIndex);
 
-      sub_004BB9E8(CheckBox14.Checked);
-      sub_004BBA30(CheckBox15.Checked);
-      sub_004BBA58(CheckBox16.Checked);
-      sub_004BBB20(CouleurDebutDegrade.SelectionColor);
-      sub_004BBB4C(CouleurFinDegrade.SelectionColor);
-      sub_004BBBE8(CouleurNotesEleve.SelectionColor);
-      sub_004BBC34(CouleurMinimumClasse.SelectionColor);
-      sub_004BBC10(CouleurMaximumClasse.SelectionColor);
-      sub_004BBC58(CouleurMoyenneClasse.SelectionColor);
-      sub_004BBDA4(CouleurMurGauche.SelectionColor);
-      sub_004BBD48(CouleurMurBas.SelectionColor);
-      sub_004BBDD8(CheckBox17.Checked);
-      sub_004BBE2C(CheckBox18.Checked);
-      sub_004BBE04(CheckBox19.Checked);
-      sub_004BBE54(CheckBox20.Checked);
-      sub_004BBAD0(CheckBox21.Checked);
-      sub_004BBF88(CheckBox12.Checked);
-      sub_004BC050(StrToInt(Edit8.Text));
-      sub_004BC0B8(CheckBox22.Checked);
-      sub_004BC120(CheckBox23.Checked);
-      sub_004BC2D8(RadioGroupTypeMoyenneAnnuelle.ItemIndex);
-      sub_004BD334(CheckBox26.Checked);
-      sub_004BD374(CheckBox27.Checked);
-      sub_004BD2F8(CheckBox28.Checked);
-      sub_004BD2B8(CheckBox29.Checked);
-      sub_004BD994(CheckBox30.Checked);
-      sub_004BD9C8(CheckBox31.Checked);
-      sub_004BD968(CheckBox32.Checked);
-      sub_004BD934(CheckBox33.Checked);
-      sub_004BC154(CheckBox35.Checked);
+      Setgraphe3D(CheckBox14.Checked);
+      SetgrapheDegrade(CheckBox15.Checked);
+      SetgrapheEnCouleur(CheckBox16.Checked);
+      SetcouleurDebutDegrade(CouleurDebutDegrade.SelectionColor);
+      SetcouleurFinDegrade(CouleurFinDegrade.SelectionColor);
+      SetcouleurEleve(CouleurNotesEleve.SelectionColor);
+      GetcouleurMin(CouleurMinimumClasse.SelectionColor);
+      SetcouleurMax(CouleurMaximumClasse.SelectionColor);
+      SetcouleurMoyenne(CouleurMoyenneClasse.SelectionColor);
+      SetcouleurMurGauche(CouleurMurGauche.SelectionColor);
+      SetcouleurMurBas(CouleurMurBas.SelectionColor);
+      SetgrapheLigneEleve(CheckBox17.Checked);
+      SetgrapheLigneMin(CheckBox18.Checked);
+      SetgrapheLigneMax(CheckBox19.Checked);
+      SetgrapheLigneMoyenne(CheckBox20.Checked);
+      SetgrapheLegende(CheckBox21.Checked);
+      SetimpressionCouleurNote(CheckBox12.Checked);
+      SetlargeurGrilleVierge(StrToInt(Edit8.Text));
+      SetimpressionColonneMoyenne(CheckBox22.Checked);
+      SetimpressionColonneClassement(CheckBox23.Checked);
+      SettypeMoyennesAnnuelles(RadioGroupTypeMoyenneAnnuelle.ItemIndex);
+      SetimpressionDatesDeNaissanceAppreciations(CheckBox26.Checked);
+      SetimpressionDatesDeNaissanceGrilleVierge(CheckBox27.Checked);
+      SetimpressionDatesDeNaissanceBilans(CheckBox28.Checked);
+      SetimpressionDatesDeNaissanceSeriesDeNotes(CheckBox29.Checked);
+      SetimpressionRAppreciations(CheckBox30.Checked);
+      SetimpressionRGrilleVierge(CheckBox31.Checked);
+      SetimpressionRBilans(CheckBox32.Checked);
+      SetimpressionRSeriesDeNotes(CheckBox33.Checked);
+      SetimpressionMoyennesEcritOral(CheckBox35.Checked);
       inherited Destroy;
 end;    
 
@@ -878,7 +878,7 @@ procedure TFormOptions.BitBtn11Click(Sender:TObject);
 begin//0
   //00506700
     //00506717
-    ListBoxFichiers.Items := sub_004B9500;
+    ListBoxFichiers.Items := HistoriqueList;
     if (ListBoxFichiers.Items.Count <> 0) then
     begin//2
       //0050673E
@@ -2000,7 +2000,7 @@ begin//0
   //00508DEC
 
     //00508E03
-    ListBoxFichiers.Items := sub_004B9500;
+    ListBoxFichiers.Items := HistoriqueList;
 
     if (ListBoxFichiers.Items.Count <> 0) then
     begin//2

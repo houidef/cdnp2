@@ -67,8 +67,8 @@ begin//0
     f330 := FichierCdn;
     TabControl1.Tabs := FichierCdn.sub_004BEA4C;
     f334 := TabControl1.TabIndex + 1;//EAX
-    ComboBoxTypesDeNotes.Items := sub_004B9794;
-    ComboBox1.Items := sub_004B9794;
+    ComboBoxTypesDeNotes.Items := GetTypesdenotes;
+    ComboBox1.Items := GetTypesdenotes;
     //f338 := $69756F03{1769303811};
 end;//0
 //0050A214

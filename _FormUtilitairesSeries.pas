@@ -79,7 +79,7 @@ begin//0
     TabControl1.Tabs := F.sub_004BEA4C;
     ComboBox1.Items := f330.sub_004BEA4C;
     ComboBox1.ItemIndex := 0;
-    ComboBox2.Items := sub_004B9794;
+    ComboBox2.Items := GetTypesdenotes;
     ComboBox2.ItemIndex := 0;
       for I := 1 to f330.sub_004BEAD0(TabControl1.TabIndex + 1) do //0050FAFA
       begin//3

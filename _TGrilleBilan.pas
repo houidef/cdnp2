@@ -120,7 +120,7 @@ begin//0
 				  Cells[I + 1, 0] :=  'Moy. "' + Strlist[I - 1] + '"';
 				  //Strlist := FichierCdn.sub_004C3134(f2D8);
 				  FichierCdn.sub_004C2E60(Strlist[I - 1], f2D8,J ,buf);
-				  FichierCdn.sub_004C2410(buf, sub_004B9E10, buf1);
+				  FichierCdn.sub_004C2410(buf, GetarrondirMoyennes, buf1);
 				  Cells[I + 1, J] :=  buf1;
 				end;//6
 			  end;//5
@@ -136,25 +136,25 @@ begin//0
 				for I := 1 to FichierCdn.sub_004BEA58  do//004CB8FA
 				begin//6
 					//004CB902
-					FichierCdn.sub_004C9280(f2D8, I, sub_004B9E10, buf);              
+					FichierCdn.sub_004C9280(f2D8, I, GetarrondirMoyennes, buf);              
 					Cells[lvar_4, I] := buf;
-					FichierCdn.sub_004C8F6C(f2D8, I, sub_004B9E10, buf);              
+					FichierCdn.sub_004C8F6C(f2D8, I, GetarrondirMoyennes, buf);              
 					Cells[lvar_4 + 1, I ] := buf;
 				end;//6
 				lvar_4 := lvar_4 + 3;
 			end;//4
 			Cols[lvar_4].Clear;
 			
-			Cells[lvar_4, 0]:= 'Moyenne bulletin sur ' + IntToStr(sub_004B9E48);
+			Cells[lvar_4, 0]:= 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
 			for I := 1 to FichierCdn.sub_004BEA58 do//004CBA16
 			begin//5
 				//004CBA1E
-				FichierCdn.sub_004C2D10(f2D8, I, sub_004B9E10, buf);
+				FichierCdn.sub_004C2D10(f2D8, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 0, I] := buf;
 			end;//5
 			Cols[lvar_4 + 1].Clear;
 			Cols[lvar_4 + 2].Clear;
-			Cols[lvar_4 + 2] :=FichierCdn.sub_004C5078(f2D8, sub_004B9EA0, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+			Cols[lvar_4 + 2] :=FichierCdn.sub_004C5078(f2D8, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			for I := 1 to lvar_4 - 3 do//004CBAF5
 			begin//5
 				//004CBAFF
@@ -228,21 +228,21 @@ begin//0
 			for I := 1 to FichierCdn.sub_004BEA58  do
 			begin//5
 				//004CC067
-				FichierCdn.sub_004C2D10(L, I, sub_004B9E10, buf);
+				FichierCdn.sub_004C2D10(L, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 2 + K + L, I ] := buf;
 			end;//5
 		end;//4
 		Cols[lvar_4 + 3 + K + lvar_C].Clear;
-		Cells[lvar_4 + 4 + K + lvar_C, 0 ] := 'Moyenne annuelle sur ' + IntToStr(sub_004B9E48);
+		Cells[lvar_4 + 4 + K + lvar_C, 0 ] := 'Moyenne annuelle sur ' + IntToStr(GetmoyennesSur);
 		for I := 1 to FichierCdn.sub_004BEA58  do//004CC184
 		begin//4
 			//004CC18C
-			FichierCdn.sub_004C32B4(I, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf);
+			FichierCdn.sub_004C32B4(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf);
 			Cells[lvar_4 + 4 + K + lvar_C, I ] :=buf;
 		end;//4
 		Cols[lvar_4 + 5 + K + lvar_C].Clear;  
 		Cols[lvar_4 + 6 + K + lvar_C].Clear;
-		//Cols[ESI] := lvar_1C.sub_004C5078(EDX, ECX, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+		//Cols[ESI] := lvar_1C.sub_004C5078(EDX, ECX, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 		for I :=  K + 2 to lvar_C - 1 do //004CC2C2
 		begin//4
 			//004CC2C9
@@ -268,25 +268,25 @@ begin//0
 				for I := 1 to FichierCdn.sub_004BEA58 do//004CC3EE
 				begin//5
 					//004CC3F6
-					FichierCdn.sub_004C9280(f2D8, I, sub_004B9E10, buf);
+					FichierCdn.sub_004C9280(f2D8, I, GetarrondirMoyennes, buf);
 					Cells[2, I]:= buf;
-					FichierCdn.sub_004C8F6C(f2D8, I, sub_004B9E10, buf);
+					FichierCdn.sub_004C8F6C(f2D8, I, GetarrondirMoyennes, buf);
 					Cells[3, I] := buf;
 				end;//5
 				sub_004CD0B0(1);
 				sub_004CD0B0(2);
 				lvar_4 := lvar_4 + 3;
 			end;//3
-			Cells[lvar_4 + 2, 0] := 'Moyenne bulletin sur ' + IntToStr(sub_004B9E48);
+			Cells[lvar_4 + 2, 0] := 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
 			for I := 1 to FichierCdn.sub_004BEA58 do//004CC511
 			begin//4
 				//004CC519
-				FichierCdn.sub_004C2D10(f2D8, I, sub_004B9E10, buf);
+				FichierCdn.sub_004C2D10(f2D8, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 2, I] :=  buf;
 			end;//4
 			Cols[lvar_4 + 3].Clear;
 			Cols[lvar_4 + 4].Clear;
-			Cols[lvar_4 + 4] :=  FichierCdn.sub_004C5078(f2D8, sub_004B9EA0, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+			Cols[lvar_4 + 4] :=  FichierCdn.sub_004C5078(f2D8, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			sub_004CD0B0(lvar_4 + 1);
 			Cols[lvar_4 + 5].Clear;
 			for I := 1 to lvar_14 do//004CC624
@@ -314,7 +314,7 @@ begin//0
 				for I := 1 to FichierCdn.sub_004BEA58  do//004CC79E
 				begin//5
 					//004CC7A6
-					FichierCdn.sub_004C2D10(L, I, sub_004B9E10, buf);
+					FichierCdn.sub_004C2D10(L, I, GetarrondirMoyennes, buf);
 					Cells[L + 1, I ] := buf;
 				end;//5
 				sub_004CD0B0(L);
@@ -345,17 +345,17 @@ begin//0
 				sub_004CD0B0(lvar_C + 3);
 				lvar_4 := lvar_4 + lvar_18;
 			end;//2
-			Cells[lvar_4 + 3 + lvar_C, 0 ] := 'Moyenne annuelle sur ' + IntToStr(sub_004B9E48); 
+			Cells[lvar_4 + 3 + lvar_C, 0 ] := 'Moyenne annuelle sur ' + IntToStr(GetmoyennesSur); 
 			for I := 1 to FichierCdn.sub_004BEA58  do//004CCA69
 			begin//3
 				//004CCA71
-				FichierCdn.sub_004C32B4(I, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf); 
+				FichierCdn.sub_004C32B4(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf); 
 				Cells[lvar_4 + 3 + lvar_C, I ] := buf;
 			end;//3
 			sub_004CD0B0(lvar_4 + lvar_C + 2);
 			Cols[lvar_4 + 4 + lvar_C].Clear;
 			Cols[lvar_4 + 5 + lvar_C].Clear;
-			Cols[lvar_4 + 5 + lvar_C] := FichierCdn.sub_004C5078(lvar_C + 1, sub_004B9EA0, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+			Cols[lvar_4 + 5 + lvar_C] := FichierCdn.sub_004C5078(lvar_C + 1, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			sub_004CD0B0(lvar_4 + 4 + lvar_C);
 		end;
 	end;
@@ -567,20 +567,20 @@ begin//0
       1,2:
       begin//3
         //004CEB2C
-        if (sub_004B9EA0  <> Message.ItemID - 1) then
+        if (GettrierMoyennes  <> Message.ItemID - 1) then
         begin//4
           //004CEB4C
-          sub_004B9DE4(Message.ItemID - 1);
+          SettrierMoyennes(Message.ItemID - 1);
           I := true;
         end;//4
       end;//3
       3:
       begin//3
         //004CEB72
-        if (sub_004B9E48 <> 20) then
+        if (GetmoyennesSur <> 20) then
         begin//4
           //004CEB80
-          sub_004B9DA4(20);
+          SetmoyennesSur(20);
           I := true;
           J := true;
         end;//4
@@ -589,10 +589,10 @@ begin//0
       begin//3
         //004CEB95
        
-        if (sub_004B9E48 <> 10) then
+        if (GetmoyennesSur <> 10) then
         begin//4
           //004CEBA3
-          sub_004B9DA4(10);
+          SetmoyennesSur(10);
           I := true;
           J := true;
         end;//4
@@ -600,15 +600,15 @@ begin//0
       5:
       begin//3
         //004CEBB8
-        FormEdit{gvar_00617CE0} := TFormEdit.Create(Self, 'Moyennes sur', IntToStr(sub_004B9E48),1);
+        FormEdit{gvar_00617CE0} := TFormEdit.Create(Self, 'Moyennes sur', IntToStr(GetmoyennesSur),1);
         FormEdit.ShowModal;
         if (FormEdit.ModalResult = 1) then
         begin//4
           //004CEC05     
-          if (StrToInt(FormEdit.Edit1.Text) <> sub_004B9E48) then
+          if (StrToInt(FormEdit.Edit1.Text) <> GetmoyennesSur) then
           begin//5
             //004CEC2D
-            sub_004B9DA4(StrToInt(FormEdit.Edit1.Text));
+            SetmoyennesSur(StrToInt(FormEdit.Edit1.Text));
             I := true;
             J := true;
           end;//5
@@ -624,10 +624,10 @@ begin//0
       7,8,9,10,11:
       begin//3
         //004CEC7B
-        if (sub_004B9E10  <> Message.ItemID - 7) then
+        if (GetarrondirMoyennes  <> Message.ItemID - 7) then
         begin//4
           //004CEC9B
-          sub_004B9D74(Message.ItemID - 7);
+          SetarrondirMoyennes(Message.ItemID - 7);
           I := true;
           J := true;
         end;//4
@@ -718,7 +718,7 @@ begin//0
     if (ARow = 0) then//004CD8D7
      Canvas.Brush.Color := $80000004
     else//004CD8EF
-      if (sub_004BB458) then
+      if (GetcolorationGrille) then
       begin//004CD8F8
         if (ARow mod 2 - 1 <> 0) then//004CD90A
           Canvas.Brush.Color := GetColorlignesPaires
@@ -736,7 +736,7 @@ begin//0
     else
     begin//004CD988
       //ESI := f2DC; 
-      if (sub_004BA2B0) then  //if coloration Note
+      if (GetcolorationNote) then  //if coloration Note
       begin//3 //004CD99E
         Canvas.Font.Style := [];//gvar_004CDEE8;
         Canvas.Font.Color := 0;
@@ -765,10 +765,10 @@ begin//0
                       Valeur := Copy(Cells[ACol, ARow], Pos('-> ', Cells[ACol, ARow]) + 2, Length(Cells[ACol, ARow]));
 
 					
-                    if (StrToFloat(Valeur) > sub_004B9E48/2) then //004CDB77
+                    if (StrToFloat(Valeur) > GetmoyennesSur/2) then //004CDB77
                       Canvas.Font.Color := _Getcouleur1Note
                     else//004CDB91
-                      if (StrToFloat(Valeur) <= 3/4*sub_004B9E48) then//004CDBBC
+                      if (StrToFloat(Valeur) <= 3/4*GetmoyennesSur) then//004CDBBC
                         Canvas.Font.Color := _Getcouleur3Note
                       else//004CDBD6
                         Canvas.Font.Color := sub_004BA26C;
@@ -776,14 +776,14 @@ begin//0
                   except//9
                     on E:EConvertError do
                     begin//004CDC14
-                      if (sub_004BB458) then//004CDC1D
+                      if (GetcolorationGrille) then//004CDC1D
                         Canvas.Brush.Color := _Getcouleur5Note
                       else//004CDC37
                         Canvas.Brush.Color := $FFFFFF;
                     end;//10
                     on E:EMathError do
                     begin//004CDC4F
-                      if (sub_004BB458 ) then//004CDC58
+                      if (GetcolorationGrille ) then//004CDC58
                         Canvas.Brush.Color := _Getcouleur5Note
                       else//004CDC72
                         Canvas.Brush.Color := $FFFFFF;
@@ -800,7 +800,7 @@ begin//0
     if ((gdSelected in AState)) then
     begin//2
       //004CDCA8
-      if (sub_004BB458 ) then//004CDCB1
+      if (GetcolorationGrille ) then//004CDCB1
         Canvas.Brush.Color := GetcouleurSelection
       else//004CDCCB
         Canvas.Brush.Color := $C0C0C0;
@@ -903,7 +903,7 @@ begin//0
     AppendMenuA(f2E8, $800{2048}, 0, '-');
     DestroyMenu(f2EC);
     f2EC := CreatePopupMenu;
-    if (sub_004B9EA0 = 0) then
+    if (GettrierMoyennes = 0) then
     begin//2
       //004CDFB2
       AppendMenuA(f2EC, 8, 1, 'Ascendant');
@@ -947,7 +947,7 @@ begin//0
     end;//2
     DestroyMenu(f2F4);
     f2F4 := CreatePopupMenu;
-    I := sub_004B9E10;
+    I := GetarrondirMoyennes;
     AppendMenuA(f2E8, $800{2048}, 0, '-');
     if (I = 0) then
     begin//2

@@ -220,7 +220,7 @@ begin//0
 			  begin
 				  if (FichierCdn.sub_004BEAD0(I) > 0) then
 				  begin//004D1F82
-					FichierCdn.sub_004C2D10(I, ARow, sub_004B9E10, Buf0);
+					FichierCdn.sub_004C2D10(I, ARow, GetarrondirMoyennes, Buf0);
 					lvar_18 := lvar_18 + Buf0 + ' - ';
 				  end//7
 				  else
@@ -231,16 +231,16 @@ begin//0
 				           
             if (FichierCdn.sub_004BEAD0(FichierCdn.sub_004BE9E0) > 0) then
             begin//004D200C
-              FichierCdn.sub_004C2D10(FichierCdn.sub_004BE9E0, ARow, sub_004B9E10, Buf0);
+              FichierCdn.sub_004C2D10(FichierCdn.sub_004BE9E0, ARow, GetarrondirMoyennes, Buf0);
               lvar_18 := lvar_18 + Buf0;
             end//6
             else
             begin//004D205A
               lvar_18 := lvar_18 + '?'; //$4D2348
             end;//6
-            FormHint.Label4.Caption := 'Moyennes bulletin sur ' + IntToStr(sub_004B9E48) + ' : ' + lvar_18;
-            FichierCdn.sub_004C32B4(ARow, sub_004B9E10, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, Buf0);
-            FormHint.Label5.Caption := 'Moyenne annuelle sur ' + IntToStr(sub_004B9E48) + ' : ' + Buf0;
+            FormHint.Label4.Caption := 'Moyennes bulletin sur ' + IntToStr(GetmoyennesSur) + ' : ' + lvar_18;
+            FichierCdn.sub_004C32B4(ARow, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, Buf0);
+            FormHint.Label5.Caption := 'Moyenne annuelle sur ' + IntToStr(GetmoyennesSur) + ' : ' + Buf0;
             FormHint.f2F0 := 5;
             FormHint.Show;
             Exit;

@@ -1,6 +1,6 @@
 {***************************************
 * CarnetNotesVersion Original V0.01 
-* Decompiled by HOUIDEF AEK v 01:30 mardi 27 février 2018
+* Decompiled by HOUIDEF AEK v 01:30 2021-05-11 @ 11:22 PM
 ***************************************}
 unit UFichierCdn;
 
@@ -74,7 +74,7 @@ type
     procedure sub_004BEEBC(Periode:dword; ARow:dword; var S:string);//004BEEBC
     procedure sub_004BEF0C(Periode:dword; ARow:dword; var S:string);//004BEF0C
     procedure sub_004BEF5C(Periode:dword; ACol:dword; ARow:dword; var data:string);//004BEF5C
-    procedure sub_004BEF84(a:shortString);//004BEF84
+    procedure SetFileName(a:shortString);//004BEF84
     procedure sub_004BEFD0(a:String);//004BEFD0
     procedure sub_004BF004(a:String);//004BF004
     procedure sub_004BF038(a:String);//004BF038
@@ -84,9 +84,9 @@ type
     procedure sub_004BF258(a:ShortString; b:dword);//004BF258
     procedure sub_004BF544(StringList:TStringList);//004BF544
     procedure sub_004BF64C(a:TStringList);//004BF64C
-    procedure sub_004BF7F0(a:dword; b:string; c:string; d:string; e:string; f:string; g:string; h:string; ii:string);//004BF7F0
+    procedure sub_004BF7F0(a:dword; b:string; c:string; d:string; e:string; f:string; g:string; h:string; ii:boolean);//004BF7F0
     procedure sub_004BFC58(a:dword; b:dword);//004BFC58
-    ////procedure sub_004BFD68(?:dword; ?:?; ?:?; ?:?);//004BFD68
+    procedure sub_004BFD68(index1:integer; index2:integer; index3:integer);//004BFD68
     procedure sub_004C0070(a:dword);//004C0070
     procedure sub_004C0134(a:dword);//004C0134
     procedure sub_004C01F8(a:AnsiString; b:boolean; c:string; d:dword);//004C01F8   sauvgrader fichier 
@@ -99,17 +99,17 @@ type
     procedure sub_004C1074(Periode:dword; ACol:dword; ARow:dword; data:string);//004C1074
     procedure sub_004C1158(a:dword);//004C1158
     procedure sub_004C14C8(b:String; c:string; d:string; a:boolean);//004C14C8
-    ////procedure sub_004C1954(?:dword; ?:dword; ?:?; ?:?);//004C1954
+    procedure sub_004C1954(a:integer; b:string; c:boolean;d:string);//004C1954
     procedure sub_004C213C(Periode:dword; ARow:dword; var Moy:string);//004C213C
     procedure sub_004C2410(a:String; {b:Integer;}  ArrendirMoyennes:dword; var Moy:string);//004C2410
     procedure sub_004C2AF4(Periode:dword; ARow:dword; ArrondirMoyennes:dword; var RMoy:string);//004C2AF4
     procedure sub_004C2B38(Periode:dword; ARow:dword; var c:string);//004C2B38
     procedure sub_004C2C00(a:dword; b:dword; c:dword;var d:string);//004C2C00
     procedure sub_004C2D10(Periode:dword; ARow:dword; ArrondirMoyennes:dword; var Moy:string);//004C2D10
-    ////procedure sub_004C2E60(?:dword; ?:ShortString; ?:?; ?:?);//004C2E60
-    ////function sub_004C3134(?:dword; ?:?):?;//004C3134
-    ////procedure sub_004C32B4(a:dword; b:pointer; c:pointer; d:pointer; e:pointer; f:pointer);//004C32B4
-    ////procedure sub_004C3678(?:dword; ?:?; ?:?);//004C3678
+    procedure sub_004C2E60(str:string; B:byte; J:integer; buf:string);//004C2E60
+    function sub_004C3134(a:byte):TStringList;//004C3134
+    procedure sub_004C32B4(a:integer; b:integer; c:integer;d:integer;e:string);//004C32B4
+    procedure sub_004C3678(index1:integer; index2:integer; str:string);//004C3678
     procedure sub_004C3798(b:dword; c:dword; d:string; e:dword);//004C3798
     procedure sub_004C3908(var a:string);//004C3908
     procedure sub_004C3920(a:string);//004C3920
@@ -124,16 +124,16 @@ type
     function sub_004C4778(Periode:dword):boolean;//004C4778
     procedure sub_004C4784(Periode:dword;b:boolean);//004C4784
     function sub_004C4790:dword;//004C4790
-    ////procedure sub_004C47E8(?:dword; ?:?; ?:?);//004C47E8
-    ////procedure sub_004C48BC(?:dword; ?:dword; ?:?);//004C48BC
-    ////procedure sub_004C4990(?:dword; ?:?; ?:?);//004C4990
-    ////procedure sub_004C4B20(?:dword; ?:?; ?:?);//004C4B20
+    procedure sub_004C47E8(index1:integer; index2:integer; str:string);//004C47E8
+    procedure sub_004C48BC(index1:integer; index2:integer; str:string);//004C48BC
+    procedure sub_004C4990(index1:integer; index2:integer);//004C4990
+    procedure sub_004C4B20(index1:integer; index2:integer);//004C4B20
     procedure sub_004C4CBC(a:TStringList);//004C4CBC
     procedure sub_004C4CC8(var a:string);//004C4CC8
     function sub_004C4D44:dword;//004C4D44
-    ////function sub_004C5078(?:dword; ?:?; ?:?; ?:?; ?:?; ?:?):?;//004C5078
+    function sub_004C5078(a:integer; b:integer; c:integer;d:integer;e:integer):Tstrings;//004C5078
     procedure sub_004C5404(Periode:dword; ARow:dword; var S:String);//004C5404
-    ////procedure sub_004C56C0(a:pointer; b:pointer; c:pointer; d:pointer);//004C56C0
+    procedure sub_004C56C0(a:integer; b:integer; c:string);//004C56C0
     procedure sub_004C5E04(periode:dword; ACol:dword; c:dword;s:string);//004C5E04
     procedure sub_004C5F08(Periode:dword; ACol:dword; Info:dword; var d:string);//004C5F08
     procedure sub_004C5FF8(a:dword; b:dword; c:dword; d:dword);//004C5FF8
@@ -143,7 +143,7 @@ type
     procedure sub_004C61E4(Periode:dword; ARow:dword; c:boolean);//004C61E4
     function sub_004C62E8(a:dword; b:dword):boolean;//004C62E8
     procedure sub_004C63C8;//004C63C8
-    ////procedure sub_004C64CC(?:dword; ?:ShortString; ?:?);//004C64CC
+    procedure sub_004C64CC(a:string; J:integer; b:string);//004C64CC
     function sub_004C6680:Boolean;//004C6680
     procedure sub_004C8880;//004C8880
     function sub_004C8AD8:dword;//004C8AD8
@@ -152,19 +152,19 @@ type
     procedure sub_004C8AF4(a:dword; var b:String);//004C8AF4
     procedure sub_004C8B54(var a:string);//004C8B54
     function sub_004C8BAC():TStrings;//004C8BAC
-    ////procedure sub_004C8C2C(?:dword; ?:?; ?:PShortString);//004C8C2C
+    procedure sub_004C8C2C(a:integer; str:Pchar);//004C8C2C
     procedure sub_004C8CB8(a:dword; var b:String);//004C8CB8
     function sub_004C8D68:dword;//004C8D68
     procedure sub_004C8D84(a:dword; var b:String);//004C8D84
     procedure sub_004C8DF8(a:dword; b:boolean);//004C8DF8
     function sub_004C8E50( b:dword):boolean;//004C8E50
-    ////function sub_004C8EC8(?:dword; ?:?; ?:?; ?:?):?;//004C8EC8
+    function sub_004C8EC8(a:integer; b:integer; c:boolean):integer;//004C8EC8
     procedure sub_004C8F6C(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C8F6C
     procedure sub_004C8FB0(Periode:dword; ARow:dword; var s:string);//004C8FB0
     procedure sub_004C9280(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C9280
     procedure sub_004C92C4(Periode:dword; ARow:dword; var s:string);//004C92C4
-    ////procedure sub_004C9594(?:dword; ?:?; ?:?; ?:?);//004C9594
-    ////procedure sub_004C9708(?:dword; ?:?; ?:?; ?:?);//004C9708
+    procedure sub_004C9594(a:integer; b:integer; buf:string);//004C9594
+    procedure sub_004C9708(a:integer; b:integer; buf:string);//004C9708
 	end;
 
 implementation
@@ -437,7 +437,7 @@ begin//0
 end;
 
 //004BEF84
-procedure TFichierCdn.sub_004BEF84(a:shortString);
+procedure TFichierCdn.SetFileName(a:shortString);
 var
   lvar_4:AnsiString;
 begin//0
@@ -568,12 +568,12 @@ begin//0
   //004BF258
     //004BF2BE
     f918.sub_004B6D38(buf0);
-    f918.sub_004B6D84(sub_004BA3F8(buf0));
+    f918.sub_004B6D84(__GetPeriodes(buf0));
     f914.sub_004C9AA0(buf1);
     f914.sub_004C9A84(SetNomsbulletins(buf1));
     f920.Clear;
     //call();
-      for I := 1 to sub_004BA3F8(buf0).count do //004BF384
+      for I := 1 to __GetPeriodes(buf0).count do //004BF384
       begin//3
         //004BF387
         f920.Add('0');
@@ -587,7 +587,7 @@ begin//0
     f944.Clear;
 
     //call();
-      for I := 1 to 2 * sub_004BA3F8(Buf0).count do //004BF418
+      for I := 1 to 2 * __GetPeriodes(Buf0).count do //004BF418
       begin//3
         //004BF41B
         for J := 1 to 50 do
@@ -612,7 +612,7 @@ begin//0
 
       //004BF48D
 
-      for I := 1 to sub_004BA3F8(buf0).count  do
+      for I := 1 to __GetPeriodes(buf0).count  do
       begin//3
         
         for J := 1 to 50 do //004BF490
@@ -740,7 +740,7 @@ begin//0
 end;//0
 
 //004BF7F0
-procedure TFichierCdn.sub_004BF7F0(a:dword; b:string; c:string; d:string; e:string; f:string; g:string; h:string; ii:string);
+procedure TFichierCdn.sub_004BF7F0(a:dword; b:string; c:string; d:string; e:string; f:string; g:string; h:string; ii:boolean);
 var
   lvar_C,I,J,lvar_8 : integer;
 begin//0
@@ -800,7 +800,7 @@ begin//0
     f924.Cells[lvar_8, $0E {gvar_006178FE} + I] :=  g;
     f924.Cells[lvar_8, $0F {gvar_006178FF} + I] :=  h;
     f924.Cells[lvar_8, $10 {gvar_00617900} + I] :=  h;
-    if (ii <> '') then//004BFB61
+    if (ii ) then//004BFB61
       f924.Cells[lvar_8,  $11{gvar_00617901} + I] := 'Oral'
     else //004BFB85
       f924.Cells[lvar_8,  $11{gvar_00617901} + I] :=  'Ecrit';
@@ -857,9 +857,9 @@ begin//0
 end;//0
 
 //004BFD68
-{*//procedure sub_004BFD68(?:dword; ?:?; ?:?; ?:?);
-//begin
- 004BFD68    push        ebp
+procedure TFichierCdn.sub_004BFD68(index1:integer; index2:integer; index3:integer);
+begin
+{ 004BFD68    push        ebp
  004BFD69    mov         ebp,esp
  004BFD6B    add         esp,0FFFFF7EC
  004BFD71    push        ebx
@@ -1089,15 +1089,8 @@ end;//0
  004C0040    lea         eax,[ebp-710]
  004C0046    call        @LStrClr
  004C004B    ret
->004C004C    jmp         @HandleFinally
->004C0051    jmp         004C0035
- 004C0053    pop         edi
- 004C0054    pop         esi
- 004C0055    pop         ebx
- 004C0056    mov         esp,ebp
- 004C0058    pop         ebp
- 004C0059    ret         4
-end;*}
+}
+end;
 
 //004C0070
 procedure TFichierCdn.sub_004C0070(a:dword);
@@ -1138,7 +1131,7 @@ begin//0
       if (buf <> 'Bulletins par défaut') then//004C0271
         d := 0;
      
-      if (sub_004BA2FC) then//004C027E
+      if (GetfichierBak) then//004C027E
         RenameFile(a, ChangeFileExt(a, '.bak'));
 
       FluxCdn := TFluxCdn.Create(a, $FFFF);
@@ -1319,7 +1312,7 @@ begin//0
         FluxCdn.sub_004B6A80( buf);
         FluxCdn.Destroy;
       end;//3
-      sub_004BEF84(a);
+      SetFileName(a);
       f949 := 0;
       f8 := false;
     except//004C0B44
@@ -1560,7 +1553,7 @@ begin//0
 end;//0
 
 //004C1954
-procedure sub_004C1954(a:dword; b:dword; d:dword; c:dword; e:dword);
+procedure TFichierCdn.sub_004C1954(a:integer; b:string; c:boolean;d:string);
 var
   I:integer;
 begin//0
@@ -1787,7 +1780,7 @@ begin//0
         end;//4
 	  
       if (Somme<> 0) then //004C234E
-        Moy := FloatToStrF(sub_004B9E48 * (Total / Somme), {2}ffFixed, 18, 2)
+        Moy := FloatToStrF(GetmoyennesSur * (Total / Somme), {2}ffFixed, 18, 2)
       else//004C239D
         Moy := '';
       //showmessage(Format('Moy %s',[Moy]));
@@ -1962,9 +1955,9 @@ end;//0
 
 
 //004C2E60
-{*//procedure sub_004C2E60(?:dword; ?:ShortString; ?:?; ?:?);
-//begin
- 004C2E60    push        ebp
+procedure TFichierCdn.sub_004C2E60(str:string; B:byte; J:integer; buf:string);
+begin
+{ 004C2E60    push        ebp
  004C2E61    mov         ebp,esp
  004C2E63    add         esp,0FFFFFCA0
  004C2E69    push        ebx
@@ -2174,13 +2167,13 @@ end;//0
  004C3125    pop         ebx
  004C3126    mov         esp,ebp
  004C3128    pop         ebp
- 004C3129    ret         8
-end;*}
+ 004C3129    ret         8}
+end;
 
 //004C3134
-{*//function sub_004C3134(?:dword; ?:?):?;
-//begin
- 004C3134    push        ebp
+function TFichierCdn.sub_004C3134(a: byte):TStringList;
+begin
+{ 004C3134    push        ebp
  004C3135    mov         ebp,esp
  004C3137    add         esp,0FFFFFECC
  004C313D    push        ebx
@@ -2304,12 +2297,12 @@ end;*}
  004C32AF    pop         ebx
  004C32B0    mov         esp,ebp
  004C32B2    pop         ebp
- 004C32B3    ret
-end;*}
+ 004C32B3    ret}
+end;
 
 //004C32B4
-//procedure sub_004C32B4(a:dword; b:pointer; c:pointer; d:pointer; e:pointer; f:pointer);
-//begin
+procedure TFichierCdn.sub_004C32B4(a:integer; b:integer; c:integer;d:integer;e:string);
+begin
 {*
  004C32B4    push        ebp
  004C32B5    mov         ebp,esp
@@ -2588,14 +2581,14 @@ end;*}
  004C3669    pop         ebx
  004C366A    mov         esp,ebp
  004C366C    pop         ebp
- 004C366D    ret         0C
-*}
-//end;
+ 004C366D    ret         0C}
+
+end;
 
 //004C3678
-{*//procedure sub_004C3678(?:dword; ?:?; ?:?);
-//begin
- 004C3678    push        ebp
+procedure TFichierCdn.sub_004C3678(index1:integer; index2:integer; str:string);
+begin
+{ 004C3678    push        ebp
  004C3679    mov         ebp,esp
  004C367B    add         esp,0FFFFFDF4
  004C3681    push        ebx
@@ -2688,8 +2681,8 @@ end;*}
  004C378E    pop         ebx
  004C378F    mov         esp,ebp
  004C3791    pop         ebp
- 004C3792    ret         4
-end;*}
+ 004C3792    ret         4}
+end;
 
 //004C3798
 procedure TFichierCdn.sub_004C3798(b:dword; c:dword; d:string; e:dword);
@@ -3212,9 +3205,9 @@ end;//0
 
 
 //004C47E8
-{*//procedure sub_004C47E8(?:dword; ?:?; ?:?);
-//begin
- 004C47E8    push        ebp
+procedure TFichierCdn.sub_004C47E8(index1:integer; index2:integer; str:string);
+begin
+{ 004C47E8    push        ebp
  004C47E9    mov         ebp,esp
  004C47EB    add         esp,0FFFFFDFC
  004C47F1    push        ebx
@@ -3285,13 +3278,13 @@ end;//0
  004C48B2    pop         ebx
  004C48B3    mov         esp,ebp
  004C48B5    pop         ebp
- 004C48B6    ret         4
-end;*}
+ 004C48B6    ret         4}
+end;
 
 //004C48BC
-{*//procedure sub_004C48BC(?:dword; ?:dword; ?:?);
-//begin
- 004C48BC    push        ebp
+procedure TFichierCdn.sub_004C48BC(index1:integer; index2:integer; str:string);
+begin
+{ 004C48BC    push        ebp
  004C48BD    mov         ebp,esp
  004C48BF    add         esp,0FFFFFDFC
  004C48C5    push        ebx
@@ -3362,13 +3355,13 @@ end;*}
  004C4986    pop         ebx
  004C4987    mov         esp,ebp
  004C4989    pop         ebp
- 004C498A    ret         4
-end;*}
+ 004C498A    ret         4}
+end;
 
 //004C4990
-{*//procedure sub_004C4990(?:dword; ?:?; ?:?);
-//begin
- 004C4990    push        ebp
+procedure TFichierCdn.sub_004C4990(index1:integer; index2:integer);
+begin
+{ 004C4990    push        ebp
  004C4991    mov         ebp,esp
  004C4993    add         esp,0FFFFFFEC
  004C4996    push        ebx
@@ -3499,13 +3492,13 @@ end;*}
  004C4B0F    pop         ebx
  004C4B10    mov         esp,ebp
  004C4B12    pop         ebp
- 004C4B13    ret
-end;*}
+ 004C4B13    ret}
+end;
 
 //004C4B20
-{*//procedure sub_004C4B20(?:dword; ?:?; ?:?);
-//begin
- 004C4B20    push        ebp
+procedure TFichierCdn.sub_004C4B20(index1:integer; index2:integer);
+begin
+{ 004C4B20    push        ebp
  004C4B21    mov         ebp,esp
  004C4B23    add         esp,0FFFFFFEC
  004C4B26    push        ebx
@@ -3639,8 +3632,8 @@ end;*}
  004C4CA9    pop         ebx
  004C4CAA    mov         esp,ebp
  004C4CAC    pop         ebp
- 004C4CAD    ret
-end;*}
+ 004C4CAD    ret}
+end;
 
 //004C4CBC
 procedure TFichierCdn.sub_004C4CBC(a:TStringlist);
@@ -3653,14 +3646,7 @@ end;//0
 //004C4CC8
 procedure TFichierCdn.sub_004C4CC8(var a:string);
 begin//0
-  //004C4CC8
-
-    //004C4CFB
-
     f918.sub_004B6D38(a);
-
-    //004C4D2A
-
 end;//0
 
 //004C4D44
@@ -3672,9 +3658,9 @@ end;//0
 
 
 //004C5078
-{*//function sub_004C5078(?:dword; ?:?; ?:?; ?:?; ?:?; ?:?):?;
-//begin
- 004C5078    push        ebp
+function TFichierCdn.sub_004C5078(a:integer; b:integer; c:integer;d:integer;e:integer):Tstrings;
+begin
+{ 004C5078    push        ebp
  004C5079    mov         ebp,esp
  004C507B    add         esp,0FFFFFEA8
  004C5081    push        ebx
@@ -3912,8 +3898,8 @@ end;//0
  004C53AB    pop         ebx
  004C53AC    mov         esp,ebp
  004C53AE    pop         ebp
- 004C53AF    ret         0C
-end;*}
+ 004C53AF    ret         0C}
+end;
 
 //004C5404
 procedure TFichierCdn.sub_004C5404(Periode:dword; ARow:dword; var S:String); //Determiner la Note la plus basse de la période
@@ -3924,7 +3910,7 @@ var
  Buf:string;
 begin//0
   //004C5404..004C544A
-    MoyennesSur := sub_004B9E48; //moyennesSur
+    MoyennesSur := GetmoyennesSur; //moyennesSur
 	lvar_38 := 0;
 	//1- Determiner le NumModule !
     for I:=1 to  sub_004BEAD0(Periode) do //lvar_34
@@ -3954,7 +3940,7 @@ begin//0
     if (lvar_38 <> 0) then
     begin//004C55B1
       sub_004BED04(Periode, Buf, NumModule);
-      S := FloatToStrF(NoteBasse,ffFixed{2}, 18, 2) + '/' + IntToStr(sub_004B9E48) + ' (' + Buf + ')';
+      S := FloatToStrF(NoteBasse,ffFixed{2}, 18, 2) + '/' + IntToStr(GetmoyennesSur) + ' (' + Buf + ')';
     end
 	else 
     S := '';//??????
@@ -3962,8 +3948,8 @@ end;//0
 
 
 //004C56C0
-//procedure sub_004C56C0(a:pointer; b:pointer; c:pointer; d:pointer);
-//begin
+procedure TFichierCdn.sub_004C56C0(a:integer; b:integer; c:string);
+begin
 {*
  004C56C0    push        ebp
  004C56C1    mov         ebp,esp
@@ -4151,7 +4137,7 @@ end;//0
  004C5949    pop         ebp
  004C594A    ret         4
 *}
-//end;
+end;
 
 //004C5E04
 procedure TFichierCdn.sub_004C5E04(periode:dword; ACol:dword; c:dword;s:string);
@@ -4166,14 +4152,8 @@ begin//0
         //004C5E57
         K := K + sub_004BEAD0(I);
       end;//3
-
     K := K + ACol;
-
-    
     f940[14 * (K - 1) + c - 1] := s;
-    //004C5EEC
-   // lvar_10C := '';
-
 end;//0
 
 
@@ -4189,7 +4169,6 @@ begin//0
        //Determiner l'index(periode,ACol,Info) = 14*(ACol-1)+14*sum(ACol-1,1,Periode-1)+Info - 1
       for I := 1 to Periode - 1 do//004C5F44
         sum := sum + sub_004BEAD0(I);
-
 
     d := f940[14 * (sum + ACol - 1) + Info - 1];
 end;//0
@@ -4308,9 +4287,9 @@ end;
 
 
 //004C64CC
-{*//procedure sub_004C64CC(?:dword; ?:ShortString; ?:?);
-//begin
- 004C64CC    push        ebp
+procedure TFichierCdn.sub_004C64CC(a:string; J:integer; b:string);
+begin
+{ 004C64CC    push        ebp
  004C64CD    mov         ebp,esp
  004C64CF    add         esp,0FFFFFDD4
  004C64D5    push        ebx
@@ -4430,8 +4409,8 @@ end;
  004C664A    pop         ebx
  004C664B    mov         esp,ebp
  004C664D    pop         ebp
- 004C664E    ret         4
-end;*}
+ 004C664E    ret         4*}
+end;
 
 //004C6654
 function TFichierCdn.sub_004C6654:Boolean;
@@ -5364,7 +5343,7 @@ begin//0
   //lvar_8 := FileName;
   //lvar_4 := Self;
   //004C82C4
-    f910 := sub_004B9E10;
+    f910 := GetarrondirMoyennes;
     f911 := GetarrondirMoyennesAnnuelles;
     f912 := GettypeMoyennesAnnuelles;
     f914 := TTypeBulletins.Create;
@@ -5711,7 +5690,7 @@ begin//0
     f710 := IntToStr(lvar_2) + '/' + IntToStr(lvar_2+1);
     f810 := '';
     f310 := '';
-    f910 := sub_004B9E10;
+    f910 := GetarrondirMoyennes;
     f911 := GetarrondirMoyennesAnnuelles;
     f912 := GettypeMoyennesAnnuelles;
     FileName := f410;
@@ -5793,9 +5772,9 @@ begin//0
 end;
 
 //004C8C2C
-{*//procedure sub_004C8C2C(?:dword; ?:?; ?:PShortString);
-//begin
- 004C8C2C    push        ebp
+procedure TFichierCdn.sub_004C8C2C(a:integer; str:Pchar);
+begin
+{ 004C8C2C    push        ebp
  004C8C2D    mov         ebp,esp
  004C8C2F    add         esp,0FFFFFEFC
  004C8C35    push        ebx
@@ -5844,8 +5823,8 @@ end;
  004C8CB3    pop         ebx
  004C8CB4    mov         esp,ebp
  004C8CB6    pop         ebp
- 004C8CB7    ret
-end;*}
+ 004C8CB7    ret*}
+end;
 
 //004C8CB8
 procedure TFichierCdn.sub_004C8CB8(a:dword; var b:String);
@@ -5894,9 +5873,9 @@ begin
 end;
 
 //004C8EC8
-{*//function sub_004C8EC8(?:dword; ?:?; ?:?; ?:?):?;
-//begin
- 004C8EC8    push        ebp
+function TFichierCdn.sub_004C8EC8(a:integer; b:integer; c:boolean):integer;
+begin
+{ 004C8EC8    push        ebp
  004C8EC9    mov         ebp,esp
  004C8ECB    push        ecx
  004C8ECC    push        ebx
@@ -5945,8 +5924,8 @@ end;
  004C8F56    pop         ebx
  004C8F57    pop         ecx
  004C8F58    pop         ebp
- 004C8F59    ret         4
-end;*}
+ 004C8F59    ret         4*}
+end;
 
 //004C8F6C
 procedure TFichierCdn.sub_004C8F6C(Periode:dword; ARow:dword; Arrondir:dword; var s:string);
@@ -6015,7 +5994,7 @@ begin//0
     begin//2
       //004C91EA
 
-      s := FloatToStrF(sub_004B9E48 * (Somme / Total),ffFixed{2}, $12{18}, 2);
+      s := FloatToStrF(GetmoyennesSur * (Somme / Total),ffFixed{2}, $12{18}, 2);
 
     end//2
 	else 
@@ -6068,15 +6047,10 @@ begin//0
             //004C93B8
             try
               //004C93C6
-
               sub_004BED7C(Periode, I, buf);
-
               Coefficient := StrToFloat(buf);
-
               sub_004BED2C(Periode, I, buf);
-
               NoteSur := StrToFloat(buf);
-
               sub_004BEF5C(Periode, I, ARow, Buf);
               Total := StrToFloat(Buf) * Coefficient + Total;
               Somme := NoteSur * Coefficient + Somme;
@@ -6096,9 +6070,7 @@ begin//0
     if (Somme <> 0) then
     begin//2
       //004C94FE
-      s := FloatToStrF(sub_004B9E48 * (Total / Somme),ffFixed{2}, $12{18}, 2);
-
-
+      s := FloatToStrF(GetmoyennesSur * (Total / Somme),ffFixed{2}, $12{18}, 2);
     end//2
 	else
     s := '';
@@ -6106,9 +6078,9 @@ begin//0
 end;//0
 
 //004C9594
-{*//procedure sub_004C9594(?:dword; ?:?; ?:?; ?:?);
-//begin
- 004C9594    push        ebp
+procedure TFichierCdn.sub_004C9594(a:integer; b:integer; buf:string);
+begin
+{ 004C9594    push        ebp
  004C9595    mov         ebp,esp
  004C9597    add         esp,0FFFFFEE0
  004C959D    push        ebx
@@ -6225,13 +6197,13 @@ end;//0
  004C9701    pop         ebx
  004C9702    mov         esp,ebp
  004C9704    pop         ebp
- 004C9705    ret         4
-end;*}
+ 004C9705    ret         4*}
+end;
 
 //004C9708
-{*//procedure sub_004C9708(?:dword; ?:?; ?:?; ?:?);
-//begin
- 004C9708    push        ebp
+procedure TFichierCdn.sub_004C9708(a:integer; b:integer; buf:string);
+begin
+{ 004C9708    push        ebp
  004C9709    mov         ebp,esp
  004C970B    add         esp,0FFFFFEE0
  004C9711    push        ebx
@@ -6348,7 +6320,7 @@ end;*}
  004C9875    pop         ebx
  004C9876    mov         esp,ebp
  004C9878    pop         ebp
- 004C9879    ret         4
-end;*}
+ 004C9879    ret         4}
+end;
 
 end.

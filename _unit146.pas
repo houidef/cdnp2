@@ -30,7 +30,7 @@ var
   lvar_4:AnsiString;
 begin//0
   //00501BB8
-    sub_00497660('numeroConseilEnCours', IntToStr(x), '\Options');
+    SetValueRegString('numeroConseilEnCours', IntToStr(x), '\Options');
 end;
 
 //00501C44
@@ -94,7 +94,7 @@ end;
 procedure numeroConseilEnCours(var x:string);
 begin
  //00501D8C
- sub_0049733C('numeroConseilEnCours', '1', '\Options', x);
+ GetValueRegString('numeroConseilEnCours', '1', '\Options', x);
 end;
 
 Initialization

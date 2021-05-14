@@ -117,7 +117,7 @@ label_004CA164:}
           Canvas.Brush.Color := $80000004;
           Canvas.FillRect(Rect);
         end;//4
-        if (sub_004BB458) then
+        if (GetcolorationGrille) then
         begin//004CA298*)
           if (ARow mod 2  = 0) then 
           begin//004CA2AA
@@ -135,16 +135,16 @@ label_004CA164:}
         Canvas.FillRect(Rect);
 	  
         if(gdFixed in State) then  //state = 4
-        if (sub_004BB458) then
+        if (GetcolorationGrille) then
         begin//004CA2FF
           Canvas.Brush.Color := $80000004;
           Canvas.FillRect(Rect);
         end;//4
         Canvas.Font.Color := 0;
         if(gdSelected in State ) then // state =1 
-        if (sub_004BB458) then
+        if (GetcolorationGrille) then
         begin//004CA336
-          if (sub_004BB458) then
+          if (GetcolorationGrille) then
           begin//004CA33F
             Canvas.Brush.Color := GetcouleurSelection;
             Exit;

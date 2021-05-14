@@ -211,7 +211,7 @@ begin//0
 
 
     f304.Add('------------------------------------------------------------------------------');
-    f300.sub_004C2D10(b, a, sub_004B9E10, buf0);
+    f300.sub_004C2D10(b, a, GetarrondirMoyennes, buf0);
     text := 'Moyenne de la période : ' + buf0;
     lvar_C := TStringList.Create;
 
@@ -220,7 +220,7 @@ begin//0
       for I := 1 to f300.sub_004BEA58  do//00534DB7
       begin//3
         //00534DC1
-        f300.sub_004C2D10(b, I, sub_004B9E10, buf0);
+        f300.sub_004C2D10(b, I, GetarrondirMoyennes, buf0);
         lvar_C.Add(buf0);
       end;//3
 

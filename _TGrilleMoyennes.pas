@@ -78,7 +78,7 @@ begin//0
   //004CF21C
     DestroyMenu(f2F0);
     f2F0 := CreatePopupMenu;
-	x:=sub_004B9E10;
+	x:=GetarrondirMoyennes;
     AppendMenuA(f2F0, 0, 0, 'Turbo Menu "Arrondir les moyennes"');
     AppendMenuA(f2F0, 2048, 0, '-');
     if (x = 0) then
@@ -258,7 +258,7 @@ begin//0
     if (Message.ItemID - 1 - 4 < 0) then
     begin//2
       //004CFCC8
-      sub_004B9D74(Message.ItemID - 1);
+      SetarrondirMoyennes(Message.ItemID - 1);
     end//2
     else
     begin//2
@@ -327,13 +327,13 @@ begin//0
                           if (Message.ItemID = 15) then
                           begin//13
                             //004CFFA4
-                            sub_004B9DA4($14{20});
+                            SetmoyennesSur($14{20});
                           end//13
                           else
                           begin//13
                             //004CFFB3
                             if (Message.ItemID = $10{16}) then //004CFFB9
-                              sub_004B9DA4(10)
+                              SetmoyennesSur(10)
                             else
                             begin//14
                               //004CFFC8
@@ -345,7 +345,7 @@ begin//0
                                 if (FormEdit.ModalResult = 1) then
                                 begin//16
                                   //004D0010
-                                  sub_004B9DA4(StrToInt(FormEdit.Edit1.Text));
+                                  SetmoyennesSur(StrToInt(FormEdit.Edit1.Text));
                                   FichierCdn.sub_004C4784(f2D8, true);
                                   SendMessageA(Handle, $408{1032}, f2D8, 0);
                                 end;//16
@@ -443,10 +443,10 @@ begin//0
       if (I = 2) then Continue;
       Cols[I].Clear;
     end;//2
-    Cells[0, 0] := 'Moyenne brute sur ' + IntToStr(sub_004B9E48);
-    Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr(sub_004B9E48);
+    Cells[0, 0] := 'Moyenne brute sur ' + IntToStr(GetmoyennesSur);
+    Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr(GetmoyennesSur);
     Cells[2, 0] := 'Point(s) en + ou en -';
-    Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr(sub_004B9E48);
+    Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
 
 
 
@@ -461,11 +461,11 @@ begin//0
     Visible := ((FichierCdn.sub_004BEAD0(f2D8) = 0) Xor true);
     FichierCdn.sub_004C213C(Periode, ARow, buf);
     Cells[0, ARow] := buf;
-    FichierCdn.sub_004C2AF4(Periode, ARow, sub_004B9E10, buf);
+    FichierCdn.sub_004C2AF4(Periode, ARow, GetarrondirMoyennes, buf);
     Cells[1, ARow] := buf;
     FichierCdn.sub_004C2B38(Periode, ARow, buf);
     Cells[2, ARow] := buf;
-    FichierCdn.sub_004C2D10(Periode, ARow, sub_004B9E10, buf);
+    FichierCdn.sub_004C2D10(Periode, ARow, GetarrondirMoyennes, buf);
     Cells[3, ARow] := buf;
 end;//0
 
@@ -541,7 +541,7 @@ begin//0
     //sub_004CA104(Self, ACol, ARow ,ARect , AState);
     Canvas.Font.Style := [];//gvar_004D0720;
     Canvas.Font.Color := 0;
-    if (sub_004BA2B0) then
+    if (GetcolorationNote) then
     begin//2
       //004D0450
       if (ARow > 0) then
@@ -558,13 +558,13 @@ begin//0
               //004D048E
               Valeur:= StrToFloat(Cells[ACol, ARow]);
               //004D04AF
-              if ( Valeur < 0) Or ( Valeur > sub_004B9E48) then //004D04CF
+              if ( Valeur < 0) Or ( Valeur > GetmoyennesSur) then //004D04CF
                 Canvas.Font.Color := _Getcouleur4Note
               else//004D04EC
-                if (Valeur >= 0) and(Valeur < sub_004B9E48/2  ) then//004D04FA //004D0515
+                if (Valeur >= 0) and(Valeur < GetmoyennesSur/2  ) then//004D04FA //004D0515
                     Canvas.Font.Color := _Getcouleur1Note
                 else//004D052F       
-                  if (Valeur >= 3/4 * sub_004B9E48 ) then //004D0554
+                  if (Valeur >= 3/4 * GetmoyennesSur ) then //004D0554
                     Canvas.Font.Color := _Getcouleur3Note
                   else//004D056E
                     Canvas.Font.Color := _Getcouleur2Note;
@@ -573,7 +573,7 @@ begin//0
               on E:EConvertError do
               begin//7
                 //004D05AC
-                if (sub_004BB458) then
+                if (GetcolorationGrille) then
                 begin//8
                   //004D05B5
                   Canvas.Brush.Color := _Getcouleur5Note;
@@ -588,7 +588,7 @@ begin//0
               begin//7
                 //004D05E7
                 
-                if (sub_004BB458) then
+                if (GetcolorationGrille) then
                 begin//8
                   //004D05F0
                   Canvas.Brush.Color := _Getcouleur5Note;
@@ -607,7 +607,7 @@ begin//0
     if (gdSelected in AState) then
     begin//2
       //004D062B
-      if (sub_004BB458) then
+      if (GetcolorationGrille) then
       begin//3
         //004D0634
         Canvas.Brush.Color := GetcouleurSelection;

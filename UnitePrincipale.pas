@@ -216,12 +216,12 @@ begin//0
       end;//3
     end;//2
     f3B0 := 1;
-    sub_00497740(ExtractFilePath(ParamStr(0)));
-    if (sub_004BB588) then
+    SetValueRegChemin(ExtractFilePath(ParamStr(0)));
+    if (GettailleMaximumAuDemarrage) then
     begin//0060BE24
       WindowState := wsMaximized; //2
     end;//2
-    //sub_004B91F0(MainMenuPrincipal, 0, 255, Self, Ouvrir1Click);
+    //_AddToMainMenu(MainMenuPrincipal, 0, 255, Self, Ouvrir1Click);
     ToolBarreDeBoutons.Visible := sub_004BB55C;
     ToolButtonSauver.Enabled := False;
     ToolButtonImprimer.Enabled := False;
@@ -245,10 +245,10 @@ begin
   FormOptions.ShowModal;
   FormOptions.Destroy;
   ToolBarreDeBoutons.Visible:=sub_004BB55C;
-  //sub_004B94D8(MainMenuPrincipal, 0, ?, Self);
+  //AddToMainMenuWithDelete(MainMenuPrincipal, 0, ?, Self);
   for I:= 1 to MDIChildCount do begin
       //0060C03F
-      //sub_004B94D8(MDIChildren[I-1], 0, ?, Self);
+      //AddToMainMenuWithDelete(MDIChildren[I-1], 0, ?, Self);
       SendMessageA(MDIChildren[I-1].Handle, 1045, 0, 0);
       SendMessageA(MDIChildren[I-1].Handle, 1032, 0, 0);
       SendMessageA(MDIChildren[I-1].Handle, 1029, 0, 0);
@@ -447,7 +447,7 @@ begin
       BarreDeStatut.Panels.Items[0].Text := '';
     BarreDeStatut.Panels.Items[0].Width := BarreDeStatut.Canvas.TextWidth(BarreDeStatut.Panels.Items[0].Text) + 10;
     
-    if (sub_004BB5BC) then//0060C77D
+    if (GetafficherHeure) then//0060C77D
       BarreDeStatut.Panels.Items[1].Text := FormatDateTime('h "h" nn "mn" ss "s"', Time)
     else//0060C7B8
       BarreDeStatut.Panels.Items[1].Text := '';
@@ -560,7 +560,7 @@ end;//0
 procedure TFormCarnetDeNotes2.sub_0060CC64;
 begin//0
   //0060CC64
-  //sub_004B94D8(MainMenuPrincipal, 0, Self, Ouvrir1Click);
+  //AddToMainMenuWithDelete(MainMenuPrincipal, 0, Self, Ouvrir1Click);
 end;//0
 
 //0060CC78
@@ -583,7 +583,7 @@ begin//0
         begin//4
           //0060CD47
 
-          FichierCdn.sub_004C01F8(SaveDialog1.FileName, 0, '', 0);
+          FichierCdn.sub_004C01F8(SaveDialog1.FileName, false, '', 0);
        
           Application.MessageBox(PChar('Le fichier "' + ExtractFileName(OpenDialog1.FileName) + '" a été récupéré avec succés.'),'Carnet de Notes version Personnelle' , $40{64});
         end;//4

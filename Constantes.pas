@@ -26,7 +26,9 @@ const
     gvar_00617901 = 17;
     gvar_00617902 = 18;
 var 
- gvar_00617903,gvar_00617904,gvar_00617905 : integer;
+ gvar_00617903: integer;
+ gvar_00617904 : boolean = false;
+ gvar_00617905 : boolean = false;
  
 implementation
 
@@ -41,8 +43,8 @@ Initialization
     else //00498E64
       gvar_00617903 := 3;
 
-    gvar_00617904 := 0;
-    gvar_00617905 := 0;
+   // gvar_00617904 := 0;
+   // gvar_00617905 := 0;
 
 Finalization
 end.

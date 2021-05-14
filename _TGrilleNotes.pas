@@ -108,7 +108,7 @@ begin//0
     begin//005423A9
       if (FichierCdn.sub_004BEA58 + 1 > ARow) then
       begin//005423CF
-        if (sub_004BB458) then
+        if (GetcolorationGrille) then
         begin//005423DC
           if (Cells[ACol, ARow] = 'abs') Or (Cells[ACol, ARow] = '') then //00542415
             Canvas.Font.Color := 0
@@ -123,7 +123,7 @@ begin//0
             except//6
               on E:EConvertError do
               begin//005424FF
-                if (sub_004BB458) then//00542508
+                if (GetcolorationGrille) then//00542508
                   Canvas.Brush.Color := _Getcouleur5Note
                 else//00542522;
                   Canvas.Brush.Color := $FFFFFF;
@@ -131,7 +131,7 @@ begin//0
             end;//6
           end;//5
         end;//4       
-        if (sub_004BA2B0) then
+        if (GetcolorationNote) then
         begin//0054254A
           if (Cells[ACol, ARow] = 'abs') Or (Cells[ACol, ARow] = '') then//0054258F
             Canvas.Font.Color := 0
@@ -155,14 +155,14 @@ begin//0
             except//6
               on E:EConvertError do
               begin//00542722
-                if (sub_004BB458) then//0054272B
+                if (GetcolorationGrille) then//0054272B
                   Canvas.Brush.Color := _Getcouleur5Note
                 else//00542745
                   Canvas.Brush.Color := $FFFFFF;
               end;//7
               on E:EMathError do
               begin//0054275D
-                if (sub_004BB458) then//00542766
+                if (GetcolorationGrille) then//00542766
                   Canvas.Brush.Color := _Getcouleur5Note
                 else//00542780
                   Canvas.Brush.Color := $FFFFFF;
@@ -173,7 +173,7 @@ begin//0
       end;//3
     end;//2
     if (gdSelected in AState) then//005427A1
-      if (sub_004BB458) then//005427AA
+      if (GetcolorationGrille) then//005427AA
         Canvas.Brush.Color := GetcouleurSelection
       else//005427C4
         Canvas.Brush.Color := $C0C0C0;
@@ -412,7 +412,7 @@ begin//0
         end//4
 		else
         begin
-        lvar_C := sub_004B9794;
+        lvar_C := GetTypesdenotes;
        
         //EDX := lvar_C.count + KI + 9;
        // EAX := KI + 10;
@@ -1090,7 +1090,7 @@ begin//0
     f2E8 := CreatePopupMenu;
    
     I := FichierCdn.sub_004BE9E0 + 2;//ESI
-    J := sub_004B9794.count;
+    J := GetTypesdenotes.count;
     
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Notes"');
     AppendMenuA(f2E8, $800{2048}, 1, '-');
@@ -1132,7 +1132,7 @@ begin//0
     J := FichierCdn.sub_004BE9E0 + 2;//EAX
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Type de notes"');
     AppendMenuA(f2E8, $800{2048}, 1, '-');
-    S := sub_004B9794;
+    S := GetTypesdenotes;
       for I := 0 to S.count-1 do//0054403D
       begin//3
         //00544043
@@ -1206,7 +1206,7 @@ begin//0
     f2E8 := CreatePopupMenu;
     K := FichierCdn.sub_004BE9E0 + 2;//EDI
 
-    S := sub_004B9794;
+    S := GetTypesdenotes;
     
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Coefficient"');
     AppendMenuA(f2E8, $800{2048}, 1, '-');
@@ -1236,7 +1236,7 @@ begin//0
   DestroyMenu(f2E8);
   f2E8 := CreatePopupMenu;
   I := FichierCdn.sub_004BE9E0 + 2;//ESI
-  J := sub_004B9794.count;
+  J := GetTypesdenotes.count;
   AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Noté sur"');
   AppendMenuA(f2E8, $800{2048}, 1, '-');
     //00546D5C
@@ -1266,7 +1266,7 @@ begin//0
   DestroyMenu(f2E8);
   f2E8 := CreatePopupMenu;
   I := FichierCdn.sub_004BE9E0 + 2;//ESI
-  J := sub_004B9794.count;
+  J := GetTypesdenotes.count;
   AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Oral ou écrit"');
   AppendMenuA(f2E8, $800{2048}, 1, '-');
   AppendMenuA(f2E8, 0, I + $21{33} + J, 'Oral');

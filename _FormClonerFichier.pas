@@ -207,12 +207,9 @@ begin//0
               //0053780D
                FichierClone.sub_004C8DF8(J, f300.sub_004C8E50(J));
             end;//6
-
-
           f300.sub_004BE8FC( buf);
           text := buf + ' - ' + Matiere + ' - ' + Enseignant;
-          
-          sub_00497A7C(text,K);
+          //sub_00497A7C(text,K);
           text := {BrowseDirectoryDlg1.Selection +} '\' + K + '.cdn';
           f304.add(text);
           FichierClone.sub_004C01F8(text, false, '', 0);

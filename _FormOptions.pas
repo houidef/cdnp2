@@ -336,9 +336,9 @@ type
     procedure BitBtn12Click(Sender:TObject);//00506CE8
     procedure ListBoxUtilisateursClick(Sender:TObject);//00506DB4
   public
-    f664:TInclureImpression;//f664
-    f668:TInclureImpression;//f668
-    f66C:TInclureImpression;//f66C
+    InclureImpressionGrillevierge:TInclureImpression;//f664
+    InclureImpressionSeriesdenotes:TInclureImpression;//f668
+    InclureImpressionBilans:TInclureImpression;//f66C
     destructor Destroy; virtual;//005055A4
     constructor Create(AOwner: TComponent;logo:TImage);//00504B24
   end;
@@ -363,12 +363,12 @@ begin//0
   //00504B24
     inherited Create(AOwner);
     Image1.Picture := logo.Picture;
-    f664 := _GetSeriesdenotes(0);
-    f668 := _GetSeriesdenotes(1);
-    f66C := _GetSeriesdenotes(2);
+    InclureImpressionGrillevierge := _GetSeriesdenotes(0);
+    InclureImpressionSeriesdenotes := _GetSeriesdenotes(1);
+    InclureImpressionBilans := _GetSeriesdenotes(2);
     Caption := Caption + 'Carnet de Notes version Personnelle';
-    RadioGroupGrilleNotes.ItemIndex := sub_004BA3C0;
-    RadioGroupGrilleBilans.ItemIndex := sub_004BA384;
+    RadioGroupGrilleNotes.ItemIndex := GetongletsGrillesNotes;
+    RadioGroupGrilleBilans.ItemIndex := GetongletsGrillesBilans;
     RadioGroupGraphes.ItemIndex := GetongletsGraphes;
     CheckBox10.Checked :=sub_004BB84C;
     RadioGroup3.Enabled := CheckBox10.Checked;
@@ -384,10 +384,10 @@ begin//0
     CheckBox6.Checked := sub_00501C44;
     CouleurFondFenetreInfos.SelectionColor := sub_004BB87C;
     afficherBarreOutils.Checked := sub_004BB55C;
-    tailleMaximumAuDemarrage.Checked := sub_004BB588;
-    afficherHeure.Checked := sub_004BB5BC;
+    tailleMaximumAuDemarrage.Checked := GettailleMaximumAuDemarrage;
+    afficherHeure.Checked := GetafficherHeure;
     afficherDate.Checked := sub_004BB5E4;
-    CheckBox2.Checked := sub_004BA2FC;
+    CheckBox2.Checked := GetfichierBak;
     CheckBox11.Checked :=GetafficherFenetreInfo;
     CheckBoxAfficherR.Checked :=GetafficherR;
     CheckBoxAfficherDatesDeNaissance.Checked :=GetafficherDatesDeNaissance;
@@ -407,7 +407,7 @@ begin//0
     CheckBox19.Checked :=GetgrapheLigneMax;
     CheckBox20.Checked :=GetgrapheLigneMoyenne;
     CheckBox21.Checked :=GetgrapheLegende;
-    typesDeNotes.Items:=sub_004B9794;
+    typesDeNotes.Items:=GetTypesdenotes;
     ListBoxUtilisateurs.Items :=sub_004982F8;
     ListBoxMatieres.Items :=GetMatieres;
     Shape1.Brush.Color := GetColorlignesPaires;
@@ -418,8 +418,8 @@ begin//0
     Shape2.Pen.Color := GetColorlignesPaires;
     Shape3.Pen.Color := GetcouleurSelection;
     Shape8.Pen.Color := _Getcouleur5Note;
-    CheckBox5.Checked :=sub_004BB458;
-    Periodes.Items :=sub_004B9A44;
+    CheckBox5.Checked :=GetcolorationGrille;
+    Periodes.Items :=GetPeriodes;
     historiqueDesFichiers.Checked :=GetutiliserHistorique;
 	NombreFichiersHistorique.Value := GetnbFichiersHistorique;
     NombreFichiersHistorique.Enabled := historiqueDesFichiers.Checked;
@@ -437,14 +437,14 @@ begin//0
       //005050D4
       Label38.Caption := '';
     end;//2
-    RadioGroupArrondir.ItemIndex := sub_004B9E10;
+    RadioGroupArrondir.ItemIndex := GetarrondirMoyennes;
     RadioGroupArrondirAnnuelle.ItemIndex := GetarrondirMoyennesAnnuelles;
-    RadioGroupTrier.ItemIndex := sub_004B9EA0; 
-    MoyennesSur.Value := sub_004B9E48;
+    RadioGroupTrier.ItemIndex := GettrierMoyennes; 
+    MoyennesSur.Value := GetmoyennesSur;
     CheckBox3.Checked := GetmoyenneParTypeDeNotes;
     RadioGroupTypeMoyenneAnnuelle.ItemIndex := GettypeMoyennesAnnuelles;
     CheckBox34.Checked := GetmoyennesEcritEtOral;
-    CheckBox4.Checked  := sub_004BA2B0;
+    CheckBox4.Checked  := GetcolorationNote;
     Shape4.Brush.Color := _Getcouleur1Note;
     Shape5.Brush.Color := _Getcouleur2Note;
     Shape6.Brush.Color := _Getcouleur3Note;
@@ -456,39 +456,39 @@ begin//0
     CheckBox35.Checked :=GetimpressionMoyennesEcritOral;
     CheckBox30.Checked :=GetimpressionRAppreciations;
     CheckBox31.Checked :=GetimpressionRGrilleVierge;
-    CheckBox32.Checked :=sub_004BDA2C;
+    CheckBox32.Checked :=GetimpressionRBilans;
     CheckBox33.Checked :=GetimpressionRSeriesDeNotes;
     CheckBox26.Checked :=GetimpressionDatesDeNaissanceAppreciations;
     CheckBox27.Checked :=GetimpressionDatesDeNaissanceGrilleVierge;
     CheckBox28.Checked :=GetimpressionDatesDeNaissanceBilans;
     CheckBox29.Checked :=GetimpressionDatesDeNaissanceSeriesDeNotes;
 	
-    CheckListBox1.Items :=f664.f8;
+    CheckListBox1.Items :=InclureImpressionGrillevierge.f8;
 	
-      for I := 0 to f664.f8.count - 1 do //0050533C
+      for I := 0 to InclureImpressionGrillevierge.f8.count - 1 do //0050533C
       begin//3
         //0050533F
-        CheckListBox1.Checked[I] := f664.fC[I];
+        CheckListBox1.Checked[I] := InclureImpressionGrillevierge.fC[I];
       end;//3
 
 
-    CheckListBox2.Items :=f664.f8;
+    CheckListBox2.Items :=InclureImpressionGrillevierge.f8;
 
-      for I := 0 to f668.f8.count - 1 do //00505398
+      for I := 0 to InclureImpressionSeriesdenotes.f8.count - 1 do //00505398
       begin//3
         //0050539B
-        CheckListBox2.Checked[I] := f668.fC[I];
+        CheckListBox2.Checked[I] := InclureImpressionSeriesdenotes.fC[I];
       end;//3
   
 
-    CheckListBox3.Items :=f66C.f8;
+    CheckListBox3.Items :=InclureImpressionBilans.f8;
     
       
 
-      for I := 0 to f66C.f8.count - 1 do //005053F4
+      for I := 0 to InclureImpressionBilans.f8.count - 1 do //005053F4
       begin//3
         //005053F7
-        CheckListBox3.Checked[I] :=f66C.fC[I];
+        CheckListBox3.Checked[I] :=InclureImpressionBilans.fC[I];
       end;//3
 
 	
@@ -496,11 +496,11 @@ begin//0
     CheckBox1.Checked :=GetnumeroterElevesSeriesDeNotes;
     CheckBox13.Checked :=GetnumeroterElevesGrilleVierge;
     CheckBox7.Checked :=GetcolonnesBilanDetaillees;
-    CheckBox9.Checked :=sub_004BAF34;
+    CheckBox9.Checked :=GetnumeroterElevesBilans;
     CheckBox12.Checked :=GetimpressionCouleurNote;
     RadioGroup1.ItemIndex := GettrierMoyennesImpression;
-    Edit8.text := IntToStr(SetlargeurGrilleVierge);
-    UpDown3.Position := SetlargeurGrilleVierge;
+    Edit8.text := IntToStr(GetlargeurGrilleVierge);
+    UpDown3.Position := GetlargeurGrilleVierge;
     CheckBox22.Checked :=GetimpressionColonneMoyenne;
     CheckBox23.Checked :=GetimpressionColonneClassement;
     RadioGroup1.Enabled := CheckBox23.Checked;
@@ -531,8 +531,8 @@ begin//0
     sub_004BB4B0(tailleMaximumAuDemarrage.Checked);
     sub_004BB4E4(afficherHeure.Checked);
     sub_004BB50C(afficherDate.Checked);
-    sub_004BA2D8(CheckBox2.Checked);
-    sub_004B9938(typesDeNotes.Items);
+    SetfichierBak(CheckBox2.Checked);
+    SetTypesdenotes(typesDeNotes.Items);
     SetMatieres(ListBoxMatieres.Items);
     SetafficherR(CheckBoxAfficherR.Checked);
     SetafficherDatesDeNaissance(CheckBoxAfficherDatesDeNaissance.Checked);
@@ -541,16 +541,16 @@ begin//0
     //begin//2
       //00505753
       SetnbFichiersHistorique(TRUNC(NombreFichiersHistorique.Value));
-      sub_004B9BBC(Shape2.Brush.Color);
+      SetlignesImpaires(Shape2.Brush.Color);
       SetColorlignesPaires(Shape1.Brush.Color);
       SetcouleurSelection(Shape3.Brush.Color);
-      sub_004BB42C(CheckBox5.Checked);
-      sub_004B964C(ListBoxFichiers.Items);
-      sub_004B9D74(RadioGroupArrondir.ItemIndex);
+      SetcolorationGrille(CheckBox5.Checked);
+      SetHistorique(ListBoxFichiers.Items);
+      SetarrondirMoyennes(RadioGroupArrondir.ItemIndex);
       SetarrondirMoyennesAnnuelles(RadioGroupArrondirAnnuelle.ItemIndex);
-      sub_004B9DE4(RadioGroupTrier.ItemIndex);
+      SettrierMoyennes(RadioGroupTrier.ItemIndex);
       //EAX := MoyennesSur.Value Div -2147483648
-      sub_004B9DA4(TRUNC(MoyennesSur.Value));
+      SetmoyennesSur(TRUNC(MoyennesSur.Value));
       SetmoyenneParTypeDeNotes(CheckBox3.Checked);
       SetmoyennesEcritEtOral(CheckBox34.Checked);
       Setcouleur1Note(Shape4.Brush.Color);
@@ -558,33 +558,33 @@ begin//0
       Setcouleur3Note(Shape6.Brush.Color);
       Setcouleur4Note(Shape7.Brush.Color);
       Setcouleur5Note(Shape8.Brush.Color);
-      sub_004BA288(CheckBox4.Checked);
-      sub_004BA354(RadioGroupGrilleNotes.ItemIndex);
-      sub_004BA320(RadioGroupGrilleBilans.ItemIndex);
+      SetcolorationNote(CheckBox4.Checked);
+      SetongletsGrillesNotes(RadioGroupGrilleNotes.ItemIndex);
+      SetongletsGrillesBilans(RadioGroupGrilleBilans.ItemIndex);
       SetongletsGraphes(RadioGroupGraphes.ItemIndex);
-      sub_004BAEFC(CheckBox1.Checked);
+      SetnumeroterElevesSeriesDeNotes(CheckBox1.Checked);
         for I := 0 to CheckListBox1.Items.Count - 1 do //00505976
         begin//4
           //00505979
-          f664.fC[I] := CheckListBox1.Checked[I];
+          InclureImpressionGrillevierge.fC[I] := CheckListBox1.Checked[I];
         end;//4
       
-      sub_004BAF94(0, f664);
+      SetSeriesdenotes(0, InclureImpressionGrillevierge);
         for I := 0 to CheckListBox2.Items.Count - 1 do//005059CE
         begin//4
           //005059D1
-          f668.fC[I] := CheckListBox2.Checked[I];
+          InclureImpressionSeriesdenotes.fC[I] := CheckListBox2.Checked[I];
         end;//4
-      sub_004BAF94(1, f668);
+      SetSeriesdenotes(1, InclureImpressionSeriesdenotes);
         for I := 0 to CheckListBox3.Items.Count - 1 do //00505A26
         begin//4
           //00505A29
-          f66C.fC[I] := CheckListBox3.Checked[I];
+          InclureImpressionBilans.fC[I] := CheckListBox3.Checked[I];
         end;//4
 
-      sub_004BAF94(2, f66C);
+      SetSeriesdenotes(2, InclureImpressionBilans);
       SetcolonnesBilanDetaillee(CheckBox7.Checked);
-      sub_004BAF64(CheckBox9.Checked);
+      SetnumeroterElevesBilans(CheckBox9.Checked);
       SetnumeroterElevesGrilleVierge(CheckBox13.Checked);
       SetnumeroterElevesAppreciations(CheckBox24.Checked);
       SettrierMoyennesImpression(RadioGroup1.ItemIndex);
@@ -600,7 +600,7 @@ begin//0
       SetcouleurDebutDegrade(CouleurDebutDegrade.SelectionColor);
       SetcouleurFinDegrade(CouleurFinDegrade.SelectionColor);
       SetcouleurEleve(CouleurNotesEleve.SelectionColor);
-      GetcouleurMin(CouleurMinimumClasse.SelectionColor);
+      SetcouleurMin(CouleurMinimumClasse.SelectionColor);
       SetcouleurMax(CouleurMaximumClasse.SelectionColor);
       SetcouleurMoyenne(CouleurMoyenneClasse.SelectionColor);
       SetcouleurMurGauche(CouleurMurGauche.SelectionColor);
@@ -665,7 +665,7 @@ begin//0
   //00505EE8
     if (Application.MessageBox(PChar('Revenir à la liste des types de notes par défaut ?'), 'Carnet de Notes version Personnelle', 36) = 6) then 
 	begin
-    typesDeNotes.Items := sub_004B9840;
+    typesDeNotes.Items := _GetTypesdenotes;
     SpeedButton23.Enabled := False;
 	end;
 
@@ -1138,7 +1138,7 @@ begin//0
             ListBoxSousPeriodes.Items.Add(Edit2.Text + ' ' + IntToStr(I));
           end;//5
         
-        sub_004BA7B0(Edit2.Text, ListBoxSousPeriodes.Items);
+        __SetPeriodes(Edit2.Text, ListBoxSousPeriodes.Items);
         Periodes.ItemIndex := Periodes.Items.IndexOf(Edit2.Text);
         Edit7.Enabled := True;
       //end;//3
@@ -1177,7 +1177,7 @@ begin//0
 
       X := Periodes.Items[Periodes.ItemIndex];
 
-      ListBoxSousPeriodes.Items := sub_004BA3F8(X);
+      ListBoxSousPeriodes.Items := __GetPeriodes(X);
 
 
       //NombreSousPeriodes.Value[ListBoxSousPeriodes.Items.Count] := X;
@@ -1427,7 +1427,7 @@ begin//0
     begin//2
       //005079E3
       ListBoxSousPeriodes.Items[ListBoxSousPeriodes.ItemIndex] := Edit7.Text;
-      sub_004BA7B0(Periodes.Items[Periodes.ItemIndex], ListBoxSousPeriodes.Items);
+      __SetPeriodes(Periodes.Items[Periodes.ItemIndex], ListBoxSousPeriodes.Items);
     end;//2
 
     //00507A4E
@@ -1692,7 +1692,7 @@ begin//0
 
     if (Application.MessageBox(PChar('Revenir à la liste des matières par défaut ?'),'Carnet de Notes version Personnelle' , $24{36}) = 6) then 
 	begin
-		ListBoxMatieres.Items := sub_004BC3F0;
+		ListBoxMatieres.Items := _GetMatieres;
 		SpeedButton53.Enabled := False;
 	end;
 
@@ -2089,7 +2089,7 @@ begin//0
           end;//5
       
         
-        sub_004BA7B0(Edit2.Text, ListBoxSousPeriodes.Items);
+        __SetPeriodes(Edit2.Text, ListBoxSousPeriodes.Items);
         Periodes.ItemIndex := Periodes.Items.IndexOf(Edit2.Text);
         Edit7.Enabled :=True;
      
@@ -2108,7 +2108,7 @@ begin//0
     //00509196
     if (Application.MessageBox(PChar('Revenir à la liste des types de périodes par défaut ?'), 'Carnet de Notes version Personnelle', $24{36}) = 6) then 
 	begin
-		Periodes.Items := sub_004B9B44;
+		Periodes.Items := _GetPeriodes;
 		ListBoxSousPeriodes.Items.Clear;
 	end;
 
@@ -2123,7 +2123,7 @@ begin//0
     //0050928B
     if (Application.MessageBox(PChar('Supprimer le type de période : "' + Periodes.Items[Periodes.ItemIndex] + '" ?'),'Carnet de Notes version Personnelle' , $24{36}) = 6) then 
 	begin
-		sub_004BA964(Periodes.Items[Periodes.ItemIndex]);
+		__SetPeriodes_v(Periodes.Items[Periodes.ItemIndex]);
 		Periodes.Items.Delete(Periodes.ItemIndex);
 		ListBoxSousPeriodes.Items.Clear;
 		SpeedButtonSupprimerDeLaListe.Enabled := False;

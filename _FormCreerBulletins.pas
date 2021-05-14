@@ -132,9 +132,9 @@ begin//0
     //00607332
 
     inherited Create(Owner);
-    sub_0049782C(buf);
+    GetValueRegChemin(buf);
     DriveComboBox1.Drive := ExtractFileDrive(buf)[1]; //?????
-    sub_0049782C(buf);
+    GetValueRegChemin(buf);
     DirectoryListBox1.Directory := buf;
     f3A4 := TStringList.Create;
     Caption := 'Créer les bulletins des élèves  --> étape 1 : ' + Notebook1.Pages[0];
@@ -402,7 +402,7 @@ begin//0
               //f3D0 := EAX;//EAX
               StList.Clear;
 
-                lvar_D := sub_004B9E10;
+                lvar_D := GetarrondirMoyennes;
                 for K := 1 to FCdn.sub_004BEA58  do//00608404
                 begin//8
                   //0060840B
@@ -526,7 +526,7 @@ begin//0
     f3C4.Destroy;
     sub_004C9BC0(CheckBoxInclureEnseignant.Checked);
     sub_004C9BF8(CheckBoxInclureAppreciation.Checked);
-    sub_004C9CA0(EditIntituleCadre.Text);
+    Setintitulecadrebulletin(EditIntituleCadre.Text);
     f3A4.Destroy;
 
 
@@ -886,11 +886,11 @@ begin//0
     EAX := Self;
     EAX := CheckBoxInclureAppreciation;
     CheckBoxInclureAppreciation.SetChecked(EDX{EDX});
-    sub_004C9D28(lvar_8);
+    _Getintitulecadrebulletin(lvar_8);
     EditIntituleCadre.Text := lvar_8;
     try
       //006098AC
-      sub_004C9E2C(lvar_C);
+      Getfichierlogobulletin(lvar_C);
       f3DC := lvar_C;
 
       ImageLogo.Picture.LoadFromFile(f3DC);
@@ -1095,7 +1095,7 @@ begin//0
       //0060A68B
       ImageLogo.Picture.LoadFromFile(OpenPictureDialog1.FileName);
       f3DC := OpenPictureDialog1.FileName;
-      sub_004C9DA8(f3DC);
+      Setfichierlogobulletin(f3DC);
     end;//2
     //0060A6E1
 end;//0
@@ -1106,7 +1106,7 @@ begin//0
   //0060A6FC
   ImageLogo.Picture := Nil;
   f3DC := '';
-  sub_004C9DA8(f3DC);
+  Setfichierlogobulletin(f3DC);
 end;//0
 
 //0060A724

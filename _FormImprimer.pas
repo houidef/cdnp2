@@ -96,7 +96,7 @@ begin//0
     f374 := FichierCdn{d};
     Image1.Picture := logo.Picture;
     f370 := TFont.Create;
-    sub_004BD7D0(buf);
+    GetnomPolice(buf);
     f370.Name := buf;
     f370.Size := GettaillePolice();
     Panel1.Color := $E2FFFF;
@@ -288,10 +288,10 @@ begin//0
     //00525640
     {sub_004BD51C(ComboBoxBasdepageGauche.Text);
     sub_004BD59C(ComboBoxBasdepageDroite.Text);
-    sub_004BD61C(ComboBoxEnteteGauche.Text);
-    sub_004BD69C(ComboBoxEnteteCentre.Text);
-    sub_004BD71C(ComboBoxEnteteDroite.Text);
-    sub_004BD858(f370.Name);
+    SetenTeteGauche(ComboBoxEnteteGauche.Text);
+    SetenTeteCentre(ComboBoxEnteteCentre.Text);
+    SetenTeteDroite(ComboBoxEnteteDroite.Text);
+    SetnomPolice(f370.Name);
     SettaillePolice(f370.Size);
     EDX := 1;
     f378.call();}
@@ -404,7 +404,7 @@ begin//0
       0://00525A5C        
         lvar_18 := TImpressionGrilleNotes.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, _GetSeriesdenotes(0), GetnumeroterElevesSeriesDeNotes,f370);
       (*1://00525AA1
-        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, _GetSeriesdenotes(1), sub_004BAF34,f370);
+        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, _GetSeriesdenotes(1), GetnumeroterElevesBilans,f370);
 
       2://00525AE3
         lvar_20 := TImpressionAppreciation.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, GetnumeroterElevesAppreciations);

@@ -213,7 +213,7 @@ begin//0
             if (f3C.sub_004BEAD0(f2C) >= J) then
               f3C.sub_004BEF5C(f2C, J, I, text)
             else//0051AAF4
-              f3C.sub_004C2D10(f2C, I, sub_004B9E10, text);
+              f3C.sub_004C2D10(f2C, I, GetarrondirMoyennes, text);
             if (GetimpressionCouleurNote) then //0051AB46
               if (text = 'abs') Or (text = '') then//0051AB5B
                 f40.font.Color := 0
@@ -231,7 +231,7 @@ begin//0
                   else
                   begin//9
                     //0051ABFD
-                    lvar_70 := sub_004B9E48;
+                    lvar_70 := GetmoyennesSur;
                   end;//9
                   lvar_80 := StrToFloat(text);
                   //0051AC21
@@ -407,7 +407,7 @@ begin//0
                   for C := 1 to f3C.sub_004BEA58 do//0051B423
                   begin//9
                     //0051B42A
-                    f3C.sub_004C2D10(f2C, C, sub_004B9E10, buf);
+                    f3C.sub_004C2D10(f2C, C, GetarrondirMoyennes, buf);
                     lvar_84.add(buf);
                   end;//9
                

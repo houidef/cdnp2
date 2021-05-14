@@ -95,9 +95,9 @@ begin//0
     Image2.Picture := logo.Picture;
     Caption := 'Fusionner plusieurs fichiers --> étape 1 : ' + Notebook1.Pages[0];
     f36C := '';
-    sub_0049782C(buf);
+    GetValueRegChemin(buf);
     DriveComboBox1.Drive := ExtractFileDrive(buf)[1];
-    sub_0049782C(Buf);
+    GetValueRegChemin(Buf);
     DirectoryListBox1.Directory := buf;
     f360 := TStringlist.Create;
     f364 := TStringlist.Create;
@@ -805,8 +805,8 @@ begin//0
             0..0:
             begin//6
               //00552337
-              EAX := sub_004B9E48;
-              lvar_A54 := IntToStr(sub_004B9E48);
+              EAX := GetmoyennesSur;
+              lvar_A54 := IntToStr(GetmoyennesSur);
               
               lvar_B58 := DateToStr(Date);
               EDX := ;
@@ -900,7 +900,7 @@ begin//0
                   EDX := ;
                   ECX := $FF{255};
                    := ;
-                  lvar_D80 := IntToStr(sub_004B9E48);
+                  lvar_D80 := IntToStr(GetmoyennesSur);
                   EDX := ;
                   ECX := $FF{255};
                    := ;

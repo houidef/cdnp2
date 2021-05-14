@@ -135,9 +135,9 @@ begin//0
   //004986C0
 
     if (NumUser = 1) then//004986E0
-      sub_0049733C('nomUtilisateurEnregistrement', '', '\Enregistrement', NomUser)
+      GetValueRegString('nomUtilisateurEnregistrement', '', '\Enregistrement', NomUser)
     else
-      sub_0049733C('nomUtilisateurEnregistrement' + IntToStr(NumUser), '', '\Enregistrement',NomUser);
+      GetValueRegString('nomUtilisateurEnregistrement' + IntToStr(NumUser), '', '\Enregistrement',NomUser);
 end;//0
 
 
@@ -146,9 +146,9 @@ procedure sub_0049878C(NumUser:dword; var CleUser:String);
 begin//0
   //0049878C
     if (NumUser = 1) then//004987AC
-      sub_0049733C('cleEnregistrement', '', '\Enregistrement', CleUser)
+      GetValueRegString('cleEnregistrement', '', '\Enregistrement', CleUser)
 	else 
-		sub_0049733C('cleEnregistrement' + IntToStr(NumUser), '', '\Enregistrement', CleUser);
+		GetValueRegString('cleEnregistrement' + IntToStr(NumUser), '', '\Enregistrement', CleUser);
 
 end;//0
 
@@ -160,11 +160,11 @@ begin//0
 
     //00498871
     if (a = 1) then//00498876
-      sub_00497660('nomUtilisateurEnregistrement', b, '\Enregistrement')
+      SetValueRegString('nomUtilisateurEnregistrement', b, '\Enregistrement')
     else//0049888C
-      sub_00497660('nomUtilisateurEnregistrement' + IntToStr(a), b, '\Enregistrement');
+      SetValueRegString('nomUtilisateurEnregistrement' + IntToStr(a), b, '\Enregistrement');
 
-    sub_00497660('nombreUtilisateursEnregistres', IntToStr(sub_00498B20 + 1), '\Enregistrement');
+    SetValueRegString('nombreUtilisateursEnregistres', IntToStr(sub_00498B20 + 1), '\Enregistrement');
 
     //004988F4
 
@@ -177,9 +177,9 @@ begin//0
  
     //0049899D
     if (a = 1) then//004989A2
-      sub_00497660('cleEnregistrement', b, '\Enregistrement')
+      SetValueRegString('cleEnregistrement', b, '\Enregistrement')
 	else
-      sub_00497660('cleEnregistrement' + IntToStr(a), b, '\Enregistrement');
+      SetValueRegString('cleEnregistrement' + IntToStr(a), b, '\Enregistrement');
 
     //004989F1
 
@@ -216,7 +216,7 @@ begin//0
   //00498B20
   
     //00498B36
-    sub_0049733C('nombreUtilisateursEnregistres', '0', '\Enregistrement',buf);
+    GetValueRegString('nombreUtilisateursEnregistres', '0', '\Enregistrement',buf);
     try
       //00498B5E
       result := StrToInt(buf);

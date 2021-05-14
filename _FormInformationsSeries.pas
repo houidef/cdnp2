@@ -256,7 +256,7 @@ begin//0
       f334.sub_004BEE1C(I, J, buf);
       DateTimePicker1.Date :=StrTodate(buf);
       ComboBox3.Items.Clear;
-      ComboBox3.Items :=sub_004B9794;
+      ComboBox3.Items :=GetTypesdenotes;
       f334.sub_004BEEBC(I, J, buf);
       if (ComboBox3.Items.IndexOf(buf) + 1 = 0) then
       begin//3
@@ -362,7 +362,7 @@ begin//0
     I := TabControl1.TabIndex + 1;//EBX
     J := ListBoxSeries.ItemIndex + 1;//EAX
     ComboBox3.Items.Clear;
-    ComboBox3.Items :=sub_004B9794;
+    ComboBox3.Items :=GetTypesdenotes;
     f334.sub_004BEEBC(I, J, buf);
     if (ComboBox3.Items.IndexOf(buf) + 1 = 0) then
     begin//2

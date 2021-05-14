@@ -155,7 +155,7 @@ begin//0
           for K := 1 to f328.sub_004BEA58 do//005137DD
           begin//5
             //005137E1
-            f328.sub_004C2D10(J, K, sub_004B9E10, buf);
+            f328.sub_004C2D10(J, K, GetarrondirMoyennes, buf);
             lvar_1C.add(buf);
           end;//5
 
@@ -306,13 +306,13 @@ begin//0
     GridRect.Bottom := f330;
     StringGrid1.Selection := GridRect;
 
-    if (sub_004BA2B0 ) then
+    if (GetcolorationNote ) then
     begin//2
       //00513FF3
       try
         //00514001
-        moyennesSur := sub_004B9E48;
-        f328.sub_004C2D10(TabControlPeriodes.TabIndex + 1, Arow + 1, sub_004B9E10, buf);
+        moyennesSur := GetmoyennesSur;
+        f328.sub_004C2D10(TabControlPeriodes.TabIndex + 1, Arow + 1, GetarrondirMoyennes, buf);
         lvar_10 := StrToFloat(buf);
         //00514078
         if (lvar_10 < 0) Or (lvar_10 <  moyennesSur) then //00514090
@@ -339,7 +339,7 @@ begin//0
 
 
  
-    f328.sub_004C2D10(TabControlPeriodes.TabIndex + 1, ARow + 1, sub_004B9E10, buf);
+    f328.sub_004C2D10(TabControlPeriodes.TabIndex + 1, ARow + 1, GetarrondirMoyennes, buf);
     Label7.Caption:= buf;
     Label2.Caption := 'Moy. la + basse : ' + f340;
     Label3.Caption := 'Moy. la + haute : ' + f344;
@@ -470,7 +470,7 @@ begin//0
       begin//3
         //005147C0
 
-        f328.sub_004C2D10(TabControlPeriodes.TabIndex + 1, J, sub_004B9E10, buf);
+        f328.sub_004C2D10(TabControlPeriodes.TabIndex + 1, J, GetarrondirMoyennes, buf);
         f32C.Add(buf);
       end;//3
 
@@ -527,7 +527,7 @@ begin//0
       for I := 1 to f328.sub_004BE9E0  do //00514AC8
       begin//3
         //00514AD0
-        f328.sub_004C2D10(I, f33C, sub_004B9E10, buf);
+        f328.sub_004C2D10(I, f33C, GetarrondirMoyennes, buf);
         StringGrid2.Cells[4, I] := buf;
       end;//3
 

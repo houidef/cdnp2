@@ -12,13 +12,13 @@ Forms, Windows,  SysUtils, Classes , Registry;
     function GetValueRegColor(a:AnsiString; b:dword):dword;//004970D8
     function GetValueRegBool(x:AnsiString; y:boolean):boolean;//004971A0
     function GetValueRegInt(x:AnsiString; y:dword):byte;//00497268
-    procedure sub_0049733C(x:String; y:String; z:String;var t:string);//0049733C
+    procedure GetValueRegString(Value:String; DefaultValue:String; Key:String; var ReadValue:string);//0049733C
     procedure SetValueReg1(a:string; b:integer);//00497438
     procedure SetValueRegBool(a:string; b:Boolean);//004974F0
     function SetValueRegInt(a:AnsiString; b:dword):dword;//004975A8
-    procedure sub_00497660(a:AnsiString; b:AnsiString; c:AnsiString);//00497660
-    procedure sub_00497740(a:ShortString);//00497740
-    procedure sub_0049782C(var a:String);//0049782C
+    procedure SetValueRegString(Value:AnsiString; WriteValue:AnsiString; Key:AnsiString);//00497660
+    procedure SetValueRegChemin(a:ShortString);//00497740
+    procedure GetValueRegChemin(var a:String);//0049782C
     function sub_00497908:TStringList;//00497908
 
 implementation
@@ -79,22 +79,19 @@ end;
 
 
 //0049733C
-procedure sub_0049733C(x:String; y:String; z:String; var t:string);
+procedure GetValueRegString(Value:String; DefaultValue:String; Key:String; var ReadValue:string);
 var
  Registry :TRegistry;
 begin//0
   //0049733C
     Registry := TRegistry.Create;
     Registry.RootKey := HKEY_CURRENT_USER;
-    Registry.OpenKey('Software\Carnet de Notes 2.x' + z, True);
-    if (Registry.ValueExists(x) ) then
-    begin//004973BF
-      t := Registry.ReadString(x);
-    end//2
-    else
-    begin//004973CD
-      t := y;
-    end;//2
+    Registry.OpenKey('Software\Carnet de Notes 2.x' + Key, True);
+    if (Registry.ValueExists(Value) ) then //004973BF
+      ReadValue := Registry.ReadString(Value)
+    else //004973CD
+      ReadValue := DefaultValue;
+
     Registry.CloseKey;
     Registry.Free;
 end;//0
@@ -145,20 +142,20 @@ end;//0
 
 
 //00497660
-procedure sub_00497660(a:AnsiString; b:AnsiString; c:AnsiString);
+procedure SetValueRegString(Value:AnsiString; WriteValue:AnsiString; Key:AnsiString);
 var
   Registry:TRegistry;
 begin//0
     Registry := TRegistry.Create;
-    Registry.RootKey :=HKEY_CURRENT_USER;
-    Registry.OpenKey('Software\Carnet de Notes 2.x' + c, True);
-    Registry.WriteString(a, b);
+    Registry.RootKey := HKEY_CURRENT_USER;
+    Registry.OpenKey('Software\Carnet de Notes 2.x' + Key, True);
+    Registry.WriteString(Value, WriteValue);
     Registry.CloseKey;
     Registry.Free;
 end;//0
 
 //00497740
-procedure sub_00497740(a:ShortString);
+procedure SetValueRegChemin(a:ShortString);
 var
   Registry:TRegistry;
 begin//0
@@ -172,24 +169,18 @@ end;//0
 
 
 //0049782C
-procedure sub_0049782C(var a:String);
+procedure GetValueRegChemin(var a:String);
 var
   Registry:TRegistry;
 begin//0
   //0049782C
-  //push ESI
-  //ESI := a;
     Registry := TRegistry.Create;
     Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x', True);
-    if (Registry.ValueExists('Chemin')) then
-    begin//0049787B
-      a := Registry.ReadString('Chemin');
-    end//2
-    else
-    begin//0049789B
+    if (Registry.ValueExists('Chemin')) then//0049787B
+      a := Registry.ReadString('Chemin')
+    else//0049789B
       a := ''; 
-    end;//2
     Registry.CloseKey;
     Registry.Free;
 end;//0

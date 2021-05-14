@@ -10,6 +10,7 @@ uses
 	  utiler in 'tools\utiler.pas',
 	  frstatus in 'tools\frstatus.pas',
 	  ColorPickerButton in 'tools\ColorPickerButton.pas',
+	 // DesignEditors in 'tools\DesignEditors.pas',
 	  DFSAbout in 'tools\DFSAbout.pas',
 	  DesignIntf in 'tools\DesignIntf.pas',
 	  DesignConst in 'tools\DesignConst.pas',

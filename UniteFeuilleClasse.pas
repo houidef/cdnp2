@@ -250,7 +250,7 @@ type
     constructor Create(AOwner: TComponent;Handle : HWND; Logo:TImage; FileName:String);//00539894
 	procedure sub_00539DA4(var Value:ShortString);//00539DA4
 	procedure sub_0053F8FC(var a:string);//0053F8FC
-    procedure sub_0053DDF4(Y:ShortString);//0053DDF4
+    procedure sub_0053DDF4(Y:String);//0053DDF4
     procedure sub_0053DE0C(var Y:String);//0053DE0C
   end;
    
@@ -319,9 +319,9 @@ begin
 		TabSet1.Tabs.text := Notebook1.Pages.text; //bug in : TabSet1.Tabs := Notebook1.Pages;
         Notebook1.PageIndex := TabSet1.TabIndex; 
 		//unit111
-        {sub_004B901C(FileName); 
-        if (GetutiliserHistorique) then //00539BC7
-          sub_004B91F0(MainMenuPrincipal, 0, ?, Self); //unit111
+        AddHistorique(FileName); 
+        {if (GetutiliserHistorique) then //00539BC7
+          _AddToMainMenu(MainMenuPrincipal, 0, ?, Self); //unit111
         
 
         sub_004BC7A0(MainMenuPrincipal, TabControlGrillesNotes.Tabs, 4, Self, sub_00539DFC, Self, sub_00539EF4, Self, sub_0053F190);
@@ -519,7 +519,7 @@ begin//0
     if (FileName = 'Nouvelle classe') then//0053A595
       Enregistrersous1Click(Sender)
     else//0053A5A0   sub_00539DA4(FileName);
-      FichierCdn.sub_004C01F8(FileName, 0, '', 0);
+      FichierCdn.sub_004C01F8(FileName, false, '', 0);
 
     SendMessageA(Handle, $406{1030}, 0, 0);
     sub_00539DA4(FileName);
@@ -527,12 +527,12 @@ begin//0
     begin//2
       //0053A612
       //sub_00539DA4(lvar_10C);
-      sub_004B901C(FileName);
+      AddHistorique(FileName);
 
       if (GetutiliserHistorique ) then
       begin//3
         //0053A644
-        //sub_004B94D8(MainMenuPrincipal, 0, ECX, Self,  Ouvrir1Click);
+        //AddToMainMenuWithDelete(MainMenuPrincipal, 0, ECX, Self,  Ouvrir1Click);
         SendMessageA( f4D8, $410{1040}, 0, 0);
       end;//3
     end;//2
@@ -563,7 +563,7 @@ begin//0
     if (SaveDialog1.Execute) then
     begin//2
       //0053A940
-      FichierCdn.sub_004C01F8(SaveDialog1.FileName, 0, '', 0);
+      FichierCdn.sub_004C01F8(SaveDialog1.FileName, false, '', 0);
       SendMessageA(Handle, $406{1030}, 0, 0);
     end;//2
 	exit;
@@ -572,11 +572,11 @@ begin//0
     begin//2
       //0053A9A5
       sub_00539DA4(Buf);
-      sub_004B901C(Buf);
+      AddHistorique(Buf);
       
       if (GetutiliserHistorique) then
       begin//0053A9D7
-        sub_004B94D8(MainMenuPrincipal, 0, {ECX,} {Self}Nil,Ouvrir1Click);
+        AddToMainMenuWithDelete(MainMenuPrincipal, 0, {ECX,} {Self}Nil,Ouvrir1Click);
         SendMessageA(f4D8, $410{1040}, 0, 0);
       end;//3
     end;//2
@@ -609,7 +609,7 @@ begin//0
 								  {FormNouvelleSerieDeNotes.f338}'', 
 								  DateToStr(FormNouvelleSerieDeNotes.DateTimePicker1.Date), 
 								  FormNouvelleSerieDeNotes.Edit3.text, 
-								  FormNouvelleSerieDeNotes.ComboBoxTypesDeNotes.text,'');
+								  FormNouvelleSerieDeNotes.ComboBoxTypesDeNotes.text,false);
           f4FC := FormNouvelleSerieDeNotes.f334;
           FichierCdn.sub_004C63C8;
           TabSet1.TabIndex := 0;
@@ -921,10 +921,10 @@ begin//0
       if (FormModifierEleve.ModalResult = 1) then
       begin//3
         //0053C357
-        //lvar_10C := FormModifierEleve.EditDateDeNaissance_FormModifier.Text;
-        //EAX := FormModifierEleve.CheckBoxRedoublant_FormModifier.Checked;
-        //lvar_210 := FormModifierEleve.EditNomPrenom_FormModifier.Text;
-        //FichierCdn.sub_004C1954(FormListeEleves.ListeEleves.ItemIndex + 1, lvar_20C, lvar_108);
+        FichierCdn.sub_004C1954(FormListeEleves.ListeEleves.ItemIndex + 1, 
+								FormModifierEleve.EditNomPrenom_FormModifier.Text,
+								FormModifierEleve.CheckBoxRedoublant_FormModifier.Checked,
+								FormModifierEleve.EditDateDeNaissance_FormModifier.Text);
         SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
         SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
         SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
@@ -1110,7 +1110,7 @@ end;//0
 procedure TFeuilleClasse.sub_0053CB34(var Msg:TMsg);
 begin//0
   //0053CB34
-  case sub_004BA3C0 of
+  case GetongletsGrillesNotes of
     0: //0053CB4C
       TabControlGrillesNotes.TabPosition := tpTop; //0
 
@@ -1123,7 +1123,7 @@ begin//0
       TabControlGrillesNotes.TabPosition := tpBottom; //1
   end;//1
 
-  case sub_004BA384 of
+  case GetongletsGrillesBilans of
     0://0053CB9B
       TabControlGrillesBilan.TabPosition := tpTop;
    
@@ -1211,14 +1211,14 @@ begin//0
       if (SaveDialog1.Execute) then
       begin//3
         //0053CECD
-        FichierCdn.sub_004C01F8(SaveDialog1.FileName, 0, '', 0);
+        FichierCdn.sub_004C01F8(SaveDialog1.FileName, false, '', 0);
       end;//3
     end//2
     else
     begin//2
       //0053CEFA
       sub_00539DA4(FileName);
-      FichierCdn.sub_004C01F8(FileName, 0, '', 0); //{$53D144}
+      FichierCdn.sub_004C01F8(FileName, false, '', 0); //{$53D144}
     end;//2
     SendMessageA(Handle, $406{1030}, 0, 0);
 end;//0
@@ -1513,7 +1513,7 @@ begin//0
 end;//0
 
 //0053DDF4
-procedure TFeuilleClasse.sub_0053DDF4(Y:ShortString);
+procedure TFeuilleClasse.sub_0053DDF4(Y:String);
 begin//0
   //0053DDF4
   FichierCdn.sub_004BE8FC(Y);
@@ -1718,7 +1718,7 @@ begin//0
         begin//4
           //0053E768
           FichierCdn.sub_004BEF5C(lvar_10, I, lvar_C, buf);
-          lvar_158 := sub_004B9E48 * StrToFloat(buf);
+          lvar_158 := GetmoyennesSur * StrToFloat(buf);
           
           fichiercdn.sub_004BED2C( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
@@ -1736,7 +1736,7 @@ begin//0
         begin//4
           //0053E967
           //FichierCdn.sub_004C3958(lvar_10, buf, I);
-          //lvar_158 := sub_004B9E48 * StrToFloat(buf);
+          //lvar_158 := GetmoyennesSur * StrToFloat(buf);
           FichierCdn.sub_004BED2C( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04(lvar_10, buf, I);
@@ -1754,7 +1754,7 @@ begin//0
           
           //FichierCdn.sub_004C3B54(lvar_10, buf, I);
           
-          //lvar_158 := sub_004B9E48 * StrToFloat(buf);
+          //lvar_158 := GetmoyennesSur * StrToFloat(buf);
           
           FichierCdn.sub_004BED2C( lvar_10, I, buf);
            
@@ -1776,7 +1776,7 @@ begin//0
           
           FichierCdn.sub_004C40D4(lvar_10, buf, I);
           
-          lvar_158 := sub_004B9E48 * StrToFloat(buf);
+          lvar_158 := GetmoyennesSur * StrToFloat(buf);
           
           FichierCdn.sub_004BED2C( lvar_10, I, buf);
           
@@ -2237,7 +2237,7 @@ begin//0
 								  FormNouvelleSerieDeNotes.f338, 
 								  DateToStr(FormNouvelleSerieDeNotes.DateTimePicker1.Date), 
 								  FormNouvelleSerieDeNotes.Edit3.Text, 
-								  FormNouvelleSerieDeNotes.ComboBoxTypesDeNotes.Text,''{ 
+								  FormNouvelleSerieDeNotes.ComboBoxTypesDeNotes.Text,false{ 
 								  FormNouvelleSerieDeNotes.RadioGroupEcritOuOral.ItemIndex = 1});
           
           StringList1 := TStringList.Create;;
@@ -2540,11 +2540,11 @@ begin//0
     begin//2
       //0054162F
       sub_00539DA4(FileNamex);
-      sub_004B901C(FileNamex);
+      AddHistorique(FileNamex);
       if (GetutiliserHistorique) then
       begin//3
         //00541661  
-        //sub_004B94D8(MainMenuPrincipal, 0, ECX, Self,  Ouvrir1Click); //006159A0A1
+        //AddToMainMenuWithDelete(MainMenuPrincipal, 0, ECX, Self,  Ouvrir1Click); //006159A0A1
         SendMessageA(f4D8, $410{1040}, 0, 0);
       end;//3
     end;//2

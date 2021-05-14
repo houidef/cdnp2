@@ -13,7 +13,7 @@ Forms, Windows,  SysUtils, Classes, Menus, Dialogs, ExtCtrls, ComCtrls, Buttons,
  _FormReorganiser,_FormCollerAppreciations, _FormInformationsSeries,_FormClonerFichier,Unit49,_FormImporterSeries,
  UEnregistrement,_FormPointsPlusMoins,_FormTransformerSeries,_FormUtilitairesSeries,_FormImprimerGraphe,
  _FormNouvelleSerieDeNotes,Clipbrd,_FormExportation,_FormCreerDisquettes,_FormAppreciations,
- _FormTypeImportation;
+ _FormTypeImportation,FileCtrl, ShellAPI;
 
 type
   TFeuilleClasse = class(TForm)
@@ -230,7 +230,7 @@ type
     GrilleBilanCarnetDeNotes:TGrilleBilanCarnetDeNotes;//f4F0
     f4F4:Integer;//f4F4
     f4F8:Integer;//f4F8
-    f4FC:byte;//f4FC
+    GrillesNotes:byte;//f4FC
     procedure sub_00539F78(var Msg:TMsg); Message 1025;//00539F78
     procedure sub_0053A074(var Msg:TMsg); Message 1026;//0053A074
     procedure sub_0053FA60(var Msg:TMsg); Message 1027;//0053FA60
@@ -241,14 +241,14 @@ type
     procedure sub_0053CA38(var Msg:TMsg); Message 1032;//0053CA38
     procedure sub_0053CAFC(var Msg:TMsg); Message 1033;//0053CAFC
     procedure sub_0053CB34(var Msg:TMsg); Message 1034;//0053CB34
-    procedure sub_0053CD90(var Msg:TMsg); Message 1035;//0053CD90
+    procedure MsgOpenFile(var Msg:TMsg); Message 1035;//0053CD90
     procedure sub_0053D148(var Msg:TMsg); Message 1036;//0053D148
     procedure sub_0053D6F4(var Msg:TMsg); Message 1037;//0053D6F4
     procedure sub_0053E410(var Msg:TMsg); Message 1042;//0053E410
     procedure sub_0053E44C(var Msg:TMsg); Message $413{1043};//0053E44C
     procedure sub_0053F7DC(var Msg:TMsg); Message 1040;//0053F7DC
     constructor Create(AOwner: TComponent;Handle : HWND; Logo:TImage; FileName:String);//00539894
-	procedure sub_00539DA4(var Value:ShortString);//00539DA4
+	function GetFileName():string;//00539DA4
 	procedure sub_0053F8FC(var a:string);//0053F8FC
     procedure sub_0053DDF4(Y:String);//0053DDF4
     procedure sub_0053DE0C(var Y:String);//0053DE0C
@@ -262,7 +262,7 @@ const
 var
    FeuilleClasse: TFeuilleClasse;
 implementation
-   uses UnitePrincipale,_FormNouvelleClasse;
+   uses UnitePrincipale,_FormNouvelleClasse,URegistry;
 {$R *.DFM}
 
 //00539894                            
@@ -273,44 +273,39 @@ var
   Splitter : TSplitter;
 begin
   //00539894..005398CF : rien
-	R:=0;
     f4D8 := Handle;//FileName1 := FileName;
 	self.logo := Logo;//f4D0 := d
     FichierCdn := TFichierCdn.Create(FileName{, 0, 0});
-    if (FichierCdn.f948) then
+    if (FichierCdn.Succes) then
     begin//00539906
       if (FileName = '') then
       begin//0053990C
         FormNouvelleClasse  := TFormNouvelleClasse.Create(Self, Logo, 'Nouvelle classe'{, f4D0}); 
 		FormNouvelleClasse.ShowModal;
-        if (FormNouvelleClasse.ModalResult <> 1) then R:=1; //00539950
+        if (FormNouvelleClasse.ModalResult <> 1) then exit; //00539950
         FormNouvelleClasse.Destroy;
-      end;//3
-    end//2
-    else R:=2; //00539962
-
-	if(R-1 < 0) then //Cas 1 : Nouvelle classe
-      begin//005399AE
+      end;
+	  //005399AE
         inherited Create(AOwner);	   		
         WindowState := wsMaximized; 
         TabControlGrillesNotes.Tabs := FichierCdn.sub_004BEA4C; 
         TabControlGrillesBilan.Tabs := FichierCdn.sub_004BEA4C;
         TabControlGraphes.Tabs := FichierCdn.sub_004BEA4C;
         TabControlGrillesBilan.Tabs.Add('Sur l''année');
-        f4FC := 1;
-		for I:=1 to FichierCdn.sub_004BE9E0 do//00539A3C   // Nbre Periodes
+        GrillesNotes := 1;
+		for I:=1 to FichierCdn.GetNbrePeriodes do//00539A3C   // Nbre Periodes
         begin
-            if (FichierCdn.sub_004BEAD0(I) > 0) then // if Nbre des Modules dans chaque Periode > 0
+            if (FichierCdn.GetNbreModules(I) > 0) then // if Nbre des Modules dans chaque Periode > 0
             begin//00539A49
-              f4FC := I;//EBX
+              GrillesNotes := I;//EBX
               Break;
             end//6
         end;
-        TabControlGrillesNotes.TabIndex := f4FC - 1;
-        GrilleElevesCarnetDeNotes := TGrilleElevesCarnetDeNotes.Create(PanelEleves, Self,f4FC, FichierCdn); 
-        GrilleNotesCarnetDeNotes := TGrilleNotesCarnetDeNotes.Create(PanelNotes, Self,f4FC, FichierCdn); 
-        GrilleMoyennesCarnetDeNotes := TGrilleMoyennesCarnetDeNotes.Create(PanelMoyennes, Self,f4FC, FichierCdn);//erreur ici
-        GrilleBilanCarnetDeNotes := TGrilleBilanCarnetDeNotes.Create(TabControlGrillesBilan,  Self,f4FC, FichierCdn);
+        TabControlGrillesNotes.TabIndex := GrillesNotes - 1;
+        GrilleElevesCarnetDeNotes := TGrilleElevesCarnetDeNotes.Create(PanelEleves, Self,GrillesNotes, FichierCdn); 
+        GrilleNotesCarnetDeNotes := TGrilleNotesCarnetDeNotes.Create(PanelNotes, Self,GrillesNotes, FichierCdn); 
+        GrilleMoyennesCarnetDeNotes := TGrilleMoyennesCarnetDeNotes.Create(PanelMoyennes, Self,GrillesNotes, FichierCdn);//erreur ici
+        GrilleBilanCarnetDeNotes := TGrilleBilanCarnetDeNotes.Create(TabControlGrillesBilan,  Self,GrillesNotes, FichierCdn);
         GrilleElevesGrapheCarnetDeNotes := TGrilleElevesGrapheCarnetDeNotes.Create(PanelElevesGraphe, Self,0,FichierCdn);   //supprimer 0
         Splitter := TSplitter.Create(TabControlGrillesNotes);
         Splitter.Parent :=TabControlGrillesNotes;
@@ -334,65 +329,57 @@ begin
         SpeedButtonEgaliserPanneauClick(Self);
 		FormCarnetDeNotes2.ToolButtonImprimer.enabled := (FormCarnetDeNotes2.MDIChildCount <> 0 );
 		FormCarnetDeNotes2.ToolButtonSauver.enabled := (FormCarnetDeNotes2.MDIChildCount <> 0 );
-			
-      end
-	else if(R-1 = 0) then //00539CBE
-            Exit
-	    else 
-        begin
-          R:=R-1;	  
-	      if(R = 0) then
-	       MessageBoxA(0, PChar('Le fichier ' + FileName + ' n''est pas un fichier Carnet de Notes valide.'), 'Carnet de Notes version Personnelle', 16);
-        end;//2
-
+    end//2
+    else 
+	begin
+		MessageBoxA(0, PChar('Le fichier ' + FileName + ' n''est pas un fichier Carnet de Notes valide.'), 'Carnet de Notes version Personnelle', 16);
+	end;
 end;
 
 //00539DA4
-procedure TFeuilleClasse.sub_00539DA4(var Value:ShortString);
+function TFeuilleClasse.GetFileName():string;
 begin//0
     //00539DBD
-	//TFeuilleClasse.f4D4:TFichierCdn
-    //FichierCdn.FileName;//sub_004BE974(Self.FileName, lvar_4);
-	Value := FichierCdn.FileName;
+	result := FichierCdn.__GetFileName();
 end;
 
 //00539F78
 procedure TFeuilleClasse.sub_00539F78(var Msg:TMsg);
 var 
- lvar_1C :TGridRect;
+ GRect :TGridRect;
 begin//0
   //00539F78
   if ((GrilleNotesCarnetDeNotes <> Nil) and (GrilleElevesCarnetDeNotes <> Nil) and (GrilleMoyennesCarnetDeNotes <> Nil)) then //00539F8E
   begin//1
         //00539FA8
-        if (FichierCdn.sub_004BEAD0(f4FC) > 0) then
+        if (FichierCdn.GetNbreModules(GrillesNotes) > 0) then
         begin//00539FBD
          { if (Msg.wParam = -1) then//00539FC5
-            lvar_1C.Left := 0
+            GRect.Left := 0
           else//00539FCC
-            lvar_1C.Left := Msg.wParam;
+            GRect.Left := Msg.wParam;
        
-          lvar_1C.Top := Msg.message;
+          GRect.Top := Msg.message;
           if (Msg.wParam = -1) then//00539FDB
-            lvar_1C.Right  := FichierCdn.sub_004BEAD0(f4FC)- 1
+            GRect.Right  := FichierCdn.GetNbreModules(GrillesNotes)- 1
           else//0053A001
-            lvar_1C.Right := Msg.wParam;
-          lvar_1C.Bottom := Msg.message;
+            GRect.Right := Msg.wParam;
+          GRect.Bottom := Msg.message;
           if (Msg.message <> 0) then//0053A010
-            GrilleNotesCarnetDeNotes.Selection := lvar_1C;}
+            GrilleNotesCarnetDeNotes.Selection := GRect;}
 			
 			if (Msg.message <> 0) then
 			begin
-			  lvar_1C.Left := 0;
-			  lvar_1C.Top := Msg.message;
+			  GRect.Left := 0;
+			  GRect.Top := Msg.message;
 			  
 			  if (Msg.wParam = -1) then//00539FDB
-				lvar_1C.Right  := FichierCdn.sub_004BEAD0(f4FC)- 1
+				GRect.Right  := FichierCdn.GetNbreModules(GrillesNotes)- 1
 			  else//0053A001
-				lvar_1C.Right := Msg.wParam;
+				GRect.Right := Msg.wParam;
 				
-			  lvar_1C.Bottom := Msg.message;
-			  GrilleNotesCarnetDeNotes.Selection := lvar_1C;			
+			  GRect.Bottom := Msg.message;
+			  GrilleNotesCarnetDeNotes.Selection := GRect;			
 		
 			end;//4
 		end;
@@ -400,16 +387,16 @@ begin//0
 
 		if (Msg.message <> 0) then
         begin//0053A024		
-          lvar_1C.Left := 0;
-          lvar_1C.Top := Msg.message;
-          lvar_1C.Right := 3;
-          lvar_1C.Bottom := Msg.message;
-          GrilleMoyennesCarnetDeNotes.Selection := lvar_1C;
-          lvar_1C.Left := 1;
-          lvar_1C.Top := Msg.message;
-          lvar_1C.Right := 1;
-          lvar_1C.Bottom := Msg.message;
-          GrilleElevesCarnetDeNotes.Selection := lvar_1C;
+          GRect.Left := 0;
+          GRect.Top := Msg.message;
+          GRect.Right := 3;
+          GRect.Bottom := Msg.message;
+          GrilleMoyennesCarnetDeNotes.Selection := GRect;
+          GRect.Left := 1;
+          GRect.Top := Msg.message;
+          GRect.Right := 1;
+          GRect.Bottom := Msg.message;
+          GrilleElevesCarnetDeNotes.Selection := GRect;
         end;//4
   end;//1
 end;//0
@@ -452,24 +439,19 @@ begin//0
   //0053A140
   try
     //0053A197
-	I := FichierCdn.sub_004BEA58;
+	I := FichierCdn.EleveCount;
     case I of
       0:
       begin//0053A1B7
-        FichierCdn.sub_004BE8FC(buf);
-        Label2.Caption :=  buf + ' - aucun élève';
+        Label2.Caption :=  FichierCdn.GetClasseName + ' - aucun élève';
       end;//3
       1:
       begin//0053A1F2
-        FichierCdn.sub_004BE8FC(buf);
-        Label2.Caption := buf + ' - 1 élève';
+        Label2.Caption := FichierCdn.GetClasseName + ' - 1 élève';
       end;//3
     end;//2
-    FichierCdn.sub_004BE8FC(buf);
-    Label2.Caption := buf + ' - ' + IntToStr(I) + ' élèves';
-    FichierCdn.sub_004BE8FC(buf);
-    //FichierCdn.sub_004BE974(lvar_124); eq FichierCdn.FileName
-    Caption := buf + ' - ' + ExtractFileName(FichierCdn.FileName);
+    Label2.Caption := FichierCdn.GetClasseName + ' - ' + IntToStr(I) + ' élèves';
+    Caption := FichierCdn.GetClasseName + ' - ' + ExtractFileName(FichierCdn.__GetFileName);
     Bevel2.Width := Canvas.TextWidth(Label2.Caption) + 10;
     Label1.Left := Label2.Left + Label2.Width + 15;
     Bevel1.Left := Label1.Left - 5;
@@ -501,33 +483,24 @@ end;
 
 //0053A498
 procedure TFeuilleClasse.Enregistrer1Click(Sender:TObject);
-var
- FileName:ShortString;
 begin//0
   //0053A498
-    //0053A4CC
-
     if (FichierCdn<> nil) then
     begin//2
       //0053A4DF
-      sub_00539DA4(FileName);
-      if(MessageBoxA(0, PChar('Le fichier "' + ExtractFileName(FileName) + '" que vous allez enregistrer est au format d''une ancienne version de Carnet de Notes.' + #10 + #13 + #10 + #13 + 'Si vous confirmez, il sera enregistré au nouveau format mais ne pourra plus être relu par l''ancienne version.' + #10 + #13 + #10 + #13 + 'Voulez vous enregistrer ce fichier ?'), 'Carnet de Notes version Personnelle', $14{20})= 7) then Exit;
-       
+      if(MessageBoxA(0, PChar('Le fichier "' + ExtractFileName(GetFileName) + '" que vous allez enregistrer est au format d''une ancienne version de Carnet de Notes.' + #10 + #13 + #10 + #13 + 'Si vous confirmez, il sera enregistré au nouveau format mais ne pourra plus être relu par l''ancienne version.' + #10 + #13 + #10 + #13 + 'Voulez vous enregistrer ce fichier ?'), 'Carnet de Notes version Personnelle', $14{20})= 7) then Exit;
     end;//2
 
-    sub_00539DA4(FileName);
-    if (FileName = 'Nouvelle classe') then//0053A595
+    if (GetFileName = 'Nouvelle classe') then//0053A595
       Enregistrersous1Click(Sender)
-    else//0053A5A0   sub_00539DA4(FileName);
-      FichierCdn.sub_004C01F8(FileName, false, '', 0);
+    else//0053A5A0   
+      FichierCdn.SaveCdn(GetFileName, false, '', 0);
 
     SendMessageA(Handle, $406{1030}, 0, 0);
-    sub_00539DA4(FileName);
-    if (FileName <> 'Nouvelle classe') then
+    if (GetFileName <> 'Nouvelle classe') then
     begin//2
       //0053A612
-      //sub_00539DA4(lvar_10C);
-      AddHistorique(FileName);
+      AddHistorique(GetFileName);
 
       if (GetutiliserHistorique ) then
       begin//3
@@ -544,35 +517,29 @@ end;//0
 procedure TFeuilleClasse.Enregistrersous1Click(Sender:TObject);
 var
   Buf: ShortString;
-  FileName : ShortString;
   lvar_4 : PChar;
 begin//0
   //0053A814
-    if (FichierCdn.f949 <> 0) then
+    if (FichierCdn.OldVersion ) then
     begin//2
       //0053A858
-      sub_00539DA4(FileName);
-	  
-      lvar_4 := PChar('Le fichier "' + ExtractFileName(FileName) + '" que vous allez enregistrer est au format d''une ancienne version de Carnet de Notes.' + #10 + #13 + #10 + #13 + 'Si vous confirmez, il sera enregistré au nouveau format mais ne pourra plus être relu par l''ancienne version.' + #10 + #13 + #10 + #13 + 'Voulez vous enregistrer ce fichier ?');
+      lvar_4 := PChar('Le fichier "' + ExtractFileName(GetFileName) + '" que vous allez enregistrer est au format d''une ancienne version de Carnet de Notes.' + #10 + #13 + #10 + #13 + 'Si vous confirmez, il sera enregistré au nouveau format mais ne pourra plus être relu par l''ancienne version.' + #10 + #13 + #10 + #13 + 'Voulez vous enregistrer ce fichier ?');
       if (MessageBoxA(0, lvar_4, 'Carnet de Notes version Personnelle', 20) = 7) then Exit;
     end;//2
-    sub_00539DA4(FileName);
-    SaveDialog1.FileName := FileName;
+    SaveDialog1.FileName := GetFileName;
     SaveDialog1.Title := 'Enregistrer sous ...';
     SaveDialog1.Filter := 'Fichier Carnet de Notes *.cdn |*.cdn';
     if (SaveDialog1.Execute) then
     begin//2
       //0053A940
-      FichierCdn.sub_004C01F8(SaveDialog1.FileName, false, '', 0);
+      FichierCdn.SaveCdn(SaveDialog1.FileName, false, '', 0);
       SendMessageA(Handle, $406{1030}, 0, 0);
-    end;//2
-	exit;
-    sub_00539DA4(Buf);
-    if (Buf <> 'Nouvelle classe') then
+    end//2
+	else
+    if (GetFileName <> 'Nouvelle classe') then
     begin//2
       //0053A9A5
-      sub_00539DA4(Buf);
-      AddHistorique(Buf);
+      AddHistorique(GetFileName);
       
       if (GetutiliserHistorique) then
       begin//0053A9D7
@@ -592,11 +559,11 @@ begin//0
     if (FichierCdn.sub_004C4790 < gvar_00617903) then
     begin//2
       //0053AC62
-      if (FichierCdn.sub_004BEA58 > 0) then
+      if (FichierCdn.EleveCount > 0) then
       begin//3
         //0053AC75
         FormNouvelleSerieDeNotes{gvar_00617D74} := TFormNouvelleSerieDeNotes.Create(Self, FichierCdn, logo, 'Nouvelle série de notes');
-        FormNouvelleSerieDeNotes.TabControl1.TabIndex := f4FC - 1;
+        FormNouvelleSerieDeNotes.TabControl1.TabIndex := GrillesNotes - 1;
         FormNouvelleSerieDeNotes.ShowModal;
         if (FormNouvelleSerieDeNotes.ModalResult = 1) then
         begin//4
@@ -610,15 +577,15 @@ begin//0
 								  DateToStr(FormNouvelleSerieDeNotes.DateTimePicker1.Date), 
 								  FormNouvelleSerieDeNotes.Edit3.text, 
 								  FormNouvelleSerieDeNotes.ComboBoxTypesDeNotes.text,false);
-          f4FC := FormNouvelleSerieDeNotes.f334;
+          GrillesNotes := FormNouvelleSerieDeNotes.f334;
           FichierCdn.sub_004C63C8;
           TabSet1.TabIndex := 0;
-          SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-          SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+          SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+          SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
           SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1, 0);
           SendMessageA(Handle, $40E{1038}, 0, 0);
-          TabControlGrillesNotes.TabIndex := f4FC - 1;
-          SendMessageA(Handle, $401{1025}, 1, FichierCdn.sub_004BEAD0(f4FC) - 1);
+          TabControlGrillesNotes.TabIndex := GrillesNotes - 1;
+          SendMessageA(Handle, $401{1025}, 1, FichierCdn.GetNbreModules(GrillesNotes) - 1);
           GrilleNotesCarnetDeNotes.TopRow := 1;
           GrilleNotesCarnetDeNotes.LeftCol := 1;
           //GrilleNotesCarnetDeNotes.LeftCol := ESI;
@@ -652,13 +619,13 @@ begin//0
 
 
 
-      for I := 1 to FichierCdn.sub_004BE9E0 do//0053B252
+      for I := 1 to FichierCdn.GetNbrePeriodes do//0053B252
         FichierCdn.sub_004C4784(I, true);
       
 
 
-    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
     SendMessageA(Handle, $40E{1038}, 0, 0);
      FormSupprimerSerie.Destroy;
@@ -669,13 +636,13 @@ end;//0
 procedure TFeuilleClasse.Sriedenotes1Click(Sender:TObject);
 begin//0
   //0053B308
-  Ajouter1.Enabled := (FichierCdn.sub_004BEA58<> 0);
+  Ajouter1.Enabled := (FichierCdn.EleveCount<> 0);
   Supprimer1.Enabled := (FichierCdn.sub_004C4790 <> 0);
   Rorganiser1.Enabled := (FichierCdn.sub_004C4790 <> 0);
   Utilitaires1.Enabled := (FichierCdn.sub_004C4790 >= 2);
   Transformer1.Enabled := (FichierCdn.sub_004C4790 <> 0);
-  Informationssurlessriesdenotes1.Enabled := (FichierCdn.sub_004BEA58 <> 0);
-  Importerdepuisunfichier1.Enabled := (FichierCdn.sub_004BEA58 <> 0);
+  Informationssurlessriesdenotes1.Enabled := (FichierCdn.EleveCount <> 0);
+  Importerdepuisunfichier1.Enabled := (FichierCdn.EleveCount <> 0);
 end;//0
 
 
@@ -687,8 +654,8 @@ begin//0
   FichierCdn.sub_004C63C8;
   
 	SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex +1 , 0);
-	SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-	SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032},f4FC , 0);
+	SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+	SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032},GrillesNotes , 0);
 	SendMessageA(Handle, $40B{1035}, 0, 0);
 end;//0
 
@@ -720,67 +687,56 @@ procedure TFeuilleClasse.Modifier1Click(Sender:TObject);
 var
  buf:string;
  I:integer;
- lvar_8:TStringList;
+ EleveLists:TStringList;
 begin//0
   //0053B6E4
-  
-    //0053B71D
-    
-    FichierCdn.sub_004BE8FC(buf);
-    FormCreerListeEleves{gvar_00617DCC} := TFormCreerListeEleves.Create(Self,buf,logo);
-    FormCreerListeEleves.ShowModal;
-    if (FormCreerListeEleves.ModalResult = 1) then
+    FormCreerListeEleves{gvar_00617DCC} := TFormCreerListeEleves.Create(Self,FichierCdn.GetClasseName,logo);
+    if (FormCreerListeEleves.ShowModal = 1) then
     begin//0053B780
-      //FichierCdn.sub_004BF64C(FormCreerListeEleves.f318);
-      
-      lvar_8 := FichierCdn.sub_004BEAC4;
-      
-        for I := 1 to FichierCdn.sub_004BEA58  do //0053B7BE
+      //FichierCdn.sub_004BF64C(FormCreerListeEleves.EleveNom);
+        EleveLists := FichierCdn.EleveLists;
+        for I := 1 to FichierCdn.EleveCount  do //0053B7BE
         begin//0053B7C6
-           
-          //FichierCdn.sub_004C8C2C(lvar_8.indexof(FormCreerListeEleves.f318[I - 1]) + 1, FormCreerListeEleves.f31C[I - 1]);
+          FichierCdn.AddElevDateNais(EleveLists.indexof(FormCreerListeEleves.EleveNom[I - 1]) + 1, FormCreerListeEleves.EleveDateNais[I - 1]);
         end;//4
-      
-      
-        
-        for I := 1 to FichierCdn.sub_004BEA58 do //0053B882
+        for I := 1 to FichierCdn.EleveCount do //0053B882
         begin//4
           //0053B88A  
-          //FichierCdn.sub_004C8DF8(lvar_8.indexof(FormCreerListeEleves.f318[I - 1]) , FormCreerListeEleves.f320[lvar_8.indexof(FormCreerListeEleves.f318[I - 1])  + 1] = 'R');
+          FichierCdn.SetElevR(EleveLists.indexof(FormCreerListeEleves.EleveNom[I - 1]) , FormCreerListeEleves.EleveR[EleveLists.indexof(FormCreerListeEleves.EleveNom[I - 1])  + 1] = 'R');
         end;//4
-      
       FichierCdn.sub_004C63C8;
       SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
       SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
-      SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-      SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+      SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+      SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
       SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1, 0);
     end;//2;
     FormCreerListeEleves.Destroy;
     SendMessageA(Handle, $406{1030}, 0, 0);
+	showmessage('ajouter7');
     SendMessageA(Handle, $40B{1035}, 0, 0);
-
+	showmessage('ajouter8');
 end;//0
 
 //0053BA50
 procedure TFeuilleClasse.Listedeslves1Click(Sender:TObject);
 begin//0
   //0053BA50
-  Modifier1.Enabled := (FichierCdn.sub_004BEA58 = 0);
-  CopierdanslePressePapiers1.Enabled := (FichierCdn.sub_004BEA58 > 0);
+  Modifier1.Enabled := (FichierCdn.EleveCount = 0);
+  CopierdanslePressePapiers1.Enabled := (FichierCdn.EleveCount > 0);
 
-  Ajouterunlve1.Enabled := (FichierCdn.sub_004BEA58 - 1 - $31 < 0);
-  Supprimerunlve1.Enabled := (FichierCdn.sub_004BEA58 > 0);
-  Modifierlenomdunlve1.Enabled := (FichierCdn.sub_004BEA58 > 0);
+  Ajouterunlve1.Enabled := (FichierCdn.EleveCount - 1 - $31 < 0);
+  Supprimerunlve1.Enabled := (FichierCdn.EleveCount > 0);
+  Modifierlenomdunlve1.Enabled := (FichierCdn.EleveCount > 0);
 
   //0053BAE6
 
-  if (FichierCdn.sub_004BEA58 <> 0) Or (Clipboard.HasFormat(1) = False) then //0053BAFC
+  if (FichierCdn.EleveCount <> 0) Or (Clipboard.HasFormat(1) = False) then //0053BAFC
    CollerdepuislePressePapiers2.Enabled := false
   else//0053BB00
     CollerdepuislePressePapiers2.Enabled := true;
   //0053BB1B
-  if (Clipboard.HasFormat(1) = False) Or (FichierCdn.sub_004BEA58 <= 0) then//0053BB2E
+  if (Clipboard.HasFormat(1) = False) Or (FichierCdn.EleveCount <= 0) then//0053BB2E
     CollerlesdatesdenaissancesdepuislePressePapiers1.Enabled  := false
   else//0053BB32
     CollerlesdatesdenaissancesdepuislePressePapiers1.Enabled := true;
@@ -800,10 +756,10 @@ begin
     
   if (GrilleNotesCarnetDeNotes <> Nil) and (GrilleElevesCarnetDeNotes <> Nil) and(GrilleMoyennesCarnetDeNotes <> Nil) then 
   begin
-	  f4FC := TabControlGrillesNotes.TabIndex + 1;
-	  SendMessageA(GrilleNotesCarnetDeNotes.Handle, 1027, f4FC, 0);
-	  SendMessageA(GrilleElevesCarnetDeNotes.Handle, 1027, f4FC, 0);
-	  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, 1032, f4FC, 0);
+	  GrillesNotes := TabControlGrillesNotes.TabIndex + 1;
+	  SendMessageA(GrilleNotesCarnetDeNotes.Handle, 1027, GrillesNotes, 0);
+	  SendMessageA(GrilleElevesCarnetDeNotes.Handle, 1027, GrillesNotes, 0);
+	  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, 1032, GrillesNotes, 0);
 	  SendMessageA(Handle, 1038, 0, 0);
   end;
 
@@ -832,7 +788,7 @@ begin
     Clipboard.Clear;
     lvar_8 := '';
     
-      for I := 1 to FichierCdn.sub_004BEA58 do //0053BCBA
+      for I := 1 to FichierCdn.EleveCount do //0053BCBA
       begin//3
         //0053BCBE
         FichierCdn.sub_004BEA64(I, buf);
@@ -858,8 +814,8 @@ begin//0
 	  with FormModifierEleve do 
       FichierCdn.sub_004C14C8(EditNomPrenom_FormModifier.Text, EditDateDeNaissance_FormModifier.Text, '1',CheckBoxRedoublant_FormModifier.Checked);
       FichierCdn.sub_004C63C8;
-      SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-      SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+      SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+      SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
       SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
       SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
       SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -885,8 +841,8 @@ begin//0
       begin//3//0053C046
         FichierCdn.sub_004C1158(FormListeEleves.ListeEleves.ItemIndex + 1);
         FichierCdn.sub_004C63C8;
-        SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-        SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+        SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+        SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
         SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -911,7 +867,7 @@ begin//0
     if (FormListeEleves.ModalResult = 1) then
     begin//2
       //0053C267
-      FichierCdn.sub_004C8BB8(FormListeEleves.ListeEleves.ItemIndex + 1, buf);
+      FichierCdn.GetElevDateNais(FormListeEleves.ListeEleves.ItemIndex + 1, buf);
 
       FormModifierEleve{gvar_00617CF8} := TFormModifierEleve.Create(Self, FormListeEleves.ListeEleves.Items[FormListeEleves.ListeEleves.ItemIndex],
 												 buf, 
@@ -925,8 +881,8 @@ begin//0
 								FormModifierEleve.EditNomPrenom_FormModifier.Text,
 								FormModifierEleve.CheckBoxRedoublant_FormModifier.Checked,
 								FormModifierEleve.EditDateDeNaissance_FormModifier.Text);
-        SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-        SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+        SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+        SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
         SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -945,8 +901,8 @@ begin//0
   FormReorganiser.Destroy;
  
   FichierCdn.sub_004C63C8;
-  SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+  SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
   SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1 , 0);
   SendMessageA(Handle, $40E{1038}, 0, 0);
 end;//0
@@ -960,8 +916,7 @@ begin
   try
     //0053C65A
     FormImprimer{gvar_00617E04} := TFormImprimer.Create(Self, FichierCdn , logo{f4D0});
-    FichierCdn.sub_004BE8FC(buf);
-    FormImprimer.Caption := 'Imprimer (' + buf + ')';
+    FormImprimer.Caption := 'Imprimer (' +FichierCdn.GetClasseName + ')';
     FormImprimer.ShowModal;
     FormImprimer.Destroy;
   finally//0053C6F0
@@ -1067,7 +1022,7 @@ begin//0
   if (Msg.message <> 0) then//0053C9F0
     SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, Msg.message, Msg.wParam)
   else 
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, Msg.wParam);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, Msg.wParam);
 
 end;//0
 
@@ -1100,8 +1055,8 @@ end;
 procedure TFeuilleClasse.sub_0053CAFC(var Msg:TMsg);
 begin//0
   //0053CAFC
-  ImageFeuVert.Visible := FichierCdn.sub_004C3954 Xor true;
-  ImageFeuRouge.Visible := FichierCdn.sub_004C3954;
+  ImageFeuVert.Visible := FichierCdn.IsModified Xor true;
+  ImageFeuRouge.Visible := FichierCdn.IsModified;
 end;//0
 
 
@@ -1170,8 +1125,8 @@ begin//0
     FichierCdn.sub_004C63C8;
     SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
     SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
-    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1, 0);
     SendMessageA(Handle, $406{1030}, 0, 0);
     SendMessageA(Handle, $40B{1035}, 0, 0);
@@ -1187,39 +1142,28 @@ end;//0
 
 
 //0053CD90
-procedure TFeuilleClasse.sub_0053CD90(var Msg:TMsg);
+procedure TFeuilleClasse.MsgOpenFile(var Msg:TMsg);
 var
-  FileName:shortstring;
   buf:string;
 begin//0
   //0053CD90
     //0053CDC1
-    if (FichierCdn.f949 <> 0) then
+    if (FichierCdn.OldVersion) then//0053CDD4
     begin//2
-      //0053CDD4
-      sub_00539DA4(FileName);
-      
-      if (MessageBoxA(0, PChar('Le fichier "' + ExtractFileName(FileName) + '" que vous allez enregistrer est au format d''une ancienne version de Carnet de Notes.' + #10 + #13 + #10 + #13 + 'Si vous confirmez, il sera enregistré au nouveau format mais ne pourra plus être relu par l''ancienne version.' + #10 + #13 + #10 + #13 + 'Voulez vous enregistrer ce fichier ?'), 'Carnet de Notes version Personnelle', $14{20}) = 7) then Exit;
+      if (MessageBoxA(0, PChar('Le fichier "' + ExtractFileName(GetFileName) + '" que vous allez enregistrer est au format d''une ancienne version de Carnet de Notes.' + #10 + #13 + #10 + #13 + 'Si vous confirmez, il sera enregistré au nouveau format mais ne pourra plus être relu par l''ancienne version.' + #10 + #13 + #10 + #13 + 'Voulez vous enregistrer ce fichier ?'), 'Carnet de Notes version Personnelle', $14{20}) = 7) then Exit;
     end;//2
-    sub_00539DA4(FileName);
-    if (FileName = 'Nouvelle classe') then
+    if (GetFileName = 'Nouvelle classe') then
     begin//2
       //0053CE8A
       SaveDialog1.FileName := '';
       SaveDialog1.Title := 'Enregistrer sous ...';
       SaveDialog1.Filter := 'Fichier Carnet de Notes *.cdn |*.cdn';
-      if (SaveDialog1.Execute) then
-      begin//3
-        //0053CECD
-        FichierCdn.sub_004C01F8(SaveDialog1.FileName, false, '', 0);
-      end;//3
+      if (SaveDialog1.Execute) then //0053CECD
+        FichierCdn.SaveCdn(SaveDialog1.FileName, false, '', 0);
     end//2
-    else
-    begin//2
-      //0053CEFA
-      sub_00539DA4(FileName);
-      FichierCdn.sub_004C01F8(FileName, false, '', 0); //{$53D144}
-    end;//2
+    else //0053CEFA
+      FichierCdn.SaveCdn(GetFileName(), false, '', 0); //{$53D144}
+
     SendMessageA(Handle, $406{1030}, 0, 0);
 end;//0
 
@@ -1241,9 +1185,9 @@ begin//0
       Bevel1.Left := Label1.Left - 5;
       
    
-      FichierCdn.sub_004BE9EC(f4FC, buf);
-	  I:=FichierCdn.sub_004BEAD0(f4FC);
-	  lvar_C := FichierCdn.sub_004BEA58;
+      FichierCdn.sub_004BE9EC(GrillesNotes, buf);
+	  I:=FichierCdn.GetNbreModules(GrillesNotes);
+	  lvar_C := FichierCdn.EleveCount;
       lvar_10 := lvar_C *  I;
       
       case lvar_10 of
@@ -1337,7 +1281,7 @@ begin//0
     if (GrilleElevesCarnetDeNotes <> Nil) then
     begin//2
       //0053D717
-      if (FichierCdn.sub_004BEAD0(f4FC) > 0) then
+      if (FichierCdn.GetNbreModules(GrillesNotes) > 0) then
       begin//3
         //0053D72C
         if (Msg.wParam = -1) then//0053D734
@@ -1349,7 +1293,7 @@ begin//0
         if (Msg.wParam = -1) then
         begin//4
           //0053D74A
-          GridRect.Right := FichierCdn.sub_004BEAD0(f4FC) - 1;
+          GridRect.Right := FichierCdn.GetNbreModules(GrillesNotes) - 1;
         end//4
         else
         begin//4
@@ -1380,37 +1324,27 @@ end;//0
 //0053D7C0
 procedure TFeuilleClasse.Copierlefichiersurdisquette1Click(Sender:TObject);
 var
-  FileName:shortstring;
   S:TStringlist;
+  Info: TSHFileOpStruct;
 begin//0
   //0053D7C0
     //0053D806
     if ((Sender is TMenuItem) ) then
     begin//2
       //0053D81B
-      if (FichierCdn.sub_004C3954) then
+      if (FichierCdn.IsModified) then
       begin//3
         //0053D82A
-        sub_00539DA4(FileName);
-        Application.MessageBox(PChar('Le fichier "' + ExtractFileName(FileName) + '" a été modifié. Vous devez l''enregistrer avant de pouvoir le copier sur disquette.'),'Carnet de Notes version Personnelle' , $40{64});
+        Application.MessageBox(PChar('Le fichier "' + ExtractFileName(GetFileName) + '" a été modifié. Vous devez l''enregistrer avant de pouvoir le copier sur disquette.'),'Carnet de Notes version Personnelle' , $40{64});
       end//3
 	  else 
 	  begin
-		  (*lvar_C := 0;
-		  lvar_22 := Handle;
-		  lvar_1E := 2;
-		  sub_00539DA4(FileName);
-		  ECX := $53DA44;
-		 
-		  lvar_1A := PChar(FileName + #0);
-		  S := sub_00497908;
-		  S[];
-		  
-		  sub_00539DA4(FileName);
-		  lvar_16 := PChar(lvar_138 + ':\' + ExtractFileName(FileName) + #0);
-		  lvar_12 := $40{64};
-		  
-		  EAX := SHFileOperationA(lvar_22);*)
+	      Info.Wnd := handle; //0
+		  Info.wFunc := FO_COPY; //FO_MOVE
+		  Info.pFrom := PChar(GetFileName + #0);
+		  S := GetLogDrives;
+		  Info.pTo := PChar(S[0] + ':\' + ExtractFileName(GetFileName) + #0);
+		  SHFileOperationA(Info);
 	  end;
     end;//2
 	//0053D970
@@ -1419,21 +1353,23 @@ end;//0
 
 //0053DA54
 procedure TFeuilleClasse.Envoyerlefichierpourcourrierlectronique1Click(Sender:TObject);
-//var
+var
+ P:Pointer;
+// MAPIFile     : TMAPIFileDesc;
 begin//0
   showmessage('Envoyerlefichierpourcourrierlectronique1Click');
   //0053DA54
     //0053DA87
-    (*
-    ESI := GetMem(24);
-    EBX := ESI;//ESI
+    
+    //P := GetMem(24);//ESI
+    {EBX := ESI;//ESI
     EAX := 0;
     ? := EAX;//EAX
      := 2;
     EAX := 0;
     ? := EAX;//EAX
     EAX := EDI;//Self
-    sub_00539DA4(lvar_134);
+    GetFileName(lvar_134);
      := ;
     EAX := lvar_4;
     EAX := PChar(lvar_4);
@@ -1444,8 +1380,9 @@ begin//0
     ? := EAX;//EAX
     lvar_34 := 0;
     EAX := EDI;//Self
-    sub_00539DA4(FileName);
-    lvar_30 := PChar('Envoi du fichier Carnet de Notes : ' + ExtractFileName(FileName));
+}
+{   
+   lvar_30 := PChar('Envoi du fichier Carnet de Notes : ' + ExtractFileName(GetFileName));
     lvar_2C := 0;
     lvar_28 := 0;
     lvar_24 := 0;
@@ -1455,11 +1392,11 @@ begin//0
     lvar_14 := 0;
     lvar_10 := 0;
     lvar_C := 1;
-    lvar_8 := ESI;
-    EDX := $18{24};
-    EAX := ESI;//ESI
-    FreeMem(ESI);
-    *)
+    lvar_8 := P;
+   // EDX := $18;
+	}
+  //  FreeMem(P);
+    
     if ({sub_005329D4(0, 0, lvar_34, 11, 0) <> 0}false) then
     begin//2
       //0053DB7F
@@ -1483,8 +1420,8 @@ begin//0
   FormInformationsSeriesDeNotes{gvar_00617D8C} := TFormInformationsSeriesDeNotes.Create(Self, FichierCdn, Logo);
   FormInformationsSeriesDeNotes.ShowModal;
   FormInformationsSeriesDeNotes.Destroy;
-  SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+  SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
   SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1 , 0);
 end;//0
 
@@ -1516,7 +1453,7 @@ end;//0
 procedure TFeuilleClasse.sub_0053DDF4(Y:String);
 begin//0
   //0053DDF4
-  FichierCdn.sub_004BE8FC(Y);
+  Y := FichierCdn.GetClasseName();
 end;//0
 
 
@@ -1530,13 +1467,10 @@ end;//0
 
 //0053DE24
 procedure TFeuilleClasse.FormActivate(Sender:TObject);
-var
-  buf :shortstring;
 begin//0
   //0053DE24
     //0053DE43
-    sub_00539DA4(buf);
-    FormCarnetDeNotes2.OngletsClasses.TabIndex := FormCarnetDeNotes2.TabControl2.Tabs.IndexOf(buf);
+    FormCarnetDeNotes2.OngletsClasses.TabIndex := FormCarnetDeNotes2.TabControl2.Tabs.IndexOf(GetFileName());
     FormCarnetDeNotes2.TabControl2.TabIndex := FormCarnetDeNotes2.OngletsClasses.TabIndex;
 end;//0
 
@@ -1555,13 +1489,13 @@ begin//0
   if (FormUtilitairesSeries.ModalResult = 1) then
   begin//1
     //0053DF2B
-    f4FC := FormUtilitairesSeries.fF28;
+    GrillesNotes := FormUtilitairesSeries.fF28;
     TabControlGrillesNotes.TabIndex :=FormUtilitairesSeries.fF28 - 1;
     FichierCdn.sub_004C63C8;
-    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex+1, 0);
-    SendMessageA(Handle, $40E, f4FC, 0);
+    SendMessageA(Handle, $40E, GrillesNotes, 0);
     k := FormUtilitairesSeries.fF28;
     checked := FormUtilitairesSeries.CheckBox3.Checked;
   end;//1
@@ -1574,13 +1508,13 @@ begin//0
     FormInformationsSeriesDeNotes{gvar_00617D8C} := TFormInformationsSeriesDeNotes.Create(Self, FichierCdn, logo);
     FormInformationsSeriesDeNotes.TabControl1.TabIndex := k -1;
     FormInformationsSeriesDeNotes.TabControl1Change(Sender);
-    FormInformationsSeriesDeNotes.ListBoxSeries.ItemIndex := FichierCdn.sub_004BEAD0(k) - 1;
+    FormInformationsSeriesDeNotes.ListBoxSeries.ItemIndex := FichierCdn.GetNbreModules(k) - 1;
     FormInformationsSeriesDeNotes.ListBoxSeriesClick(Sender);
     FormInformationsSeriesDeNotes.ShowModal;
     FormInformationsSeriesDeNotes.Destroy;
     FichierCdn.sub_004C63C8;
-    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex+1 , 0);
   end;//1
 end;//0
@@ -1600,13 +1534,13 @@ begin//0
   if (FormTransformerSeries.ModalResult = 1) then
   begin//1
     //0053E1BF
-    f4FC := FormTransformerSeries.f318;
+    GrillesNotes := FormTransformerSeries.f318;
     TabControlGrillesNotes.TabIndex := FormTransformerSeries.f318 - 1;
     FichierCdn.sub_004C63C8;
-    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
-    SendMessageA(Handle, $40E{1038}, f4FC, 0);
+    SendMessageA(Handle, $40E{1038}, GrillesNotes, 0);
     k := FormTransformerSeries.f318;
 
     checked := FormTransformerSeries.CheckBox3.Checked;
@@ -1619,13 +1553,13 @@ begin//0
     FormInformationsSeriesDeNotes{gvar_00617D8C} := TFormInformationsSeriesDeNotes.Create(Self, FichierCdn, logo);
     FormInformationsSeriesDeNotes.TabControl1.TabIndex := k - 1;
     FormInformationsSeriesDeNotes.TabControl1Change(self);
-    FormInformationsSeriesDeNotes.ListBoxSeries.ItemIndex := FichierCdn.sub_004BEAD0(FormTransformerSeries.f318) - 1;
+    FormInformationsSeriesDeNotes.ListBoxSeries.ItemIndex := FichierCdn.GetNbreModules(FormTransformerSeries.f318) - 1;
     FormInformationsSeriesDeNotes.ListBoxSeriesClick(Sender);
     FormInformationsSeriesDeNotes.ShowModal;
     FormInformationsSeriesDeNotes.Destroy;
     FichierCdn.sub_004C63C8;
-    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+    SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+    SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
   end;//1
 end;//0
@@ -1661,7 +1595,7 @@ begin//0
     
     lvar_C := Msg.wParam;
     lvar_10 := Msg.message;
-    lvar_14 := FichierCdn.sub_004BEAD0(lvar_10);
+    lvar_14 := FichierCdn.GetNbreModules(lvar_10);
     if (lvar_14 > 0) then
     begin//0053E4AB
       Chart1.Visible := True;
@@ -1691,40 +1625,34 @@ begin//0
       Chart1..StartColor :=GetcouleurDebutDegrade;
       Chart1..EndColor := GetcouleurFinDegrade;
       Chart1..SetColor := _GetcouleurMurGauche;
-      Chart1..Color := GetcouleurMurBas;
-      Chart1.Monochrome := GetgrapheEnCouleur Xor true;*)
+      Chart1..Color := GetcouleurMurBas;*)
+      Chart1.Monochrome := GetgrapheEnCouleur Xor true;
       Chart1.RemoveAllSeries;
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  Chart1.AddSeries(TLineSeries.Create(Chart1));
 	  
-      (*Chart1.Series[0].ShowInLegend := GetgrapheLigneEleve;
+      Chart1.Series[0].ShowInLegend := GetgrapheLigneEleve;
       Chart1.Series[1].ShowInLegend := GetgrapheLigneMin;
       Chart1.Series[2].ShowInLegend := GetgrapheLigneMax;
-      Chart1.Series[3].ShowInLegend := GetgrapheLigneMoyenne;*)
+      Chart1.Series[3].ShowInLegend := GetgrapheLigneMoyenne;
     end//2
     else
     begin//0053E71C
       Chart1.Visible := False;
     end;//2
-
-
 	  for I := 1 to lvar_14 do //0053E743
       try
         //0053E75B
-
         if (GetgrapheLigneEleve) then
         begin//4
           //0053E768
           FichierCdn.sub_004BEF5C(lvar_10, I, lvar_C, buf);
           lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          
           fichiercdn.sub_004BED2C( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
-          
           FichierCdn.sub_004BED04( lvar_10, Buf, I);
-
           Chart1.Series[0].AddXY(I, lvar_28, buf, GetcouleurEleve); // 0053E8B1 
           FichierCdn.sub_004BEA64(lvar_C, buf);
           Chart1.Series[0].Title := buf;
@@ -1741,49 +1669,32 @@ begin//0
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04(lvar_10, buf, I);
           //Chart1.Series[1}.AddXY(, 0, lvar_170, GetcouleurMin);
-          
           Chart1.Series[1].Title := 'Minimum de la classe';
           //Chart1.Series[1].SeriesColor := GetcouleurMin;
-          
           TLineSeries(Chart1.Series[1]).LinePen.Width := 2;
         end;//4
 
         if (GetgrapheLigneMax) then
         begin//4
           //0053EB30
-          
           //FichierCdn.sub_004C3B54(lvar_10, buf, I);
-          
           //lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          
           FichierCdn.sub_004BED2C( lvar_10, I, buf);
-           
           lvar_28 := lvar_158 / StrToFloat(buf);
-          
           FichierCdn.sub_004BED04( lvar_10, buf, I);
-          
           //Chart1.Series[2].AddXY(, 0, lvar_17C, GetcouleurMax);
-          
           Chart1.Series[2].Title := 'Maximum de la classe';
-          
           //Chart1.Series[2].SeriesColor := GetcouleurMax;
-         
           TLineSeries(Chart1.Series[2]).LinePen.Width  := 2;
         end;//4
         if (GetgrapheLigneMoyenne) then
         begin//4
           //0053ECF9
-          
           FichierCdn.sub_004C40D4(lvar_10, buf, I);
-          
           lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          
           FichierCdn.sub_004BED2C( lvar_10, I, buf);
-          
           lvar_28 := lvar_158 / StrToFloat(buf);
-          
           FichierCdn.sub_004BED04( lvar_10, buf, I);
-          
           Chart1.Series[3].AddXY(I, lvar_28, buf, GetcouleurMoyenne);
           Chart1.Series[3].Title := 'Moyenne de la classe';
           Chart1.Series[3].SeriesColor := GetcouleurMoyenne;
@@ -1794,8 +1705,6 @@ begin//0
         begin//0053EED0
         end;//4
       end;//3
-      
-
 end;//0
 
 //0053EF88
@@ -1992,19 +1901,19 @@ begin//0
   //0053F598
   //0053F5A9
 
-  if (FichierCdn.sub_004BEA58 = 0) Or (FichierCdn.sub_004BEAD0(f4FC) <= 0) then//0053F5BE
+  if (FichierCdn.EleveCount = 0) Or (FichierCdn.GetNbreModules(GrillesNotes) <= 0) then//0053F5BE
     Apprciationsdesbulletins1.Enabled := false
   else//0053F5C2
     Apprciationsdesbulletins1.Enabled := true;
   
   //0053F5D6
-  if (FichierCdn.sub_004BEA58 = 0) Or (FichierCdn.sub_004BEAD0(f4FC) <= 0) then//0053F5EB
+  if (FichierCdn.EleveCount = 0) Or (FichierCdn.GetNbreModules(GrillesNotes) <= 0) then//0053F5EB
     Pointsenplusouenmoins1.Enabled := false
   else//0053F5EF
     Pointsenplusouenmoins1.Enabled := true;
   
   //0053F603
-  if (FichierCdn.sub_004BEA58 = 0) Or (FichierCdn.sub_004BEAD0(f4FC) <= 0) then//0053F618
+  if (FichierCdn.EleveCount = 0) Or (FichierCdn.GetNbreModules(GrillesNotes) <= 0) then//0053F618
    CollerlesapprciationsdanslePressePapiers1.Enabled := false
   else//0053F61C
     CollerlesapprciationsdanslePressePapiers1.Enabled := true;
@@ -2017,7 +1926,7 @@ var
  I:integer;
 begin//0
   //0053F62C
-    for I := 1 to FichierCdn.sub_004BE9E0 do //0053F647
+    for I := 1 to FichierCdn.GetNbrePeriodes do //0053F647
     begin//2
       //0053F64C
       FichierCdn.sub_004C4784(I, true);
@@ -2066,7 +1975,7 @@ var
 begin//0
   //0053F7DC
 
-    for I := 1 to FichierCdn.sub_004BE9E0 do//0053F7F4
+    for I := 1 to FichierCdn.GetNbrePeriodes do//0053F7F4
     begin//2
       //0053F7F9
       FichierCdn.sub_004C4784(I, true);
@@ -2108,7 +2017,7 @@ begin//0
   FormPointsPlusMoins.ShowModal;
   FormPointsPlusMoins.Destroy;
   FichierCdn.sub_004C63C8;
-  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+  SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
   SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
 end;//0
 
@@ -2161,19 +2070,19 @@ begin//0
       begin//3
         //0053FB28
         FichierCdn2 := TFichierCdn.Create(FormCarnetDeNotes2.OpenDialog1.FileName{, 1, 0, 0});
-        if (FichierCdn2.f948) then
+        if (FichierCdn2.Succes) then
         begin//4
           //0053FB61
           
-          if (sub_00497B4C(FichierCdn2.sub_004BEAC4, FichierCdn.sub_004BEAC4)) then
+          if (sub_00497B4C(FichierCdn2.EleveLists, FichierCdn.EleveLists)) then
           begin//5
             //0053FB82
             
             FormImporterSeries{gvar_00617D94} := TFormImporterSeries.Create(Self, FichierCdn,FichierCdn2 , logo, 0);
             FormImporterSeries.ShowModal;
             FichierCdn2.sub_004C63C8;
-            SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-            SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+            SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+            SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
             SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1, 0);
             SendMessageA(Handle, $40E{1038}, 0, 0);
             FormImporterSeries.Destroy;
@@ -2224,7 +2133,7 @@ begin//0
         
         FormNouvelleSerieDeNotes{gvar_00617D74} := TFormNouvelleSerieDeNotes.Create(Self, FichierCdn, logo, 'Informations sur la série de notes à importer');
         
-        FormNouvelleSerieDeNotes.TabControl1.TabIndex := f4FC - 1;
+        FormNouvelleSerieDeNotes.TabControl1.TabIndex := GrillesNotes - 1;
 
         FormNouvelleSerieDeNotes.ShowModal;
 
@@ -2245,8 +2154,8 @@ begin//0
           
           
           
-          lvar_5 := FichierCdn.sub_004BEAD0(FormNouvelleSerieDeNotes.f334);
-            for I := 1 to FichierCdn.sub_004BEA58 do //005402F0
+          lvar_5 := FichierCdn.GetNbreModules(FormNouvelleSerieDeNotes.f334);
+            for I := 1 to FichierCdn.EleveCount do //005402F0
             begin//6
               //005402F5
 
@@ -2266,20 +2175,20 @@ begin//0
           
           StringList1.Free;
          
-          f4FC := FormNouvelleSerieDeNotes.f334;
+          GrillesNotes := FormNouvelleSerieDeNotes.f334;
           
           FichierCdn.sub_004C63C8;
           TabSet1.TabIndex := 0;
-          SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-          SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);          
+          SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+          SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);          
           SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
           SendMessageA(Handle, $40E{1038}, 0, 0);
-          TabControlGrillesNotes.TabIndex := f4FC - 1;
+          TabControlGrillesNotes.TabIndex := GrillesNotes - 1;
 
-          SendMessageA(Handle, $401{1025}, 1, FichierCdn.sub_004BEAD0(f4FC) - 1);
+          SendMessageA(Handle, $401{1025}, 1, FichierCdn.GetNbreModules(GrillesNotes) - 1);
           GrilleNotesCarnetDeNotes.TopRow := 1;
           GrilleNotesCarnetDeNotes.LeftCol := 1;
-          GrilleNotesCarnetDeNotes.LeftCol := FichierCdn.sub_004BEAD0(f4FC) - 1;
+          GrilleNotesCarnetDeNotes.LeftCol := FichierCdn.GetNbreModules(GrillesNotes) - 1;
           GrilleNotesCarnetDeNotes.SetFocus;
           keybd_event($26{38}, 0, 0, 0);
           keybd_event($26{38}, 0, 2, 0);
@@ -2317,46 +2226,39 @@ begin//0
     begin//2
       //005407F2
       FichierCdn1 := TFichierCdn.Create(FormCarnetDeNotes2.OpenDialog1.FileName{, 1, 0, 0});
-      if (FichierCdn1.f948) then
+      if (FichierCdn1.Succes) then
       begin//3
-        if (FichierCdn1.sub_004BEA58 > 0) then//0054082F
+        if (FichierCdn1.EleveCount > 0) then//0054082F
         begin//4
           //0054083F
           StringList1 := TStringList.Create;  
-            for I := 1 to FichierCdn1.sub_004BEA58 do//0054085E
+            for I := 1 to FichierCdn1.EleveCount do//0054085E
             begin//6
               //00540863
-              FichierCdn1.sub_004C8BB8(I, buf);
+              FichierCdn1.GetElevDateNais(I, buf);
               StringList1.add(buf);
             end;//6
          
           StringList2 := TStringList.Create;
           
-            for I := 1 to FichierCdn1.sub_004BEA58 do//005408BC
+            for I := 1 to FichierCdn1.EleveCount do//005408BC
               //005408C1
               if (FichierCdn1.sub_004C8E50(I)) then//005408DC
                 StringList2.add('R')
               else//005408EB
                 StringList2.add('');
-              
-
-          
-
-          FichierCdn1.sub_004BE8FC(buf);
-          FormTypeImportation{gvar_00617DAC} := TFormTypeImportation.Create(Self, FichierCdn1.sub_004BEAC4, StringList1, StringList2, buf);
-          
+          FormTypeImportation{gvar_00617DAC} := TFormTypeImportation.Create(Self, FichierCdn1.EleveLists, StringList1, StringList2, FichierCdn1.GetClasseName);
           FormTypeImportation.ShowModal;
-
           if (FormTypeImportation.ModalResult = 1) then
           begin//5
             //0054096A
             if (FormTypeImportation.RadioGroup1.ItemIndex = 0) then
             begin//6
               //00540980
-              if (FichierCdn.sub_004BEA58 > 0) then
+              if (FichierCdn.EleveCount > 0) then
               begin//7
                 //00540996
-                for I := 1 to FichierCdn.sub_004BEA58 do
+                for I := 1 to FichierCdn.EleveCount do
                 begin//8
                   //00540996
                   FichierCdn.sub_004C1158(1);
@@ -2367,7 +2269,7 @@ begin//0
               begin//7
                 //005409D0
                 if (FormTypeImportation.CheckListBox1.Checked[I - 1] = False) then Continue;
-                if (FichierCdn.sub_004BEA58 < $32{50}) then
+                if (FichierCdn.EleveCount < $32{50}) then
                 begin//8
                   //00540A0C
                  
@@ -2386,8 +2288,8 @@ begin//0
             FichierCdn.sub_004C63C8;
             SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
             SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
-            SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-            SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+            SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+            SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
             SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1, 0);
             SendMessageA(Handle, $406{1030}, 0, 0);
             SendMessageA(Handle, $40B{1035}, 0, 0);
@@ -2455,39 +2357,18 @@ begin//0
         if (FormTypeImportation.RadioGroup1.ItemIndex = 0) then
         begin//4
           //005410AB
-            for I := 1 to FichierCdn.sub_004BEA58 do //005410C1
+            for I := 1 to FichierCdn.EleveCount do //005410C1
               //005410C1
               FichierCdn.sub_004C1158(1);
-            
         end;//4
           for I := 1 to FormTypeImportation.CheckListBox1.Items.Count do//005410F6
           begin//5
             //005410FB
-           
             if (FormTypeImportation.CheckListBox1.Checked[I - 1] = False) then Continue;
-            if (FichierCdn.sub_004BEA58 < 50) then
+            if (FichierCdn.EleveCount < 50) then
             begin//6
               //00541137
-              (*EDX := I - 1;//EDX
-              EAX := FormTypeImportation.f2F8;
-              call(5510260);
-              EAX := ( = 'R');
-              //push EAX
-              EDX := I - 1;//EDX
-              EAX := FormTypeImportation.f2F4;
-              call(= 'R');
-              EDX := ;
-               := ;
-              //push EAX
-              EDX := ESI;//ESI
-              EDX := EDX - 1;//EDX
-              EAX := gvar_00617DAC;
-              EAX := gvar_00617DAC.f2F0;
-              call();
-              EDX := ;
-              ECX := $FF{255};
-               := ;
-              f4D4.sub_004C14C8(lvar_230, {ECX}{0}, lvar_230{0}, {0});*)
+			  FichierCdn.sub_004C14C8(FormTypeImportation.f2F0[I - 1], FormTypeImportation.f2F4[I - 1], '1', FormTypeImportation.f2F8[I - 1] = 'R');
             end//6
             else
             begin//6
@@ -2500,8 +2381,8 @@ begin//0
         FichierCdn.sub_004C63C8;
         SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
-        SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-        SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+        SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+        SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
         SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
         SendMessageA(Handle, $406{1030}, 0, 0);
         SendMessageA(Handle, $40B{1035}, 0, 0);
@@ -2516,31 +2397,23 @@ end;//0
 procedure TFeuilleClasse.FormClose(Sender:TObject; var Action:TCloseAction);
 var
    buf:string;
-   FileNamex : shortstring;
    k:integer;
 begin//0
   //0054155C
     //00541597
-    if (FichierCdn.sub_004C3954) then
+    if (FichierCdn.IsModified) then
     begin//2
       //005415A6
-
-      FichierCdn.sub_004BE8FC(buf);
-
-      if (MessageBoxA(Handle, PChar('Le fichier de la classe de "' + buf + '" a été modifié. Voulez vous le sauver avant de quitter ?'), 'Carnet de Notes version Personnelle', $24{36}) = 6) then
+      if (MessageBoxA(Handle, PChar('Le fichier de la classe de "' + FichierCdn.GetClasseName + '" a été modifié. Voulez vous le sauver avant de quitter ?'), 'Carnet de Notes version Personnelle', $24{36}) = 6) then
       begin//3
         //00541601
         Enregistrer1Click(Sender);
       end;//3
     end;//2
-    sub_00539DA4(FileNamex);
-    {ECX := ;
-    ECX := ECX + 1;//ECX}
-    if (FileNamex <> 'Nouvelle classe') then
+    if (GetFileName <> 'Nouvelle classe') then
     begin//2
       //0054162F
-      sub_00539DA4(FileNamex);
-      AddHistorique(FileNamex);
+      AddHistorique(GetFileName);
       if (GetutiliserHistorique) then
       begin//3
         //00541661  
@@ -2556,8 +2429,7 @@ begin//0
     else
     begin//2
       //005416A8
-      sub_00539DA4(FileNamex);
-	  k:= FormCarnetDeNotes2.TabControl2.Tabs.IndexOf(FileNamex);
+	  k:= FormCarnetDeNotes2.TabControl2.Tabs.IndexOf(GetFileName);
       if ( k<> -1) then
       begin//3
         //005416E6
@@ -2647,7 +2519,7 @@ begin//0
     begin//2
       //00541AB1
       FichierCdn2:= TFichierCdn.Create(FormCarnetDeNotes2.OpenDialog1.FileName{, 1, 0, 0});
-      if (FichierCdn2.f948) then
+      if (FichierCdn2.Succes) then
       begin//3
         //00541AEA
         FormImporterSeries{gvar_00617D94 }:= TFormImporterSeries.Create(Self,FichierCdn,FichierCdn2,logo, 1);
@@ -2656,8 +2528,8 @@ begin//0
         begin//4
           //00541B34
           FichierCdn.sub_004C63C8;
-          SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, f4FC, 0);
-          SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, f4FC, 0);
+          SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
+          SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
           SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
           SendMessageA(Handle, $40E{1038}, 0, 0);
         end;//4
@@ -2669,9 +2541,7 @@ begin//0
         Application.MessageBox(PChar('Le fichier "' + ExtractFileName(FormCarnetDeNotes2.OpenDialog1.FileName) + '" n''est pas un fichier Carnet de Notes valide. Impossible de copier depuis ce fichier.'), 'Carnet de Notes version Personnelle', $10{16});
       end;//3
       FichierCdn2.Destroy;
-	  
     end;//2
-
 end;//0
 
 end.

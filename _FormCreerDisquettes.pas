@@ -74,8 +74,7 @@ begin//0
     CheckBox1.Enabled := (text = 'Trimestres');
     ComboBox1.Items := GetMatieres;
     ComboBox1.ItemIndex := 0;
-    f31C.sub_004BE8FC(text);
-    Edit2.Text := text;
+    Edit2.Text := f31C.GetClasseName;
     f31C.sub_004BE914(text);
     Edit3.Text := text;
     Edit1.SetFocus;
@@ -100,7 +99,7 @@ begin//0
       f31C.sub_004BE988(text);
       FCdn.sub_004C4CC8(text);
       StList := TStringList.Create;
-        for I := 1 to f31C.sub_004BE9E0  do//00509978
+        for I := 1 to f31C.GetNbrePeriodes  do//00509978
         begin//4
           //00509982
           f31C.sub_004BE9EC(I, text);
@@ -110,8 +109,7 @@ begin//0
       FCdn.sub_004C4CBC(StList);
       StList.Destroy;
       FCdn.sub_004C3920(Edit1.Text);
-      f31C.sub_004BE8FC(text);
-      FCdn.sub_004BEFD0(text);
+      FCdn.sub_004BEFD0(f31C.GetClasseName);
       f31C.sub_004BE914(text);
       FCdn.sub_004BF004(text);
 
@@ -121,9 +119,9 @@ begin//0
       FCdn.sub_004BF06C(text);
       f31C.sub_004C3908(text);
       FCdn.sub_004BF0A0('Fichier créé par ' + text + ' pour ses collègues');
-      FCdn.sub_004BF64C(f31C.sub_004BEAC4);
+      FCdn.sub_004BF64C(f31C.EleveLists);
       FCdn.sub_004BF0D4();
-      FCdn.sub_004C01F8(SaveDialog1.FileName, CheckBox1.Checked, '', 0);
+      FCdn.SaveCdn(SaveDialog1.FileName, CheckBox1.Checked, '', 0);
       FCdn.Destroy;
     end;//2
     //00509B7E

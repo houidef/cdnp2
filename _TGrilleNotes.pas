@@ -102,11 +102,11 @@ begin//0
   //005422CC
    // sub_004CA104(Sender, ACol, ARow, lvar_4C.Left, AState);
     Canvas.Font.Style := []{gvar_005428A4};
-    if (FichierCdn.sub_004BEA58 + $2{gvar_006178F7} = ARow) then //00542388
+    if (FichierCdn.EleveCount + $2{gvar_006178F7} = ARow) then //00542388
       Canvas.Font.Style := [fsBold]{gvar_005428A8};
     if (ARow > 0) then
     begin//005423A9
-      if (FichierCdn.sub_004BEA58 + 1 > ARow) then
+      if (FichierCdn.EleveCount + 1 > ARow) then
       begin//005423CF
         if (GetcolorationGrille) then
         begin//005423DC
@@ -223,13 +223,13 @@ begin//0
   
   SendMessageA(f2E0, 1025, ARow, 0);
   Options := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goTabs];{gvar_00542A1C}; ////$080F;
-  if(FichierCdn.sub_004BEAD0(f2D8)+ 1 <= 255) then
+  if(FichierCdn.GetNbreModules(f2D8)+ 1 <= 255) then
     //ecx:= lvar_24 //lvar_24 set tail $20
   if (ACol <= 255) then
   begin//005429BA  
-    if {(lvar_24[ACol] >= True)}(ACol >= FichierCdn.sub_004BEAD0(f2D8)+ 1) Or (ARow >= byte(FichierCdn.sub_004BEA58)+ 1) then
+    if {(lvar_24[ACol] >= True)}(ACol >= FichierCdn.GetNbreModules(f2D8)+ 1) Or (ARow >= byte(FichierCdn.EleveCount)+ 1) then
     begin//005429DA
-      if (ARow <> byte(FichierCdn.sub_004BEA58) + $0F{gvar_006178FF}) then Exit;
+      if (ARow <> byte(FichierCdn.EleveCount) + $0F{gvar_006178FF}) then Exit;
     end;//2
     Options  := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine,goEditing, goTabs]; //$C0F;//gvar_00542A20;
     CanSelect := True;
@@ -248,7 +248,7 @@ begin//0
   //005440D4
     //005440F9
 	//showmessage(Format('Message.ItemID = %d',[Message.ItemID]));
-    KI := FichierCdn.sub_004BE9E0 + 2;//ESI
+    KI := FichierCdn.GetNbrePeriodes + 2;//ESI
     if (Message.ItemID = 0) then
     begin//2
       //00544124
@@ -283,10 +283,10 @@ begin//0
         //005443C6
         Clipboard.Clear;
 		lvar_10:= '';
-        if (FichierCdn.sub_004BEA58  > 0) then
+        if (FichierCdn.EleveCount  > 0) then
         begin//4
           //005443E8
-          for I := 1 to FichierCdn.sub_004BEA58 do
+          for I := 1 to FichierCdn.EleveCount do
           begin//5
             //005443F0
 			FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I, buf);
@@ -300,11 +300,11 @@ begin//0
       begin//3
         //0054449E
         Clipboard.Clear;
-        if (FichierCdn.sub_004BEA58 > 0) then
+        if (FichierCdn.EleveCount > 0) then
         begin//4
           //005444C2
           
-          for I := 1 to FichierCdn.sub_004BEA58 do
+          for I := 1 to FichierCdn.EleveCount do
           begin//5
             //005444CA
 			FichierCdn.sub_004BEA64(I, buf0);
@@ -341,8 +341,8 @@ begin//0
           //0054498E
           lvar_8 := TStringList.Create;
           lvar_8.text :=Clipboard.AsText;
-          if (lvar_8.count > FichierCdn.sub_004BEA58 ) then//005449D9
-			J := FichierCdn.sub_004BEA58
+          if (lvar_8.count > FichierCdn.EleveCount ) then//005449D9
+			J := FichierCdn.EleveCount
           else//005449EB
             J := lvar_8.count;
 
@@ -584,7 +584,7 @@ begin//0
             begin//6
               //00545C51
 
-                for I := FichierCdn.sub_004BEA58  to f2F0 + 1 do//00545C7E
+                for I := FichierCdn.EleveCount  to f2F0 + 1 do//00545C7E
                 begin//8
                   //00545C82
                  
@@ -592,7 +592,7 @@ begin//0
                   FichierCdn.sub_004C1074(f2D8, f2EC + 1, I , buf);
                 end;//8
              
-              if (FichierCdn.sub_004BEA58 <> f2F0) then
+              if (FichierCdn.EleveCount <> f2F0) then
               begin//7
                 //00545D29
                 //FichierCdn.sub_004C1074(f2D8, f2EC + 1, f2F0, 4);
@@ -687,21 +687,21 @@ begin//0
    // f2D8 eq periode
     //00546526
 	f2D8:=Message.Message;  //periode
-    RowCount := FichierCdn.sub_004BEA58 + $12{gvar_00617902};
+    RowCount := FichierCdn.EleveCount + $12{gvar_00617902};
     
-    if (byte(FichierCdn.sub_004BEAD0(f2D8)) > 0) then
+    if (byte(FichierCdn.GetNbreModules(f2D8)) > 0) then
     begin//0054657F
-      ColCount := byte(FichierCdn.sub_004BEAD0(f2D8));
+      ColCount := byte(FichierCdn.GetNbreModules(f2D8));
     end//2
     else
     begin//0054658A
       ColCount := 1;
     end;//2
 
-    if (byte(FichierCdn.sub_004BEAD0(f2D8)) > 0) then
+    if (byte(FichierCdn.GetNbreModules(f2D8)) > 0) then
     begin//2
       //005465B1
-      for I := 1 to (byte(FichierCdn.sub_004BEAD0(f2D8))) do
+      for I := 1 to (byte(FichierCdn.GetNbreModules(f2D8))) do
       begin //005465B9
         Cols[I - 1] :=  FichierCdn.sub_004BEB40(f2D8, I);
         FichierCdn.sub_004BED04(f2D8, buf0, I);
@@ -711,7 +711,7 @@ begin//0
       end;//3
     end;//2
 
-    Visible := ((FichierCdn.sub_004BEAD0(f2D8) = 0) Xor true);
+    Visible := ((FichierCdn.GetNbreModules(f2D8) = 0) Xor true);
 end;
 
 //0054672C
@@ -724,7 +724,7 @@ begin//0
   I:=0;
   
     //00546785
-    lvar_1 :=  FichierCdn.sub_004BEA58;
+    lvar_1 :=  FichierCdn.EleveCount;
     I := I + 1;
     FichierCdn.sub_004C3D1C(f2D8, I, Buf);
   
@@ -767,7 +767,7 @@ begin
   //00546F14
   //f2F0 eq ARow , f2EC eq ACol;
 
-  RowCount := FichierCdn.sub_004BEA58;
+  RowCount := FichierCdn.EleveCount;
 
   if (f2F0 <= 255) then
   begin//1
@@ -791,14 +791,14 @@ var
  lvar_14:TGridRect;
 begin//0
   //00542A24..00542A54
-    if (ARow = FichierCdn.sub_004BEA58 + $0F{gvar_006178FF}) then//00542A7C
+    if (ARow = FichierCdn.EleveCount + $0F{gvar_006178FF}) then//00542A7C
       FichierCdn.sub_004C0E5C(f2D8, ACol + 1,Cells[ACol, ARow])
 	else 
 	begin
 		FichierCdn.sub_004C1074(f2D8, ACol + 1, ARow, Cells[ACol, ARow]);
 		SendMessageA(Handle, 1031, ACol, 0);
 		SendMessageA(f2E0, 1032, f2D8, ARow);    
-		if (ARow < FichierCdn.sub_004BEA58) then 
+		if (ARow < FichierCdn.EleveCount) then 
 			if (f2F8) then 
 			begin
 				lvar_14.left := ACol;
@@ -876,9 +876,9 @@ begin//0
       SendMessageA(f2E0, $401{1025}, ARow, ACol);
     end;//2
     
-    I := FichierCdn.sub_004BEAD0(f2D8) - 1;//ESI
+    I := FichierCdn.GetNbreModules(f2D8) - 1;//ESI
     
-    J := FichierCdn.sub_004BEA58;
+    J := FichierCdn.EleveCount;
     
     
     if (ACol <= 255) then
@@ -1038,7 +1038,7 @@ begin//0
     
 
       
-      for I := 1 to FichierCdn.sub_004BE9E0  do //00543833
+      for I := 1 to FichierCdn.GetNbrePeriodes  do //00543833
       begin//3
         //00543838
         if (I <> f2D8) then
@@ -1065,14 +1065,14 @@ begin//0
     
     
     AppendMenuA(f2E8, $800{2048}, 1, '');
-    AppendMenuA(f2E8, 0, FichierCdn.sub_004BE9E0 + 2 , 'Copier les notes dans le Presse-Papiers (sans les noms et les statistiques de la série)');
-    AppendMenuA(f2E8, 0, FichierCdn.sub_004BE9E0 + $21{33}, 'Copier les notes dans le Presse-Papiers (avec les noms et les statistiques de la série)');
+    AppendMenuA(f2E8, 0, FichierCdn.GetNbrePeriodes + 2 , 'Copier les notes dans le Presse-Papiers (sans les noms et les statistiques de la série)');
+    AppendMenuA(f2E8, 0, FichierCdn.GetNbrePeriodes + $21{33}, 'Copier les notes dans le Presse-Papiers (avec les noms et les statistiques de la série)');
     
     
     if (Clipboard.HasFormat(1)) then //005439C4
-      AppendMenuA(f2E8, 0,FichierCdn.sub_004BE9E0 + 3 , 'Coller les notes depuis le Presse-Papiers')
+      AppendMenuA(f2E8, 0,FichierCdn.GetNbrePeriodes + 3 , 'Coller les notes depuis le Presse-Papiers')
     else 
-    AppendMenuA(f2E8, 1, FichierCdn.sub_004BE9E0 + 3, 'Coller les notes depuis le Presse-Papiers');
+    AppendMenuA(f2E8, 1, FichierCdn.GetNbrePeriodes + 3, 'Coller les notes depuis le Presse-Papiers');
 	//00543A2F
   
 end;//0
@@ -1089,7 +1089,7 @@ begin//0
    DestroyMenu(f2E8);
     f2E8 := CreatePopupMenu;
    
-    I := FichierCdn.sub_004BE9E0 + 2;//ESI
+    I := FichierCdn.GetNbrePeriodes + 2;//ESI
     J := GetTypesdenotes.count;
     
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Notes"');
@@ -1129,7 +1129,7 @@ begin//0
     //00543FBE
     DestroyMenu(f2E8);
     f2E8 := CreatePopupMenu;
-    J := FichierCdn.sub_004BE9E0 + 2;//EAX
+    J := FichierCdn.GetNbrePeriodes + 2;//EAX
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Type de notes"');
     AppendMenuA(f2E8, $800{2048}, 1, '-');
     S := GetTypesdenotes;
@@ -1153,7 +1153,7 @@ begin//0
     //00543BD0
     DestroyMenu(f2E8);
     f2E8 := CreatePopupMenu; 
-    I := FichierCdn.sub_004BE9E0 + 2;//ESI
+    I := FichierCdn.GetNbrePeriodes + 2;//ESI
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Date"');
     AppendMenuA(f2E8, $800{2048}, 1, '-');
 
@@ -1183,7 +1183,7 @@ begin//0
   
   DestroyMenu(f2E8);
   f2E8 := CreatePopupMenu;
-  I := FichierCdn.sub_004BE9E0 + 2;//ESI
+  I := FichierCdn.GetNbrePeriodes + 2;//ESI
   AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Compte dans la moyenne"');
   AppendMenuA(f2E8, $800{2048}, 1, '-');
     //00543F32
@@ -1204,7 +1204,7 @@ begin//0
    
     DestroyMenu(f2E8);
     f2E8 := CreatePopupMenu;
-    K := FichierCdn.sub_004BE9E0 + 2;//EDI
+    K := FichierCdn.GetNbrePeriodes + 2;//EDI
 
     S := GetTypesdenotes;
     
@@ -1235,7 +1235,7 @@ begin//0
   
   DestroyMenu(f2E8);
   f2E8 := CreatePopupMenu;
-  I := FichierCdn.sub_004BE9E0 + 2;//ESI
+  I := FichierCdn.GetNbrePeriodes + 2;//ESI
   J := GetTypesdenotes.count;
   AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Noté sur"');
   AppendMenuA(f2E8, $800{2048}, 1, '-');
@@ -1265,7 +1265,7 @@ begin//0
   //00547320
   DestroyMenu(f2E8);
   f2E8 := CreatePopupMenu;
-  I := FichierCdn.sub_004BE9E0 + 2;//ESI
+  I := FichierCdn.GetNbrePeriodes + 2;//ESI
   J := GetTypesdenotes.count;
   AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Oral ou écrit"');
   AppendMenuA(f2E8, $800{2048}, 1, '-');

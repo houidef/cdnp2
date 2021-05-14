@@ -93,7 +93,7 @@ begin//0
         AppendMenuA(f2F0, 0, 2, PChar('Modifier les informations de "' + NomEleve + '"'));
         AppendMenuA(f2F0, 2048, 0, '-');
       end;//3
-      if (FichierCdn.sub_004BEA58 < 50) then
+      if (FichierCdn.EleveCount < 50) then
       begin//004D14C4
         AppendMenuA(f2F0, 0, 3, 'Ajouter un élève ...');
       end//3
@@ -132,7 +132,7 @@ begin//0
     if (Message.ItemID = 2) then
     begin//004D1785
       FichierCdn.sub_004BEA64( f2EC, buf);
-      FichierCdn.sub_004C8BB8( f2EC, buf1);
+      FichierCdn.GetElevDateNais( f2EC, buf1);
       FormModifierEleve{gvar_00617CF8} := TFormModifierEleve.Create(Self, buf, buf1, FichierCdn.sub_004C8E50(f2EC),'');
       FormModifierEleve.ShowModal;
       if (FormModifierEleve.ModalResult = 1) then
@@ -166,7 +166,7 @@ begin//0
 	begin
 		Clipboard.Clear;
 		Buf := '';
-		for I := 1 to FichierCdn.sub_004BEA58 do //004D1ADE
+		for I := 1 to FichierCdn.EleveCount do //004D1ADE
 		  begin //004D1AE3
 			FichierCdn.sub_004BEA64(I, buf1);
 			  //....
@@ -191,7 +191,7 @@ begin//0
     if (Button = mbLeft) then
     begin//004D1CC5
       if (ACol <> 1) then Exit;
-      Count := FichierCdn.sub_004BEA58;
+      Count := FichierCdn.EleveCount;
       if (ARow <= 255) then
       begin//004D1D03
         if (ARow < Count) then
@@ -202,13 +202,13 @@ begin//0
             if (FichierCdn.sub_004C8E50(ARow)) then
             begin//004D1D4C
               FichierCdn.sub_004BEA64(ARow, Buf0);//lvar_150
-              FichierCdn.sub_004C8BB8(ARow, Buf1); //lvar_254
+              FichierCdn.GetElevDateNais(ARow, Buf1); //lvar_254
               FormHint.Label1.Caption:= Buf0 + ' ' + Buf1 + ' (redoublant)';
             end//6
             else
             begin//004D1DDF
               FichierCdn.sub_004BEA64(ARow, Buf0); //Determiner le Nom d'éleve;
-              FichierCdn.sub_004C8BB8(ARow, Buf1); //Determiner la date de Naissance;
+              FichierCdn.GetElevDateNais(ARow, Buf1); //Determiner la date de Naissance;
               FormHint.Label1.Caption := Buf0 + ' ' +  Buf1;
             end;//6
             FichierCdn.sub_004C5404(f2D8, ARow, Buf0); //Determiner la Note la plus basse de la période
@@ -216,9 +216,9 @@ begin//0
             FichierCdn.sub_004C56C0( f2D8, ARow, Buf0);// Determiner la Note la plus haute de la période
             FormHint.Label3.Caption := 'Note la plus haute de la période : ' + Buf0;
 			lvar_18 := '';
-			  for I:=1 to FichierCdn.sub_004BE9E0 do //004D1F63
+			  for I:=1 to FichierCdn.GetNbrePeriodes do //004D1F63
 			  begin
-				  if (FichierCdn.sub_004BEAD0(I) > 0) then
+				  if (FichierCdn.GetNbreModules(I) > 0) then
 				  begin//004D1F82
 					FichierCdn.sub_004C2D10(I, ARow, GetarrondirMoyennes, Buf0);
 					lvar_18 := lvar_18 + Buf0 + ' - ';
@@ -229,9 +229,9 @@ begin//0
 				  end;//7
 			  end;	  
 				           
-            if (FichierCdn.sub_004BEAD0(FichierCdn.sub_004BE9E0) > 0) then
+            if (FichierCdn.GetNbreModules(FichierCdn.GetNbrePeriodes) > 0) then
             begin//004D200C
-              FichierCdn.sub_004C2D10(FichierCdn.sub_004BE9E0, ARow, GetarrondirMoyennes, Buf0);
+              FichierCdn.sub_004C2D10(FichierCdn.GetNbrePeriodes, ARow, GetarrondirMoyennes, Buf0);
               lvar_18 := lvar_18 + Buf0;
             end//6
             else
@@ -261,7 +261,7 @@ begin//0
 		f2E8 := ACol;
 		f2EC := ARow;
 		if (ACol <> 1) then Exit;
-		FichierCdn.sub_004BEA58;
+		FichierCdn.EleveCount;
 		if (ARow <= 255) then
 		begin//004D2205
 		  if (ARow < Count) then
@@ -295,7 +295,7 @@ var
  buf,lvar_8 :string;
 begin//0
   //004D2398..004D23CE
-    Count := FichierCdn.sub_004BEA58;
+    Count := FichierCdn.EleveCount;
     RowCount:= Count + gvar_00617902;
     Cols[1].Clear;
     Cells[ 1 ,0] := 'Noms et prénoms';
@@ -320,7 +320,7 @@ begin//0
 		Buf := '1111';
         FichierCdn.sub_004BEA64(I, Buf);
 		lvar_8 := Buf;
-        FichierCdn.sub_004C8BB8(I, Buf);
+        FichierCdn.GetElevDateNais(I, Buf);
         if (Trim(Buf) <> '') then
         begin//004D26B5
           if (GetafficherDatesDeNaissance) then

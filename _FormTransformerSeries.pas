@@ -64,7 +64,7 @@ begin//0
     f314 := F;
     TabControl1.Tabs := F.sub_004BEA4C;
 
-      for I := 1 to F.sub_004BEAD0(TabControl1.TabIndex + 1) do //0051187D
+      for I := 1 to F.GetNbreModules(TabControl1.TabIndex + 1) do //0051187D
       begin//3
         //00511884
         F.sub_004BED04( TabControl1.TabIndex + 1, buf, I);
@@ -93,7 +93,7 @@ begin//0
     //0051198C
     ListBox2.Items.Clear;
 	
-      for I := 1 to f314.sub_004BEAD0(TabControl1.TabIndex + 1) do//005119DE
+      for I := 1 to f314.GetNbreModules(TabControl1.TabIndex + 1) do//005119DE
       begin//3
         //005119E5
         f314.sub_004BED04(TabControl1.TabIndex + 1, buf, I);
@@ -234,7 +234,7 @@ begin//0
           f314.sub_004BEEBC(f318, I, buf5);
           f314.sub_004BEF0C(f318, I, buf1);
           f314.sub_004BF7F0(f318, 'Copie de ' + buf0, buf6, buf2, buf3, DateToStr(Date), buf4, buf5, buf1 = 'Oral');
-          J := f314.sub_004BEAD0(f318);   
+          J := f314.GetNbreModules(f318);   
         end;//4
         f314.sub_004C48BC(f318, J,buf6);
         if (CheckBox2.Enabled) then
@@ -247,7 +247,7 @@ begin//0
           end;//5
         end;//4
         
-        for K := 1 to f314.sub_004BEA58 do
+        for K := 1 to f314.EleveCount do
         begin//4
           //0051245D 
           try

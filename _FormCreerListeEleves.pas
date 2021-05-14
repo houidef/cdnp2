@@ -49,9 +49,9 @@ type
     procedure Button2Click(Sender:TObject);//00517FC0
     procedure EditNomEtPrenomEnter(Sender:TObject);//00517F90
   public
-    f318:TStringlist;//f318
-    f31C:TStringlist;//f31C
-    f320:TStringlist;//f320
+    EleveNom:TStringlist;//f318
+    EleveDateNais:TStringlist;//f31C
+    EleveR:TStringlist;//f320
     constructor Create(Owner:TComponent; Fichier:string; logo:TImage);//00517B8C
 	 procedure sub_005186D8;//005186D8
   end;
@@ -68,23 +68,17 @@ var
   Stringlist:TStringlist;
 begin//0
   //00517B8C
-
     //00517BBE
-    
     inherited Create(Owner);
-    
     Image1.Picture := logo.Picture;
-  
     Caption := Caption + ' (' + Fichier + ')';
-
-    f318 := TStringlist.Create;
-    f318.Sorted := False;
-    f31C :=  TStringlist.Create;
-    f31C.Sorted := False;
-    f320 := TStringlist.Create;
-    f320.Sorted := False;
+    EleveNom := TStringlist.Create;
+    EleveNom.Sorted := False;
+    EleveDateNais :=  TStringlist.Create;
+    EleveDateNais.Sorted := False;
+    EleveR := TStringlist.Create;
+    EleveR.Sorted := False;
     sub_005186D8;
-  
 end;//0
 
 
@@ -92,9 +86,7 @@ end;//0
 procedure TFormCreerListeEleves.Button1Click(Sender:TObject);
 begin//0
   //00517CD0
-
     //00517CF2
-
     if (Trim(EditNomEtPrenom.Text) <> '') then
     begin//2
       //00517D15
@@ -104,24 +96,15 @@ begin//0
         if (CheckBoxRedoublant.Checked) then//00517D50
           ListBoxEleves.Items.AddObject(EditNomEtPrenom.Text + ' ' +EditDate.Text + ' (R)', TObjetEleve.Create(EditNomEtPrenom.Text))
         else //00517DBE
-          
          // lvar_20 := EditNomEtPrenom.Text;
-          
-         
           ListBoxEleves.Items.AddObject(EditNomEtPrenom.Text + ' ' + EditDate.Text, TObjetEleve.Create(EditNomEtPrenom.Text));
-
-
         ListBoxEleves.TopIndex := ListBoxEleves.Items.Count - 1;
-
-        f318.Add(EditNomEtPrenom.Text);
-        f31C.Add(EditDate.Text);
-
+        EleveNom.Add(EditNomEtPrenom.Text);
+        EleveDateNais.Add(EditDate.Text);
         if (CheckBoxRedoublant.Checked) then//00517E93
-          f320.Add('R')
+          EleveR.Add('R')
         else//00517EA5
-          f320.Add('');
-
-
+          EleveR.Add('');
         EditNomEtPrenom.Text := '';
         EditDate.Text := '';
         CheckBoxRedoublant.Checked := False;
@@ -129,7 +112,6 @@ begin//0
     end;//2
     ActiveControl := EditNomEtPrenom;
     sub_005186D8;
-
 end;//0
 
 
@@ -144,35 +126,19 @@ end;//0
 //00517F54
 procedure TFormCreerListeEleves.ListBoxElevesClick(Sender:TObject);
 begin
-{*
- 00517F54    push        ebx
- 00517F55    mov         ebx,eax
- 00517F57    mov         eax,dword ptr [ebx+2DC];TFormCreerListeEleves.ListBoxEleves:TListBox
- 00517F5D    call        TCustomListBox.GetItemIndex
- 00517F62    inc         eax
- 00517F63    setne       dl
- 00517F66    mov         eax,dword ptr [ebx+310];TFormCreerListeEleves.SpeedButtonSupprimer:TSpeedButton
- 00517F6C    mov         ecx,dword ptr [eax]
- 00517F6E    call        dword ptr [ecx+5C];TControl.SetEnabled
- 00517F71    mov         eax,dword ptr [ebx+2DC];TFormCreerListeEleves.ListBoxEleves:TListBox
- 00517F77    call        TCustomListBox.GetItemIndex
- 00517F7C    inc         eax
- 00517F7D    setne       dl
- 00517F80    mov         eax,dword ptr [ebx+314];TFormCreerListeEleves.SpeedButtonModifier:TSpeedButton
- 00517F86    mov         ecx,dword ptr [eax]
- 00517F88    call        dword ptr [ecx+5C];TControl.SetEnabled
- 00517F8B    pop         ebx
- 00517F8C    ret
-*}
+ SpeedButtonSupprimer.Enabled := ((ListBoxEleves.ItemIndex - 1)> 0);
+ SpeedButtonModifier.Enabled := ((ListBoxEleves.ItemIndex - 1)> 0);
 end;
 
 //00517F90
 procedure TFormCreerListeEleves.EditNomEtPrenomEnter(Sender:TObject);
 begin//0
   //00517F90
-  ListBoxEleves.ItemIndex := -1;
+  {ListBoxEleves.ItemIndex := -1;
   SpeedButtonSupprimer.Enabled := False;
-  SpeedButtonModifier.Enabled := False;
+  SpeedButtonModifier.Enabled := False;}
+ SpeedButtonSupprimer.Enabled := ((ListBoxEleves.ItemIndex - 1)> 0);
+ SpeedButtonModifier.Enabled := ((ListBoxEleves.ItemIndex - 1)> 0);
 end;//0
 
 
@@ -230,7 +196,7 @@ begin
  00518056    mov         ecx,dword ptr [eax]
  00518058    call        dword ptr [ecx+18];TStrings.sub_00414EA8
  0051805B    mov         edx,dword ptr [eax+4]
- 0051805E    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 0051805E    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  00518064    mov         ecx,dword ptr [eax]
  00518066    call        dword ptr [ecx+50]
  00518069    mov         edi,eax
@@ -250,15 +216,15 @@ begin
  00518096    mov         eax,esi
  00518098    call        TCustomListBox.SetTopIndex
  0051809D    mov         edx,edi
- 0051809F    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 0051809F    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  005180A5    mov         ecx,dword ptr [eax]
  005180A7    call        dword ptr [ecx+44]
  005180AA    mov         edx,edi
- 005180AC    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?f31C:dword
+ 005180AC    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?EleveDateNais:dword
  005180B2    mov         ecx,dword ptr [eax]
  005180B4    call        dword ptr [ecx+44]
  005180B7    mov         edx,edi
- 005180B9    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?f320:dword
+ 005180B9    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?EleveR:dword
  005180BF    mov         ecx,dword ptr [eax]
  005180C1    call        dword ptr [ecx+44]
  005180C4    mov         edx,dword ptr [ebx+2E4];TFormCreerListeEleves.EditNomEtPrenom:TEdit
@@ -323,27 +289,27 @@ begin
  00518196    lea         eax,[ebp-8]
  00518199    call        @LStrLAsg
  0051819E    mov         edx,dword ptr [ebp-8]
- 005181A1    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 005181A1    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  005181A7    mov         ecx,dword ptr [eax]
  005181A9    call        dword ptr [ecx+50]
  005181AC    mov         dword ptr [ebp-4],eax
  005181AF    lea         ecx,[ebp-0C]
  005181B2    mov         edx,dword ptr [ebp-4]
- 005181B5    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 005181B5    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  005181BB    mov         edi,dword ptr [eax]
  005181BD    call        dword ptr [edi+0C]
  005181C0    mov         eax,dword ptr [ebp-0C]
  005181C3    push        eax
  005181C4    lea         ecx,[ebp-10]
  005181C7    mov         edx,dword ptr [ebp-4]
- 005181CA    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?f31C:dword
+ 005181CA    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?EleveDateNais:dword
  005181D0    mov         edi,dword ptr [eax]
  005181D2    call        dword ptr [edi+0C]
  005181D5    mov         eax,dword ptr [ebp-10]
  005181D8    push        eax
  005181D9    lea         ecx,[ebp-14]
  005181DC    mov         edx,dword ptr [ebp-4]
- 005181DF    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?f320:dword
+ 005181DF    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?EleveR:dword
  005181E5    mov         edi,dword ptr [eax]
  005181E7    call        dword ptr [edi+0C]
  005181EA    mov         eax,dword ptr [ebp-14]
@@ -373,15 +339,15 @@ begin
  00518248    mov         ecx,dword ptr [eax]
  0051824A    call        dword ptr [ecx+44];TStrings.Delete
  0051824D    mov         edx,dword ptr [ebp-4]
- 00518250    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 00518250    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  00518256    mov         ecx,dword ptr [eax]
  00518258    call        dword ptr [ecx+44]
  0051825B    mov         edx,dword ptr [ebp-4]
- 0051825E    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?f31C:dword
+ 0051825E    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?EleveDateNais:dword
  00518264    mov         ecx,dword ptr [eax]
  00518266    call        dword ptr [ecx+44]
  00518269    mov         edx,dword ptr [ebp-4]
- 0051826C    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?f320:dword
+ 0051826C    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?EleveR:dword
  00518272    mov         ecx,dword ptr [eax]
  00518274    call        dword ptr [ecx+44]
  00518277    mov         eax,[00615B88];^gvar_00617CF8:TFormModifierEleve
@@ -461,7 +427,7 @@ begin
  0051838D    mov         eax,dword ptr [eax+2D8]
  00518393    call        TControl.GetText
  00518398    mov         edx,dword ptr [ebp-38]
- 0051839B    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 0051839B    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  005183A1    mov         ecx,dword ptr [eax]
  005183A3    call        dword ptr [ecx+34]
  005183A6    lea         edx,[ebp-3C]
@@ -470,7 +436,7 @@ begin
  005183B0    mov         eax,dword ptr [eax+2D4]
  005183B6    call        TControl.GetText
  005183BB    mov         edx,dword ptr [ebp-3C]
- 005183BE    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?f31C:dword
+ 005183BE    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?EleveDateNais:dword
  005183C4    mov         ecx,dword ptr [eax]
  005183C6    call        dword ptr [ecx+34]
  005183C9    mov         eax,[00615B88];^gvar_00617CF8:TFormModifierEleve
@@ -481,12 +447,12 @@ begin
  005183DE    test        al,al
 >005183E0    je          005183F4
  005183E2    mov         edx,51845C;'R'
- 005183E7    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?f320:dword
+ 005183E7    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?EleveR:dword
  005183ED    mov         ecx,dword ptr [eax]
  005183EF    call        dword ptr [ecx+34]
 >005183F2    jmp         00518401
  005183F4    xor         edx,edx
- 005183F6    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?f320:dword
+ 005183F6    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?EleveR:dword
  005183FC    mov         ecx,dword ptr [eax]
  005183FE    call        dword ptr [ecx+34]
  00518401    mov         eax,[00615B88];^gvar_00617CF8:TFormModifierEleve
@@ -608,9 +574,9 @@ end;
 procedure TFormCreerListeEleves.FormDestroy(Sender:TObject);
 begin//0
   //005187C4
-  f318.Free;
-  f31C.Free;
-  f320.Free;
+  EleveNom.Free;
+  EleveDateNais.Free;
+  EleveR.Free;
 end;//0
 
 
@@ -629,9 +595,7 @@ procedure TFormCreerListeEleves.SpeedButtonAjouterClick(Sender:TObject);
 
 begin//0
   //00518868
-
     //0051888A
-    showmessage('Ajouter');
     if (Trim(EditNomEtPrenom.Text) <> '') then
     begin//005188AD
       if (ListBoxEleves.Items.IndexOf(EditNomEtPrenom.Text) + 1 = 0) then
@@ -644,43 +608,29 @@ begin//0
         else
         begin//4
           //00518956
-          
           //lvar_20 := EditNomEtPrenom.GetText{Caption};
-          
-        
           ListBoxEleves.Items.AddObject(EditNomEtPrenom.Text + ' ' + EditDate.Text, TObjetEleve.Create(EditNomEtPrenom.Text));
         end;//4
-        
-
         ListBoxEleves.TopIndex := ListBoxEleves.Items.Count - 1;
-
-        f318.Add(EditNomEtPrenom.Text);
-        f31C.Add(EditDate.Text);
-
+        EleveNom.Add(EditNomEtPrenom.Text);
+        EleveDateNais.Add(EditDate.Text);
         if (CheckBoxRedoublant.Checked ) then
         begin//4
           //00518A2B
-
-          f320.Add('R');
+          EleveR.Add('R');
         end//4
         else
         begin//4
           //00518A3D
-
-          f320.Add('');
+          EleveR.Add('');
         end;//4
         EditNomEtPrenom.Text := '';
-
         EditDate.Text := '';
-
         CheckBoxRedoublant.Checked := False;
       end;//3
     end;//2
-
     ActiveControl := EditNomEtPrenom;
-
     sub_005186D8;
-
 end;//0
 
 //00518AE0
@@ -737,7 +687,7 @@ begin
  00518B76    mov         ecx,dword ptr [eax]
  00518B78    call        dword ptr [ecx+18];TStrings.sub_00414EA8
  00518B7B    mov         edx,dword ptr [eax+4]
- 00518B7E    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 00518B7E    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  00518B84    mov         ecx,dword ptr [eax]
  00518B86    call        dword ptr [ecx+50]
  00518B89    mov         edi,eax
@@ -757,15 +707,15 @@ begin
  00518BB6    mov         eax,esi
  00518BB8    call        TCustomListBox.SetTopIndex
  00518BBD    mov         edx,edi
- 00518BBF    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?f318:dword
+ 00518BBF    mov         eax,dword ptr [ebx+318];TFormCreerListeEleves.?EleveNom:dword
  00518BC5    mov         ecx,dword ptr [eax]
  00518BC7    call        dword ptr [ecx+44]
  00518BCA    mov         edx,edi
- 00518BCC    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?f31C:dword
+ 00518BCC    mov         eax,dword ptr [ebx+31C];TFormCreerListeEleves.?EleveDateNais:dword
  00518BD2    mov         ecx,dword ptr [eax]
  00518BD4    call        dword ptr [ecx+44]
  00518BD7    mov         edx,edi
- 00518BD9    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?f320:dword
+ 00518BD9    mov         eax,dword ptr [ebx+320];TFormCreerListeEleves.?EleveR:dword
  00518BDF    mov         ecx,dword ptr [eax]
  00518BE1    call        dword ptr [ecx+44]
  00518BE4    mov         edx,dword ptr [ebx+2E4];TFormCreerListeEleves.EditNomEtPrenom:TEdit

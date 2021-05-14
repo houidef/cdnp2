@@ -52,7 +52,7 @@ begin//0
     Image1.Picture := logo.Picture;
     f2F4 := F;
     TabControlPeriodes.Tabs := F.sub_004BEA4C;
-    ListBoxEleves.Items := f2F4.sub_004BEAC4;
+    ListBoxEleves.Items := f2F4.EleveLists;
     ListBoxEleves.ItemIndex := 0;
     f2F4.sub_004C2B38(1, 1, Buf);
     Edit1.Text := Buf;

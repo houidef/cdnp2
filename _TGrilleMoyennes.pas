@@ -45,9 +45,9 @@ begin
  inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
  f2E4:=2;
  
-  SetLength(f2f4,FichierCdn.sub_004BE9E0*4);
+  SetLength(f2f4,FichierCdn.GetNbrePeriodes*4);
   //FOwner := FOwner + _DynArr_121_2;
-    for I := 0 to FichierCdn.sub_004BE9E0*4 -1 do
+    for I := 0 to FichierCdn.GetNbrePeriodes*4 -1 do
     begin//004CF134
       f2F4[I] := TStringList.Create;
     end;//2
@@ -64,7 +64,7 @@ begin
   Options := Options + [goRowSelect];
 
  sub_004D072C;
-    for I := 1 to FichierCdn.sub_004BEA58 do //004CF1E0
+    for I := 1 to FichierCdn.EleveCount do //004CF1E0
     begin//004CF1E4
       sub_004D08DC(1, I);
     end;//2
@@ -207,7 +207,7 @@ begin//0
     //Selection := CS;
   end;//1
   SendMessageA(f2E0, 1039, ARow, 255);
-  I := byte(FichierCdn.sub_004BEA58);
+  I := byte(FichierCdn.EleveCount);
   if (ACol = 1) then
   begin//004CFB0C
     if (ARow <= 255) then //lvar14 = ACol
@@ -359,7 +359,7 @@ begin//0
                                   //004D0085
                                   Clipboard.Clear;
                                   lvar_4 := '';
-                                    for I := 0 to FichierCdn.sub_004BEA58 - 1 do //004D00AB
+                                    for I := 0 to FichierCdn.EleveCount - 1 do //004D00AB
                                     begin//18
                                       //004D00B6
                                       lvar_4 := lvar_4 + Cells[f2E8, I] + #13 + #10;
@@ -377,8 +377,8 @@ begin//0
                                       //004D012E
                                       lvar_C := TStringList.Create;
                                       lvar_C.Text := Clipboard.AsText;
-                                      if (lvar_C.Count > FichierCdn.sub_004BEA58) then //004D0179
-                                        C := FichierCdn.sub_004BEA58
+                                      if (lvar_C.Count > FichierCdn.EleveCount) then //004D0179
+                                        C := FichierCdn.EleveCount
                                       else //004D018B
                                         C := lvar_C.Count;
 
@@ -437,7 +437,7 @@ begin//0
   //004D072C
   
     ColCount := 4;
-    RowCount := FichierCdn.sub_004BEA58 + $12{gvar_00617902};
+    RowCount := FichierCdn.EleveCount + $12{gvar_00617902};
     for I := 0 to 3 do
     begin//004D077E
       if (I = 2) then Continue;
@@ -458,7 +458,7 @@ var
   buf :string;
 begin//0
   //004D08DC..004D0914
-    Visible := ((FichierCdn.sub_004BEAD0(f2D8) = 0) Xor true);
+    Visible := ((FichierCdn.GetNbreModules(f2D8) = 0) Xor true);
     FichierCdn.sub_004C213C(Periode, ARow, buf);
     Cells[0, ARow] := buf;
     FichierCdn.sub_004C2AF4(Periode, ARow, GetarrondirMoyennes, buf);
@@ -484,7 +484,7 @@ begin//0
     if (Msg.WParam = 0) then
     begin//004D0A99
       sub_004D072C; 
-        for I := 1 to FichierCdn.sub_004BEA58 do //004D0AAB
+        for I := 1 to FichierCdn.EleveCount do //004D0AAB
           sub_004D08DC(Msg.Message, I);
         
     end//2
@@ -516,7 +516,7 @@ begin//0
 		  Cols[lvar_18 - lvar_18] := f2f4[I];
 		end;//2}
 	  
-	  Visible := (FichierCdn.sub_004BEAD0(f2D8) = 0) Xor true;
+	  Visible := (FichierCdn.GetNbreModules(f2D8) = 0) Xor true;
   end;
 end;//0
 

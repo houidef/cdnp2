@@ -207,7 +207,7 @@ begin//0
     //00519B40
     //f40.Name := f38.Name;
     //f40.Size := f38.Size;
-	Nbr := byte(f3C.sub_004BEA58);
+	Nbr := byte(f3C.EleveCount);
       for I := 1 to Nbr do  //00519B94
       begin//00519B9B
         if (ImpRedoublage) then
@@ -222,7 +222,7 @@ begin//0
         end;//4
         if (ImpDateNais) then
         begin//00519C11
-          f3C.sub_004C8BB8(I, buf);
+          f3C.GetElevDateNais(I, buf);
           lvar_18 := ' ' + lvar_1C + ' (' + buf + ')';
         end//4
         else
@@ -278,7 +278,7 @@ end;//0
 function TImpression.sub_00519E58:dword;
 begin//0
   //00519E58
-  result := (f40.TextHeight('ALEXANDRE')+ 4)*(Byte(f3C.sub_004BEA58)+1);
+  result := (f40.TextHeight('ALEXANDRE')+ 4)*(Byte(f3C.EleveCount)+1);
 
 end;//0
 

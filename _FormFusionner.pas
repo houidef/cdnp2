@@ -591,13 +591,13 @@ begin//0
   //0055186C
     //0055189A
     FichierCdnTemp := TFichierCdn.Create(x{, 1, 0, 0});
-    if (FichierCdnTemp.f948) then
+    if (FichierCdnTemp.succes) then
     begin//2
       //005518BE
-      if (FichierCdnTemp.f949 = 0) then
+      if (FichierCdnTemp.OldVersion = false) then
       begin//3
         //005518CB
-        if (FichierCdnTemp.sub_004BEA58 <> 0) then
+        if (FichierCdnTemp.EleveCount <> 0) then
         begin//4
           //005518DA
           if (ListBoxFichiers.Items.Count = 0) then
@@ -605,18 +605,18 @@ begin//0
             //005518F3
             ListBoxFichiers.Items.Add(x);
             f360.Clear;
-            f360.AddStrings(FichierCdnTemp.sub_004BEAC4);
+            f360.AddStrings(FichierCdnTemp.EleveLists);
             f364.Clear;
             f364.AddStrings(FichierCdnTemp.sub_004BEA4C);
-            Label10.Caption := 'Elèves : ' + IntToStr(FichierCdnTemp.sub_004BEA58 );
-            Label11.Caption := 'Périodes : ' + IntToStr(FichierCdnTemp.sub_004BE9E0);
+            Label10.Caption := 'Elèves : ' + IntToStr(FichierCdnTemp.EleveCount );
+            Label11.Caption := 'Périodes : ' + IntToStr(FichierCdnTemp.GetNbrePeriodes);
             
             FileListBox1.ItemIndex := FileListBox1.ItemIndex + 1;
           end//5
           else
           begin//5
             //005519CE
-            if (sub_00497B4C(f360, FichierCdnTemp.sub_004BEAC4)) then
+            if (sub_00497B4C(f360, FichierCdnTemp.EleveLists)) then
             begin//6
               //005519EA
               if (sub_00497B4C(FichierCdnTemp.sub_004BEA4C, f364)) then
@@ -719,11 +719,11 @@ begin//0
     (*f368[0].sub_004BE988(lvar_A2C);
     FichierCdn1.sub_004C4CC8(lvar_A2C);
     lvar_1C := TStringList.Create;
-    if (sub_004BE9E0(f368[0]) > 0) then
+    if (GetNbrePeriodes(f368[0]) > 0) then
     begin//2
       //00552014
-      lvar_20 := sub_004BE9E0(EDX[EAX]);
-      for I := 1 to sub_004BE9E0(EDX[EAX])  do
+      lvar_20 := GetNbrePeriodes(EDX[EAX]);
+      for I := 1 to GetNbrePeriodes(EDX[EAX])  do
       begin//3
         //0055201C
         f368[0].sub_004BE9EC(I, lvar_A2C);
@@ -755,8 +755,8 @@ begin//0
     EDX := Self;
     EDX := f368;
     EAX := EDX[EAX];
-    EAX := EDX[EAX].sub_004BEAC4;
-    EDX := EDX[EAX].sub_004BEAC4;
+    EAX := EDX[EAX].EleveLists;
+    EDX := EDX[EAX].EleveLists;
     EAX := ;
     sub_004BF64C(?, EDX);
     EAX := ;
@@ -765,13 +765,13 @@ begin//0
     EDX := Self;
     EDX := f368;
     EAX := EDX[EAX];
-    EAX := sub_004BE9E0(EDX[EAX]);
-    if (sub_004BE9E0(EDX[EAX])  > 0) then
+    EAX := GetNbrePeriodes(EDX[EAX]);
+    if (GetNbrePeriodes(EDX[EAX])  > 0) then
     begin//2
       //00552240
-      lvar_20 := sub_004BE9E0(EDX[EAX]) And $FF{255};
+      lvar_20 := GetNbrePeriodes(EDX[EAX]) And $FF{255};
       
-      for EBX := 1 to sub_004BE9E0(EDX[EAX]) do
+      for EBX := 1 to GetNbrePeriodes(EDX[EAX]) do
       begin//3
         //00552248
         lvar_10 := 1;
@@ -795,7 +795,7 @@ begin//0
           EAX := ;
           
 
-          f368[EAX].sub_004BE974(lvar_A50);
+          f368[EAX].__GetFileName(lvar_A50);
           EAX := ;
           lvar_A4C := ExtractFileName;
          
@@ -831,10 +831,10 @@ begin//0
               EDX := EBX;//EBX
               EAX := ;
               .sub_004BF7F0(EBX, lvar_D60, lvar_A2C, ', {$552D18}, lvar_B54, lvar_C58, ', '');
-              if (f368[0].sub_004BEA58 <= 0) then Continue;
-              lvar_28 := EDX[EAX].sub_004BEA58 And $FF{255};
+              if (f368[0].EleveCount <= 0) then Continue;
+              lvar_28 := EDX[EAX].EleveCount And $FF{255};
               ESI := 1;
-              for ESI := 1 to EDX[EAX].sub_004BEA58 And $FF{255} do
+              for ESI := 1 to EDX[EAX].EleveCount And $FF{255} do
               begin//7
                 //00552479
                 //push ESI
@@ -916,12 +916,12 @@ begin//0
                   EAX := ;
                   .sub_004BF7F0(EBX, lvar_72C, lvar_A2C, ', {$552D18}, lvar_B54, lvar_82C, lvar_92C, '');
 				  
-                  if (f368[0].sub_004BEA58  > 0) then
+                  if (f368[0].EleveCount  > 0) then
                   begin//9
                     //005526F5
-                    lvar_2C := EDX[EAX].sub_004BEA58 And $FF{255};
+                    lvar_2C := EDX[EAX].EleveCount And $FF{255};
                     ESI := 1;
-                    for ESI := 1 to f368[0].sub_004BEA58  do
+                    for ESI := 1 to f368[0].EleveCount  do
                     begin//10
                       //005526FD
                       
@@ -958,10 +958,10 @@ begin//0
               EAX := ;
               EAX := f368[EAX];
               EDX := EBX;//EBX
-              EAX := EDX[EAX].sub_004BEAD0(EBX);
-              EAX := EAX And $FF{255};//EDX[EAX].sub_004BEAD0(EBX) And $FF{255}
-              if (EAX{EDX[EAX].sub_004BEAD0(EBX) And $FF{255}} <= 0) then Continue;
-              lvar_28 := EAX;//EDX[EAX].sub_004BEAD0(EBX) And $FF{255}
+              EAX := EDX[EAX].GetNbreModules(EBX);
+              EAX := EAX And $FF{255};//EDX[EAX].GetNbreModules(EBX) And $FF{255}
+              if (EAX{EDX[EAX].GetNbreModules(EBX) And $FF{255}} <= 0) then Continue;
+              lvar_28 := EAX;//EDX[EAX].GetNbreModules(EBX) And $FF{255}
               
               for lvar_18 := 1 to lvar_28 do
               begin//7
@@ -1046,14 +1046,14 @@ begin//0
                 EAX := ;
                 .sub_004BF7F0(EBX, lvar_72C, lvar_32C, lvar_42C, lvar_52C, lvar_62C, lvar_82C, lvar_92C, lvar_A2C = 'Oral'{EAX});
                 EAX := ;
-                EAX := f368[0].sub_004BEA58;
+                EAX := f368[0].EleveCount;
           
-                if (f368[0].sub_004BEA58 > 0) then
+                if (f368[0].EleveCount > 0) then
                 begin//8
                   //00552B29
-                  lvar_2C := f368[0].sub_004BEA58;
+                  lvar_2C := f368[0].EleveCount;
                   
-                  for ESI := 1 to f368[0].sub_004BEA58 do
+                  for ESI := 1 to f368[0].EleveCount do
                   begin//9
                     //00552B31
                     
@@ -1082,7 +1082,7 @@ begin//0
       //00552C08
       lvar_D98 := SaveDialog1.FileName;
      
-      .sub_004C01F8(, 0, $552DB0, 0);
+      .SaveCdn(, 0, $552DB0, 0);
      
       lvar_D9C := SaveDialog1.FileName;
       EDX := ;

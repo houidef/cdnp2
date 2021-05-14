@@ -49,7 +49,7 @@ begin//0
 	 
     lvar_20 := sub_00519AF8(GetimpressionDatesDeNaissanceSeriesDeNotes, GetimpressionRSeriesDeNotes); //la taille de 2eme colone 'Noms&prenom etudiant'
 	
-    lvar_10 := f3C.sub_004BEA58;
+    lvar_10 := f3C.EleveCount;
     lvar_28 := sub_0051C894(b);
 	
     lvar_3C := sub_00519E58;
@@ -65,7 +65,7 @@ begin//0
         R.Top := RTOP;
         R.right := R.left + RWITH;
         R.bottom := R.Top + RHEIGHT;
-        if (f3C.sub_004BEAD0(f2C)  >= NumModule) then
+        if (f3C.GetNbreModules(f2C)  >= NumModule) then
         begin//4
           //0051A3E2
          f3C.sub_004BED04(f2C, text, NumModule+1);
@@ -82,7 +82,7 @@ begin//0
     
 
     
-    lvar_50 := f3C.sub_004BEA58;
+    lvar_50 := f3C.EleveCount;
     
     if (f34) then
     begin//2
@@ -131,7 +131,7 @@ begin//0
           if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
           begin//5
             //0051A703
-            f3C.sub_004C8BB8(I, buf);
+            f3C.GetElevDateNais(I, buf);
             if (Trim(buf) <> '') then
             begin//6
               //0051A74A
@@ -180,7 +180,7 @@ begin//0
           if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
           begin//5
             //0051A8D6
-            f3C.sub_004C8BB8(I, buf);
+            f3C.GetElevDateNais(I, buf);
             if (Trim(buf) <> '') then
             begin//6
               //0051A91D
@@ -210,7 +210,7 @@ begin//0
             R.Top := RHEIGHT * I + RTOP{lvar_34};//EAX
             R.Right := R.Left + RWITH;//EAX
             R.Bottom := R.Top + RHEIGHT;//EAX
-            if (f3C.sub_004BEAD0(f2C) >= J) then
+            if (f3C.GetNbreModules(f2C) >= J) then
               f3C.sub_004BEF5C(f2C, J, I, text)
             else//0051AAF4
               f3C.sub_004C2D10(f2C, I, GetarrondirMoyennes, text);
@@ -222,7 +222,7 @@ begin//0
                 //0051AB70
                 try
                   //0051AB7E
-                  if (f3C.sub_004BEAD0(f2C) >= J) then
+                  if (f3C.GetNbreModules(f2C) >= J) then
                   begin//9
                     //0051ABA6
                     f3C.sub_004BED2C(f2C,J, buf);
@@ -303,7 +303,7 @@ begin//0
           if (f4C.fC[K])then
 		  begin
           R.Left := lvar_30;
-          R.Top := RHEIGHT * (f3C.sub_004BEA58 + lvar_48 + 1) + RTOP + $14{20};//EAX
+          R.Top := RHEIGHT * (f3C.EleveCount + lvar_48 + 1) + RTOP + $14{20};//EAX
           R.Right := R.Left + lvar_20;
           R.Bottom := R.Top + RHEIGHT;
           text := ' ' + f4C.f8[K] {+ lvar_1CC  }+ ' ';
@@ -314,12 +314,12 @@ begin//0
             begin//6
               //0051AEE0
               R.Left := lvar_30 + lvar_20 + (NbrCell - 1) * RWITH;//EAX
-              R.Top := RHEIGHT * (f3C.sub_004BEA58 + lvar_48 + 1) + RTOP + $14{20};//EAX
+              R.Top := RHEIGHT * (f3C.EleveCount + lvar_48 + 1) + RTOP + $14{20};//EAX
               R.Right := R.Left + RWITH;
               R.Bottom := R.Top + RHEIGHT;
               
               
-              if (J <= f3C.sub_004BEAD0(f2C)) then
+              if (J <= f3C.GetNbreModules(f2C)) then
               begin//7
                 //0051AFC0
                 //EAX := EBX;
@@ -404,7 +404,7 @@ begin//0
               begin//7
                 //0051B3FA
                 lvar_84 := TStringList.Create;
-                  for C := 1 to f3C.sub_004BEA58 do//0051B423
+                  for C := 1 to f3C.EleveCount do//0051B423
                   begin//9
                     //0051B42A
                     f3C.sub_004C2D10(f2C, C, GetarrondirMoyennes, buf);
@@ -488,8 +488,8 @@ begin//0
         for K := 0 to lvar_44 + 1 do //0051B6EF
         begin//4
           //0051B6F8
-          f40.MoveTo(lvar_30, (f3C.sub_004BEA58 + 1 + K) * RHEIGHT+ RTOP + $14{20});
-          f40.LineTo( lvar_30 + lvar_28, (f3C.sub_004BEA58 + 1 + K) * RHEIGHT + RTOP + $14{20});
+          f40.MoveTo(lvar_30, (f3C.EleveCount + 1 + K) * RHEIGHT+ RTOP + $14{20});
+          f40.LineTo( lvar_30 + lvar_28, (f3C.EleveCount + 1 + K) * RHEIGHT + RTOP + $14{20});
         end;//4
       //impr lignes vericales de 1ere tableau
       for K := 0 to lvar_C + 1 {+1}  do //0051B7C2
@@ -561,7 +561,7 @@ begin//0
     //0051BB80
 
       res := 0;
-      for I := 1 to f3C.sub_004BEAD0(f2C) do //0051BBAF
+      for I := 1 to f3C.GetNbreModules(f2C) do //0051BBAF
       begin//3
         //0051BBB6
         f3C.sub_004BED04(f2C, buf, I);
@@ -582,8 +582,7 @@ begin//0
     //0051BC72
     inherited create(FichierCdn, Canvas, EnteteDePage, BasDePage, e, f, g,Font);
     //f4C := f;
-    f3C.sub_004BE8FC(Buf);
-    Printer.Title := 'Carnet de Notes version Personnelle - ' + Buf;
+    Printer.Title := 'Carnet de Notes version Personnelle - ' + f3C.GetClasseName;
     Printer.BeginDoc;
     f30 := sub_0051C60C; //initiliser le Nbr de page vertical
     
@@ -706,7 +705,7 @@ begin//0
         begin//4
           //0051C04D
           if (f4C.fC[I])then 
-			  for ACol := 1 to f3C.sub_004BEAD0(f2C)  do
+			  for ACol := 1 to f3C.GetNbreModules(f2C)  do
 			  begin//5
 				//0051C09F
 				case I of
@@ -837,9 +836,9 @@ begin//0
   else 
   begin
 	  if (GetimpressionColonneMoyenne) then //0051C68B test if impressionColonneMoyenne
-		lvar_18 := f3C.sub_004BEAD0(f2C) + 1 //Nbre des Modules dans chaque Periode
+		lvar_18 := f3C.GetNbreModules(f2C) + 1 //Nbre des Modules dans chaque Periode
 	  else//0051C6B7
-		lvar_18 := f3C.sub_004BEAD0(f2C) ;
+		lvar_18 := f3C.GetNbreModules(f2C) ;
 
 	  J:=0;
 	  I:=0;

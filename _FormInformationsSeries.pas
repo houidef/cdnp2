@@ -82,7 +82,7 @@ begin//0
 
     TabControl1.Tabs := F.sub_004BEA4C;
 
-      for I := 1 to f334.sub_004BEAD0(TabControl1.TabIndex + 1) do //0050C8CA
+      for I := 1 to f334.GetNbreModules(TabControl1.TabIndex + 1) do //0050C8CA
       begin//3
         //0050C8D1
         f334.sub_004BED04(TabControl1.TabIndex + 1, buf, I);
@@ -116,7 +116,7 @@ begin//0
     ListBoxSeries.Clear;
       //0050CA20
 
-      for I := 1 to f334.sub_004BEAD0(  TabControl1.TabIndex + 1) do
+      for I := 1 to f334.GetNbreModules(  TabControl1.TabIndex + 1) do
       begin//3
         //0050CA27
         f334.sub_004BED04(TabControl1.TabIndex + 1, buf, I);
@@ -462,7 +462,7 @@ k:integer;
 begin//0
   //0050E1D8
     //0050E1EF
-	k:=f334.sub_004BEAD0( TabControl1.TabIndex + 1);
+	k:=f334.GetNbreModules( TabControl1.TabIndex + 1);
     case k of
       0:
       begin//3

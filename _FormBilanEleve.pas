@@ -121,7 +121,7 @@ end;
 procedure TFormBilanEleve.FormShow(Sender:TObject);
 begin//0
   //005347F0
-  CheckListBoxEleves.Items := f300.sub_004BEAC4;
+  CheckListBoxEleves.Items := f300.EleveLists;
   ComboBoxPeriodes.Items := f300.sub_004BEA4C;
   ComboBoxPeriodes.ItemIndex:= 0;
 end;//0
@@ -177,15 +177,14 @@ begin//0
     //lvar_18 := f304;
     f304.Add('------------------------------------------------------------------------------');
     f300.sub_004BEA64(a, buf0);
-    f300.sub_004BE8FC(buf1);
     f300.sub_004BE944(buf2);
-    f304.Add(buf0 + ' - ' + buf1 + ' - ' + buf2);
+    f304.Add(buf0 + ' - ' + f300.GetClasseName + ' - ' + buf2);
     f300.sub_004BE9EC( b, buf0);
     f300.sub_004BE92C( buf1);
     f304.Add(buf0 + ' - ' + buf1);
     f304.Add('------------------------------------------------------------------------------');
    
-      for I := 1 to f300.sub_004BEAD0(b)  do//00534AA4
+      for I := 1 to f300.GetNbreModules(b)  do//00534AA4
       begin//3
         //00534AAC
         f300.sub_004BED04(b, buf0, I);
@@ -205,7 +204,7 @@ begin//0
         f300.sub_004C3B54(b, buf2,I);
 
         f304.Add(text + ' (Min. ' + buf0 + ' - Moy. ' + buf1 + ' - Max. ' + buf2 + ')');
-        if (I <> f300.sub_004BEAD0(b)) then
+        if (I <> f300.GetNbreModules(b)) then
 			f304.Add('');
       end;//3
 
@@ -217,7 +216,7 @@ begin//0
 
 
       
-      for I := 1 to f300.sub_004BEA58  do//00534DB7
+      for I := 1 to f300.EleveCount  do//00534DB7
       begin//3
         //00534DC1
         f300.sub_004C2D10(b, I, GetarrondirMoyennes, buf0);

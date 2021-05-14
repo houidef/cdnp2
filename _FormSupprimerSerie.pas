@@ -66,7 +66,7 @@ begin//0
    
 
  
-      for I := 1 to f2F8.sub_004BEAD0(1) do //0050BAB9
+      for I := 1 to f2F8.GetNbreModules(1) do //0050BAB9
       begin//3
         //0050BAC0
 
@@ -167,7 +167,7 @@ begin//0
     //0050BDFC
 
     f2F8.sub_004BE9EC(TabControl1.TabIndex + 1, buf);
-	K:= f2F8.sub_004BEAD0(TabControl1.TabIndex + 1);
+	K:= f2F8.GetNbreModules(TabControl1.TabIndex + 1);
     case K of
       0:
       begin//3
@@ -204,7 +204,7 @@ begin//0
     SpeedButton1.Enabled := False;
     
     
-      for I := 1 to f2F8.sub_004BEAD0(TabControl1.TabIndex + 1) do//0050C027
+      for I := 1 to f2F8.GetNbreModules(TabControl1.TabIndex + 1) do//0050C027
       begin//3
         //0050C02E
         f2F8.sub_004BED04( TabControl1.TabIndex + 1, buf, I);
@@ -248,7 +248,7 @@ begin//0
             for L := 1 to TabControl1.TabIndex do//0050C1A9
             begin//6
               //0050C1AE
-              S := S + f2F8.sub_004BEAD0(L) ;
+              S := S + f2F8.GetNbreModules(L) ;
             end;//6
 			f2F8.sub_004BFC58(TabControl1.TabIndex + 1, S + J);
 			CheckListBox1.Items.Delete(J - 1);

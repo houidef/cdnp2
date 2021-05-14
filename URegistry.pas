@@ -19,7 +19,7 @@ Forms, Windows,  SysUtils, Classes , Registry;
     procedure SetValueRegString(Value:AnsiString; WriteValue:AnsiString; Key:AnsiString);//00497660
     procedure SetValueRegChemin(a:ShortString);//00497740
     procedure GetValueRegChemin(var a:String);//0049782C
-    function sub_00497908:TStringList;//00497908
+    function GetLogDrives:TStringList;//00497908
 
 implementation
 
@@ -187,9 +187,8 @@ end;//0
 
 
 //00497908
-function sub_00497908:TStringList;
+function GetLogDrives:TStringList;
 var
- Registry:TRegistry;
  StringList : TStringList;
  lvar_C : string;
  I:integer;

@@ -81,7 +81,7 @@ begin//0
     ComboBox1.ItemIndex := 0;
     ComboBox2.Items := GetTypesdenotes;
     ComboBox2.ItemIndex := 0;
-      for I := 1 to f330.sub_004BEAD0(TabControl1.TabIndex + 1) do //0050FAFA
+      for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do //0050FAFA
       begin//3
         //0050FB01
         f330.sub_004BED04( TabControl1.TabIndex + 1, Buf, I);
@@ -115,7 +115,7 @@ begin//0
     //0050FC38
     ListBox2.Items.Clear;
     
-      for I := 1 to f330.sub_004BEAD0(TabControl1.TabIndex + 1) do//0050FC8A
+      for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do//0050FC8A
       begin//3
         //0050FC91 
         f330.sub_004BED04(TabControl1.TabIndex + 1, buf, I);
@@ -365,7 +365,7 @@ begin//0
           //0051074B
           for I := 0 to ListBoxSeriesConcernees.Items.Count - 1 do
           begin//5
-				for J := 1 to f330.sub_004BEA58  do//0051074E
+				for J := 1 to f330.EleveCount  do//0051074E
 				begin//6
 				  //0051076D
 				  f330.sub_004BEF5C(f730[I], f334[I], J, buf);
@@ -391,7 +391,7 @@ begin//0
                 for J:= 1 to f730[I - 1] - 1 do//00510965
                 begin//8
                   //0051096D
-                  lvar_C := lvar_C + f330.sub_004BEAD0(J) ;
+                  lvar_C := lvar_C + f330.GetNbreModules(J) ;
                 end;//8
               f730[I - 1] := f334[I - 1] + lvar_C;
             end;//6
@@ -439,7 +439,7 @@ begin//0
         lvar_760 := ComboBox2.Items[ComboBox2.ItemIndex];
 		                  
         f330.sub_004BF7F0(ComboBox1.ItemIndex + 1, lvar_52C, lvar_22C, '', 'oui', lvar_62C, lvar_32C, lvar_760, RadioGroupEcritOuOral.ItemIndex = 1);
-          for I := 1 to f330.sub_004BEA58 do//00510DD3
+          for I := 1 to f330.EleveCount do//00510DD3
           begin//5
             //00510DDA
             lvar_18 := TStringList.Create;
@@ -467,7 +467,7 @@ begin//0
               end;//7
             end;//6
             lvar_18.Free;
-            f330.sub_004C1074(ComboBox1.ItemIndex + 1, f330.sub_004BEAD0(ComboBox1.ItemIndex + 1), I, lvar_42C);
+            f330.sub_004C1074(ComboBox1.ItemIndex + 1, f330.GetNbreModules(ComboBox1.ItemIndex + 1), I, lvar_42C);
           end;//5 
         if (lvar_D) then
         begin//4

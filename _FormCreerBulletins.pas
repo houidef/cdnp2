@@ -168,14 +168,14 @@ begin//0
     //006074FD
 
     FCdn := TFichierCdn.Create(Y{, 1, 0});
-    if (FCdn.f948) then
+    if (FCdn.succes) then
     begin//2
       //00607521
-      if (FCdn.f949 = 0) then
+      if (FCdn.OldVersion = false) then
       begin//3
         //0060752E
-        K := FCdn.sub_004BEA58;
-        lvar_8 := FCdn.sub_004BE9E0;		
+        K := FCdn.EleveCount;
+        lvar_8 := FCdn.GetNbrePeriodes;		
         if (K <> 0) then
         begin//4
           //00607554
@@ -184,7 +184,7 @@ begin//0
           begin//5
             //0060756D
             f3A8.Clear;
-            f3A8.AddStrings(FCdn.sub_004BEAC4);
+            f3A8.AddStrings(FCdn.EleveLists);
             f3C8.Clear;
             f3C8.AddStrings(FCdn.sub_004BEA4C);
             f3B0.Clear;
@@ -205,7 +205,7 @@ begin//0
           else
           begin//5
             //0060771E
-            if (sub_00497B4C(FCdn.sub_004BEAC4, f3A8) ) then
+            if (sub_00497B4C(FCdn.EleveLists, f3A8) ) then
             begin//6
               //00607738
               if (sub_00497B4C(FCdn.sub_004BEA4C, f3C8) ) then
@@ -309,39 +309,30 @@ begin//0
 
     FCdn := TFichierCdn.Create(ListBoxFichiers.Items[0]{, 1, 0});
 
-    if (FCdn.f948) then
+    if (FCdn.succes) then
     begin//2
       //00607F7F
       FCdn.sub_004BE944(buf);
       f3D4 := buf;
       FCdn.sub_004BE914(buf);
       f3D8 := buf;
-      FCdn.sub_004BE8FC(buf0);
-
-
         //00607FF1
-
-        for I := 1 to FCdn.sub_004BEA58  do
+        for I := 1 to FCdn.EleveCount  do
         begin//4
           //00607FF8
-
           if (CheckListBoxEleves.Checked[I - 1] ) then 
 		  begin
 			  FCdn.sub_004BEA64(I, buf);
-			  f3A8.Add(buf + ' (' + buf0 + ')');
+			  f3A8.Add(buf + ' (' + FCdn.GetClasseName + ')');
 		  end;
         end;//4
-
-
-        for I := 1 to  FCdn.sub_004BE9E0 do//00608095
+        for I := 1 to  FCdn.GetNbrePeriodes do//00608095
         begin//4
           //0060809C
           FCdn.sub_004BE9EC(I, buf);
           f3C8.Add(buf);
         end;//4
-
       FCdn.Destroy;
-
     end//2
 	else 
 	begin
@@ -350,9 +341,7 @@ begin//0
 		FCdn.Destroy;
 		Close;
 	end;
-
     //00608176
-
 end;//0
 
 //00608214
@@ -391,7 +380,7 @@ begin//0
       begin//3
         //0060835F
         FCdn := TFichierCdn.Create(ListBoxFichiers.Items[I]{, 1, 0});
-        if (FCdn.f948) then
+        if (FCdn.succes) then
         begin//4
           //0060839E
             //006083B1
@@ -403,7 +392,7 @@ begin//0
               StList.Clear;
 
                 lvar_D := GetarrondirMoyennes;
-                for K := 1 to FCdn.sub_004BEA58  do//00608404
+                for K := 1 to FCdn.EleveCount  do//00608404
                 begin//8
                   //0060840B
                   FCdn.sub_004C2D10(J, K,lvar_D , text);
@@ -626,11 +615,11 @@ begin//0
       begin//3
         //00608DDC
         f3A0 := TFichierCdn.Create(ListBoxFichiers.Items[0]{, 1, 0});
-        if (f3A0.f948) then
+        if (f3A0.succes) then
         begin//4
           //00608E18
           RadioGroup1.items :=  f3A0.sub_004BEA4C;
-          CheckListBoxEleves.Items := f3A0.sub_004BEAC4;
+          CheckListBoxEleves.Items := f3A0.EleveLists;
           SpeedButtonSuivant.Enabled := False;
           SpeedButtonCreerBulletins.Enabled := False;
         end//4
@@ -647,7 +636,7 @@ begin//0
         //00608ED4
         SpeedButtonCreerBulletins.Visible := True;
         f3A0 := TFichierCdn.Create(ListBoxFichiers.Items[0]{, 1, 0});
-        if (f3A0.f948) then
+        if (f3A0.succes) then
         begin//4
           //00608F1D
           f3A0.sub_004BE914(text);

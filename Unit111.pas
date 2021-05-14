@@ -1985,7 +1985,7 @@ var
 begin//0
   //004BCAA0
     //004BCAC5
-    str := sub_00497908;
+    str := GetLogDrives;
     
       //004BCADD
         //004BCB03

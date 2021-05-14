@@ -71,9 +71,9 @@ begin//0
 	//004CB4F9
 	sub_004CCCB8;
 	f2D8 := Msg.message;
-    lvar_C := FichierCdn.sub_004BE9E0();//f2DC est fichierCdn,get Nbre Periodes
+    lvar_C := FichierCdn.GetNbrePeriodes();//f2DC est fichierCdn,get Nbre Periodes
     if (lvar_C < f2D8) then //004CB557
-      Visible := (FichierCdn.sub_004BEAD0(f2D8) = 0) Xor True
+      Visible := (FichierCdn.GetNbreModules(f2D8) = 0) Xor True
     else//004CB575
       Visible := (FichierCdn.sub_004C4790 = 0) Xor True;
     if (Visible = False) then Exit;
@@ -102,7 +102,7 @@ begin//0
       ColCount := lvar_4 + lvar_C + 6 + lvar_18;
     end;//2
     //EAX := ESI;//f2DC
-    RowCount := FichierCdn.sub_004BEA58 + $9{gvar_006178FA};
+    RowCount := FichierCdn.EleveCount + $9{gvar_006178FA};
     //lvar_1C := f2DC;
     if (GetmoyenneParTypeDeNotes) then //moyenneParTypeDeNotes
     begin//2
@@ -113,7 +113,7 @@ begin//0
 			  for I := 1 to lvar_4 - 3  do//004CB71C
 			  begin//5
 				//004CB726
-				for J := 1 to FichierCdn.sub_004BEA58  do
+				for J := 1 to FichierCdn.EleveCount  do
 				begin//6
 				  //004CB743
 				  Strlist := FichierCdn.sub_004C3134(f2D8);
@@ -133,7 +133,7 @@ begin//0
 				Cols[lvar_4 + 2].Clear;
 				Cells[lvar_4, 0 ] := 'Moy. Ecrit';
 				Cells[lvar_4 + 1, 0 ] := 'Moy. Oral';
-				for I := 1 to FichierCdn.sub_004BEA58  do//004CB8FA
+				for I := 1 to FichierCdn.EleveCount  do//004CB8FA
 				begin//6
 					//004CB902
 					FichierCdn.sub_004C9280(f2D8, I, GetarrondirMoyennes, buf);              
@@ -146,7 +146,7 @@ begin//0
 			Cols[lvar_4].Clear;
 			
 			Cells[lvar_4, 0]:= 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
-			for I := 1 to FichierCdn.sub_004BEA58 do//004CBA16
+			for I := 1 to FichierCdn.EleveCount do//004CBA16
 			begin//5
 				//004CBA1E
 				FichierCdn.sub_004C2D10(f2D8, I, GetarrondirMoyennes, buf);
@@ -168,7 +168,7 @@ begin//0
 				Cols[lvar_4 + 3 + I].Clear;
 				FichierCdn.sub_004C8AF4(I, buf);
 				Cells[lvar_4 + 3 + I, 0 ] := buf;
-				for J := 1 to FichierCdn.sub_004BEA58  do
+				for J := 1 to FichierCdn.EleveCount  do
 				begin//6
 					//004CBBEC
 					FichierCdn.sub_004C2C00(f2D8, J, I, buf);
@@ -184,7 +184,7 @@ begin//0
 			Cols[I + 1].Clear;
 			Strlist := FichierCdn.sub_004C3134(f2D8);
 			Cells[I + 1, 0] := 'Moy. "' + Strlist[I - 1] + '"'; 
-			for J := 1 to FichierCdn.sub_004BEA58  do//004CBD22
+			for J := 1 to FichierCdn.EleveCount  do//004CBD22
 				begin//6
 				//004CBD2A
 				Strlist := FichierCdn.sub_004C3134(f2D8);
@@ -203,14 +203,14 @@ begin//0
 			Cols[K + 4].Clear;
 			Cols[K + 5].Clear;   
 			Cells[K + 3, 0] := 'Moy. ''Ecrit''';
-			for I := 1 to FichierCdn.sub_004BEA58  do//004CBE9C
+			for I := 1 to FichierCdn.EleveCount  do//004CBE9C
 			begin//5
 				//004CBEA4
 				FichierCdn.sub_004C9708(I, GetarrondirMoyennesAnnuelles, buf);
 				Cells[K + 3, I] := buf;
 			end;//5
 			Cells[K + 4, 0 ] := 'Moy. ''Oral''';
-			for I := 1 to FichierCdn.sub_004BEA58  do//004CBF29
+			for I := 1 to FichierCdn.EleveCount  do//004CBF29
 			begin//5
 				//004CBF31
 				FichierCdn.sub_004C9594(I, GetarrondirMoyennesAnnuelles, buf);
@@ -225,7 +225,7 @@ begin//0
 			//004CBFEC
 			FichierCdn.sub_004BE9EC(L, buf);
 			Cells[lvar_4 + 2 + K + L, 0] := buf;  
-			for I := 1 to FichierCdn.sub_004BEA58  do
+			for I := 1 to FichierCdn.EleveCount  do
 			begin//5
 				//004CC067
 				FichierCdn.sub_004C2D10(L, I, GetarrondirMoyennes, buf);
@@ -234,7 +234,7 @@ begin//0
 		end;//4
 		Cols[lvar_4 + 3 + K + lvar_C].Clear;
 		Cells[lvar_4 + 4 + K + lvar_C, 0 ] := 'Moyenne annuelle sur ' + IntToStr(GetmoyennesSur);
-		for I := 1 to FichierCdn.sub_004BEA58  do//004CC184
+		for I := 1 to FichierCdn.EleveCount  do//004CC184
 		begin//4
 			//004CC18C
 			FichierCdn.sub_004C32B4(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf);
@@ -265,7 +265,7 @@ begin//0
 				Cols[5].Clear;
 				Cells[2, 0] := 'Ecrit';
 				Cells[3, 0] := 'Oral';
-				for I := 1 to FichierCdn.sub_004BEA58 do//004CC3EE
+				for I := 1 to FichierCdn.EleveCount do//004CC3EE
 				begin//5
 					//004CC3F6
 					FichierCdn.sub_004C9280(f2D8, I, GetarrondirMoyennes, buf);
@@ -278,7 +278,7 @@ begin//0
 				lvar_4 := lvar_4 + 3;
 			end;//3
 			Cells[lvar_4 + 2, 0] := 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
-			for I := 1 to FichierCdn.sub_004BEA58 do//004CC511
+			for I := 1 to FichierCdn.EleveCount do//004CC511
 			begin//4
 				//004CC519
 				FichierCdn.sub_004C2D10(f2D8, I, GetarrondirMoyennes, buf);
@@ -295,7 +295,7 @@ begin//0
 				Cols[lvar_4 + 5 + I].Clear;
 				FichierCdn.sub_004C8AF4(I, buf);
 				Cells[lvar_4 + 5 + I, 0 ] := buf;
-				for J := 1 to FichierCdn.sub_004BEA58 do
+				for J := 1 to FichierCdn.EleveCount do
 				begin//5
 					//004CC6AD 
 					FichierCdn.sub_004C2C00(f2D8, J, I, buf);
@@ -311,7 +311,7 @@ begin//0
 				//004CC743
 				FichierCdn.sub_004BE9EC(L, buf);        
 				Cells[L + 1, 0] := buf;  
-				for I := 1 to FichierCdn.sub_004BEA58  do//004CC79E
+				for I := 1 to FichierCdn.EleveCount  do//004CC79E
 				begin//5
 					//004CC7A6
 					FichierCdn.sub_004C2D10(L, I, GetarrondirMoyennes, buf);
@@ -328,14 +328,14 @@ begin//0
 				Cols[lvar_C + 4].Clear;
 				Cols[lvar_C + 5].Clear;
 				Cells[lvar_C + 3, 0] := 'Moy. ''Ecrit''';
-				for I := 1 to FichierCdn.sub_004BEA58  do//004CC8CE
+				for I := 1 to FichierCdn.EleveCount  do//004CC8CE
 				begin//4
 					//004CC8D6
 					FichierCdn.sub_004C9708(I, GetarrondirMoyennesAnnuelles, buf);
 					Cells[lvar_C + 3, I ] := buf;
 				end;//4
 				Cells[lvar_C + 4, 0 ] := 'Moy. ''Oral''';
-				for I := 1 to FichierCdn.sub_004BEA58  do//004CC95B
+				for I := 1 to FichierCdn.EleveCount  do//004CC95B
 				begin//4
 					//004CC963
 					FichierCdn.sub_004C9594(I, GetarrondirMoyennesAnnuelles, buf);
@@ -346,7 +346,7 @@ begin//0
 				lvar_4 := lvar_4 + lvar_18;
 			end;//2
 			Cells[lvar_4 + 3 + lvar_C, 0 ] := 'Moyenne annuelle sur ' + IntToStr(GetmoyennesSur); 
-			for I := 1 to FichierCdn.sub_004BEA58  do//004CCA69
+			for I := 1 to FichierCdn.EleveCount  do//004CCA69
 			begin//3
 				//004CCA71
 				FichierCdn.sub_004C32B4(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf); 
@@ -371,7 +371,7 @@ var
 begin//0
   //004CCCB8
     //004CCCEE
-    IRowCount := byte(FichierCdn.sub_004BEA58);
+    IRowCount := byte(FichierCdn.EleveCount);
 	//RowCount :=IRowCount -1; // supprimer le
     Cols[1].Clear;
     Cells[1, 0] :=  'Noms et prénoms';
@@ -388,12 +388,12 @@ begin//0
         Cells[0, I] := IntToStr(I);
         FichierCdn.sub_004BEA64(I, Buf);
         lvar_4 := Buf;
-        FichierCdn.sub_004C8BB8(I, Buf);
+        FichierCdn.GetElevDateNais(I, Buf);
         if (Trim(Buf) <> '') then
         begin//004CCEF8
           if ({GetafficherDatesDeNaissance} true) then
           begin//004CCF01
-            FichierCdn.sub_004C8BB8(I, Buf);
+            FichierCdn.GetElevDateNais(I, Buf);
             lvar_4 := lvar_4 + ' (' + Buf + ')';
           end;//5
         end;//4
@@ -417,7 +417,7 @@ var
 begin//0
   //004CD0B0
     //004CD108
-    RowCount := FichierCdn.sub_004BEA58;
+    RowCount := FichierCdn.EleveCount;
     Cells[a + 1, RowCount + gvar_006178F5 - 1 ] :=  '';
     Cells[a + 1, RowCount + gvar_006178F6 - 1] := '';
     Cells[a + 1, RowCount + gvar_006178F7 ] := '';
@@ -648,7 +648,7 @@ begin//0
         //004CED0F
         Clipboard.Clear;
         buf := '';
-          for K := 0 to FichierCdn.sub_004BEA58 + 8 - 1 do//004CED42
+          for K := 0 to FichierCdn.EleveCount + 8 - 1 do//004CED42
           begin//5
             //004CED4A
             buf := buf + Cells[f2FC, K] + #13 + #10;
@@ -740,7 +740,7 @@ begin//0
       begin//3 //004CD99E
         Canvas.Font.Style := [];//gvar_004CDEE8;
         Canvas.Font.Color := 0;
-        if (f2D8 < FichierCdn.sub_004BE9E0) then
+        if (f2D8 < FichierCdn.GetNbrePeriodes) then
         begin//004CDA00
           ICol := ColCount-lvar_C + 2;
         end//4
@@ -748,7 +748,7 @@ begin//0
         begin//004CDA21
           ICol := ColCount - 1;//EBX
         end;//4
-        IRow := FichierCdn.sub_004BEA58;
+        IRow := FichierCdn.EleveCount;
           if (ARow < IRow) then//004CDA62
           begin//5
             //004CDA6C
@@ -807,7 +807,7 @@ begin//0
     end;//2
 	
     Canvas.FillRect(ARect);
-    if (f2D8 < FichierCdn.sub_004BE9E0) then//004CDD33
+    if (f2D8 < FichierCdn.GetNbrePeriodes) then//004CDD33
       ICol := ColCount - 1 - (lvar_C + 2)
     else//004CDD62
       ICol := ColCount - 1;//EBX
@@ -1000,7 +1000,7 @@ begin//0
      AppendMenuA(f2F4, 0, 11, 'Spécial Brevet');
     end;//2
     AppendMenuA(f2E8, $10{16}, f2F4, 'Arrondir les moyennes non annuelles'); 
-    if (FichierCdn.sub_004BE9E0 >=f2D8 ) then//Nbre Periodes
+    if (FichierCdn.GetNbrePeriodes >=f2D8 ) then//Nbre Periodes
     begin//2
       //004CE2C1
       DestroyMenu(f2F8);

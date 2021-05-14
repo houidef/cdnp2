@@ -35,7 +35,7 @@ type
     procedure TabControl1Change(Sender:TObject);//0050EC00
   public
     f304:TFichierCdn;//f304
-    f308:TFichierCdn;//f308
+    FichierCdn2:TFichierCdn;//f308
     f30C:byte;//f30C
     constructor Create(Owner:TComponent; F1:TFichierCdn; F2:TFichierCdn; logo:Timage; e:dword);//0050E744
 	 // procedure sub_0050F454(?:TFormImporterSeries);//0050F454
@@ -72,9 +72,9 @@ begin//0
     Image1.Picture := logo.Picture;
 
     f304 := F1;
-    f308 := F2;
+    FichierCdn2 := F2;
 
-    f308.sub_004BE974(Buf);
+    Buf := FichierCdn2.__GetFileName();
  
 
     Caption := Caption + '"' + ExtractFileName(Buf) + '"';
@@ -85,13 +85,13 @@ begin//0
     ComboBoxPeriodes.ItemIndex := 0;
 
 
-    TabControl1.Tabs := f308.sub_004BEA4C;
+    TabControl1.Tabs := FichierCdn2.sub_004BEA4C;
 
      
-      for I := 1 to f308.sub_004BEAD0(1) do //0050E8EE
+      for I := 1 to FichierCdn2.GetNbreModules(1) do //0050E8EE
       begin//3
         //0050E8F5
-        f308.sub_004BED04( 1, Buf, I);
+        FichierCdn2.sub_004BED04( 1, Buf, I);
         CheckListBoxSeries.Items.Add(buf);
       end;//3
 
@@ -158,7 +158,7 @@ begin
  0050EC33    mov         eax,dword ptr [ebx+2E4];TFormImporterSeries.SpeedButtonExecuter:TSpeedButton
  0050EC39    mov         ecx,dword ptr [eax]
  0050EC3B    call        dword ptr [ecx+5C];TControl.SetEnabled
- 0050EC3E    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?f308:dword
+ 0050EC3E    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?FichierCdn2:dword
  0050EC44    mov         dword ptr [ebp-8],eax
  0050EC47    mov         eax,dword ptr [ebx+2EC];TFormImporterSeries.TabControl1:TTabControl
  0050EC4D    call        TCustomTabControl.GetTabIndex
@@ -278,7 +278,7 @@ begin
 >0050EDC8    jno         0050EDCF
  0050EDCA    call        @IntOver
  0050EDCF    mov         dword ptr [ebp-4],eax
- 0050EDD2    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?f308:dword
+ 0050EDD2    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?FichierCdn2:dword
  0050EDD8    mov         dword ptr [ebp-14],eax
  0050EDDB    lea         eax,[ebp-11C]
  0050EDE1    push        eax
@@ -487,7 +487,7 @@ begin
  0050F0EE    cmp         ecx,0FF
 >0050F0F4    jbe         0050F0FB
  0050F0F6    call        @BoundErr
- 0050F0FB    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?f308:dword
+ 0050F0FB    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?FichierCdn2:dword
  0050F101    call        004BEF5C
  0050F106    lea         eax,[ebp-81C]
  0050F10C    push        eax
@@ -521,7 +521,7 @@ begin
  0050F178    cmp         ecx,0FF
 >0050F17E    jbe         0050F185
  0050F180    call        @BoundErr
- 0050F185    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?f308:dword
+ 0050F185    mov         eax,dword ptr [ebx+308];TFormImporterSeries.?FichierCdn2:dword
  0050F18B    call        004BED04
  0050F190    lea         edx,[ebp-81C]
  0050F196    lea         eax,[ebp-820]
@@ -724,7 +724,7 @@ end;
  0050F460    push        50F50D
  0050F465    push        dword ptr fs:[eax]
  0050F468    mov         dword ptr fs:[eax],esp
- 0050F46B    mov         esi,dword ptr [ebx+308];TFormImporterSeries.?f308:dword
+ 0050F46B    mov         esi,dword ptr [ebx+308];TFormImporterSeries.?FichierCdn2:dword
  0050F471    mov         eax,dword ptr [ebx+2EC];TFormImporterSeries.TabControl1:TTabControl
  0050F477    call        TCustomTabControl.GetTabIndex
  0050F47C    mov         edx,eax

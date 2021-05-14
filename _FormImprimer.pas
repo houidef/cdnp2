@@ -106,7 +106,7 @@ begin//0
     CheckListBoxPeriodes.Items := f374.sub_004BEA4C;
     for I := 0 to CheckListBoxPeriodes.Items.Count-1 do //00524D71
     begin//00524D77
-	    J:= f374.sub_004BEAD0(I+1);
+	    J:= f374.GetNbreModules(I+1);
         if (J = 0) then//00524DA6
           CheckListBoxPeriodes.Items.Strings[I] := CheckListBoxPeriodes.Items[I] + ' (aucune série de notes)'
         else//00524DE4
@@ -125,8 +125,7 @@ begin//0
     ComboBoxBasdepageDroite.Items := f378;
     f374.sub_004BE92C(buf);
     ComboBoxEnteteGauche.text := buf;
-    f374.sub_004BE8FC(buf);
-    ComboBoxEnteteCentre.text := buf;
+    ComboBoxEnteteCentre.text :=f374.GetClasseName;
     f374.sub_004BE944(buf);
     ComboBoxEnteteDroite.text := buf;
     ComboBoxBasdepageGauche.text := TimeToStr(Time);
@@ -255,12 +254,7 @@ var
   I:integer;
 begin//0
   //00525464
-    //005254A6
-    //EBX := f378;
-    //ESI := f374;
-
-    f374.sub_004BE8FC(buf);
-    f378.add(buf);
+    f378.add(f374.GetClasseName);
     f374.sub_004BE92C(buf);
     f378.add(buf);
     f374.sub_004C3908(buf);
@@ -268,7 +262,7 @@ begin//0
     f374.sub_004BE944(buf);
     f378.add(buf);
 
-      for I := 1 to f374.sub_004BE9E0 do//00525563
+      for I := 1 to f374.GetNbrePeriodes do//00525563
       begin//3
         //0052556A
         f374.sub_004BE9EC(I, buf);
@@ -388,7 +382,7 @@ begin//0
     //005258BE
     if (a = 0) then
     begin//005258D6
-      if (f374.sub_004BEAD0(b) = 0) then
+      if (f374.GetNbreModules(b) = 0) then
       begin//005258E8
         MessageBoxA(0, 'Aucune série de notes pour cette période !', 'Carnet de Notes version Personnelle', $10{16});
         Exit;
@@ -475,7 +469,7 @@ begin//0
           for I := 0 to CheckListBoxPeriodes.Items.count -1 do//005260B2
           begin//5
             //005260B8
-            lvar_4 := f374.sub_004BEAD0(I + 1) ;
+            lvar_4 := f374.GetNbreModules(I + 1) ;
             if (lvar_4 = 0) then //005260E7
               CheckListBoxPeriodes.Items[I ] :=CheckListBoxPeriodes.Items[I] + ' (aucune série de notes)'
             else//00526125

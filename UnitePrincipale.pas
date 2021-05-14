@@ -128,7 +128,7 @@ begin//0
     //0060B855
 	for I:=0 to MDIChildCount - 1 do 
     begin//0060B86F
-      TFeuilleClasse(MDIChildren[I]).sub_00539DA4(BFileName);
+      BFileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
       if (LowerCase( BFileName) = LowerCase(FileName)) then result := true; //0060B8BC
     end;
  
@@ -144,7 +144,7 @@ begin//0
 	  for I:=0 to MDIChildCount do 
 	  begin
       //0060B950
-        TFeuilleClasse(MDIChildren[I]).sub_00539DA4(FileName);
+        FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
 		if (LowerCase(s) = LowerCase(FileName)) then//0060B99D
 				MDIChildren[I].BringToFront;
 
@@ -489,7 +489,7 @@ begin//0
     StringList := TStringList.Create;
       for I:=0 to  MDIChildCount-1 do //0060CA23
       begin	  //0060CA23
-        TFeuilleClasse(MDIChildren[I]).sub_00539DA4(FileName);
+        FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
         StringList.Add(FileName);
       end;
 
@@ -575,7 +575,7 @@ begin//0
     begin//2
       //0060CCD1
       FichierCdn := TFichierCdn.Create(OpenDialog1.FileName{, 0, 0, 0});
-      if (FichierCdn.f948) then
+      if (FichierCdn.succes) then
       begin//3
         //0060CCFF
         SaveDialog1.Title := 'Enregistrer le fichier de sauvegarde "' + ExtractFileName(OpenDialog1.FileName) + '"';
@@ -583,7 +583,7 @@ begin//0
         begin//4
           //0060CD47
 
-          FichierCdn.sub_004C01F8(SaveDialog1.FileName, false, '', 0);
+          FichierCdn.SaveCdn(SaveDialog1.FileName, false, '', 0);
        
           Application.MessageBox(PChar('Le fichier "' + ExtractFileName(OpenDialog1.FileName) + '" a été récupéré avec succés.'),'Carnet de Notes version Personnelle' , $40{64});
         end;//4
@@ -661,7 +661,7 @@ begin//0
           lvar_4 := lvar_4 + ' - ' + buf;
         end;//4
         OngletsClasses.Tabs.Add(lvar_4);
-         TFeuilleClasse(MDIChildren[I]).sub_00539DA4(Filename);
+         Filename := TFeuilleClasse(MDIChildren[I]).GetFileName();
         TabControl2.Tabs.Add(Filename);
         
      // end;
@@ -684,7 +684,7 @@ begin//0
     
 	  for I:=0 to MDIChildCount-1 do //0060D32F
 	  begin
-		TFeuilleClasse(MDIChildren[I]).sub_00539DA4(FileName);
+		FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
       if (FileName = TabControl2.Tabs[TabControl2.TabIndex]) then
       begin//3
         //0060D387

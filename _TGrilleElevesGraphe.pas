@@ -54,7 +54,7 @@ begin//0
     f2E8 := 1;
 
    SendMessageA(Handle, 1028, 0, 0);
-    if (FichierCdn.sub_004BEA58 <> 0) then
+    if (FichierCdn.EleveCount <> 0) then
     begin//2//004F5C3A
       f2EC := Cells[1, 1];
       SendMessageA(f2E0, 1043, 1, 1);
@@ -77,7 +77,7 @@ begin//0
   //004F5CB0
   try
     //004F5CE6
-    IRowCount := FichierCdn.sub_004BEA58;
+    IRowCount := FichierCdn.EleveCount;
     if (IRowCount <> 0) then
     begin//004F5CFE
       RowCount := IRowCount + 1;
@@ -90,14 +90,14 @@ begin//0
         begin//004F5D56
           Cells[0, byte(I)] := IntToStr(byte(I));
           FichierCdn.sub_004BEA64(I, Buf0);
-          FichierCdn.sub_004C8BB8(I, Buf);
+          FichierCdn.GetElevDateNais(I, Buf);
           if (Trim(Buf) <> '') then
           begin//5
             //004F5DD6
             if ({GetafficherDatesDeNaissance} true) then
             begin//6
               //004F5DDF
-              FichierCdn.sub_004C8BB8(I, Buf);
+              FichierCdn.GetElevDateNais(I, Buf);
               lvar_8 := Buf0 + ' (' + Buf + ')';
             end;//6
           end;//5

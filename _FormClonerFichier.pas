@@ -151,7 +151,7 @@ begin//0
           StringList{lvar_1C} := TStringList.Create;
         
             
-            for J := 1 to f300.sub_004BE9E0 do//005375D5
+            for J := 1 to f300.GetNbrePeriodes do//005375D5
             begin//6
               //005375DC
              
@@ -166,10 +166,7 @@ begin//0
           Enseignant := ListBoxEnseignants.Items[I];
           
           FichierClone.sub_004C3920(buf);
-          
-          f300.sub_004BE8FC(buf);
-          
-          FichierClone.sub_004BEFD0(buf);
+          FichierClone.sub_004BEFD0(f300.GetClasseName);
           
           f300.sub_004BE914(buf);
           
@@ -184,17 +181,17 @@ begin//0
           text := 'Fichier créé par ' + Matiere + ' pour ' + Enseignant;
           FichierClone.sub_004BF0A0(buf);
 
-          FichierClone.sub_004BF64C(f300.sub_004BEAC4);
+          FichierClone.sub_004BF64C(f300.EleveLists);
 
           FichierClone.sub_004BF0D4();
 
           StringList.Clear;
 
             
-            for J := 1 to f300.sub_004BEA58 do//0053779B
+            for J := 1 to f300.EleveCount do//0053779B
             begin//6
               //005377A2
-              f300.sub_004C8BB8(J, buf);
+              f300.GetElevDateNais(J, buf);
               StringList.Add(buf);
             end;//6
 
@@ -202,17 +199,16 @@ begin//0
           FichierClone.sub_004BF544(StringList);
 
             
-            for J := 1 to f300.sub_004BEA58 do//00537806
+            for J := 1 to f300.EleveCount do//00537806
             begin//6
               //0053780D
-               FichierClone.sub_004C8DF8(J, f300.sub_004C8E50(J));
+               FichierClone.SetElevR(J, f300.sub_004C8E50(J));
             end;//6
-          f300.sub_004BE8FC( buf);
-          text := buf + ' - ' + Matiere + ' - ' + Enseignant;
+          text := f300.GetClasseName + ' - ' + Matiere + ' - ' + Enseignant;
           //sub_00497A7C(text,K);
           text := {BrowseDirectoryDlg1.Selection +} '\' + K + '.cdn';
           f304.add(text);
-          FichierClone.sub_004C01F8(text, false, '', 0);
+          FichierClone.SaveCdn(text, false, '', 0);
           StringList.Destroy;
           FichierClone.Destroy;
         end;//4

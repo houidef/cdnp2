@@ -17,7 +17,7 @@ type
     fC : array of boolean;//fC
     constructor Create;//004B6B8C
     procedure sub_004B6CC4(a:string);//004B6CC4
-    function sub_004B6CD8:integer;//004B6CD8 
+    function GetNbrePeriodes:integer;//004B6CD8 
     procedure sub_004B6CF4(a:dword; b:string);//004B6CF4
     function sub_004B6D34:TStringList;//004B6D34
     procedure sub_004B6D38(x:String);//004B6D38
@@ -53,7 +53,7 @@ begin
   a:=f4;
 end;
 
-function TPeriodes.sub_004B6CD8: integer;
+function TPeriodes.GetNbrePeriodes: integer;
 begin//0
   Result := f8.Count;
 end;//0

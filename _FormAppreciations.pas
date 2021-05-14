@@ -103,10 +103,10 @@ begin//0
     TabSetColonnesBulletin.Tabs := f328.sub_004C8BAC;
     StringGrid1.DefaultRowHeight := $12{18};
     StringGrid1.ColCount := f328.sub_004C8AE8 + 1;
-    StringGrid1.RowCount := f328.sub_004BEA58;
-    StringGrid1.Cols[0 ] := f328.sub_004BEAC4;
+    StringGrid1.RowCount := f328.EleveCount;
+    StringGrid1.Cols[0 ] := f328.EleveLists;
 
-      for I := 1 to f328.sub_004BEA58 do //00513548
+      for I := 1 to f328.EleveCount do //00513548
       begin//3
         //0051354C
         f328.sub_004C2C00(1, I,TabSetColonnesBulletin.TabIndex + 1 , buf);
@@ -131,7 +131,7 @@ begin//0
     //StringGrid1.f28C := Self;
     StringGrid2.DefaultRowHeight := $12{18};
     StringGrid2.ColCount := f328.sub_004C8AE8 + 5;
-    StringGrid2.RowCount := f328.sub_004BE9E0 + 1;
+    StringGrid2.RowCount := f328.GetNbrePeriodes + 1;
     StringGrid2.Cells[0, 0] := 'Périodes';
     StringGrid2.Cells[1, 0] :='+ basse';
     StringGrid2.Cells[2, 0] :='+ haute';
@@ -147,12 +147,12 @@ begin//0
     
     lvar_1C := TStringList.Create;
 
-      for {lvar_14 } J:= 1 to f328.sub_004BE9E0  do//005137BD
+      for {lvar_14 } J:= 1 to f328.GetNbrePeriodes  do//005137BD
       begin//3
         //005137C7
        // EDX := lvar_1C.f3A205844;
         lvar_1C.Clear;
-          for K := 1 to f328.sub_004BEA58 do//005137DD
+          for K := 1 to f328.EleveCount do//005137DD
           begin//5
             //005137E1
             f328.sub_004C2D10(J, K, GetarrondirMoyennes, buf);
@@ -258,7 +258,7 @@ begin//0
     f330 := ARow;
     
     SpeedButtonElevePrecedent.Enabled := (f338 > 1); 
-    SpeedButtonEleveSuivant.Enabled := (f328.sub_004BEA58  > f338);
+    SpeedButtonEleveSuivant.Enabled := (f328.EleveCount  > f338);
     if (ACol >= 1) then
     begin//2
       //00513E07
@@ -441,7 +441,7 @@ begin//0
       for I := 1 to StringGrid1.ColCount - 1 do//00514680
       begin//3
         //00514687
-          for J := 1 to f328.sub_004BEA58 do//00514695
+          for J := 1 to f328.EleveCount do//00514695
           begin//5
             //00514699
             f328.sub_004C2C00(TabControlPeriodes.TabIndex + 1, J, I, buf);
@@ -466,7 +466,7 @@ begin//0
         StringGrid1.ColWidths[I] := K + 10;
       end;//3
    f32C.Clear;
-      for J := 1 to f328.sub_004BEA58 do//005147B9
+      for J := 1 to f328.EleveCount do//005147B9
       begin//3
         //005147C0
 
@@ -496,7 +496,7 @@ begin//0
 
     SpeedButton2.Enabled := (f33C > 1);
 
-    SpeedButton3.Enabled := (f328.sub_004BEA58 > f33C);
+    SpeedButton3.Enabled := (f328.EleveCount > f33C);
 
     f328.sub_004BEA64( f33C, buf);
 
@@ -505,7 +505,7 @@ begin//0
       for I := 1 to f328.sub_004C8AE8 do//00514984
       begin//3
         //0051498E
-          for J := 1 to f328.sub_004BE9E0  do//005149A2
+          for J := 1 to f328.GetNbrePeriodes  do//005149A2
           begin//5
             //005149A7
             f328.sub_004C2C00(J, f33C, I, buf);
@@ -524,7 +524,7 @@ begin//0
         StringGrid2.ColWidths[I + 4] :=  K + 10;
       end;//3
 
-      for I := 1 to f328.sub_004BE9E0  do //00514AC8
+      for I := 1 to f328.GetNbrePeriodes  do //00514AC8
       begin//3
         //00514AD0
         f328.sub_004C2D10(I, f33C, GetarrondirMoyennes, buf);
@@ -542,7 +542,7 @@ var
  CanSelect:boolean;
 begin//0
   //00514B6C
-  if (f328.sub_004BEA58  > f33C) then 
+  if (f328.EleveCount  > f33C) then 
   begin
 	  f33C := f33C + 1;
 	  sub_005148C0;
@@ -566,7 +566,7 @@ var
  CanSelect:boolean;
 begin//0
   //00514BF0
-  f33C := f328.sub_004BEA58;
+  f33C := f328.EleveCount;
   sub_005148C0;
   StringGrid2SelectCell(Self, 1, f334, CanSelect);
 end;//0
@@ -592,7 +592,7 @@ var
  CanSelect :boolean;
 begin//0
   //00514CA8
-  if (f328.sub_004BEA58  > f338) then 
+  if (f328.EleveCount  > f338) then 
   begin
 	  f338 := f338 + 1;
 	  sub_00514620;
@@ -710,7 +710,7 @@ begin//0
     if (PageControl1.ActivePage = TabSheet1) then
     begin//2
       //005152BA
-      if (f328.sub_004BEA58  > f338) then//005152D2
+      if (f328.EleveCount  > f338) then//005152D2
         f338 := f338 + 1;
 
 
@@ -736,7 +736,7 @@ begin//0
     end//2
     else 
 	begin
-    if (f328.sub_004BE9E0  > f334) then //00515459
+    if (f328.GetNbrePeriodes  > f334) then //00515459
       f334 := f334 + 1;
 
 

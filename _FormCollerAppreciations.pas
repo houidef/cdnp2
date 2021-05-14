@@ -155,7 +155,7 @@ begin//0
         //00534043
         if (CheckListBox1.Checked[I - 1]) then 
 
-          for J := 1 to f2FC.sub_004BEA58 do //00534074
+          for J := 1 to f2FC.EleveCount do //00534074
           begin//5
             //0053407B
             if (CheckBox1.Checked <> False) then

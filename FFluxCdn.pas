@@ -8,14 +8,14 @@ uses
 
 type
   TFluxCdn = class(TFileStream)
-    function sub_004B696C():string;//(?:TFluxCdn; ?:PShortString);
+    function _Read():string;//(?:TFluxCdn; ?:PShortString);
     procedure sub_004B6A80(buffer : String);//(?:TFluxCdn; ?:ShortString);
   end;
 
 implementation
 
 //004B696C
-function TFluxCdn.sub_004B696C():string;//(?:TFluxCdn; ?:PShortString);
+function TFluxCdn._Read():string;//(?:TFluxCdn; ?:PShortString);
 var
   count : byte;
   Bufferx:string;

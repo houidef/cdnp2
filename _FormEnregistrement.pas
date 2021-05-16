@@ -80,7 +80,7 @@ begin//0
         sub_0049884C(I, Edit2.Text);
         sub_00498978(I, Edit3.Text);
         StringList{ESI} := TStringList.Create;
-        StringList.AddStrings(sub_004982F8);
+        StringList.AddStrings(_GetUtilisateurs);
         if (StringList.IndexOf(Edit2.Text) + 1 = 0) then//0055399F
           StringList.Add(Edit2.Text);
         sub_00498460(StringList);

@@ -51,7 +51,7 @@ begin//0
     inherited Create(Owner);
     Image1.Picture := logo.Picture;
     f2F4 := F;
-    TabControlPeriodes.Tabs := F.sub_004BEA4C;
+    TabControlPeriodes.Tabs := F.GetPeriodesList_;
     ListBoxEleves.Items := f2F4.EleveLists;
     ListBoxEleves.ItemIndex := 0;
     f2F4.sub_004C2B38(1, 1, Buf);

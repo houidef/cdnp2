@@ -65,7 +65,7 @@ begin//0
     Self.Caption := Caption;
     Image1.Picture := logo.Picture;
     f330 := FichierCdn;
-    TabControl1.Tabs := FichierCdn.sub_004BEA4C;
+    TabControl1.Tabs := FichierCdn.GetPeriodesList_;
     f334 := TabControl1.TabIndex + 1;//EAX
     ComboBoxTypesDeNotes.Items := GetTypesdenotes;
     ComboBox1.Items := GetTypesdenotes;

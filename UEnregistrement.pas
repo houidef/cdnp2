@@ -10,7 +10,7 @@ interface
 uses
 Forms, Windows,  SysUtils, Classes,Registry, URegistry,unit51;
 
-    function sub_004982F8:TStringlist;//004982F8
+    function _GetUtilisateurs:TStringlist;//004982F8
     procedure sub_00498460(a:TStrings);//00498460
     function sub_0049856C:TStringlist;//0049856C
     procedure sub_004986C0(NumUser:dword; var NomUser:String);//004986C0
@@ -24,7 +24,7 @@ Forms, Windows,  SysUtils, Classes,Registry, URegistry,unit51;
 implementation
 
 //004982F8
-function sub_004982F8:TStringlist;
+function _GetUtilisateurs:TStringlist;
 var
   lvar_4:AnsiString;
   StringList:TStringList;

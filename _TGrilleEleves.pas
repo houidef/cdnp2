@@ -83,12 +83,12 @@ begin//0
     f2F0 := CreatePopupMenu;
     AppendMenuA(f2F0, 0, 0, 'Turbo Menu "Liste des élèves"');
     AppendMenuA(f2F0, 2048, 0, '-');
-    if (FichierCdn.sub_004C6680) then
+    if (FichierCdn.IsPersonnelleVersion) then
     begin//2
       //004D13EF
       if (f2EC > 0) then
       begin//004D13FD
-        FichierCdn.sub_004BEA64(f2EC{NomEleve}, NomEleve);
+        FichierCdn.GetEleveName__(f2EC{NomEleve}, NomEleve);
         AppendMenuA(f2F0, 0, 1, PChar('Supprimer "' + NomEleve + '" de la liste des élèves'));
         AppendMenuA(f2F0, 0, 2, PChar('Modifier les informations de "' + NomEleve + '"'));
         AppendMenuA(f2F0, 2048, 0, '-');
@@ -119,10 +119,10 @@ begin//0
     //004D167C
     if (Message.ItemID = 1) then
     begin//004D1687
-      FichierCdn.sub_004BEA64(f2EC {lvar_8}, buf);
+      FichierCdn.GetEleveName__(f2EC {lvar_8}, buf);
       if (MessageBoxA(0, PChar('Supprimer "' + buf + '" de la liste des élèves ?'),'Suppression d''un élève' , 36) = 6) then
       begin//004D16F9
-        FichierCdn.sub_004C1158(f2EC);
+        FichierCdn.DeleteEleve(f2EC);
         SendMessageA(f2E0, 1032, f2D8, 0);
         SendMessageA(Handle, 1028, 0, 0);
         SendMessageA(f2E0, 1033, f2D8, 0);
@@ -131,7 +131,7 @@ begin//0
     end;//2
     if (Message.ItemID = 2) then
     begin//004D1785
-      FichierCdn.sub_004BEA64( f2EC, buf);
+      FichierCdn.GetEleveName__( f2EC, buf);
       FichierCdn.GetElevDateNais( f2EC, buf1);
       FormModifierEleve{gvar_00617CF8} := TFormModifierEleve.Create(Self, buf, buf1, FichierCdn.sub_004C8E50(f2EC),'');
       FormModifierEleve.ShowModal;
@@ -168,7 +168,7 @@ begin//0
 		Buf := '';
 		for I := 1 to FichierCdn.EleveCount do //004D1ADE
 		  begin //004D1AE3
-			FichierCdn.sub_004BEA64(I, buf1);
+			FichierCdn.GetEleveName__(I, buf1);
 			  //....
 			Buf := Buf + buf1 + #13 + #10;
 		  end;//3
@@ -201,13 +201,13 @@ begin//0
             FormHint.Color := sub_004BB87C;
             if (FichierCdn.sub_004C8E50(ARow)) then
             begin//004D1D4C
-              FichierCdn.sub_004BEA64(ARow, Buf0);//lvar_150
+              FichierCdn.GetEleveName__(ARow, Buf0);//lvar_150
               FichierCdn.GetElevDateNais(ARow, Buf1); //lvar_254
               FormHint.Label1.Caption:= Buf0 + ' ' + Buf1 + ' (redoublant)';
             end//6
             else
             begin//004D1DDF
-              FichierCdn.sub_004BEA64(ARow, Buf0); //Determiner le Nom d'éleve;
+              FichierCdn.GetEleveName__(ARow, Buf0); //Determiner le Nom d'éleve;
               FichierCdn.GetElevDateNais(ARow, Buf1); //Determiner la date de Naissance;
               FormHint.Label1.Caption := Buf0 + ' ' +  Buf1;
             end;//6
@@ -220,7 +220,7 @@ begin//0
 			  begin
 				  if (FichierCdn.GetNbreModules(I) > 0) then
 				  begin//004D1F82
-					FichierCdn.sub_004C2D10(I, ARow, GetarrondirMoyennes, Buf0);
+					FichierCdn.GetStrNoteAsFloat(I, ARow, GetarrondirMoyennes, Buf0);
 					lvar_18 := lvar_18 + Buf0 + ' - ';
 				  end//7
 				  else
@@ -231,7 +231,7 @@ begin//0
 				           
             if (FichierCdn.GetNbreModules(FichierCdn.GetNbrePeriodes) > 0) then
             begin//004D200C
-              FichierCdn.sub_004C2D10(FichierCdn.GetNbrePeriodes, ARow, GetarrondirMoyennes, Buf0);
+              FichierCdn.GetStrNoteAsFloat(FichierCdn.GetNbrePeriodes, ARow, GetarrondirMoyennes, Buf0);
               lvar_18 := lvar_18 + Buf0;
             end//6
             else
@@ -318,7 +318,7 @@ begin//0
       begin//004D2635
         Cells[0, I] := IntToStr(I);
 		Buf := '1111';
-        FichierCdn.sub_004BEA64(I, Buf);
+        FichierCdn.GetEleveName__(I, Buf);
 		lvar_8 := Buf;
         FichierCdn.GetElevDateNais(I, Buf);
         if (Trim(Buf) <> '') then

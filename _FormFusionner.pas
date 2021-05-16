@@ -607,7 +607,7 @@ begin//0
             f360.Clear;
             f360.AddStrings(FichierCdnTemp.EleveLists);
             f364.Clear;
-            f364.AddStrings(FichierCdnTemp.sub_004BEA4C);
+            f364.AddStrings(FichierCdnTemp.GetPeriodesList_);
             Label10.Caption := 'Elèves : ' + IntToStr(FichierCdnTemp.EleveCount );
             Label11.Caption := 'Périodes : ' + IntToStr(FichierCdnTemp.GetNbrePeriodes);
             
@@ -619,7 +619,7 @@ begin//0
             if (sub_00497B4C(f360, FichierCdnTemp.EleveLists)) then
             begin//6
               //005519EA
-              if (sub_00497B4C(FichierCdnTemp.sub_004BEA4C, f364)) then
+              if (sub_00497B4C(FichierCdnTemp.GetPeriodesList_, f364)) then
               begin//7
                 //00551A00
                 ListBoxFichiers.Items.Add(x);
@@ -716,8 +716,8 @@ begin//0
     //00551F97
 	showmessage('ok');
     FichierCdn1{lvar_C} := TFichierCdn.Create(''{, 1, 0, 0});
-    (*f368[0].sub_004BE988(lvar_A2C);
-    FichierCdn1.sub_004C4CC8(lvar_A2C);
+    (*f368[0].GetTypePeriode(lvar_A2C);
+    FichierCdn1.SetTypePeriode__(lvar_A2C);
     lvar_1C := TStringList.Create;
     if (GetNbrePeriodes(f368[0]) > 0) then
     begin//2
@@ -726,7 +726,7 @@ begin//0
       for I := 1 to GetNbrePeriodes(EDX[EAX])  do
       begin//3
         //0055201C
-        f368[0].sub_004BE9EC(I, lvar_A2C);
+        f368[0].GetPeriodName(I, lvar_A2C);
          := ;
         EDX := ;
         EAX := ;
@@ -739,18 +739,18 @@ begin//0
     call();
 
     lvar_A34 := ComboBoxUtilisateurs.Items[ComboBoxUtilisateurs.ItemIndex];
-    .sub_004C3920(lvar_A2C);
+    .SetEnseignant(lvar_A2C);
 
     lvar_A38 := Edit1.Text;
-    .sub_004BEFD0(lvar_A2C);
+    .setClasseName(lvar_A2C);
     lvar_A3C := Edit2.Text;
-    .sub_004BF004(lvar_A2C);
+    .setEtablissment(lvar_A2C);
     lvar_A40 := Edit3.Text;
-    .sub_004BF038(lvar_A2C);
+    .setMatiere(lvar_A2C);
     lvar_A44 := Edit4.Text;
-    sub_004BF06C(?, lvar_A2C);
+    SetYear(?, lvar_A2C);
     lvar_A48 := Edit5.Text;
-    sub_004BF0A0(?, lvar_A2C);
+    setRemarque(?, lvar_A2C);
     EAX := 0;
     EDX := Self;
     EDX := f368;
@@ -758,9 +758,9 @@ begin//0
     EAX := EDX[EAX].EleveLists;
     EDX := EDX[EAX].EleveLists;
     EAX := ;
-    sub_004BF64C(?, EDX);
+    SetEleveListsV(?, EDX);
     EAX := ;
-    sub_004BF0D4(?);
+    init(?);
     EAX := 0;
     EDX := Self;
     EDX := f368;
@@ -791,7 +791,7 @@ begin//0
           EDX := Self;
           
           EAX := f368[EAX];
-          EDX[EAX].sub_004BE92C(lvar_12C);
+          EDX[EAX].GetMatiereName(lvar_12C);
           EAX := ;
           
 
@@ -830,7 +830,7 @@ begin//0
                := ;
               EDX := EBX;//EBX
               EAX := ;
-              .sub_004BF7F0(EBX, lvar_D60, lvar_A2C, ', {$552D18}, lvar_B54, lvar_C58, ', '');
+              .AddColone(EBX, lvar_D60, lvar_A2C, ', {$552D18}, lvar_B54, lvar_C58, ', '');
               if (f368[0].EleveCount <= 0) then Continue;
               lvar_28 := EDX[EAX].EleveCount And $FF{255};
               ESI := 1;
@@ -851,7 +851,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ESI;//ESI
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004C2D10(EBX, ESI, EDX[EAX].sub_004C4D44{EAX}, lvar_A2C);
+                EDX[EAX].GetStrNoteAsFloat(EBX, ESI, EDX[EAX].sub_004C4D44{EAX}, lvar_A2C);
                 //push EAX
                 ECX := ;
                 ECX := ECX + 1;//ECX
@@ -914,7 +914,7 @@ begin//0
                   //push EAX
                   EDX := EBX;//EBX
                   EAX := ;
-                  .sub_004BF7F0(EBX, lvar_72C, lvar_A2C, ', {$552D18}, lvar_B54, lvar_82C, lvar_92C, '');
+                  .AddColone(EBX, lvar_72C, lvar_A2C, ', {$552D18}, lvar_B54, lvar_82C, lvar_92C, '');
 				  
                   if (f368[0].EleveCount  > 0) then
                   begin//9
@@ -1005,7 +1005,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                sub_004BED04(EDX[EAX], EBX, lvar_A2C, ?);
+                _readCompteMoy(EDX[EAX], EBX, lvar_A2C, ?);
                  := ;
                  := ;
                
@@ -1044,7 +1044,7 @@ begin//0
 *
                 EDX := EBX;//EBX
                 EAX := ;
-                .sub_004BF7F0(EBX, lvar_72C, lvar_32C, lvar_42C, lvar_52C, lvar_62C, lvar_82C, lvar_92C, lvar_A2C = 'Oral'{EAX});
+                .AddColone(EBX, lvar_72C, lvar_32C, lvar_42C, lvar_52C, lvar_62C, lvar_82C, lvar_92C, lvar_A2C = 'Oral'{EAX});
                 EAX := ;
                 EAX := f368[0].EleveCount;
           
@@ -1062,7 +1062,7 @@ begin//0
                     EAX := f368[EAX];
                     ECX := ;
                     EDX := EBX;//EBX
-                    EDX[EAX].sub_004BEF5C(EBX, , , lvar_A2C);
+                    EDX[EAX]._GetStrNote(EBX, , , lvar_A2C);
                     //push EAX
                     ECX := ;
                     EDX := EBX;//EBX
@@ -1082,7 +1082,7 @@ begin//0
       //00552C08
       lvar_D98 := SaveDialog1.FileName;
      
-      .SaveCdn(, 0, $552DB0, 0);
+      .SaveCdn(, 0, $552DB0, false);
      
       lvar_D9C := SaveDialog1.FileName;
       EDX := ;

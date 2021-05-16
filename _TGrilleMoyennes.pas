@@ -461,11 +461,11 @@ begin//0
     Visible := ((FichierCdn.GetNbreModules(f2D8) = 0) Xor true);
     FichierCdn.sub_004C213C(Periode, ARow, buf);
     Cells[0, ARow] := buf;
-    FichierCdn.sub_004C2AF4(Periode, ARow, GetarrondirMoyennes, buf);
+    FichierCdn.GetStrNoteFromFile(Periode, ARow, GetarrondirMoyennes, buf);
     Cells[1, ARow] := buf;
     FichierCdn.sub_004C2B38(Periode, ARow, buf);
     Cells[2, ARow] := buf;
-    FichierCdn.sub_004C2D10(Periode, ARow, GetarrondirMoyennes, buf);
+    FichierCdn.GetStrNoteAsFloat(Periode, ARow, GetarrondirMoyennes, buf);
     Cells[3, ARow] := buf;
 end;//0
 

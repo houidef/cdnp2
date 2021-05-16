@@ -10,9 +10,9 @@ interface
 uses
   SysUtils, Classes;
 
-    procedure sub_004BDB3C(a:TStringList; var b:String);//004BDB3C
-    procedure sub_004BDCFC(a:TStringList; var b:string);//004BDCFC
-    procedure sub_004BDEBC(a:TStringList; var b:string);//004BDEBC
+    procedure __GetStrPeriodeMin(a:TStringList; var b:String);//004BDB3C
+    procedure __GetStrPeriodeMax(a:TStringList; var b:string);//004BDCFC
+    procedure __GetStrPeriodeMoy(a:TStringList; var b:string);//004BDEBC
     procedure sub_004BDFE8(a:TStringList; var b:string);//004BDFE8
     procedure sub_004BE1C4(a:TStringList; var b:string);//004BE1C4
     procedure sub_004BE364(a:TStringList; var b:string);//004BE364
@@ -20,7 +20,7 @@ uses
 implementation
 
 //004BDB3C
-procedure sub_004BDB3C(a:TStringList; var b:String);
+procedure __GetStrPeriodeMin(a:TStringList; var b:String);
 var
 I,J,L :integer;
 Res,Min :real;
@@ -94,7 +94,7 @@ begin//0
 end;//0
 
 //004BDCFC
-procedure sub_004BDCFC(a:TStringList; var b:string);
+procedure __GetStrPeriodeMax(a:TStringList; var b:string);
 begin
 b:='01';
 {*
@@ -258,7 +258,7 @@ b:='01';
 end;
 
 //004BDEBC
-procedure sub_004BDEBC(a:TStringList; var b:string);
+procedure __GetStrPeriodeMoy(a:TStringList; var b:string);
 begin
 b:='02';
 {*

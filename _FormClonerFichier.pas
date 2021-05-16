@@ -133,72 +133,42 @@ var
 begin//0
   //00537510
     //00537531
-
     if (BrowseDirectoryDlg1.Execute{sub_005362AC}) then
     begin//2
       //00537544
       f304.clear();
-
-     
         for I := 0 to ListBoxEnseignants.Items.Count - 1 do//00537572
         begin//4
           //0053757D
           FichierClone := TFichierCdn.Create(''{, 1, 0}); 
-          f300.sub_004BE988( buf);
-       
-          FichierClone.sub_004C4CC8(buf);
-        
+          FichierClone.SetTypePeriode__(f300.GetTypePeriode());
           StringList{lvar_1C} := TStringList.Create;
-        
-            
             for J := 1 to f300.GetNbrePeriodes do//005375D5
             begin//6
               //005375DC
-             
-              f300.sub_004BE9EC(J, buf);
-             
-              StringList.Add(buf);
+              StringList.Add(f300.GetPeriodName(J));
             end;//6
-          
-     
           FichierClone.sub_004C4CBC(StringList);
-          
           Enseignant := ListBoxEnseignants.Items[I];
-          
-          FichierClone.sub_004C3920(buf);
-          FichierClone.sub_004BEFD0(f300.GetClasseName);
-          
-          f300.sub_004BE914(buf);
-          
-          FichierClone.sub_004BF004(buf);
-          
+          FichierClone.SetEnseignant(Enseignant);
+          FichierClone.setClasseName(f300.GetClasseName);
+          FichierClone.setEtablissment(f300.GetEtablissment);
           Matiere := ListBoxMatieres.Items[I];
-         
-          FichierClone.sub_004BF038(buf);
-          f300.sub_004BE944(buf);
-          FichierClone.sub_004BF06C(buf);
-          f300.sub_004C3908(buf);
+          FichierClone.setMatiere(Matiere);
+          FichierClone.SetYear(f300.GetYear);
+          buf := f300.GetEnseignant();
           text := 'Fichier créé par ' + Matiere + ' pour ' + Enseignant;
-          FichierClone.sub_004BF0A0(buf);
-
-          FichierClone.sub_004BF64C(f300.EleveLists);
-
-          FichierClone.sub_004BF0D4();
-
+          FichierClone.setRemarque(buf);
+          FichierClone.SetEleveListsV(f300.EleveLists);
+          FichierClone.init();
           StringList.Clear;
-
-            
             for J := 1 to f300.EleveCount do//0053779B
             begin//6
               //005377A2
               f300.GetElevDateNais(J, buf);
               StringList.Add(buf);
             end;//6
-
-
           FichierClone.sub_004BF544(StringList);
-
-            
             for J := 1 to f300.EleveCount do//00537806
             begin//6
               //0053780D
@@ -208,7 +178,7 @@ begin//0
           //sub_00497A7C(text,K);
           text := {BrowseDirectoryDlg1.Selection +} '\' + K + '.cdn';
           f304.add(text);
-          FichierClone.SaveCdn(text, false, '', 0);
+          FichierClone.SaveCdn(text, false, '', false);
           StringList.Destroy;
           FichierClone.Destroy;
         end;//4
@@ -225,9 +195,7 @@ begin//0
       MessageDlg(text, mtInformation{2}, [mbOK]{gvar_00537A5C}, 0);
       Close;
     end;//2
-
     //0053797C
-
 end;//0
 
 //00537A60

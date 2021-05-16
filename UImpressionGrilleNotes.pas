@@ -68,7 +68,7 @@ begin//0
         if (f3C.GetNbreModules(f2C)  >= NumModule) then
         begin//4
           //0051A3E2
-         f3C.sub_004BED04(f2C, text, NumModule+1);
+         f3C._readCompteMoy(f2C, text, NumModule+1);
         end//4
         else
         begin//4
@@ -120,12 +120,12 @@ begin//0
           if (f3C.sub_004C8E50(I)) and (GetimpressionRSeriesDeNotes) then//0051A675 redoublant and imprRedoublant
           begin//5
               //0051A67E
-              f3C.sub_004BEA64(I, buf);
+              f3C.GetEleveName__(I, buf);
               lvar_60 := buf + ' (R)';
           end//5
           else
           begin//5
-            f3C.sub_004BEA64(I, buf);
+            f3C.GetEleveName__(I, buf);
 			lvar_60 := buf;
           end;//5
           if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
@@ -163,7 +163,7 @@ begin//0
             if (GetimpressionRSeriesDeNotes) then
             begin//6
               //0051A851
-              f3C.sub_004BEA64(I, buf);
+              f3C.GetEleveName__(I, buf);
               lvar_60 := buf + ' (R)';
             end//6
             else
@@ -174,7 +174,7 @@ begin//0
           else
           begin//5
             //0051A899??? And ???
-            f3C.sub_004BEA64(I, buf);
+            f3C.GetEleveName__(I, buf);
           end;//5
           
           if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
@@ -211,9 +211,9 @@ begin//0
             R.Right := R.Left + RWITH;//EAX
             R.Bottom := R.Top + RHEIGHT;//EAX
             if (f3C.GetNbreModules(f2C) >= J) then
-              f3C.sub_004BEF5C(f2C, J, I, text)
+              f3C._GetStrNote(f2C, J, I, text)
             else//0051AAF4
-              f3C.sub_004C2D10(f2C, I, GetarrondirMoyennes, text);
+              f3C.GetStrNoteAsFloat(f2C, I, GetarrondirMoyennes, text);
             if (GetimpressionCouleurNote) then //0051AB46
               if (text = 'abs') Or (text = '') then//0051AB5B
                 f40.font.Color := 0
@@ -332,19 +332,19 @@ begin//0
                   1:
                   begin//9
                     //0051B052
-                    f3C.sub_004C3958(f2C, text, J);
+                    f3C.__GetStrMin(f2C, text, J);
 					
                   end;//9
                   2:
                   begin//9
                     //0051B09A
-                    f3C.sub_004C3B54(f2C, text, J);
+                    f3C.__GetStrMax(f2C, text, J);
 					
                   end;//9
                   3:
                   begin//9
                     //0051B0E2
-                    f3C.sub_004C40D4(f2C, text, J);
+                    f3C.__GetStrMoy(f2C, text, J);
                   end;//9
                   4:
                   begin//9
@@ -407,7 +407,7 @@ begin//0
                   for C := 1 to f3C.EleveCount do//0051B423
                   begin//9
                     //0051B42A
-                    f3C.sub_004C2D10(f2C, C, GetarrondirMoyennes, buf);
+                    f3C.GetStrNoteAsFloat(f2C, C, GetarrondirMoyennes, buf);
                     lvar_84.add(buf);
                   end;//9
                
@@ -420,17 +420,17 @@ begin//0
                   1:
                   begin//9
                     //0051B4E0
-                    sub_004BDB3C(lvar_84, text);
+                    __GetStrPeriodeMin(lvar_84, text);
                   end;//9
                   2:
                   begin//9
                     //0051B504
-                    sub_004BDCFC(lvar_84, text);
+                   __GetStrPeriodeMax(lvar_84, text);
                   end;//9
                   3:
                   begin//9
                     //0051B528
-                    sub_004BDEBC(lvar_84, text);
+                    __GetStrPeriodeMoy(lvar_84, text);
                   end;//9
                   4:
                   begin//9
@@ -564,7 +564,7 @@ begin//0
       for I := 1 to f3C.GetNbreModules(f2C) do //0051BBAF
       begin//3
         //0051BBB6
-        f3C.sub_004BED04(f2C, buf, I);
+        f3C._readCompteMoy(f2C, buf, I);
         if (f40.TextWidth(buf) > res) then 
 			res := f40.TextWidth(buf);
       end;//3
@@ -718,19 +718,19 @@ begin//0
 				  1://Min
 				  begin//7
 					//0051C137
-					f3C.sub_004C3958(f2C, buf, ACol);
+					f3C.__GetStrMin(f2C, buf, ACol);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  2://Max
 				  begin//7
 					//0051C18E
-					f3C.sub_004C3B54(f2C, buf, ACol);
+					f3C.__GetStrMax(f2C, buf, ACol);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  3://Moyenne
 				  begin//7
 					//0051C1E5
-					f3C.sub_004C40D4(f2C, buf, ACol);
+					f3C.__GetStrMoy(f2C, buf, ACol);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  4://Ecart type

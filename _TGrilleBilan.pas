@@ -77,7 +77,7 @@ begin//0
     else//004CB575
       Visible := (FichierCdn.sub_004C4790 = 0) Xor True;
     if (Visible = False) then Exit;
-    lvar_14 := FichierCdn.sub_004C8AE8;
+    lvar_14 := FichierCdn.BulletinsCount;
     if (GetmoyennesEcritEtOral ) then //004CB5B1
       lvar_18 := 3
     else//004CB5BA
@@ -149,7 +149,7 @@ begin//0
 			for I := 1 to FichierCdn.EleveCount do//004CBA16
 			begin//5
 				//004CBA1E
-				FichierCdn.sub_004C2D10(f2D8, I, GetarrondirMoyennes, buf);
+				FichierCdn.GetStrNoteAsFloat(f2D8, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 0, I] := buf;
 			end;//5
 			Cols[lvar_4 + 1].Clear;
@@ -166,12 +166,12 @@ begin//0
 			begin//5
 				//004CBB6D
 				Cols[lvar_4 + 3 + I].Clear;
-				FichierCdn.sub_004C8AF4(I, buf);
+				FichierCdn.GetBulletinsName__(I, buf);
 				Cells[lvar_4 + 3 + I, 0 ] := buf;
 				for J := 1 to FichierCdn.EleveCount  do
 				begin//6
 					//004CBBEC
-					FichierCdn.sub_004C2C00(f2D8, J, I, buf);
+					FichierCdn.GetAppreciations(f2D8, J, I, buf);
 					Cells[lvar_4 + 3 + I, J] := buf;
 				end;//6
 			end;//5
@@ -223,12 +223,11 @@ begin//0
 		for L := 1 to lvar_C do//004CBFE4
 		begin//4
 			//004CBFEC
-			FichierCdn.sub_004BE9EC(L, buf);
-			Cells[lvar_4 + 2 + K + L, 0] := buf;  
+			Cells[lvar_4 + 2 + K + L, 0] := FichierCdn.GetPeriodName(L);  
 			for I := 1 to FichierCdn.EleveCount  do
 			begin//5
 				//004CC067
-				FichierCdn.sub_004C2D10(L, I, GetarrondirMoyennes, buf);
+				FichierCdn.GetStrNoteAsFloat(L, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 2 + K + L, I ] := buf;
 			end;//5
 		end;//4
@@ -281,7 +280,7 @@ begin//0
 			for I := 1 to FichierCdn.EleveCount do//004CC511
 			begin//4
 				//004CC519
-				FichierCdn.sub_004C2D10(f2D8, I, GetarrondirMoyennes, buf);
+				FichierCdn.GetStrNoteAsFloat(f2D8, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 2, I] :=  buf;
 			end;//4
 			Cols[lvar_4 + 3].Clear;
@@ -293,12 +292,12 @@ begin//0
 			begin//4
 				//004CC62E
 				Cols[lvar_4 + 5 + I].Clear;
-				FichierCdn.sub_004C8AF4(I, buf);
+				FichierCdn.GetBulletinsName__(I, buf);
 				Cells[lvar_4 + 5 + I, 0 ] := buf;
 				for J := 1 to FichierCdn.EleveCount do
 				begin//5
 					//004CC6AD 
-					FichierCdn.sub_004C2C00(f2D8, J, I, buf);
+					FichierCdn.GetAppreciations(f2D8, J, I, buf);
 					Cells[lvar_4 + 5 + I, J] :=  buf;
 				end;//5
 			end;//4
@@ -309,12 +308,11 @@ begin//0
 			for L := 1 to lvar_C do//004CC73B
 			begin//3
 				//004CC743
-				FichierCdn.sub_004BE9EC(L, buf);        
-				Cells[L + 1, 0] := buf;  
+				Cells[L + 1, 0] := FichierCdn.GetPeriodName(L);  
 				for I := 1 to FichierCdn.EleveCount  do//004CC79E
 				begin//5
 					//004CC7A6
-					FichierCdn.sub_004C2D10(L, I, GetarrondirMoyennes, buf);
+					FichierCdn.GetStrNoteAsFloat(L, I, GetarrondirMoyennes, buf);
 					Cells[L + 1, I ] := buf;
 				end;//5
 				sub_004CD0B0(L);
@@ -386,7 +384,7 @@ begin//0
       for I := 1 to IRowCount do //004CCE61
       begin//004CCE66
         Cells[0, I] := IntToStr(I);
-        FichierCdn.sub_004BEA64(I, Buf);
+        FichierCdn.GetEleveName__(I, Buf);
         lvar_4 := Buf;
         FichierCdn.GetElevDateNais(I, Buf);
         if (Trim(Buf) <> '') then
@@ -698,7 +696,7 @@ begin//0
   //004CD7E0
 
   
-    lvar_C := FichierCdn.sub_004C8AE8;
+    lvar_C := FichierCdn.BulletinsCount;
     if (Visible = False) then Exit;
     if (ACol <> 0) then
     begin//004CD864

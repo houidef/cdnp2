@@ -370,9 +370,9 @@ begin//0
     RadioGroupGrilleNotes.ItemIndex := GetongletsGrillesNotes;
     RadioGroupGrilleBilans.ItemIndex := GetongletsGrillesBilans;
     RadioGroupGraphes.ItemIndex := GetongletsGraphes;
-    CheckBox10.Checked :=sub_004BB84C;
+    CheckBox10.Checked :=OngletsClassesVisible;
     RadioGroup3.Enabled := CheckBox10.Checked;
-    RadioGroup3.ItemIndex  := sub_004BB7E8;
+    RadioGroup3.ItemIndex  := OngletsClassesStyle;
     TabControl1.Visible := CheckBox10.Checked;
     CheckBox25.Checked  := GetafficherMatiereOnglets;
     CheckBoxAfficherNomEnseignantOnglets.Checked  := GetafficherNomEnseignantOnglets;
@@ -408,7 +408,7 @@ begin//0
     CheckBox20.Checked :=GetgrapheLigneMoyenne;
     CheckBox21.Checked :=GetgrapheLegende;
     typesDeNotes.Items:=GetTypesdenotes;
-    ListBoxUtilisateurs.Items :=sub_004982F8;
+    ListBoxUtilisateurs.Items :=_GetUtilisateurs;
     ListBoxMatieres.Items :=GetMatieres;
     Shape1.Brush.Color := GetColorlignesPaires;
     Shape2.Brush.Color := GetColorlignesPaires;

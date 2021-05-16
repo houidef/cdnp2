@@ -50,7 +50,7 @@ begin//0
 
   f2FC := F;
   Image1.Picture := logo.Picture;
-  CheckListBox1.Items := f2FC.sub_004BEA4C;
+  CheckListBox1.Items := f2FC.GetPeriodesList_;
 
 end;//0
 
@@ -161,7 +161,7 @@ begin//0
             if (CheckBox1.Checked <> False) then
             begin//6
               //0053408D
-              f2FC.sub_004BEA64(J, buf);
+              f2FC.GetEleveName__(J, buf);
               InclurePointVergule := buf + ';';
               Inclure := ';';
             end//6
@@ -175,17 +175,17 @@ begin//0
 
             text := text + InclurePointVergule;
 
-            if (f2FC.sub_004C8AE8 > 0) then 
-            for K := 1 to f2FC.sub_004C8AE8 do
+            if (f2FC.BulletinsCount > 0) then 
+            for K := 1 to f2FC.BulletinsCount do
             begin//6
               //005340FA
-              if (K <> f2FC.sub_004C8AE8) then//00534105
+              if (K <> f2FC.BulletinsCount) then//00534105
                 EndLine := Inclure
               else//00534112
                 //EDX := $5341FC;
                 EndLine := #13+#10;
 
-              f2FC.sub_004C2C00(I, J, K, buf);
+              f2FC.GetAppreciations(I, J, K, buf);
 
               text := text + buf + EndLine;
             end;//6

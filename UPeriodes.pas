@@ -12,16 +12,16 @@ Forms, Windows,  SysUtils, Classes;
 type
   TPeriodes = class(TObject)
   public
-    f4 : String;//f4
-	f8 : TStringList;
+    typeperiode : String;//f4
+	PeriodesList : TStringList;//f8
     fC : array of boolean;//fC
     constructor Create;//004B6B8C
-    procedure sub_004B6CC4(a:string);//004B6CC4
+    procedure GetTypePeriode_(a:string);//004B6CC4
     function GetNbrePeriodes:integer;//004B6CD8 
-    procedure sub_004B6CF4(a:dword; b:string);//004B6CF4
+    procedure GetPeriodName(a:dword; b:string);//004B6CF4
     function sub_004B6D34:TStringList;//004B6D34
-    procedure sub_004B6D38(x:String);//004B6D38
-    procedure sub_004B6D84(x:TStringList);//004B6D84
+    procedure SetTypePeriode__(x:String);//004B6D38
+    procedure SetPeriodes(x:TStringList);//004B6D84
     procedure sub_004B6E84(a:byte; b:boolean);//004B6E84
     function sub_004B6EA8(a:byte):boolean;//004B6EA8
   end;
@@ -36,35 +36,35 @@ var
 begin//0
   //004B6B8C
   inherited Create;
-  f4 := 'Trimestres';
-  f8 := TStringList.Create;
-  f8.Add('Premier trimestre');
-  f8.Add('Deuxième trimestre');
-  f8.Add('Troisième trimestre');
-  SetLength(fC, f8.Count);
-	for I := 0 to f8.Count - 1 do//004B6C28
+  typeperiode := 'Trimestres';
+  PeriodesList := TStringList.Create;
+  PeriodesList.Add('Premier trimestre');
+  PeriodesList.Add('Deuxième trimestre');
+  PeriodesList.Add('Troisième trimestre');
+  SetLength(fC, PeriodesList.Count);
+	for I := 0 to PeriodesList.Count - 1 do//004B6C28
       fC[I] := true;  
 
 end;
 
 //004B6CC4
-procedure TPeriodes.sub_004B6CC4(a : string);
+procedure TPeriodes.GetTypePeriode_(a : string);
 begin
-  a:=f4;
+  a:=typeperiode;
 end;
 
 function TPeriodes.GetNbrePeriodes: integer;
 begin//0
-  Result := f8.Count;
+  Result := PeriodesList.Count;
 end;//0
 
 //004B6CF4
-procedure TPeriodes.sub_004B6CF4(a:dword; b:string);
+procedure TPeriodes.GetPeriodName(a:dword; b:string);
 begin//0
   //004B6CF4
-  if (f8.Count >= a) then
+  if (PeriodesList.Count >= a) then
   begin//004B6D0D
-    b := f8[a - 1];
+    b := PeriodesList[a - 1];
     Exit;
   end
   else b := '';
@@ -75,33 +75,29 @@ end;
 //004B6D34
 function TPeriodes.sub_004B6D34:TStringList;
 begin
-   result:= f8;
+   result:= PeriodesList;
 end;
 
 //004B6D38
-procedure TPeriodes.sub_004B6D38(x:String);
+procedure TPeriodes.SetTypePeriode__(x:String);
 begin//0
   //004B6D38
-    f4 := x;
+    typeperiode := x;
 end;//0
 
 
 //004B6D84
-procedure TPeriodes.sub_004B6D84(x:TStringList);
+procedure TPeriodes.SetPeriodes(x:TStringList);
 var
   I: integer;
 begin//0
   //004B6D84
-    f8.Clear;
-    
+    PeriodesList.Clear;
       for I := 0 to x.Count - 1 do //004B6DD2
-        f8.Add(x[I]);
-
+        PeriodesList.Add(x[I]);
     SetLength(fC, x.Count);
-
       for I := 0 to x.Count - 1 do //004B6E3D
         fC[I] := true;
-      
 end;//0
 
 

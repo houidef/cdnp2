@@ -76,15 +76,15 @@ begin//0
     inherited Create(Owner);
     Image1.Picture := logo.Picture;
     f330 := F;
-    TabControl1.Tabs := F.sub_004BEA4C;
-    ComboBox1.Items := f330.sub_004BEA4C;
+    TabControl1.Tabs := F.GetPeriodesList_;
+    ComboBox1.Items := f330.GetPeriodesList_;
     ComboBox1.ItemIndex := 0;
     ComboBox2.Items := GetTypesdenotes;
     ComboBox2.ItemIndex := 0;
       for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do //0050FAFA
       begin//3
         //0050FB01
-        f330.sub_004BED04( TabControl1.TabIndex + 1, Buf, I);
+        f330._readCompteMoy( TabControl1.TabIndex + 1, Buf, I);
         ListBox2.Items.Add(buf);
       end;//3
     
@@ -118,7 +118,7 @@ begin//0
       for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do//0050FC8A
       begin//3
         //0050FC91 
-        f330.sub_004BED04(TabControl1.TabIndex + 1, buf, I);
+        f330._readCompteMoy(TabControl1.TabIndex + 1, buf, I);
         ListBox2.Items.Add(buf);
       end;//3
     
@@ -368,14 +368,14 @@ begin//0
 				for J := 1 to f330.EleveCount  do//0051074E
 				begin//6
 				  //0051076D
-				  f330.sub_004BEF5C(f730[I], f334[I], J, buf);
+				  f330._GetStrNote(f730[I], f334[I], J, buf);
 				  StrList[I].add(buf);
 				end;//6
           end;//5
           for I := 0 to ListBoxSeriesConcernees.Items.Count - 1 do//0051083A
           begin//5
             //0051083D
-            f330.sub_004BED04(f730[I], buf, f334[I]);
+            f330._readCompteMoy(f730[I], buf, f334[I]);
             StrList1.Add(buf);
           end;//5
         
@@ -438,7 +438,7 @@ begin//0
         lvar_62C := DateToStr(Date);
         lvar_760 := ComboBox2.Items[ComboBox2.ItemIndex];
 		                  
-        f330.sub_004BF7F0(ComboBox1.ItemIndex + 1, lvar_52C, lvar_22C, '', 'oui', lvar_62C, lvar_32C, lvar_760, RadioGroupEcritOuOral.ItemIndex = 1);
+        f330.AddColone(ComboBox1.ItemIndex + 1, lvar_52C, lvar_22C, '', 'oui', lvar_62C, lvar_32C, lvar_760, RadioGroupEcritOuOral.ItemIndex = 1);
           for I := 1 to f330.EleveCount do//00510DD3
           begin//5
             //00510DDA
@@ -452,12 +452,12 @@ begin//0
               0:
               begin//7
                 //00510E68
-                sub_004BDCFC(lvar_18, lvar_42C);
+               __GetStrPeriodeMax(lvar_18, lvar_42C);
               end;//7
               1:
               begin//7
                 //00510E78
-                sub_004BDEBC(lvar_18, lvar_62C);
+                __GetStrPeriodeMoy(lvar_18, lvar_62C);
                 f330.GetStrMoyArrendit(lvar_62C, RadioGroup2.ItemIndex, lvar_42C{, '1'});
               end;//7
               2:

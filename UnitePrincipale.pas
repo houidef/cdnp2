@@ -100,9 +100,9 @@ type
     procedure Aproposde1Click(Sender:TObject);//0060C968
   public
     f3B0:byte;//f3B0
-    procedure sub_0060CABC; dynamic;//0060CABC
-    procedure sub_0060CC64; dynamic;//0060CC64
-    procedure sub_0060D048; dynamic;//0060D048
+    procedure sub_0060CABC(var Msg:TMsg); Message 1036;//0060CABC
+    procedure sub_0060CC64(var Msg:TMsg); Message 1040;//0060CC64
+    procedure SetOngletsClassesMsg(var Msg:TMsg); Message 1041;//0060D048
     function sub_0060B820(FileName:TFileName):Boolean;//0060B820
     procedure sub_0060B904(s:String);//0060B904
   end;
@@ -505,15 +505,13 @@ begin//0
 end;//0
 
 //0060CABC
-procedure TFormCarnetDeNotes2.sub_0060CABC;
+procedure TFormCarnetDeNotes2.sub_0060CABC(var Msg:TMsg);
 var
  I:integer;
 begin//0
   //0060CABC
-
     for I:=0 to MDIChildCount-1 do //0060CAE5
     SendMessageA(MDIChildren[I].Handle, $40D{1037}, 0, 0);
-   
 end;//0
 
 //0060CB10
@@ -553,14 +551,13 @@ begin//0
       end;//3
     end;//2
     FormFusionner.Destroy;
- 
 end;//0
 
 //0060CC64
-procedure TFormCarnetDeNotes2.sub_0060CC64;
+procedure TFormCarnetDeNotes2.sub_0060CC64(var Msg:TMsg);
 begin//0
   //0060CC64
-  //AddToMainMenuWithDelete(MainMenuPrincipal, 0, Self, Ouvrir1Click);
+  AddToMainMenuWithDelete(MainMenuPrincipal, 0, {Self}nil, Ouvrir1Click);
 end;//0
 
 //0060CC78
@@ -583,7 +580,7 @@ begin//0
         begin//4
           //0060CD47
 
-          FichierCdn.SaveCdn(SaveDialog1.FileName, false, '', 0);
+          FichierCdn.SaveCdn(SaveDialog1.FileName, false, '', false);
        
           Application.MessageBox(PChar('Le fichier "' + ExtractFileName(OpenDialog1.FileName) + '" a été récupéré avec succés.'),'Carnet de Notes version Personnelle' , $40{64});
         end;//4
@@ -609,16 +606,16 @@ begin//0
   FormRappelSauvegarde.Destroy;
 end;//0
 //0060D048
-procedure TFormCarnetDeNotes2.sub_0060D048;
+procedure TFormCarnetDeNotes2.SetOngletsClassesMsg(var Msg:TMsg);
 var
   I:integer;
-  Buf,buf0,buf1,lvar_4:string;
+  Buf,buf0,buf1,OngletsClassesName:string;
   filename:shortstring;
 begin//0
   //0060D048
     //0060D07E
-    OngletsClasses.Visible := sub_004BB84C;
-    case sub_004BB7E8 of
+    OngletsClasses.Visible := OngletsClassesVisible;
+    case OngletsClassesStyle of
       0:
       begin//3
         //0060D0A5
@@ -640,35 +637,25 @@ begin//0
     end;//2
     OngletsClasses.Tabs.Clear;
     TabControl2.Tabs.Clear;
-
       for I:=0 to MDIChildCount - 1 do //0060D117
 	  begin
         //0060D117
-        if (GetafficherMatiereOnglets) then
-        begin//4
-          //0060D120
-          TFeuilleClasse(MDIChildren[I]).sub_0053DDF4(buf0);
-          TFeuilleClasse(MDIChildren[I]).sub_0053F8FC(buf1);
-          lvar_4 := buf0 + ' - ' + buf1;
-        end//4
+        if (GetafficherMatiereOnglets) then //0060D120
+          OngletsClassesName := TFeuilleClasse(MDIChildren[I]).GetClasseName + ' - ' + TFeuilleClasse(MDIChildren[I]).GetMatiereName
         else//0060D184
-          TFeuilleClasse(MDIChildren[I]).sub_0053DDF4(buf);
+          OngletsClassesName := TFeuilleClasse(MDIChildren[I]).GetClasseName;
         
         if (GetafficherNomEnseignantOnglets) then
         begin//4
           //0060D1AF
-          TFeuilleClasse(MDIChildren[I]).sub_0053DE0C(buf);
-          lvar_4 := lvar_4 + ' - ' + buf;
+          OngletsClassesName := OngletsClassesName + ' - ' + TFeuilleClasse(MDIChildren[I]).GetEnseignant;
         end;//4
-        OngletsClasses.Tabs.Add(lvar_4);
+        OngletsClasses.Tabs.Add(OngletsClassesName);
          Filename := TFeuilleClasse(MDIChildren[I]).GetFileName();
         TabControl2.Tabs.Add(Filename);
-        
-     // end;
     end;//2
     OngletsClasses.TabIndex := MDIChildCount - 1;
     TabControl2.TabIndex := MDIChildCount - 1;
-
 end;//0
 
 //0060D2D8
@@ -678,10 +665,7 @@ var
   I:integer;
 begin//0
   //0060D2D8
-
-    //0060D2FF
     TabControl2.TabIndex := OngletsClasses.TabIndex;
-    
 	  for I:=0 to MDIChildCount-1 do //0060D32F
 	  begin
 		FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
@@ -693,7 +677,6 @@ begin//0
         //Break;
       end;//3
      end;
-
 end;//0
 //0060D3CC
 procedure TFormCarnetDeNotes2.Enregistrement1Click(Sender:TObject);

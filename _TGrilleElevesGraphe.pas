@@ -89,7 +89,7 @@ begin//0
         for I := 1 to IRowCount do
         begin//004F5D56
           Cells[0, byte(I)] := IntToStr(byte(I));
-          FichierCdn.sub_004BEA64(I, Buf0);
+          FichierCdn.GetEleveName__(I, Buf0);
           FichierCdn.GetElevDateNais(I, Buf);
           if (Trim(Buf) <> '') then
           begin//5

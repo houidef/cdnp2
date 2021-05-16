@@ -252,7 +252,7 @@ begin//0
     if (Message.ItemID = 0) then
     begin//2
       //00544124
-      FichierCdn.sub_004BED04(f2D8, buf, f2EC + 1);
+      FichierCdn._readCompteMoy(f2D8, buf, f2EC + 1);
       FormEdit{gvar_00617CEx0} := TFormEdit.Create(Self, 'Modifier intitulé', buf,1);
       FormEdit.ShowModal;
       if (FormEdit.ModalResult = 1) then
@@ -289,7 +289,7 @@ begin//0
           for I := 1 to FichierCdn.EleveCount do
           begin//5
             //005443F0
-			FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I, buf);
+			FichierCdn._GetStrNote(f2D8, f2EC + 1, I, buf);
 			lvar_10:=lvar_10 + buf + #13 + #10
           end;//5
         end;//4
@@ -307,21 +307,21 @@ begin//0
           for I := 1 to FichierCdn.EleveCount do
           begin//5
             //005444CA
-			FichierCdn.sub_004BEA64(I, buf0);
-            FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I, Buf1);
+			FichierCdn.GetEleveName__(I, buf0);
+            FichierCdn._GetStrNote(f2D8, f2EC + 1, I, Buf1);
 			lvar_10 := lvar_10 + buf0 + ' ' + Buf1 + #13 + #10;
           end;//5
         end;//4
         lvar_10 := lvar_10 + #13 + #10;
         FichierCdn.sub_004C3D1C(f2D8, f2EC + 1, buf);
         lvar_10 := lvar_10 + 'Nombre d''élèves présents : ' + buf + #13 + #10;
-        FichierCdn.sub_004C3958(f2D8, buf0, f2EC + 1);
+        FichierCdn.__GetStrMin(f2D8, buf0, f2EC + 1);
         FichierCdn.GetStrNoteSur( f2D8, f2EC + 1,  buf1);
         lvar_10 := lvar_10 + 'Minimum : ' +  buf0 + '/' +  buf1 + #13 + #10;
-        FichierCdn.sub_004C3B54(f2D8, Buf0, f2EC + 1);
+        FichierCdn.__GetStrMax(f2D8, Buf0, f2EC + 1);
         FichierCdn.GetStrNoteSur(f2D8, f2EC + 1, Buf1);
         lvar_10 := lvar_10 + 'Maximum : ' + Buf0 + '/' + Buf1 + #13 + #10;
-        FichierCdn.sub_004C40D4(f2D8, Buf0, f2EC + 1);
+        FichierCdn.__GetStrMoy(f2D8, Buf0, f2EC + 1);
         FichierCdn.GetStrNoteSur(f2D8, f2EC + 1, Buf1);
         lvar_10 := lvar_10 + 'Moyenne : ' + Buf0 + '/' + Buf1 + #13 + #10;
         FichierCdn.sub_004C42D4(f2D8, f2EC + 1, Buf);
@@ -588,7 +588,7 @@ begin//0
                 begin//8
                   //00545C82
                  
-                  FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I , buf);
+                  FichierCdn._GetStrNote(f2D8, f2EC + 1, I , buf);
                   FichierCdn.sub_004C1074(f2D8, f2EC + 1, I , buf);
                 end;//8
              
@@ -608,7 +608,7 @@ begin//0
                 for I := 1 to f2F0 - 1 do //00545DF3
                 begin//8
                   //00545DFB
-                  FichierCdn.sub_004BEF5C(f2D8, f2EC + 1, I+1 , buf);
+                  FichierCdn._GetStrNote(f2D8, f2EC + 1, I+1 , buf);
                   FichierCdn.sub_004C1074(f2D8, f2EC + 1, I+1 , buf);
                 end;//8
               if (f2F0 <> 1) then
@@ -704,7 +704,7 @@ begin//0
       for I := 1 to (byte(FichierCdn.GetNbreModules(f2D8))) do
       begin //005465B9
         Cols[I - 1] :=  FichierCdn.sub_004BEB40(f2D8, I);
-        FichierCdn.sub_004BED04(f2D8, buf0, I);
+        FichierCdn._readCompteMoy(f2D8, buf0, I);
         FichierCdn.GetStrNoteSur(f2D8, I, buf1);
         Cols[I - 1].Strings[0] := buf0 + ' (sur ' + buf1 + ')' ;
         SendMessageA(Handle, 1031, I - 1, 0);
@@ -730,16 +730,16 @@ begin//0
   
     Cells[Msg.Message, lvar_1 + $4{gvar_006178F4}] := Buf;
     I := I + 1;
-    FichierCdn.sub_004C3958(f2D8, Buf, I);
+    FichierCdn.__GetStrMin(f2D8, Buf, I);
     Cells[Msg.Message, lvar_1 + $5{gvar_006178F5} ] :=  Buf;
     //push EAX
    // I := ;
     
    I := I + 1;
-    FichierCdn.sub_004C3B54(f2D8, Buf, I);
+    FichierCdn.__GetStrMax(f2D8, Buf, I);
     Cells[Msg.Message, lvar_1 + $6{gvar_006178F6}] :=  Buf;
 
-    FichierCdn.sub_004C40D4(f2D8, Buf, Msg.Message+1);
+    FichierCdn.__GetStrMoy(f2D8, Buf, Msg.Message+1);
     Cells[Msg.Message, lvar_1 + $2{gvar_006178F7}] :=  Buf;
     FichierCdn.sub_004C42D4(f2D8, I, Buf);
     Cells[Msg.Message, lvar_1 + $7{gvar_006178F8}] :=  Buf;
@@ -749,7 +749,7 @@ begin//0
     Cells[Msg.Message, lvar_1 + $9{gvar_006178FA}] :=  Buf;
    // I := ;
     I := I + 1;
-    FichierCdn.sub_004BED04( f2D8, Buf0, I);
+    FichierCdn._readCompteMoy( f2D8, Buf0, I);
     //I := ;
     I := I + 1;
     FichierCdn.GetStrNoteSur( f2D8, I, Buf);
@@ -841,15 +841,15 @@ begin//0
         begin//4
           //00542CC6
           FormHint.Color := sub_004BB87C;
-          FichierCdn.sub_004BED04(f2D8, buf, ACol + 1);
+          FichierCdn._readCompteMoy(f2D8, buf, ACol + 1);
           FormHint.Label1.Caption := buf;
-          FichierCdn.sub_004C3958(f2D8, buf0, ARow + 1);
+          FichierCdn.__GetStrMin(f2D8, buf0, ARow + 1);
           FichierCdn.GetStrNoteSur(f2D8, ACol + 1, buf1);
           FormHint.Label2.Caption := 'Minimum : ' + buf0 + '/' + buf1;
-          FichierCdn.sub_004C3B54(f2D8, buf0, ARow + 1);
+          FichierCdn.__GetStrMax(f2D8, buf0, ARow + 1);
           FichierCdn.GetStrNoteSur(f2D8, ACol + 1, buf1);
           FormHint.Label3.Caption := 'Maximum : ' + buf0 + '/' + buf1;
-          FichierCdn.sub_004C40D4(f2D8, buf0, ACol + 1);
+          FichierCdn.__GetStrMoy(f2D8, buf0, ACol + 1);
           FichierCdn.GetStrNoteSur(f2D8, ACol + 1, buf1);
           FormHint.Label4.Caption := 'Moyenne : ' + buf0 + '/' + buf1;
           FichierCdn.sub_004C42D4(f2D8, ARow + 1, buf);
@@ -1030,7 +1030,7 @@ begin//0
      
     AppendMenuA(f2E8, 0, 1, 'Turbo Menu "Série de notes"');
     AppendMenuA(f2E8, $800{2048}, 1, '-');
-    FichierCdn.sub_004BED04(f2D8, buf, f2EC + 1);
+    FichierCdn._readCompteMoy(f2D8, buf, f2EC + 1);
     AppendMenuA(f2E8, 0, 0, PChar('Modifier l''intitulé "' + buf + '" ...'));
     AppendMenuA(f2E8, $800{2048}, 1, '');
     
@@ -1044,22 +1044,20 @@ begin//0
         if (I <> f2D8) then
         begin//4
           //00543844
-          FichierCdn.sub_004BE9EC(I, buf);      
          { if (I + 1 0) then
           begin//5
             //005438A8
           end;//5}
-          AppendMenuA(f2E8, 0, I+1, PChar('Déplacer vers "' + buf + '"'));
+          AppendMenuA(f2E8, 0, I+1, PChar('Déplacer vers "' + FichierCdn.GetPeriodName(I) + '"'));
         end//4
         else
         begin//4
           //005438BE
-          FichierCdn.sub_004BE9EC(I, Buf);
          { if (ESI + 1  0) then
           begin//5
             //00543922
           end;//5}
-          AppendMenuA(f2E8, 1,I+1,PChar('Déplacer vers "' + Buf + '"') );
+          AppendMenuA(f2E8, 1,I+1,PChar('Déplacer vers "' + FichierCdn.GetPeriodName(I) + '"') );
         end;//4
       end;//3
     

@@ -34,10 +34,10 @@ type
     procedure FormShow(Sender:TObject);//005347F0
     procedure CheckListBoxElevesDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);//0053464C
   public
-    f300:TFichierCdn;//f300
-    f304:TStringList;//f304
+    FCdn:TFichierCdn;//f300
+    Bilan:TStringList;//f304
     constructor Create(Owner:TComponent;Logo:Timage; F:TFichierCdn);//00534574
-	procedure sub_00534914(a:dword; b:dword; c:boolean);//00534914
+	procedure CreerBilanEleve(iEleve:dword; iPeriode:dword; c:boolean);//00534914
   end;
   var
      FormBilanEleve :TFormBilanEleve;  
@@ -50,12 +50,9 @@ implementation
 constructor TFormBilanEleve.Create(Owner:TComponent; Logo:Timage; F:TFichierCdn);
 begin//0
   //00534574
-
   inherited Create(Owner);
-
-  f300 := F;
+  FCdn := F;
   Image1.Picture := Logo.Picture;
-
 end;//0
 
 
@@ -80,14 +77,11 @@ var
   I:integer;
 begin//0
   //0053460C
-
-
     for I := 0 to CheckListBoxEleves.Items.Count - 1 do//00534632
     begin//2
       //00534635
       CheckListBoxEleves.Checked[I] := False;
     end;//2
-
 end;//0
 
 //0053464C
@@ -121,8 +115,8 @@ end;
 procedure TFormBilanEleve.FormShow(Sender:TObject);
 begin//0
   //005347F0
-  CheckListBoxEleves.Items := f300.EleveLists;
-  ComboBoxPeriodes.Items := f300.sub_004BEA4C;
+  CheckListBoxEleves.Items := FCdn.EleveLists;
+  ComboBoxPeriodes.Items := FCdn.GetPeriodesList_;
   ComboBoxPeriodes.ItemIndex:= 0;
 end;//0
 
@@ -138,10 +132,7 @@ var
   Count1,Count2,I:integer;
 begin//0
   //0053483C
-
-  f304.Clear;
-
-
+  Bilan.Clear;
     Count1 := 0;
 	Count2 := 0;
     for I := 0 to CheckListBoxEleves.Items.Count - 1 do//00534876
@@ -157,86 +148,69 @@ begin//0
       if (CheckListBoxEleves.Checked[I] ) then 
 	  begin
 		  Count2 := Count2 + 1;
-		  sub_00534914(I + 1, ComboBoxPeriodes.ItemIndex + 1, Count1 = Count2);
+		  CreerBilanEleve(I + 1, ComboBoxPeriodes.ItemIndex + 1, Count1 = Count2);
 	  end;
     end;//2
 
 end;//0
 
 //00534914
-procedure TFormBilanEleve.sub_00534914(a:dword; b:dword; c:boolean);
+procedure TFormBilanEleve.CreerBilanEleve(iEleve:dword; iPeriode:dword; c:boolean);
 var
  text,buf0,buf1,buf2,buf3,buf4:string;
  lvar_C : TStringList;
  I:integer;
 begin//0
   //00534914
-    //00534940
-
-    //EBX := f300;
-    //lvar_18 := f304;
-    f304.Add('------------------------------------------------------------------------------');
-    f300.sub_004BEA64(a, buf0);
-    f300.sub_004BE944(buf2);
-    f304.Add(buf0 + ' - ' + f300.GetClasseName + ' - ' + buf2);
-    f300.sub_004BE9EC( b, buf0);
-    f300.sub_004BE92C( buf1);
-    f304.Add(buf0 + ' - ' + buf1);
-    f304.Add('------------------------------------------------------------------------------');
+    Bilan.Add('------------------------------------------------------------------------------');
+    FCdn.GetEleveName__(iEleve, buf0);
+    Bilan.Add(buf0 + ' - ' + FCdn.GetClasseName + ' - ' + FCdn.GetYear);
+    Bilan.Add(FCdn.GetPeriodName( iPeriode) + ' - ' + FCdn.GetMatiereName());
+    Bilan.Add('------------------------------------------------------------------------------');
    
-      for I := 1 to f300.GetNbreModules(b)  do//00534AA4
+      for I := 1 to FCdn.GetNbreModules(iPeriode)  do//00534AA4
       begin//3
         //00534AAC
-        f300.sub_004BED04(b, buf0, I);
-        f300.sub_004BEF5C(b, I, a, buf1);
-        f300.GetStrNoteSur(b, I, buf2);
+        FCdn._readCompteMoy(iPeriode, buf0, I);
+        FCdn._GetStrNote(iPeriode, I, iEleve, buf1);
+        FCdn.GetStrNoteSur(iPeriode, I, buf2);
         text := buf0 + ' : ' + buf1 + '/' + buf2;
-        f300.GetStrComptMoy(b, I, buf0);
-
+        FCdn.GetStrComptMoy(iPeriode, I, buf0);
         if (UpperCase(buf0) = 'NON') then
         begin//4
           //00534BFC
           text := text + ' (non compté dans la moyenne)';
         end;//4
- 
-        f300.sub_004C3958(b, buf0,I);
-        f300.sub_004C40D4(b, buf1, I);
-        f300.sub_004C3B54(b, buf2,I);
-
-        f304.Add(text + ' (Min. ' + buf0 + ' - Moy. ' + buf1 + ' - Max. ' + buf2 + ')');
-        if (I <> f300.GetNbreModules(b)) then
-			f304.Add('');
+        FCdn.__GetStrMin(iPeriode, buf0,I);
+        FCdn.__GetStrMoy(iPeriode, buf1, I);
+        FCdn.__GetStrMax(iPeriode, buf2,I);
+        Bilan.Add(text + ' (Min. ' + buf0 + ' - Moy. ' + buf1 + ' - Max. ' + buf2 + ')');
+        if (I <> FCdn.GetNbreModules(iPeriode)) then
+			Bilan.Add('');
       end;//3
-
-
-    f304.Add('------------------------------------------------------------------------------');
-    f300.sub_004C2D10(b, a, GetarrondirMoyennes, buf0);
+    Bilan.Add('------------------------------------------------------------------------------');
+    FCdn.GetStrNoteAsFloat(iPeriode, iEleve, GetarrondirMoyennes, buf0);
     text := 'Moyenne de la période : ' + buf0;
     lvar_C := TStringList.Create;
-
-
-      
-      for I := 1 to f300.EleveCount  do//00534DB7
+      for I := 1 to FCdn.EleveCount  do//00534DB7
       begin//3
         //00534DC1
-        f300.sub_004C2D10(b, I, GetarrondirMoyennes, buf0);
+        FCdn.GetStrNoteAsFloat(iPeriode, I, GetarrondirMoyennes, buf0);
         lvar_C.Add(buf0);
       end;//3
-
-    sub_004BDB3C(lvar_C,buf0);
-    sub_004BDEBC(lvar_C, buf1);
-    sub_004BDCFC(lvar_C, buf2);
+    __GetStrPeriodeMin(lvar_C,buf0);
+    __GetStrPeriodeMoy(lvar_C, buf1);
+   __GetStrPeriodeMax(lvar_C, buf2);
     lvar_C.Destroy;
-    f304.Add(text + ' (Min. ' + buf0 + ' - Moy. ' + buf1 + ' - Max. ' + buf2 + ')');
-    f304.Add('------------------------------------------------------------------------------');
+    Bilan.Add(text + ' (Min. ' + buf0 + ' - Moy. ' + buf1 + ' - Max. ' + buf2 + ')');
+    Bilan.Add('------------------------------------------------------------------------------');
     if (c) then
     begin//2
       //00534EDA
       if (SaveDialog1.Execute ) then
       begin//3
         //00534EF0
-
-        f304.SaveToFile(SaveDialog1.FileName);
+        Bilan.SaveToFile(SaveDialog1.FileName);
         if (CheckBox1.Checked ) then
         begin//4
           //00534F27
@@ -246,28 +220,23 @@ begin//0
         Exit;
       end;//3
     end;//2
- 
-    f304.Add('');
-    f304.Add('');
-
+    Bilan.Add('');
+    Bilan.Add('');
     //00534F8A
-
 end;//0
 
 //0053510C
 procedure TFormBilanEleve.FormCreate(Sender:TObject);
 begin//0
   //0053510C
-
-  f304 := TStringList.Create;
-  
+  Bilan := TStringList.Create;
 end;//0
 
 
 //00535124
 procedure TFormBilanEleve.FormDestroy(Sender:TObject);
 begin
- f304.Destroy;
+ Bilan.Destroy;
 end;
 
 end.

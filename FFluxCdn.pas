@@ -9,7 +9,7 @@ uses
 type
   TFluxCdn = class(TFileStream)
     function _Read():string;//(?:TFluxCdn; ?:PShortString);
-    procedure sub_004B6A80(buffer : String);//(?:TFluxCdn; ?:ShortString);
+    procedure _write(buffer : String);//(?:TFluxCdn; ?:ShortString);
   end;
 
 implementation
@@ -117,7 +117,7 @@ begin
 end;
 
 //004B6A80
-procedure TFluxCdn.sub_004B6A80(buffer : String);//(?:TFluxCdn; ?:ShortString);
+procedure TFluxCdn._write(buffer : String);//(?:TFluxCdn; ?:ShortString);
 var
   count:Byte;
 begin

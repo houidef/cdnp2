@@ -103,7 +103,7 @@ begin//0
     Label3.Caption := f370.Name + ' (' + IntToStr(f370.Size) + ')';
     FontDialog1.Font.Name := 'Times New Roman';
     FontDialog1.Font.Size := 9;
-    CheckListBoxPeriodes.Items := f374.sub_004BEA4C;
+    CheckListBoxPeriodes.Items := f374.GetPeriodesList_;
     for I := 0 to CheckListBoxPeriodes.Items.Count-1 do //00524D71
     begin//00524D77
 	    J:= f374.GetNbreModules(I+1);
@@ -123,11 +123,9 @@ begin//0
     ComboBoxEnteteDroite.Items := f378;
     ComboBoxBasdepageGauche.Items := f378;
     ComboBoxBasdepageDroite.Items := f378;
-    f374.sub_004BE92C(buf);
-    ComboBoxEnteteGauche.text := buf;
+    ComboBoxEnteteGauche.text := f374.GetMatiereName;
     ComboBoxEnteteCentre.text :=f374.GetClasseName;
-    f374.sub_004BE944(buf);
-    ComboBoxEnteteDroite.text := buf;
+    ComboBoxEnteteDroite.text := f374.GetYear;
     ComboBoxBasdepageGauche.text := TimeToStr(Time);
     ComboBoxBasdepageDroite.text := DateToStr(Date);  
 end;//0
@@ -255,23 +253,16 @@ var
 begin//0
   //00525464
     f378.add(f374.GetClasseName);
-    f374.sub_004BE92C(buf);
-    f378.add(buf);
-    f374.sub_004C3908(buf);
-    f378.add(buf);
-    f374.sub_004BE944(buf);
-    f378.add(buf);
-
+    f378.add(f374.GetMatiereName);
+    f378.add(f374.GetEnseignant);
+    f378.add(f374.GetYear);
       for I := 1 to f374.GetNbrePeriodes do//00525563
       begin//3
         //0052556A
-        f374.sub_004BE9EC(I, buf);
-        f378.add(buf);
+        f378.add(f374.GetPeriodName(I));
       end;//3
-
     f378.add(DateToStr(Date));
     f378.add(TimeToStr(Time));
-
     //005255F5
 end;//0
 
@@ -287,7 +278,6 @@ begin//0
     SetenTeteDroite(ComboBoxEnteteDroite.Text);
     SetnomPolice(f370.Name);
     SettaillePolice(f370.Size);
-    EDX := 1;
     f378.call();}
     inherited Destroy;
 
@@ -465,7 +455,7 @@ begin//0
         //00526071
         
         //lvar_8 := f374;
-		  CheckListBoxPeriodes.Items:=f374.sub_004BEA4C;
+		  CheckListBoxPeriodes.Items:=f374.GetPeriodesList_;
           for I := 0 to CheckListBoxPeriodes.Items.count -1 do//005260B2
           begin//5
             //005260B8
@@ -486,13 +476,13 @@ begin//0
       begin//3
         //005261C6
         CheckListBoxPeriodes.Items.Clear;
-        CheckListBoxPeriodes.Items := f374.sub_004BEA4C;
+        CheckListBoxPeriodes.Items := f374.GetPeriodesList_;
         CheckListBoxPeriodes.Items.Add('Sur l''année');
       end;//3
       2:
       begin//3
         //00526207
-        CheckListBoxPeriodes.Items := f374.sub_004BEA4C;
+        CheckListBoxPeriodes.Items := f374.GetPeriodesList_;
         
       end;//3
       3:

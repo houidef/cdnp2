@@ -61,7 +61,7 @@ begin//0
 
 
 
-    TabControl1.Tabs := f2F8.sub_004BEA4C;
+    TabControl1.Tabs := f2F8.GetPeriodesList_;
 
    
 
@@ -70,7 +70,7 @@ begin//0
       begin//3
         //0050BAC0
 
-        f2F8.sub_004BED04( 1, Buf, I);
+        f2F8._readCompteMoy( 1, Buf, I);
 
         CheckListBox1.Items.Add(buf);
       end;//3
@@ -163,31 +163,23 @@ var
   buf:string;
 begin//0
   //0050BDC4
-
-    //0050BDFC
-
-    f2F8.sub_004BE9EC(TabControl1.TabIndex + 1, buf);
+    buf := f2F8.GetPeriodName(TabControl1.TabIndex + 1);
 	K:= f2F8.GetNbreModules(TabControl1.TabIndex + 1);
     case K of
       0:
       begin//3
         //0050BE7E
         Label1.Caption := buf + ' : aucune série de notes'
-        
       end;//3
       1:
       begin//3
         //0050BEA4
-       
         Label1.Caption := buf + ' : 1 série de notes';
-        
       end;//3
 	  else 
 	  Label1.Caption := buf + ' : ' + IntToStr(K) + ' séries de notes';
     end;//2
-
     //0050BF18
-
 end;//0
 
 
@@ -207,7 +199,7 @@ begin//0
       for I := 1 to f2F8.GetNbreModules(TabControl1.TabIndex + 1) do//0050C027
       begin//3
         //0050C02E
-        f2F8.sub_004BED04( TabControl1.TabIndex + 1, buf, I);
+        f2F8._readCompteMoy( TabControl1.TabIndex + 1, buf, I);
         CheckListBox1.Items.Add(buf);
       end;//3
     

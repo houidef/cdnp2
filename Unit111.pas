@@ -101,9 +101,9 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function sub_004BB75C:dword;//004BB75C
 	procedure sub_004BB790(x:dword);//004BB790
 	procedure sub_004BB7BC(a:Integer);//004BB7BC
-	function sub_004BB7E8:dword;//004BB7E8
+	function OngletsClassesStyle:dword;//004BB7E8
 	procedure sub_004BB81C(a:Boolean);//004BB81C
-	function sub_004BB84C:boolean;//004BB84C
+	function OngletsClassesVisible:boolean;//004BB84C
 	function sub_004BB87C:TColor;//004BB87C
 	function sub_004BB8AC:TColor;//004BB8AC
 	procedure sub_004BB8B4(a:TColor);//004BB8B4
@@ -1353,7 +1353,7 @@ begin
 end;
 
 //004BB7E8
-function sub_004BB7E8:dword;
+function OngletsClassesStyle:dword;
 begin//0
  result := GetValueRegInt('ongletClasses', 1{, 0});
 end;//0
@@ -1365,7 +1365,7 @@ begin
 end;
 
 //004BB84C
-function sub_004BB84C:boolean;
+function OngletsClassesVisible:boolean;
 begin//0
  result := GetValueRegBool('afficherOngletsClasses', true{,false});
 end;//0

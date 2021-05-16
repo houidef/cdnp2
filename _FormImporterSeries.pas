@@ -80,18 +80,18 @@ begin//0
     Caption := Caption + '"' + ExtractFileName(Buf) + '"';
 
 
-    ComboBoxPeriodes.Items := f304.sub_004BEA4C;
+    ComboBoxPeriodes.Items := f304.GetPeriodesList_;
 
     ComboBoxPeriodes.ItemIndex := 0;
 
 
-    TabControl1.Tabs := FichierCdn2.sub_004BEA4C;
+    TabControl1.Tabs := FichierCdn2.GetPeriodesList_;
 
      
       for I := 1 to FichierCdn2.GetNbreModules(1) do //0050E8EE
       begin//3
         //0050E8F5
-        FichierCdn2.sub_004BED04( 1, Buf, I);
+        FichierCdn2._readCompteMoy( 1, Buf, I);
         CheckListBoxSeries.Items.Add(buf);
       end;//3
 

@@ -70,16 +70,13 @@ text:string;
 begin//0
   //005097A4
     //005097CC
-    f31C.sub_004BE988(text);
-    CheckBox1.Enabled := (text = 'Trimestres');
+    CheckBox1.Enabled := (f31C.GetTypePeriode = 'Trimestres');
     ComboBox1.Items := GetMatieres;
     ComboBox1.ItemIndex := 0;
     Edit2.Text := f31C.GetClasseName;
-    f31C.sub_004BE914(text);
-    Edit3.Text := text;
+    Edit3.Text := f31C.GetEtablissment;
     Edit1.SetFocus;
   //005098A0
-
 end;//0
 
 //005098CC
@@ -96,32 +93,25 @@ begin//0
     begin//2
       //00509921
       FCdn := TFichierCdn.Create(''{, 1, 0});
-      f31C.sub_004BE988(text);
-      FCdn.sub_004C4CC8(text);
+      FCdn.SetTypePeriode__(f31C.GetTypePeriode());
       StList := TStringList.Create;
         for I := 1 to f31C.GetNbrePeriodes  do//00509978
         begin//4
           //00509982
-          f31C.sub_004BE9EC(I, text);
-          StList.Add(text);
+          StList.Add(f31C.GetPeriodName(I));
         end;//4
 
       FCdn.sub_004C4CBC(StList);
       StList.Destroy;
-      FCdn.sub_004C3920(Edit1.Text);
-      FCdn.sub_004BEFD0(f31C.GetClasseName);
-      f31C.sub_004BE914(text);
-      FCdn.sub_004BF004(text);
-
-
-      FCdn.sub_004BF038(ComboBox1.Items[ComboBox1.ItemIndex]);
-      f31C.sub_004BE944(text);
-      FCdn.sub_004BF06C(text);
-      f31C.sub_004C3908(text);
-      FCdn.sub_004BF0A0('Fichier créé par ' + text + ' pour ses collègues');
-      FCdn.sub_004BF64C(f31C.EleveLists);
-      FCdn.sub_004BF0D4();
-      FCdn.SaveCdn(SaveDialog1.FileName, CheckBox1.Checked, '', 0);
+      FCdn.SetEnseignant(Edit1.Text);
+      FCdn.setClasseName(f31C.GetClasseName);
+      FCdn.setEtablissment(f31C.GetEtablissment);
+      FCdn.setMatiere(ComboBox1.Items[ComboBox1.ItemIndex]);
+      FCdn.SetYear(f31C.GetYear);
+      FCdn.setRemarque('Fichier créé par ' + f31C.GetEnseignant + ' pour ses collègues');
+      FCdn.SetEleveListsV(f31C.EleveLists);
+      FCdn.init();
+      FCdn.SaveCdn(SaveDialog1.FileName, CheckBox1.Checked, '', false);
       FCdn.Destroy;
     end;//2
     //00509B7E

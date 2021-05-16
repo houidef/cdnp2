@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormPointsPlusMoins;
@@ -71,7 +71,7 @@ begin//0
       //00516A92
       try
         //00516AA0
-        lvar_10 := StrtoFloat(Edit1.Text);
+        lvar_10 := StrToFloat(Edit1.Text);
         f2F4.sub_004C3678( TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
         Close;
       except//3

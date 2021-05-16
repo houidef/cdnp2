@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _TGrilleBilan;
@@ -120,7 +120,7 @@ begin//0
 				  Cells[I + 1, 0] :=  'Moy. "' + Strlist[I - 1] + '"';
 				  //Strlist := FichierCdn.sub_004C3134(f2D8);
 				  FichierCdn.sub_004C2E60(Strlist[I - 1], f2D8,J ,buf);
-				  FichierCdn.sub_004C2410(buf, GetarrondirMoyennes, buf1);
+				  FichierCdn.GetStrMoyArrendit(buf, GetarrondirMoyennes, buf1);
 				  Cells[I + 1, J] :=  buf1;
 				end;//6
 			  end;//5
@@ -136,9 +136,9 @@ begin//0
 				for I := 1 to FichierCdn.EleveCount  do//004CB8FA
 				begin//6
 					//004CB902
-					FichierCdn.sub_004C9280(f2D8, I, GetarrondirMoyennes, buf);              
+					FichierCdn.GetStrArrondir(f2D8, I, GetarrondirMoyennes, buf);              
 					Cells[lvar_4, I] := buf;
-					FichierCdn.sub_004C8F6C(f2D8, I, GetarrondirMoyennes, buf);              
+					FichierCdn.GetStr0Arrondir(f2D8, I, GetarrondirMoyennes, buf);              
 					Cells[lvar_4 + 1, I ] := buf;
 				end;//6
 				lvar_4 := lvar_4 + 3;
@@ -189,7 +189,7 @@ begin//0
 				//004CBD2A
 				Strlist := FichierCdn.sub_004C3134(f2D8);
 				FichierCdn.sub_004C64CC(Strlist[I - 1], J,buf);
-				FichierCdn.sub_004C2410(buf,GetarrondirMoyennesAnnuelles, buf1);             
+				FichierCdn.GetStrMoyArrendit(buf,GetarrondirMoyennesAnnuelles, buf1);             
 				Cells[I + 1, J] := buf1;
 			end;//6
 			sub_004CD0B0(I);
@@ -268,9 +268,9 @@ begin//0
 				for I := 1 to FichierCdn.EleveCount do//004CC3EE
 				begin//5
 					//004CC3F6
-					FichierCdn.sub_004C9280(f2D8, I, GetarrondirMoyennes, buf);
+					FichierCdn.GetStrArrondir(f2D8, I, GetarrondirMoyennes, buf);
 					Cells[2, I]:= buf;
-					FichierCdn.sub_004C8F6C(f2D8, I, GetarrondirMoyennes, buf);
+					FichierCdn.GetStr0Arrondir(f2D8, I, GetarrondirMoyennes, buf);
 					Cells[3, I] := buf;
 				end;//5
 				sub_004CD0B0(1);
@@ -675,7 +675,7 @@ begin//0
     begin//2
       //004CEE06
       FichierCdn.sub_004C4784(f2D8, true);
-      FichierCdn.sub_004C63C8;
+      FichierCdn.defaultAttributs;
       SendMessageA(Handle, $403{1027}, f2D8, 0);
     end;//2
     //004CEE4C

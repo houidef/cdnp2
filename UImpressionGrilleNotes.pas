@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.01                                   *
-* Decompiled by HOUIDEF AEK v 18:58 Dimanche 19 aout 2018  *
+* Decompiled by Houidef AEK v 18:58 Dimanche 19 aout 2018  *
 * The disassembly process : 95%                            *
 ************************************************************}
 unit UImpressionGrilleNotes;
@@ -225,7 +225,7 @@ begin//0
                   if (f3C.GetNbreModules(f2C) >= J) then
                   begin//9
                     //0051ABA6
-                    f3C.sub_004BED2C(f2C,J, buf);
+                    f3C.GetStrNoteSur(f2C,J, buf);
                     lvar_70 := StrToFloat(buf);
                   end//9
                   else
@@ -366,37 +366,37 @@ begin//0
                   7:
                   begin//9
                     //0051B202
-                    f3C.sub_004BED2C( f2C, J, text);
+                    f3C.GetStrNoteSur( f2C, J, text);
                   end;//9
                   8:
                   begin//9
                     //0051B24A
-                    f3C.sub_004BED7C(f2C, J, text);
+                    f3C.GetStrCoeff(f2C, J, text);
                   end;//9
                   9:
                   begin//9
                     //0051B292
-                    f3C.sub_004BEDCC(f2C, J, text);
+                    f3C.GetStrComptMoy(f2C, J, text);
                   end;//9
                   10:
                   begin//9
                     //0051B2DA
-                    f3C.sub_004BEE1C(f2C, J, text);
+                    f3C.GetStrDate(f2C, J, text);
                   end;//9
                   11:
                   begin//9
                     //0051B322
-                    f3C.sub_004BEE6C(f2C, J, text);
+                    f3C.GetStrCommentaire(f2C, J, text);
                   end;//9
                   12:
                   begin//9
                     //0051B36A
-                    f3C.sub_004BEEBC(f2C, J, text);
+                    f3C.GetStrTypeNote(f2C, J, text);
                   end;//9
                   13:
                   begin//9
                     //0051B3B2
-                    f3C.sub_004BEF0C(f2C, J, text);
+                    f3C.GetStrOraleEcrit(f2C, J, text);
                   end;//9
                 end;//8
               end//7
@@ -754,37 +754,37 @@ begin//0
 				  7://Noté sur
 				  begin//7
 					//0051C341
-					f3C.sub_004BED2C(f2C, ACol, buf);
+					f3C.GetStrNoteSur(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  8://Coefficient
 				  begin//7
 					//0051C398
-					f3C.sub_004BED7C(f2C, ACol, buf);
+					f3C.GetStrCoeff(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  9://Compte dans la moyenne
 				  begin//7
 					//0051C3EF
-					f3C.sub_004BEDCC(f2C, ACol, buf);
+					f3C.GetStrComptMoy(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  10://Date
 				  begin//7
 					//0051C446
-					f3C.sub_004BEE1C(f2C, ACol, buf);
+					f3C.GetStrDate(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  11://Commentaire
 				  begin//7
 					//0051C49D
-					f3C.sub_004BEE6C(f2C, ACol, buf);
+					f3C.GetStrCommentaire(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  12://Type de notes
 				  begin//7
 					//0051C4F1
-					f3C.sub_004BEEBC(f2C, ACol, buf);
+					f3C.GetStrTypeNote(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				end;//6

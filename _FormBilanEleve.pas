@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 1:37 samedi, août 25, 2018   *
+* Decompiled by Houidef AEK v 1:37 samedi, août 25, 2018   *
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormBilanEleve;
@@ -189,9 +189,9 @@ begin//0
         //00534AAC
         f300.sub_004BED04(b, buf0, I);
         f300.sub_004BEF5C(b, I, a, buf1);
-        f300.sub_004BED2C(b, I, buf2);
+        f300.GetStrNoteSur(b, I, buf2);
         text := buf0 + ' : ' + buf1 + '/' + buf2;
-        f300.sub_004BEDCC(b, I, buf0);
+        f300.GetStrComptMoy(b, I, buf0);
 
         if (UpperCase(buf0) = 'NON') then
         begin//4

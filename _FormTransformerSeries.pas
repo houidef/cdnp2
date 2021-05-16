@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormTransformerSeries;
@@ -153,7 +153,7 @@ begin//0
     if (ListBox2.ItemIndex + 1 <> 0) then
     begin//2
       //00511C96
-      f314.sub_004BED2C(TabControl1.TabIndex + 1,  ListBox2.ItemIndex + 1, buf);
+      f314.GetStrNoteSur(TabControl1.TabIndex + 1,  ListBox2.ItemIndex + 1, buf);
       Edit1.Text := buf;
     end;//2
 
@@ -214,11 +214,11 @@ begin//0
       //00511F4C
 
       //lvar_A28 := ComboBox1.Items[ComboBox1.ItemIndex];
-      //f314.sub_004BED2C(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, lvar_B2C);
+      //f314.GetStrNoteSur(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, lvar_B2C);
       if (ComboBox1.Items[ComboBox1.ItemIndex] <> '') then
       begin//3
         //00512001
-        f314.sub_004BED2C(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, buf1);
+        f314.GetStrNoteSur(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, buf1);
         lvar_10 := StrToInt(ComboBox1.Items[ComboBox1.ItemIndex]) / StrToInt(buf1);
         f318 := TabControl1.TabIndex + 1;//EAX
         I := ListBox2.ItemIndex + 1;//EAX
@@ -228,11 +228,11 @@ begin//0
         begin//4
           //0051217B
           f314.sub_004BED04(f318, buf0, I);
-          f314.sub_004BED7C(f318, I, buf2);
-          f314.sub_004BEDCC(f318, I, buf3);
-          f314.sub_004BEE6C(f318, I, buf4);
-          f314.sub_004BEEBC(f318, I, buf5);
-          f314.sub_004BEF0C(f318, I, buf1);
+          f314.GetStrCoeff(f318, I, buf2);
+          f314.GetStrComptMoy(f318, I, buf3);
+          f314.GetStrCommentaire(f318, I, buf4);
+          f314.GetStrTypeNote(f318, I, buf5);
+          f314.GetStrOraleEcrit(f318, I, buf1);
           f314.sub_004BF7F0(f318, 'Copie de ' + buf0, buf6, buf2, buf3, DateToStr(Date), buf4, buf5, buf1 = 'Oral');
           J := f314.GetNbreModules(f318);   
         end;//4
@@ -243,7 +243,7 @@ begin//0
           if (CheckBox2.Checked ) then
           begin//5
             //00512415
-            f314.sub_004C0FA0(f318, I,'non');
+            f314._SetStrNote13(f318, I,'non');
           end;//5
         end;//4
         
@@ -253,7 +253,7 @@ begin//0
           try
             //00512475
             f314.sub_004BEF5C(f318, I, K, buf); 
-            f314.sub_004C2410(FloatToStrF(StrToFloat(buf) * lvar_10 , ffFixed{2}, $12{18}, 2), RadioGroup1.ItemIndex, MoyArrondi);
+            f314.GetStrMoyArrendit(FloatToStrF(StrToFloat(buf) * lvar_10 , ffFixed{2}, $12{18}, 2), RadioGroup1.ItemIndex, MoyArrondi);
             f314.sub_004C1074(f318, J, K, MoyArrondi);
           except//5
             on E:EConvertError do

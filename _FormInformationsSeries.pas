@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 20:48 lundi, août 27, 2018   *
+* Decompiled by Houidef AEK v 20:48 lundi, août 27, 2018   *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormInformationsSeries;
@@ -197,19 +197,19 @@ begin//0
       ComboBox2.Items.Add('40');
       ComboBox2.Items.Add('50');
       ComboBox2.Items.Add('100');
-      f334.sub_004BED2C(I, J, buf);
+      f334.GetStrNoteSur(I, J, buf);
       if (ComboBox2.Items.IndexOf(buf) + 1 = 0) then
       begin//3
         //0050CE8F
-        f334.sub_004BED2C(I, J, buf);
+        f334.GetStrNoteSur(I, J, buf);
         ComboBox2.Items.Add(buf);
       end;//3
 
-      f334.sub_004BED2C(I, J, buf);
+      f334.GetStrNoteSur(I, J, buf);
       ComboBox2.ItemIndex := ComboBox2.Items.IndexOf(buf);
-      f334.sub_004BED2C(I, J, buf);
+      f334.GetStrNoteSur(I, J, buf);
       ComboBox2.Text:=buf;
-      f334.sub_004BED7C(I, J, buf);
+      f334.GetStrCoeff(I, J, buf);
       ComboBox1.Text:= buf;
       ComboBox1.Items.Clear;
       ComboBox1.Items.Add('1');
@@ -222,16 +222,16 @@ begin//0
       ComboBox1.Items.Add('8');
       ComboBox1.Items.Add('9');
       ComboBox1.Items.Add('10');
-      f334.sub_004BED7C(I,J, buf);
+      f334.GetStrCoeff(I,J, buf);
       if (ComboBox1.Items.IndexOf(buf) + 1 = 0) then
       begin//3
         //0050D12E
-        f334.sub_004BED7C(I, J, buf);
+        f334.GetStrCoeff(I, J, buf);
         ComboBox1.Items.Add(buf);
       end;//3
-      f334.sub_004BED7C(I, J, buf);
+      f334.GetStrCoeff(I, J, buf);
       ComboBox1.ItemIndex := ComboBox1.Items.IndexOf(buf);
-      f334.sub_004BEDCC(I, J, buf);
+      f334.GetStrComptMoy(I, J, buf);
       if (buf = 'oui') then
       begin//3
         //0050D22C
@@ -242,7 +242,7 @@ begin//0
         //0050D23B
         RadioGroup1.ItemIndex :=1;
       end;//3
-      f334.sub_004BEF0C(I, J, buf);
+      f334.GetStrOraleEcrit(I, J, buf);
       if (buf = 'Oral') then
       begin//3
         //0050D290
@@ -253,20 +253,20 @@ begin//0
         //0050D2A2
         RadioGroup2.ItemIndex := 0;
       end;//3
-      f334.sub_004BEE1C(I, J, buf);
+      f334.GetStrDate(I, J, buf);
       DateTimePicker1.Date :=StrTodate(buf);
       ComboBox3.Items.Clear;
       ComboBox3.Items :=GetTypesdenotes;
-      f334.sub_004BEEBC(I, J, buf);
+      f334.GetStrTypeNote(I, J, buf);
       if (ComboBox3.Items.IndexOf(buf) + 1 = 0) then
       begin//3
         //0050D387
-        f334.sub_004BEEBC(I, J, buf);
+        f334.GetStrTypeNote(I, J, buf);
         ComboBox3.Items.Add(buf);
       end;//3
-      f334.sub_004BEEBC(I, J, buf);
+      f334.GetStrTypeNote(I, J, buf);
       ComboBox3.ItemIndex :=ComboBox3.Items.IndexOf(buf);
-      f334.sub_004BEE6C(I, J, buf);
+      f334.GetStrCommentaire(I, J, buf);
       Edit2.Text:=buf;
       Exit;
     end;//2
@@ -296,7 +296,7 @@ begin//0
 
     I := TabControl1.TabIndex + 1;//EBX
 	J := ListBoxSeries.ItemIndex + 1;
-    f334.sub_004BED2C(I, J, buf);
+    f334.GetStrNoteSur(I, J, buf);
     {gvar_00617CE0}FormEdit := TFormEdit.Create(Self, 'Noté sur', buf,1);
     FormEdit.ShowModal;
     if (FormEdit.ModalResult = 1) then
@@ -326,7 +326,7 @@ begin//0
     //0050D865
     I := TabControl1.TabIndex + 1;
     J := ListBoxSeries.ItemIndex + 1;//EAX
-    f334.sub_004BED7C(I, J, buf);
+    f334.GetStrCoeff(I, J, buf);
     {gvar_00617CE0}FormEdit := TFormEdit.Create(Self, 'Coefficient', buf,1);
     FormEdit.ShowModal;
     if (FormEdit.ModalResult = 1) then
@@ -363,14 +363,14 @@ begin//0
     J := ListBoxSeries.ItemIndex + 1;//EAX
     ComboBox3.Items.Clear;
     ComboBox3.Items :=GetTypesdenotes;
-    f334.sub_004BEEBC(I, J, buf);
+    f334.GetStrTypeNote(I, J, buf);
     if (ComboBox3.Items.IndexOf(buf) + 1 = 0) then
     begin//2
       //0050DB75
-      f334.sub_004BEEBC(I, J, buf);
+      f334.GetStrTypeNote(I, J, buf);
       ComboBox3.Items.Add(buf);
     end;//2
-    f334.sub_004BEEBC(I, J, buf);
+    f334.GetStrTypeNote(I, J, buf);
     ComboBox3.ItemIndex := ComboBox3.Items.IndexOf(buf);
     //0050DBF7
 end;//0
@@ -407,7 +407,7 @@ begin//0
   //0050DDC0
     //0050DDE3
 
-    f334.sub_004C0EC8(TabControl1.TabIndex + 1, ListBoxSeries.ItemIndex + 1,DateToStr(DateTimePicker1.Date));
+    f334._SetStrNote15(TabControl1.TabIndex + 1, ListBoxSeries.ItemIndex + 1,DateToStr(DateTimePicker1.Date));
     //0050DE82
 
 end;//0
@@ -417,7 +417,7 @@ procedure TFormInformationsSeriesDeNotes.ComboBox3Change(Sender:TObject);
 begin//0
   //0050DE9C
     //0050DEBF
-    f334.sub_004C0F34(TabControl1.TabIndex + 1, ListBoxSeries.ItemIndex + 1,ComboBox3.Text);
+    f334._SetStrNote17(TabControl1.TabIndex + 1, ListBoxSeries.ItemIndex + 1,ComboBox3.Text);
     //0050DF52
 end;//0
 
@@ -426,7 +426,7 @@ procedure TFormInformationsSeriesDeNotes.Edit2Change(Sender:TObject);
 begin//0
   //0050DF6C
     //0050DF8F
-    f334.sub_004C0E5C(TabControl1.TabIndex + 1, ListBoxSeries.ItemIndex + 1,Edit2.Text);
+    f334._SetStrNote16(TabControl1.TabIndex + 1, ListBoxSeries.ItemIndex + 1,Edit2.Text);
     //0050E022
 
 end;//0
@@ -440,9 +440,9 @@ begin//0
   I := TabControl1.TabIndex + 1;//EBX
   J := ListBoxSeries.ItemIndex + 1;//EAX
   if (RadioGroup1.ItemIndex = 0) then//0050E094
-    {EAX := }f334.sub_004C0FA0(I, J,'oui')
+    {EAX := }f334._SetStrNote13(I, J,'oui')
   else 
-  {EAX := }f334.sub_004C0FA0(I, J,'non');
+  {EAX := }f334._SetStrNote13(I, J,'non');
 end;//0
 
 //0050E0CC
@@ -451,7 +451,7 @@ begin//0
   //0050E0CC
     //0050E0F3
     ListBoxSeries.Items[ListBoxSeries.ItemIndex] := Edit1.Text;
-    f334.sub_004C0E24(TabControl1.TabIndex + 1,ListBoxSeries.ItemIndex + 1,Edit1.Text);
+    f334._SetStrNote0(TabControl1.TabIndex + 1,ListBoxSeries.ItemIndex + 1,Edit1.Text);
     //0050E1B6
 end;//0
 

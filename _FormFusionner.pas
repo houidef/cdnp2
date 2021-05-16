@@ -1,6 +1,6 @@
 {***************************************
 * Version Original V0.01
-* Decompiled by HOUIDEF AEK v.05.02.2018
+* Decompiled by Houidef AEK v.05.02.2018
 ***************************************}
 unit _FormFusionner;
 
@@ -973,7 +973,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                sub_004BED2C(EDX[EAX], EBX, , lvar_32C);
+                GetStrNoteSur(EDX[EAX], EBX, , lvar_32C);
                 //push EAX
                 EAX := ;
                 EDX := Self;
@@ -981,7 +981,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004BED7C(EBX, , lvar_42C);
+                EDX[EAX].GetStrCoeff(EBX, , lvar_42C);
                 //push EAX
                 EAX := ;
                 EDX := Self;
@@ -989,7 +989,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004BEDCC(EBX, , lvar_52C);
+                EDX[EAX].GetStrComptMoy(EBX, , lvar_52C);
                 //push EAX
                 EAX := ;
                 EDX := Self;
@@ -997,7 +997,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004BEE1C(EBX, , lvar_62C);
+                EDX[EAX].GetStrDate(EBX, , lvar_62C);
                 //push EAX
                 EAX := ;
                 EDX := Self;
@@ -1020,7 +1020,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004BEEBC(EBX, , lvar_92C);
+                EDX[EAX].GetStrTypeNote(EBX, , lvar_92C);
                 //push EAX
                 EAX := ;
                 EDX := Self;
@@ -1028,7 +1028,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004BEE6C(EBX, , lvar_82C);
+                EDX[EAX].GetStrCommentaire(EBX, , lvar_82C);
                 //push EAX
                 EAX := ;
                 EDX := Self;
@@ -1036,7 +1036,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                EDX[EAX].sub_004BEF0C(EBX, , lvar_A2C);
+                EDX[EAX].GetStrOraleEcrit(EBX, , lvar_A2C);
                 EDX := $552DA8;
                 ECX := ;
                 ECX := ECX + 1;//ECX

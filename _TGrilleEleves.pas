@@ -1,7 +1,7 @@
 {************************************************************
 * File             : _TGrilleEleves                         *  
 * Version          : V0.03 build 1                          *
-* Decompiled by    : HOUIDEF AEK                            * 
+* Decompiled by    : Houidef AEK                            * 
 * Update           : 20:48 jeudi, septembre 13, 2018        *
 * The disassembly process : 100%                            *
 ************************************************************}
@@ -211,7 +211,7 @@ begin//0
               FichierCdn.GetElevDateNais(ARow, Buf1); //Determiner la date de Naissance;
               FormHint.Label1.Caption := Buf0 + ' ' +  Buf1;
             end;//6
-            FichierCdn.sub_004C5404(f2D8, ARow, Buf0); //Determiner la Note la plus basse de la période
+            FichierCdn.GetStrMinMoy(f2D8, ARow, Buf0); //Determiner la Note la plus basse de la période
             FormHint.Label2.Caption := 'Note la plus basse de la période : ' + Buf0;
             FichierCdn.sub_004C56C0( f2D8, ARow, Buf0);// Determiner la Note la plus haute de la période
             FormHint.Label3.Caption := 'Note la plus haute de la période : ' + Buf0;

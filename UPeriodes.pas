@@ -1,6 +1,6 @@
 {***************************************
 * Version Original V0.01
-* Created by HOUIDEF AEK v 12:04 mardi 27 février 2018
+* Created by Houidef AEK v 12:04 mardi 27 février 2018
 ***************************************}
 unit UPeriodes;
 

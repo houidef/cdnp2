@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 99.99%                         *
 ************************************************************}
 unit _FormUtilitairesSeries;
@@ -341,11 +341,11 @@ begin//0
       //00510604
       //lvar_28 := f330;
 	  Trouver := true;
-      f330.sub_004BED2C(f730[0], f334[0], buf0);
+      f330.GetStrNoteSur(f730[0], f334[0], buf0);
         for I := 0 to ListBoxSeriesConcernees.Items.Count - 1  do //00510673
         begin//4
           //00510676
-          f330.sub_004BED2C(f730[I], f334[I], buf1);
+          f330.GetStrNoteSur(f730[I], f334[I], buf1);
           //ECX := lvar_22C + 1;//ECX
           if (buf0 <> buf1) then //005106E7
             Trouver := false;
@@ -380,7 +380,7 @@ begin//0
           end;//5
         
         
-       // f330.sub_004BED2C(f730[0], f334[0], lvar_12C);//lvar_22C,lvar_64C,lvar_654
+       // f330.GetStrNoteSur(f730[0], f334[0], lvar_12C);//lvar_22C,lvar_64C,lvar_654
         if (CheckBox1.Checked) then
         begin//4
           //0051090D
@@ -458,7 +458,7 @@ begin//0
               begin//7
                 //00510E78
                 sub_004BDEBC(lvar_18, lvar_62C);
-                f330.sub_004C2410(lvar_62C, RadioGroup2.ItemIndex, lvar_42C{, '1'});
+                f330.GetStrMoyArrendit(lvar_62C, RadioGroup2.ItemIndex, lvar_42C{, '1'});
               end;//7
               2:
               begin//7
@@ -478,7 +478,7 @@ begin//0
               for I := 1 to ListBoxSeriesConcernees.Items.Count do //00510F99
               begin//7
                 //00510F9E
-                f330.sub_004C0FA0(f730[I - 1], f334[I - 1],'non');
+                f330._SetStrNote13(f730[I - 1], f334[I - 1],'non');
               end;//7
           end;//5
         end;//4

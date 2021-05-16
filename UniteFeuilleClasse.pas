@@ -1,6 +1,6 @@
 {***************************************
 * Version Original V0.01
-* Decompiled by HOUIDEF AEK v.20:21 dimanche 18 mars 2018
+* Decompiled by Houidef AEK v.20:21 dimanche 18 mars 2018
 ***************************************}
 unit UniteFeuilleClasse;
 
@@ -578,7 +578,7 @@ begin//0
 								  FormNouvelleSerieDeNotes.Edit3.text, 
 								  FormNouvelleSerieDeNotes.ComboBoxTypesDeNotes.text,false);
           GrillesNotes := FormNouvelleSerieDeNotes.f334;
-          FichierCdn.sub_004C63C8;
+          FichierCdn.defaultAttributs;
           TabSet1.TabIndex := 0;
           SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
           SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
@@ -651,7 +651,7 @@ procedure TFeuilleClasse.Options1Click(Sender:TObject);
 begin//0
   //0053B3AC
   FormCarnetDeNotes2.Options1Click(Sender);
-  FichierCdn.sub_004C63C8;
+  FichierCdn.defaultAttributs;
   
 	SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex +1 , 0);
 	SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
@@ -704,7 +704,7 @@ begin//0
           //0053B88A  
           FichierCdn.SetElevR(EleveLists.indexof(FormCreerListeEleves.EleveNom[I - 1]) , FormCreerListeEleves.EleveR[EleveLists.indexof(FormCreerListeEleves.EleveNom[I - 1])  + 1] = 'R');
         end;//4
-      FichierCdn.sub_004C63C8;
+      FichierCdn.defaultAttributs;
       SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
       SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
       SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
@@ -813,7 +813,7 @@ begin//0
       //0053BDC4
 	  with FormModifierEleve do 
       FichierCdn.sub_004C14C8(EditNomPrenom_FormModifier.Text, EditDateDeNaissance_FormModifier.Text, '1',CheckBoxRedoublant_FormModifier.Checked);
-      FichierCdn.sub_004C63C8;
+      FichierCdn.defaultAttributs;
       SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
       SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
       SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
@@ -840,7 +840,7 @@ begin//0
 									'Suppression d''un élève', $24{36})= 6) then
       begin//3//0053C046
         FichierCdn.sub_004C1158(FormListeEleves.ListeEleves.ItemIndex + 1);
-        FichierCdn.sub_004C63C8;
+        FichierCdn.defaultAttributs;
         SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
         SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
         SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
@@ -900,7 +900,7 @@ begin//0
   FormReorganiser.ShowModal;
   FormReorganiser.Destroy;
  
-  FichierCdn.sub_004C63C8;
+  FichierCdn.defaultAttributs;
   SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
   SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
   SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -1122,7 +1122,7 @@ begin//0
     StringList := TStringList.Create;
     StringList.Text := Clipboard.AsText;
     FichierCdn.sub_004BF64C(StringList);
-    FichierCdn.sub_004C63C8;
+    FichierCdn.defaultAttributs;
     SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
     SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
     SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
@@ -1491,7 +1491,7 @@ begin//0
     //0053DF2B
     GrillesNotes := FormUtilitairesSeries.fF28;
     TabControlGrillesNotes.TabIndex :=FormUtilitairesSeries.fF28 - 1;
-    FichierCdn.sub_004C63C8;
+    FichierCdn.defaultAttributs;
     SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
     SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex+1, 0);
@@ -1512,7 +1512,7 @@ begin//0
     FormInformationsSeriesDeNotes.ListBoxSeriesClick(Sender);
     FormInformationsSeriesDeNotes.ShowModal;
     FormInformationsSeriesDeNotes.Destroy;
-    FichierCdn.sub_004C63C8;
+    FichierCdn.defaultAttributs;
     SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
     SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex+1 , 0);
@@ -1536,7 +1536,7 @@ begin//0
     //0053E1BF
     GrillesNotes := FormTransformerSeries.f318;
     TabControlGrillesNotes.TabIndex := FormTransformerSeries.f318 - 1;
-    FichierCdn.sub_004C63C8;
+    FichierCdn.defaultAttributs;
     SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
     SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -1557,7 +1557,7 @@ begin//0
     FormInformationsSeriesDeNotes.ListBoxSeriesClick(Sender);
     FormInformationsSeriesDeNotes.ShowModal;
     FormInformationsSeriesDeNotes.Destroy;
-    FichierCdn.sub_004C63C8;
+    FichierCdn.defaultAttributs;
     SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
     SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -1650,7 +1650,7 @@ begin//0
           //0053E768
           FichierCdn.sub_004BEF5C(lvar_10, I, lvar_C, buf);
           lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          fichiercdn.sub_004BED2C( lvar_10, I, buf);
+          fichiercdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04( lvar_10, Buf, I);
           Chart1.Series[0].AddXY(I, lvar_28, buf, GetcouleurEleve); // 0053E8B1 
@@ -1665,7 +1665,7 @@ begin//0
           //0053E967
           //FichierCdn.sub_004C3958(lvar_10, buf, I);
           //lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          FichierCdn.sub_004BED2C( lvar_10, I, buf);
+          FichierCdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04(lvar_10, buf, I);
           //Chart1.Series[1}.AddXY(, 0, lvar_170, GetcouleurMin);
@@ -1679,7 +1679,7 @@ begin//0
           //0053EB30
           //FichierCdn.sub_004C3B54(lvar_10, buf, I);
           //lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          FichierCdn.sub_004BED2C( lvar_10, I, buf);
+          FichierCdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04( lvar_10, buf, I);
           //Chart1.Series[2].AddXY(, 0, lvar_17C, GetcouleurMax);
@@ -1692,7 +1692,7 @@ begin//0
           //0053ECF9
           FichierCdn.sub_004C40D4(lvar_10, buf, I);
           lvar_158 := GetmoyennesSur * StrToFloat(buf);
-          FichierCdn.sub_004BED2C( lvar_10, I, buf);
+          FichierCdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn.sub_004BED04( lvar_10, buf, I);
           Chart1.Series[3].AddXY(I, lvar_28, buf, GetcouleurMoyenne);
@@ -1932,7 +1932,7 @@ begin//0
       FichierCdn.sub_004C4784(I, true);
     end;//2
   
-  FichierCdn.sub_004C63C8;
+  FichierCdn.defaultAttributs;
   case TabSet1.TabIndex of
     0:
     begin//2
@@ -1981,7 +1981,7 @@ begin//0
       FichierCdn.sub_004C4784(I, true);
     end;//2
   
-  FichierCdn.sub_004C63C8;
+  FichierCdn.defaultAttributs;
 end;//0
 
 //0053F820
@@ -2016,7 +2016,7 @@ begin//0
   FormPointsPlusMoins{gvar_00617DC4} := TFormPointsPlusMoins.Create(Self, FichierCdn, Logo);
   FormPointsPlusMoins.ShowModal;
   FormPointsPlusMoins.Destroy;
-  FichierCdn.sub_004C63C8;
+  FichierCdn.defaultAttributs;
   SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
   SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
 end;//0
@@ -2047,7 +2047,7 @@ end;//0
 procedure TFeuilleClasse.sub_0053FA60(var Msg:TMsg);
 begin//0
   //0053FA60
-  FichierCdn.sub_004C63C8;
+  FichierCdn.defaultAttributs;
   SendMessageA(GrilleBilanCarnetDeNotes.Handle, 1027, TabControlGrillesBilan.TabIndex +1, Msg.wParam);
 end;//0
 
@@ -2080,7 +2080,7 @@ begin//0
             
             FormImporterSeries{gvar_00617D94} := TFormImporterSeries.Create(Self, FichierCdn,FichierCdn2 , logo, 0);
             FormImporterSeries.ShowModal;
-            FichierCdn2.sub_004C63C8;
+            FichierCdn2.defaultAttributs;
             SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
             SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
             SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027}, TabControlGrillesBilan.TabIndex + 1, 0);
@@ -2177,7 +2177,7 @@ begin//0
          
           GrillesNotes := FormNouvelleSerieDeNotes.f334;
           
-          FichierCdn.sub_004C63C8;
+          FichierCdn.defaultAttributs;
           TabSet1.TabIndex := 0;
           SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
           SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);          
@@ -2285,7 +2285,7 @@ begin//0
                 end;//8
               end;//7
             FormTypeImportation.Destroy;
-            FichierCdn.sub_004C63C8;
+            FichierCdn.defaultAttributs;
             SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
             SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
             SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
@@ -2378,7 +2378,7 @@ begin//0
             end;//6
           end;//5
         FormTypeImportation.Destroy;
-        FichierCdn.sub_004C63C8;
+        FichierCdn.defaultAttributs;
         SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
         SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
@@ -2469,7 +2469,7 @@ begin//0
     StringList := TStringList.Create;
     StringList.Text := Clipboard.AsText;
     FichierCdn.sub_004BF544(StringList);
-    FichierCdn.sub_004C63C8;
+    FichierCdn.defaultAttributs;
     SendMessageA(GrilleElevesCarnetDeNotes.Handle, $404{1028}, 0, 0);
     SendMessageA(GrilleElevesGrapheCarnetDeNotes.Handle, $404{1028}, 0, 0);
     SendMessageA(Handle, $406{1030}, 0, 0);
@@ -2523,11 +2523,10 @@ begin//0
       begin//3
         //00541AEA
         FormImporterSeries{gvar_00617D94 }:= TFormImporterSeries.Create(Self,FichierCdn,FichierCdn2,logo, 1);
-        FormImporterSeries.ShowModal;
-        if (FormImporterSeries.ModalResult = 1) then
+        if (FormImporterSeries.ShowModal = 1) then
         begin//4
           //00541B34
-          FichierCdn.sub_004C63C8;
+          FichierCdn.defaultAttributs;
           SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
           SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
           SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);

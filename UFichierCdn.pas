@@ -1,6 +1,6 @@
 {***************************************
 * CarnetNotesVersion Original V0.01 
-* Decompiled by HOUIDEF AEK v 01:30 2021-05-11 @ 11:22 PM
+* Decompiled by Houidef AEK v 2021-05-15 @ 01:50 AM
 ***************************************}
 unit UFichierCdn;
 
@@ -68,13 +68,13 @@ type
     function sub_004BEB40(I:dword; J:dword):TStrings;//004BEB40
     procedure sub_004BEC04(Periode:dword; ACol:dword; ARow:dword;var data:string);//004BEC04
     procedure sub_004BED04(Periode:dword; var NameModule:string; NumModule:integer);//004BED04 Determine le Nom de Module
-    procedure sub_004BED2C(Periode:dword; ARow:dword; var S:string);//004BED2C
-    procedure sub_004BED7C(Periode:dword; ARow:dword; var S:string);//004BED7C
-    procedure sub_004BEDCC(Periode:dword; ARow:dword; var S:string);//004BEDCC
-    procedure sub_004BEE1C(Periode:dword; ARow:dword; var S:string);//004BEE1C
-    procedure sub_004BEE6C(Periode:dword; ARow:dword; var S:string);//004BEE6C
-    procedure sub_004BEEBC(Periode:dword; ARow:dword; var S:string);//004BEEBC
-    procedure sub_004BEF0C(Periode:dword; ARow:dword; var S:string);//004BEF0C
+    procedure GetStrNoteSur(Periode:dword; ARow:dword; var S:string);//004BED2C
+    procedure GetStrCoeff(Periode:dword; ARow:dword; var S:string);//004BED7C
+    procedure GetStrComptMoy(Periode:dword; ARow:dword; var S:string);//004BEDCC
+    procedure GetStrDate(Periode:dword; ARow:dword; var S:string);//004BEE1C
+    procedure GetStrCommentaire(Periode:dword; ARow:dword; var S:string);//004BEE6C
+    procedure GetStrTypeNote(Periode:dword; ARow:dword; var S:string);//004BEEBC
+    procedure GetStrOraleEcrit(Periode:dword; ARow:dword; var S:string);//004BEF0C
     procedure sub_004BEF5C(Periode:dword; ACol:dword; ARow:dword; var data:string);//004BEF5C
     procedure SetFileName(a:shortString);//004BEF84
     procedure sub_004BEFD0(a:String);//004BEFD0
@@ -92,18 +92,18 @@ type
     procedure sub_004C0070(a:dword);//004C0070
     procedure sub_004C0134(a:dword);//004C0134
     procedure SaveCdn(a:AnsiString; b:boolean; c:string; d:dword);//004C01F8   sauvgrader fichier 
-    procedure sub_004C0C88(Periode:dword; ACol:dword; ARow:dword; d:string);//004C0C88
-    procedure sub_004C0E24(periode:dword; ACol:dword; e:string);//004C0E24
-    procedure sub_004C0E5C(periode:dword; ACol:dword; c:string);//004C0E5C
-    procedure sub_004C0EC8(Periode:dword; ACol :dword; d:string);//004C0EC8
-    procedure sub_004C0F34(Periode:dword; ACol:dword; d:string);//004C0F34
-    function sub_004C0FA0(a:dword; b:dword; c:string):dword;//004C0FA0
+    procedure _SetStrNote(Periode:dword; ACol:dword; ARow:dword; Value:string);//004C0C88
+    procedure _SetStrNote0(periode:dword; ACol:dword; e:string);//004C0E24
+    procedure _SetStrNote16(periode:dword; ACol:dword; c:string);//004C0E5C
+    procedure _SetStrNote15(Periode:dword; ACol :dword; d:string);//004C0EC8
+    procedure _SetStrNote17(Periode:dword; ACol:dword; d:string);//004C0F34
+    function _SetStrNote13(a:dword; b:dword; c:string):dword;//004C0FA0
     procedure sub_004C1074(Periode:dword; ACol:dword; ARow:dword; data:string);//004C1074
     procedure sub_004C1158(a:dword);//004C1158
     procedure sub_004C14C8(b:String; c:string; d:string; a:boolean);//004C14C8
     procedure sub_004C1954(a:integer; b:string; c:boolean;d:string);//004C1954
     procedure sub_004C213C(Periode:dword; ARow:dword; var Moy:string);//004C213C
-    procedure sub_004C2410(a:String; {b:Integer;}  ArrendirMoyennes:dword; var Moy:string);//004C2410
+    procedure GetStrMoyArrendit(a:String; {b:Integer;}  ArrendirMoyennes:dword; var Moy:string);//004C2410
     procedure sub_004C2AF4(Periode:dword; ARow:dword; ArrondirMoyennes:dword; var RMoy:string);//004C2AF4
     procedure sub_004C2B38(Periode:dword; ARow:dword; var c:string);//004C2B38
     procedure sub_004C2C00(a:dword; b:dword; c:dword;var d:string);//004C2C00
@@ -134,17 +134,17 @@ type
     procedure sub_004C4CC8(var a:string);//004C4CC8
     function sub_004C4D44:dword;//004C4D44
     function sub_004C5078(a:integer; b:integer; c:integer;d:integer;e:integer):Tstrings;//004C5078
-    procedure sub_004C5404(Periode:dword; ARow:dword; var S:String);//004C5404
+    procedure GetStrMinMoy(Periode:dword; ARow:dword; var S:String);//004C5404
     procedure sub_004C56C0(a:integer; b:integer; c:string);//004C56C0
-    procedure sub_004C5E04(periode:dword; ACol:dword; c:dword;s:string);//004C5E04
-    procedure sub_004C5F08(Periode:dword; ACol:dword; Info:dword; var d:string);//004C5F08
-    procedure sub_004C5FF8(a:dword; b:dword; c:dword; d:Boolean);//004C5FF8
-    function sub_004C6030(periode:dword; ACol:dword; info:dword):Boolean;//004C6030
-    procedure sub_004C6080(Periode:dword; ARow:dword; Valeur:string);//004C6080
-    procedure sub_004C6144(Periode:dword; ARow:dword; var Valeur:string);//004C6144
-    procedure sub_004C61E4(Periode:dword; ARow:dword; c:boolean);//004C61E4
-    function sub_004C62E8(a:dword; b:dword):boolean;//004C62E8
-    procedure sub_004C63C8;//004C63C8
+    procedure SetAttributs0(periode:dword; ACol:dword; c:dword;s:string);//004C5E04
+    procedure GetAttributs0(Periode:dword; ACol:dword; Info:dword; var d:string);//004C5F08
+    procedure SetAttributs1(a:dword; b:dword; c:dword; d:Boolean);//004C5FF8
+    function GetAttributs1(periode:dword; ACol:dword; info:dword):Boolean;//004C6030
+    procedure SetStrMoy(Periode:dword; ARow:dword; Valeur:string);//004C6080
+    procedure GetStrMoy(Periode:dword; ARow:dword; var Valeur:string);//004C6144
+    procedure SetAttributs2(Periode:dword; ARow:dword; c:boolean);//004C61E4
+    function GetAttributs2(a:dword; b:dword):boolean;//004C62E8
+    procedure defaultAttributs;//004C63C8
     procedure sub_004C64CC(a:string; J:integer; b:string);//004C64CC
     function sub_004C6680:Boolean;//004C6680
     procedure sub_004C8880;//004C8880
@@ -161,10 +161,10 @@ type
     procedure SetElevR(a:dword; b:boolean);//004C8DF8
     function sub_004C8E50( b:dword):boolean;//004C8E50
     function sub_004C8EC8(a:integer; b:integer; c:boolean):integer;//004C8EC8
-    procedure sub_004C8F6C(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C8F6C
-    procedure sub_004C8FB0(Periode:dword; ARow:dword; var s:string);//004C8FB0
-    procedure sub_004C9280(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C9280
-    procedure sub_004C92C4(Periode:dword; ARow:dword; var s:string);//004C92C4
+    procedure GetStr0Arrondir(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C8F6C
+    procedure GetStr0(Periode:dword; ARow:dword; var s:string);//004C8FB0
+    procedure GetStrArrondir(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C9280
+    procedure GetStr(Periode:dword; ARow:dword; var s:string);//004C92C4
     procedure sub_004C9594(a:integer; b:integer; buf:string);//004C9594
     procedure sub_004C9708(a:integer; b:integer; buf:string);//004C9708
 	end;
@@ -221,7 +221,6 @@ end;
 procedure TFichierCdn.sub_004BE914(var a:String);
 begin//0
   //004BE914
-
   a := f510;
 end;//0
 
@@ -258,13 +257,10 @@ begin//0
   result := Self.FileName;
 end;//0
 
-//end;
-
 //004BE988
 procedure TFichierCdn.sub_004BE988(var a:String);
 var
   buf:string;
-  
 begin//0
   //004BE988
     f918.sub_004B6CC4(buf);
@@ -336,7 +332,6 @@ begin//0
   try
     //004BEB62
     lvar_C := 0;
-    
       for k := 1 to I - 1 do //004BEB79
       begin//004BEB7E
         lvar_C := lvar_C +StrToInt(f920[k - 1]);
@@ -379,7 +374,7 @@ begin//0
 end;
 
 //004BED2C
-procedure TFichierCdn.sub_004BED2C(Periode:dword; ARow:dword;var S:string);
+procedure TFichierCdn.GetStrNoteSur(Periode:dword; ARow:dword;var S:string);
 begin//0
   //004BED2C
   sub_004BEC04(Periode, ARow, EleveCount + $0B {gvar_006178FB},S );
@@ -387,14 +382,14 @@ end;//0
 
 
 //004BED7C
-procedure TFichierCdn.sub_004BED7C(Periode:dword; ARow:dword; var S:string);
+procedure TFichierCdn.GetStrCoeff(Periode:dword; ARow:dword; var S:string);
 begin//0
   //004BED7C
   sub_004BEC04(Periode, ARow, EleveCount + $0C {gvar_006178FC},S );
 end;//0
 
 //004BEDCC
-procedure TFichierCdn.sub_004BEDCC(Periode:dword; ARow:dword; var S:string);
+procedure TFichierCdn.GetStrComptMoy(Periode:dword; ARow:dword; var S:string);
 begin//0
   //004BEDCC
   sub_004BEC04(Periode, ARow, EleveCount + $0D{gvar_006178FD},S );
@@ -402,7 +397,7 @@ end;//0
 
 
 //004BEE1C
-procedure TFichierCdn.sub_004BEE1C(Periode:dword; ARow:dword; var S:string);
+procedure TFichierCdn.GetStrDate(Periode:dword; ARow:dword; var S:string);
 begin//0
   //004BEE1C
   sub_004BEC04(Periode, ARow, EleveCount + $0E {gvar_006178FE}, S);
@@ -410,20 +405,20 @@ end;//0
 
 
 //004BEE6C
-procedure TFichierCdn.sub_004BEE6C(Periode:dword; ARow:dword; var S:string);
+procedure TFichierCdn.GetStrCommentaire(Periode:dword; ARow:dword; var S:string);
 begin
  sub_004BEC04(Periode, ARow, EleveCount + $0F {gvar_006178FF}, S);
 
 end;
 
 //004BEEBC
-procedure TFichierCdn.sub_004BEEBC(Periode:dword; ARow:dword; var S:string);
+procedure TFichierCdn.GetStrTypeNote(Periode:dword; ARow:dword; var S:string);
 begin
  sub_004BEC04(Periode, ARow, EleveCount + $10 {gvar_00617900}, S);
 end;
 
 //004BEF0C
-procedure TFichierCdn.sub_004BEF0C(Periode:dword; ARow:dword; var S:string);
+procedure TFichierCdn.GetStrOraleEcrit(Periode:dword; ARow:dword; var S:string);
 begin
  sub_004BEC04(Periode, ARow, EleveCount + $11 {gvar_00617901}, S);
 end;
@@ -1196,19 +1191,19 @@ begin//0
               begin//004C059E
                 FluxCdn.sub_004B6A80('');
               end;//7
-              sub_004BED2C(I, J, buf);
+              GetStrNoteSur(I, J, buf);
               FluxCdn.sub_004B6A80( buf);
-              sub_004BED7C(I, J, buf);
+              GetStrCoeff(I, J, buf);
               FluxCdn.sub_004B6A80( buf);
-              sub_004BEDCC(I, J, buf);
+              GetStrComptMoy(I, J, buf);
               FluxCdn.sub_004B6A80( buf);
-              sub_004BEE1C(I, J, buf);
+              GetStrDate(I, J, buf);
               FluxCdn.sub_004B6A80( buf);
-              sub_004BEE6C(I, J, buf);
+              GetStrCommentaire(I, J, buf);
               FluxCdn.sub_004B6A80( buf);
-              sub_004BEEBC(I, J, buf);
+              GetStrTypeNote(I, J, buf);
               FluxCdn.sub_004B6A80( buf);
-              sub_004BEF0C(I, J ,buf);
+              GetStrOraleEcrit(I, J ,buf);
               FluxCdn.sub_004B6A80( buf);
 			  
             end;//6
@@ -1317,7 +1312,7 @@ end;//0
 
 
 //004C0C88
-procedure TFichierCdn.sub_004C0C88(Periode:dword; ACol:dword; ARow:dword; d:string);
+procedure TFichierCdn._SetStrNote(Periode:dword; ACol:dword; ARow:dword; Value:string);
 var
   Modules,I :integer;
   lvar_110:string;
@@ -1332,61 +1327,61 @@ begin//0
     if (f8 = false) then
     begin//004C0D52
       lvar_110 := f924.Cells[Modules - 1 + ACol, ARow];
-      f8 := (lvar_110 = d) Xor true;
+      f8 := (lvar_110 = Value) Xor true;
     end;//2
-    f924.Cells[Modules - 1 + ACol, ARow] :=  d;
+    f924.Cells[Modules - 1 + ACol, ARow] :=  Value;
 end;//0
 
 
 //004C0E24
-procedure TFichierCdn.sub_004C0E24(periode:dword; ACol:dword; e:string);
+procedure TFichierCdn._SetStrNote0(periode:dword; ACol:dword; e:string);
 begin//0
   //004C0E24
-  sub_004C0C88(periode, ACol, 0, e);
+  _SetStrNote(periode, ACol, 0, e);
 end;//0
 
 //004C0E5C
-procedure TFichierCdn.sub_004C0E5C(periode:dword; ACol:dword; c:string);
+procedure TFichierCdn._SetStrNote16(periode:dword; ACol:dword; c:string);
 begin//0
   //004C0E5C
-  sub_004C0C88(periode, ACol,EleveCount + $0F{gvar_006178FF},c );
+  _SetStrNote(periode, ACol,EleveCount + $0F{gvar_006178FF},c );
 end;//0
 
 
 //004C0EC8
-procedure TFichierCdn.sub_004C0EC8(Periode:dword; ACol :dword; d:string);
+procedure TFichierCdn._SetStrNote15(Periode:dword; ACol :dword; d:string);
 begin//0
   //004C0EC8
-  sub_004C0C88(Periode, ACol,EleveCount +  $0E {gvar_006178FE} , d);
+  _SetStrNote(Periode, ACol,EleveCount +  $0E {gvar_006178FE} , d);
 end;//0
 
 //004C0F34
-procedure TFichierCdn.sub_004C0F34(Periode:dword; ACol:dword; d:string);
+procedure TFichierCdn._SetStrNote17(Periode:dword; ACol:dword; d:string);
 begin//0
   //004C0F34
-  sub_004C0C88(Periode, ACol,EleveCount + $10 {gvar_00617900} , d);
+  _SetStrNote(Periode, ACol,EleveCount + $10 {gvar_00617900} , d);
 end;//0
 
 
 //004C0FA0
-function TFichierCdn.sub_004C0FA0(a:dword; b:dword; c:string):dword;
+function TFichierCdn._SetStrNote13(a:dword; b:dword; c:string):dword;
 var
   buf:string;
   I:integer;
 begin//0
   //004C0FA0
-  sub_004BEDCC(a, b, buf);
+  GetStrComptMoy(a, b, buf);
   if (buf <> c) then
   begin//1
     //004C0FF2
       for I := 1 to EleveCount do //004C0FFF
       begin//3
         //004C1003
-        sub_004C61E4(a, I, true);
+        SetAttributs2(a, I, true);
       end;//3
     
   end;//1
-  sub_004C0C88(a, b, EleveCount + $0D{gvar_006178FD} , c);
+  _SetStrNote(a, b, EleveCount + $0D{gvar_006178FD} , c);
   f918.sub_004B6E84(a, true);
 end;//0
 
@@ -1408,12 +1403,12 @@ begin//0
     //ECX := lvar_204[1] + 1;
     //EAX := (lvar_204 = lvar_102) Xor true;
     //push EAX
-    //sub_004C5FF8(Periode, ACol);
+    //SetAttributs1(Periode, ACol);
   end;//1
   sub_004BEF5C(Periode, ACol, ARow, lvar_204);
   //ECX := lvar_204 + 1;
-  sub_004C61E4(Periode, ARow, (lvar_204 = lvar_102) Xor true);
-  //sub_004C0C88(Periode, ACol, ARow);
+  SetAttributs2(Periode, ARow, (lvar_204 = lvar_102) Xor true);
+  //_SetStrNote(Periode, ACol, ARow);
   f918.sub_004B6E84(Periode, true);
 
 end;
@@ -1425,65 +1420,41 @@ var
    StringList:TStringList;
 begin//0
   //004C1158
-
     //004C1179
-
     StringList := TStringList.Create;  
       k := sub_004C4790 ;
-
       for I := 1 to sub_004C4790  do //004C119C
       begin//004C11A6
         StringList.Clear;
         StringList.addstrings(f924.Cols[I - 1]);
 		StringList.delete(a);
         f924.Cols[I - 1].Clear;
-
         for J := 1 to StringList.count do//004C1206
           f924.Cells[I - 1, J - 1] :=  StringList[k];
-
       end;//3
-
     StringList.destroy;
     f924.RowCount := f924.RowCount - 1;
     f91C.DeleteEleve(a);
-
-
       for I := 1 to GetNbrePeriodes do //004C12A0
       begin//004C12AA
         f928.Delete(EleveCount * (I - 1) + a - 1);
-        
-        
-
         for J := 1 to sub_004C8AE8 do//004C1308
           f92C.Delete(sub_004C8AE8 * (a - 1) + (I - 1) * EleveCount * sub_004C8AE8);
       end;//3
-
     f930.Delete(a - 1);
     f938.Delete(a - 1);
     f934.Delete(a - 1);
     f8 := true;
-
-
       //004C13D8
       for I := 1 to GetNbrePeriodes do//004C13E2
         f918.sub_004B6E84(I, true);
- 
-   
-
     f944.Clear;
-
       for I := 1 to 2 * GetNbrePeriodes do//004C142C
       begin //004C142F
-       
-
         for J := 1 to EleveCount do//004C1442
           f944.Add('1');
-        
       end;//3
-   
-
     f940.Clear;
-
       for I := 1 to sub_004C4790 do //004C1475
       begin//004C1478
         for J := 1 to 14 do
@@ -1491,7 +1462,6 @@ begin//0
           f940.Add('1');
         end;//4
       end;//3
-    
 end;//0
 
 
@@ -1726,7 +1696,7 @@ begin//0
         f918.sub_004B6E84(I, true);
       
  
-    a.sub_004C63C8;
+    a.defaultAttributs;
     lvar_20.destroy;*)
     
 	//004C20FC
@@ -1741,19 +1711,19 @@ var
   buf: string;
 begin//0
   //004C213C..004C2179
-    if (sub_004C62E8(Periode, ARow)) then
+    if (GetAttributs2(Periode, ARow)) then
     begin//004C218F
       Total := 0;
       Somme := 0;        
         for I := 1 to GetNbreModules(Periode) do  //004C21BF
         begin//004C21C9
-          sub_004BEDCC(Periode, I, buf);
+          GetStrComptMoy(Periode, I, buf);
           if (buf = 'oui') then
           begin//004C2208
             try//004C2216
-              sub_004BED7C(Periode, I, buf);
+              GetStrCoeff(Periode, I, buf);
               Coefficient := StrToFloat(buf);
-              sub_004BED2C(Periode, I, buf);
+              GetStrNoteSur(Periode, I, buf);
               NoteSur := StrToFloat(buf); 
               sub_004BEF5C(Periode, I, ARow, buf);
 			  Valeur := StrToFloat(buf); 
@@ -1779,16 +1749,16 @@ begin//0
       else//004C239D
         Moy := '';
       //showmessage(Format('Moy %s',[Moy]));
-      sub_004C6080(Periode, ARow,Moy); //save Moyenne
-      sub_004C61E4(Periode, ARow, false);
+      SetStrMoy(Periode, ARow,Moy); //save Moyenne
+      SetAttributs2(Periode, ARow, false);
     end//2
 	else
-      sub_004C6144(Periode, ARow, Moy);
+      GetStrMoy(Periode, ARow, Moy);
 end;//0
 
 
 //004C2410
-procedure TFichierCdn.sub_004C2410(a:String; {b:Integer;} ArrendirMoyennes:dword; var Moy:string);
+procedure TFichierCdn.GetStrMoyArrendit(a:String; {b:Integer;} ArrendirMoyennes:dword; var Moy:string);
 var
   lvar_20:real;
   lvar_30: Extended;
@@ -1864,13 +1834,13 @@ begin//0
         end;//4
         4:
         begin//004C29A8
-          sub_004C2410(a,3,buf);
-          if (StrToFloat(buf) < lvar_20) then
+          GetStrMoyArrendit(a,3,buf);
+          if (GetStrMoyArrendit(buf) < lvar_20) then
           begin//004C2A04
             d := FloatToStrF(lvar_20 + 0.5,ffFixed{2}, 18, 1);
             Exit;
           end;//5
-          sub_004C2410(a,3,d);
+          GetStrMoyArrendit(a,3,d);
         end;//4*)
       end;//3
     except//2
@@ -1892,7 +1862,7 @@ procedure TFichierCdn.sub_004C2AF4(Periode:dword; ARow:dword; ArrondirMoyennes:d
 begin//0
   //004C2AF4
   sub_004C213C(Periode, ARow,RMoy); //calculer la moyenne brute
-  sub_004C2410(RMoy, ArrondirMoyennes,RMoy); // Arrondir la Moyenne
+  GetStrMoyArrendit(RMoy, ArrondirMoyennes,RMoy); // Arrondir la Moyenne
 end;
 
 //004C2B38
@@ -1936,7 +1906,7 @@ begin//0
     sub_004C2AF4(Periode, ARow, ArrondirMoyennes, Moy);
     try//004C2D6A
       sub_004C2B38(Periode, ARow, lvar_20C);
-      Moy := FloatToStrF(StrToFloat(Moy) {+ StrToFloat(lvar_20C)}, ffFixed{2}, 18, 2);
+      Moy := FloatToStrF(StrToFloat(Moy) {+ GetStrMoyArrendit(lvar_20C)}, ffFixed{2}, 18, 2);
     except//2
       on E:EConvertError do
       begin//3
@@ -2047,7 +2017,7 @@ begin
  004C2F9A    lea         eax,[ebp-350]
  004C2FA0    call        @LStrFromString
  004C2FA5    mov         eax,dword ptr [ebp-350]
- 004C2FAB    call        StrToFloat
+ 004C2FAB    call        GetStrMoyArrendit
  004C2FB0    fstp        tbyte ptr [ebp-18]
  004C2FB3    wait
  004C2FB4    lea         eax,[ebp-24C]
@@ -2083,7 +2053,7 @@ begin
  004C3024    lea         eax,[ebp-358]
  004C302A    call        @LStrFromString
  004C302F    mov         eax,dword ptr [ebp-358]
- 004C3035    call        StrToFloat
+ 004C3035    call        GetStrMoyArrendit
  004C303A    fld         tbyte ptr [ebp-18]
  004C303D    fmulp       st(1),st
  004C303F    fld         tbyte ptr [ebp-38]
@@ -2353,7 +2323,7 @@ begin
  004C3360    lea         eax,[ebp-5C]
  004C3363    call        @LStrFromString
  004C3368    mov         eax,dword ptr [ebp-5C]
- 004C336B    call        StrToFloat
+ 004C336B    call        GetStrMoyArrendit
  004C3370    fld         tbyte ptr [ebp-10]
  004C3373    faddp       st(1),st
  004C3375    fstp        tbyte ptr [ebp-10]
@@ -2459,7 +2429,7 @@ begin
  004C34CF    lea         eax,[ebp-168]
  004C34D5    call        @LStrFromString
  004C34DA    mov         eax,dword ptr [ebp-168]
- 004C34E0    call        StrToFloat
+ 004C34E0    call        GetStrMoyArrendit
  004C34E5    fstp        tbyte ptr [ebp-20]
  004C34E8    wait
  004C34E9    lea         eax,[ebp-15C]
@@ -2472,7 +2442,7 @@ begin
  004C3504    lea         eax,[ebp-16C]
  004C350A    call        @LStrFromString
  004C350F    mov         eax,dword ptr [ebp-16C]
- 004C3515    call        StrToFloat
+ 004C3515    call        GetStrMoyArrendit
  004C351A    fstp        tbyte ptr [ebp-40]
  004C351D    wait
  004C351E    lea         eax,[ebp-15C]
@@ -2485,7 +2455,7 @@ begin
  004C3539    lea         eax,[ebp-170]
  004C353F    call        @LStrFromString
  004C3544    mov         eax,dword ptr [ebp-170]
- 004C354A    call        StrToFloat
+ 004C354A    call        GetStrMoyArrendit
  004C354F    fstp        tbyte ptr [ebp-30]
  004C3552    wait
  004C3553    fld         tbyte ptr [ebp-20]
@@ -2739,11 +2709,11 @@ var
 begin//0
   //004C3958
     //004C398C
-    if (sub_004C6030(Periode, ACol, 1) ) then
+    if (GetAttributs1(Periode, ACol, 1) ) then
     begin//2
       //004C39A4
       //lvar_28 := 0;
-      sub_004BED2C(Periode, ACol, buf);
+      GetStrNoteSur(Periode, ACol, buf);
       Min := StrToFloat(buf);
       if (EleveCount  > 0) then
       begin//3
@@ -2785,11 +2755,11 @@ begin//0
         //004C3ADA
         s := '';
       end;//3
-      sub_004C5E04(Periode, ACol, 8,s);
-      sub_004C5FF8(Periode, ACol,1,false);
+      SetAttributs0(Periode, ACol, 8,s);
+      SetAttributs1(Periode, ACol,1,false);
     end//2
 	else
-    sub_004C5F08(Periode, ACol, 8, s);
+    GetAttributs0(Periode, ACol, 8, s);
     //004C3B29
 end;//0
 
@@ -2803,7 +2773,7 @@ begin//0
   //004C3B54
     //004C3B82
    
-    if (sub_004C6030(Periode, ACol, 2)) then
+    if (GetAttributs1(Periode, ACol, 2)) then
     begin//2
       //004C3B9A
       {lvar_28 := 0;
@@ -2850,11 +2820,11 @@ begin//0
         //004C3CA7
         s := '';
       end;//3
-      sub_004C5E04(Periode, ACol, 9, s);
-      sub_004C5FF8(Periode, ACol,2,false);
+      SetAttributs0(Periode, ACol, 9, s);
+      SetAttributs1(Periode, ACol,2,false);
     end//2
 	else
-    sub_004C5F08(Periode, ACol, 9,s);
+    GetAttributs0(Periode, ACol, 9,s);
     //004C3CF6
 end;//0
 
@@ -2866,7 +2836,7 @@ var
 begin//0
   //004C3D1C..004C3D4A
     lvar_10 := 0;
-    if (sub_004C6030(Periode, ACol, 5)) then
+    if (GetAttributs1(Periode, ACol, 5)) then
     begin///004C3D62
 	  for I:=1 to EleveCount-1 do 
       begin//004C3D7C
@@ -2882,12 +2852,12 @@ begin//0
 	  //004C3E0F
       c := FloatToStr(lvar_10);
       //EAX := c;
-      //sub_004C5E04(Periode, ACol, 12);
-      sub_004C5FF8(Periode, ACol, 5, false);
+      //SetAttributs0(Periode, ACol, 12);
+      SetAttributs1(Periode, ACol, 5, false);
       
     end
 	else 
-    sub_004C5F08(Periode, ACol, 12, c);
+    GetAttributs0(Periode, ACol, 12, c);
 end;//0
 
 
@@ -2900,12 +2870,12 @@ var
 begin//0
   //004C3EA4
     //004C3ED8
-    if (sub_004C6030(Periode, ACol, 6)) then
+    if (GetAttributs1(Periode, ACol, 6)) then
     begin//2
       //004C3EF0
       N := 0;
       K := 0;
-      sub_004BED2C(Periode, ACol, buf);
+      GetStrNoteSur(Periode, ACol, buf);
       Moy := StrToFloat(buf) / 2;
       if (EleveCount  > 0) then
       begin//3
@@ -2943,11 +2913,11 @@ begin//0
         //004C4048
         b := '';
       end;//3
-      sub_004C5E04(Periode, ACol, 13, b);
-      sub_004C5FF8(Periode, ACol,6,false);
+      SetAttributs0(Periode, ACol, 13, b);
+      SetAttributs1(Periode, ACol,6,false);
     end//2
     else
-    sub_004C5F08(Periode, ACol, 13, b);
+    GetAttributs0(Periode, ACol, 13, b);
 
     //004C4097
 end;//0
@@ -2960,7 +2930,7 @@ var
    buf:string;
 begin//0
   //004C40D4
-    if (sub_004C6030(Periode, ACol, 4)) then // 4:Moyenne peut Calculer
+    if (GetAttributs1(Periode, ACol, 4)) then // 4:Moyenne peut Calculer
     begin//2
       //004C411A
       lvar_10 := 0;
@@ -2994,11 +2964,11 @@ begin//0
       end;//3
       //EAX := b;
       //push EAX
-      //sub_004C5E04(a, c, 11);
-      //sub_004C5FF8(a, c, 4, false);
+      //SetAttributs0(a, c, 11);
+      //SetAttributs1(a, c, 4, false);
     end
 	else 
-    sub_004C5F08(Periode, ACol, 11, b);
+    GetAttributs0(Periode, ACol, 11, b);
 end;//0
 
 //004C42D4
@@ -3012,7 +2982,7 @@ begin//0
 
     //004C4302
 
-    if (sub_004C6030(Periode, ACol, 3)) then
+    if (GetAttributs1(Periode, ACol, 3)) then
     begin//2
       //004C431A
       lvar_20 := 0;
@@ -3073,11 +3043,11 @@ begin//0
           s := '';
         end;//4
       end;//3
-      sub_004C5E04(Periode, ACol, 10, s);
-      sub_004C5FF8(Periode, ACol,3,false);
+      SetAttributs0(Periode, ACol, 10, s);
+      SetAttributs1(Periode, ACol,3,false);
     end//2
 	else
-    sub_004C5F08(Periode, ACol, 10, s);
+    GetAttributs0(Periode, ACol, 10, s);
 
     //004C44F8
 
@@ -3092,7 +3062,7 @@ var
 begin//0
   //004C451C
     //004C4550
-    if (sub_004C6030(Periode, ACol, 7) ) then
+    if (GetAttributs1(Periode, ACol, 7) ) then
     begin//2
       //004C4568
       N := 0;
@@ -3149,11 +3119,11 @@ begin//0
           s := '';
         end;//4
       end;//3
-      sub_004C5E04(Periode, ACol, 14, s);
-      sub_004C5FF8(Periode, ACol,7,false);
+      SetAttributs0(Periode, ACol, 14, s);
+      SetAttributs1(Periode, ACol,7,false);
     end//2
 	else
-    sub_004C5F08(Periode, ACol, 14, s);
+    GetAttributs0(Periode, ACol, 14, s);
 
     //004C473D
 
@@ -3886,7 +3856,7 @@ begin
 end;
 
 //004C5404
-procedure TFichierCdn.sub_004C5404(Periode:dword; ARow:dword; var S:String); //Determiner la Note la plus basse de la période
+procedure TFichierCdn.GetStrMinMoy(Periode:dword; ARow:dword; var S:String); //Determiner la Note la plus basse de la période
 var
  I,NumModule,MoyennesSur,lvar_38:integer;
  var1,var2,Note,NoteBasse : real;
@@ -3903,7 +3873,7 @@ begin//0
         //004C54A7
         sub_004BEF5C(Periode, I, ARow, Buf);
         Var1 := StrToFloat(Buf);
-        sub_004BED2C(Periode, I, Buf);
+        GetStrNoteSur(Periode, I, Buf);
         Var2 := StrToInt(Buf);
         Note := Var1 / Var2 * MoyennesSur;
         if ({MoyennesSur}NoteBasse > Note) then
@@ -3998,7 +3968,7 @@ begin
  004C5789    lea         eax,[ebp-48]
  004C578C    call        @LStrFromString
  004C5791    mov         eax,dword ptr [ebp-48]
- 004C5794    call        StrToFloat
+ 004C5794    call        GetStrMoyArrendit
  004C5799    fstp        tbyte ptr [ebp-154]
  004C579F    wait
  004C57A0    lea         eax,[ebp-148]
@@ -4124,7 +4094,7 @@ begin
 end;
 
 //004C5E04
-procedure TFichierCdn.sub_004C5E04(periode:dword; ACol:dword; c:dword;s:string);
+procedure TFichierCdn.SetAttributs0(periode:dword; ACol:dword; c:dword;s:string);
 var
   K,I :integer;
 begin//0
@@ -4142,45 +4112,43 @@ end;//0
 
 
 //004C5F08
-procedure TFichierCdn.sub_004C5F08(Periode:dword; ACol:dword; Info:dword; var d:string);
+procedure TFichierCdn.GetAttributs0(Periode:dword; ACol:dword; Info:dword; var d:string);
 var
   sum:dword;
   I:integer;
 begin//0
   //004C5F08..004C5F29
-
     sum := 0;
        //Determiner l'index(periode,ACol,Info) = 14*(ACol-1)+14*sum(ACol-1,1,Periode-1)+Info - 1
       for I := 1 to Periode - 1 do//004C5F44
         sum := sum + GetNbreModules(I);
-
     d := f940[14 * (sum + ACol - 1) + Info - 1];
 end;//0
 
 
 //004C5FF8
-procedure TFichierCdn.sub_004C5FF8(a:dword; b:dword; c:dword; d:boolean);
+procedure TFichierCdn.SetAttributs1(a:dword; b:dword; c:dword; d:boolean);
 begin//0
   //004C5FF8 
-  if (d ) then  sub_004C5E04(a, b, c,'1')                //004C6007
-  else  sub_004C5E04(a, b, c,'0');
+  if (d ) then  SetAttributs0(a, b, c,'1')                //004C6007
+  else  SetAttributs0(a, b, c,'0');
 end;//0
 
 
 
 //004C6030
-function TFichierCdn.sub_004C6030(periode:dword; ACol:dword; info:dword):Boolean;
+function TFichierCdn.GetAttributs1(periode:dword; ACol:dword; info:dword):Boolean;
 var
   buf:String;
 begin//0
   //004C6030
-  sub_004C5F08(periode, ACol, info, buf);
+  GetAttributs0(periode, ACol, info, buf);
   result := (buf = '1');
 end;//0
 
 
 //004C6080
-procedure TFichierCdn.sub_004C6080(Periode:dword; ARow:dword; Valeur:string);
+procedure TFichierCdn.SetStrMoy(Periode:dword; ARow:dword; Valeur:string);
 begin//0
   //004C6080
     f944[(Periode - 1) * EleveCount + ARow - 1] := Valeur;
@@ -4188,7 +4156,7 @@ end;//0
 
 
 //004C6144
-procedure TFichierCdn.sub_004C6144(Periode:dword; ARow:dword; var Valeur:string);
+procedure TFichierCdn.GetStrMoy(Periode:dword; ARow:dword; var Valeur:string);
 begin//0
   //004C6144
     Valeur := f944[EleveCount * (Periode - 1) + ARow - 1];
@@ -4196,7 +4164,7 @@ end;//0
 
 
 //004C61E4
-procedure TFichierCdn.sub_004C61E4(Periode:dword; ARow:dword; c:boolean);
+procedure TFichierCdn.SetAttributs2(Periode:dword; ARow:dword; c:boolean);
 begin//004C61E4
   if (c) then
   begin//004C621D
@@ -4208,7 +4176,7 @@ end;//0
 
 
 //004C62E8
-function TFichierCdn.sub_004C62E8(a:dword; b:dword):boolean;
+function TFichierCdn.GetAttributs2(a:dword; b:dword):boolean;
 begin//0
   //004C62E8..004C630B
     result := (f944[EleveCount * (a - 1) + GetNbrePeriodes*EleveCount + b - 1] = '1');
@@ -4216,7 +4184,7 @@ end;//0
 
 
 //004C63C8
-procedure TFichierCdn.sub_004C63C8;
+procedure TFichierCdn.defaultAttributs;
 var
  I,J,K,P:integer;
 begin//0
@@ -4228,14 +4196,14 @@ begin//0
 		//for J:=1 to 255 do  {EDI}
 		for K:=1 to GetNbreModules(P)  do
 		begin//004C640F
-		  sub_004C5FF8(P,K,1, true);
+		  SetAttributs1(P,K,1, true);
 		end;//2
 	  end;//1
 	  for P:=1 to GetNbrePeriodes  do
 	  for K:=1 to EleveCount  do
 	  begin//004C6473
 		begin//004C648B
-		  sub_004C61E4(P, K, true);
+		  SetAttributs2(P, K, true);
 		end;//2
 	  end;//1
   end;
@@ -4302,7 +4270,7 @@ begin
  004C6578    lea         eax,[ebp-128]
  004C657E    call        @LStrFromString
  004C6583    mov         eax,dword ptr [ebp-128]
- 004C6589    call        StrToFloat
+ 004C6589    call        GetStrMoyArrendit
  004C658E    fld         tbyte ptr [ebp-20]
  004C6591    faddp       st(1),st
  004C6593    fstp        tbyte ptr [ebp-20]
@@ -5174,12 +5142,8 @@ begin//0
             buf := FluxCdn._Read;
             StringListTemp.Add(buf);
           end;//5
-       
-
         f914.sub_004C9A84(StringListTemp);
-        
         StringListTemp.Free;
-
           for lvar_C := 1 to Periodes do //004C7C49
           begin//5
             for lvar_D := 1 to NbrEleves do //004C7C4C
@@ -5191,7 +5155,6 @@ begin//0
               end;//7
             end;//6
           end;//5
-
           for lvar_C := 1 to ITemp do //004C7CAD
           begin//004C7CB0
             buf := FluxCdn._Read;
@@ -5697,9 +5660,7 @@ end;//0
 procedure TFichierCdn.sub_004C8AF4(a:dword; var b:String);
 begin//0
   //004C8AF4
-
   f914.sub_004C9AEC(a, b);
-   
 end;//0
 
 
@@ -5780,71 +5741,26 @@ end;
 
 //004C8EC8
 function TFichierCdn.sub_004C8EC8(a:integer; b:integer; c:boolean):integer;
-begin
-{ 004C8EC8    push        ebp
- 004C8EC9    mov         ebp,esp
- 004C8ECB    push        ecx
- 004C8ECC    push        ebx
- 004C8ECD    push        esi
- 004C8ECE    mov         byte ptr [ebp-1],cl
- 004C8ED1    mov         ebx,edx
- 004C8ED3    mov         esi,eax
- 004C8ED5    cmp         byte ptr [ebp+8],0
->004C8ED9    je          004C8F19
- 004C8EDB    mov         eax,esi
- 004C8EDD    call        TFichierCdn.EleveCount
- 004C8EE2    and         eax,0FF
- 004C8EE7    mov         edx,dword ptr ds:[6162F0];^gvar_00617901
- 004C8EED    movzx       edx,byte ptr [edx]
- 004C8EF0    add         eax,edx
->004C8EF2    jno         004C8EF9
- 004C8EF4    call        @IntOver
- 004C8EF9    cmp         eax,0FF
->004C8EFE    jbe         004C8F05
- 004C8F00    call        @BoundErr
- 004C8F05    push        eax
- 004C8F06    push        4C8F5C
- 004C8F0B    mov         cl,byte ptr [ebp-1]
- 004C8F0E    mov         edx,ebx
- 004C8F10    mov         eax,esi
- 004C8F12    call        004C0C88
->004C8F17    jmp         004C8F55
- 004C8F19    mov         eax,esi
- 004C8F1B    call        TFichierCdn.EleveCount
- 004C8F20    and         eax,0FF
- 004C8F25    mov         edx,dword ptr ds:[6162F0];^gvar_00617901
- 004C8F2B    movzx       edx,byte ptr [edx]
- 004C8F2E    add         eax,edx
->004C8F30    jno         004C8F37
- 004C8F32    call        @IntOver
- 004C8F37    cmp         eax,0FF
->004C8F3C    jbe         004C8F43
- 004C8F3E    call        @BoundErr
- 004C8F43    push        eax
- 004C8F44    push        4C8F64
- 004C8F49    mov         cl,byte ptr [ebp-1]
- 004C8F4C    mov         edx,ebx
- 004C8F4E    mov         eax,esi
- 004C8F50    call        004C0C88
- 004C8F55    pop         esi
- 004C8F56    pop         ebx
- 004C8F57    pop         ecx
- 004C8F58    pop         ebp
- 004C8F59    ret         4*}
+begin//0
+  //004C8EC8
+  if (c) then //004C8EDB
+    _SetStrNote(a, b,EleveCount + $11 {gvar_00617901}, 'Oral')
+  else
+    _SetStrNote(a, b,EleveCount + $11 {gvar_00617901},  'Ecrit');
 end;
 
 //004C8F6C
-procedure TFichierCdn.sub_004C8F6C(Periode:dword; ARow:dword; Arrondir:dword; var s:string);
+procedure TFichierCdn.GetStr0Arrondir(Periode:dword; ARow:dword; Arrondir:dword; var s:string);
 var
   buf:string;
 begin//0
   //004C8F6C
-  sub_004C8FB0(Periode, ARow, buf);
-  sub_004C2410(buf, Arrondir, s);
+  GetStr0(Periode, ARow, buf);
+  self.GetStrMoyArrendit(buf, Arrondir, s);
 end;//0
 
 //004C8FB0
-procedure TFichierCdn.sub_004C8FB0(Periode:dword; ARow:dword; var s:string);
+procedure TFichierCdn.GetStr0(Periode:dword; ARow:dword; var s:string);
 var
 Somme, Total, NoteSur, Coefficient : Real;
 I:integer;
@@ -5854,32 +5770,24 @@ begin//0
     //004C8FED
     Somme := 0;
     Total := 0;
-
-
       for I := 1 to GetNbreModules(Periode)  do//004C901D
       begin//3
         //004C9027
-        sub_004BEDCC(Periode, I, buf);
-
-        //ECX := ECX + 1;//ECX
+        GetStrComptMoy(Periode, I, buf);
         if (buf = 'oui') then
         begin//4
           //004C9066
-          sub_004BEF0C(Periode, I, buf);
-          //ECX := ECX + 1;//ECX
+          GetStrOraleEcrit(Periode, I, buf);
           if (buf = 'Oral') then
           begin//5
             //004C90A4
             try
               //004C90B2
-              sub_004BED7C(Periode, I, buf);
+              GetStrCoeff(Periode, I, buf);
               Coefficient := StrToFloat(buf);
-
-              sub_004BED2C(Periode, I, buf);
+              GetStrNoteSur(Periode, I, buf);
               NoteSur := StrToFloat(buf);
-
               sub_004BEF5C(Periode, I, ARow, buf);
-
               Somme := StrToFloat(buf) * Coefficient + Somme;
               Total := NoteSur * Coefficient + Total;
             except//6
@@ -5895,67 +5803,54 @@ begin//0
           end;//5
         end;//4
       end;//3
-    
     if (Total <> 0) then
     begin//2
       //004C91EA
-
       s := FloatToStrF(GetmoyennesSur * (Somme / Total),ffFixed{2}, $12{18}, 2);
-
     end//2
 	else 
     s := '';
-
     //004C924C
-
 end;//0
 
 
 //004C9280
-procedure TFichierCdn.sub_004C9280(Periode:dword; ARow:dword; Arrondir:dword; var s:string);
+procedure TFichierCdn.GetStrArrondir(Periode:dword; ARow:dword; Arrondir:dword; var s:string);
 var
   buf:string;
 begin//0
   //004C9280
-
-  sub_004C92C4(Periode, ARow, buf);
-  sub_004C2410(buf, Arrondir, s);
+  GetStr(Periode, ARow, buf);
+  GetStrMoyArrendit(buf, Arrondir, s);
 end;//0
 
 //004C92C4
-procedure TFichierCdn.sub_004C92C4(Periode:dword; ARow:dword; var s:string);
+procedure TFichierCdn.GetStr(Periode:dword; ARow:dword; var s:string);
 var
   Somme, Total, Coefficient, NoteSur : Real;
   I:integer;
   buf:string;
 begin//0
   //004C92C4
-
     //004C9301
     Somme := 0;
 	Total := 0;
-
       for I := 1 to GetNbreModules(Periode)  do
       begin//3
         //004C933B
-
-        sub_004BEDCC(Periode, I, buf);
-
-        //ECX := ECX + 1;//ECX
+        GetStrComptMoy(Periode, I, buf);
         if (buf = 'oui') then
         begin//4
           //004C937A
-
-          sub_004BEF0C(Periode, I, buf);
-
+          GetStrOraleEcrit(Periode, I, buf);
           if (buf = 'Ecrit') then
           begin//5
             //004C93B8
             try
               //004C93C6
-              sub_004BED7C(Periode, I, buf);
+              GetStrCoeff(Periode, I, buf);
               Coefficient := StrToFloat(buf);
-              sub_004BED2C(Periode, I, buf);
+              GetStrNoteSur(Periode, I, buf);
               NoteSur := StrToFloat(buf);
               sub_004BEF5C(Periode, I, ARow, Buf);
               Total := StrToFloat(Buf) * Coefficient + Total;
@@ -6031,7 +5926,7 @@ begin
  004C9616    lea         eax,[ebp-18]
  004C9619    call        @LStrFromString
  004C961E    mov         eax,dword ptr [ebp-18]
- 004C9621    call        StrToFloat
+ 004C9621    call        GetStrMoyArrendit
  004C9626    fld         tbyte ptr [ebp-10]
  004C9629    faddp       st(1),st
  004C962B    fstp        tbyte ptr [ebp-10]
@@ -6154,7 +6049,7 @@ begin
  004C978A    lea         eax,[ebp-18]
  004C978D    call        @LStrFromString
  004C9792    mov         eax,dword ptr [ebp-18]
- 004C9795    call        StrToFloat
+ 004C9795    call        GetStrMoyArrendit
  004C979A    fld         tbyte ptr [ebp-10]
  004C979D    faddp       st(1),st
  004C979F    fstp        tbyte ptr [ebp-10]

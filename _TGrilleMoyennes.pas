@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _TGrilleMoyennes;
@@ -422,7 +422,7 @@ begin//0
       15..16:
       begin//3
         //004D02D2
-        FichierCdn.sub_004C63C8;
+        FichierCdn.defaultAttributs;
         SendMessageA(Handle, $408{1032}, f2D8, 0);
       end;//3
     end;//2

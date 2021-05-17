@@ -163,7 +163,7 @@ var
 begin//0
   //00534914
     Bilan.Add('------------------------------------------------------------------------------');
-    FCdn.GetEleveName__(iEleve, buf0);
+    FCdn.GetEleveName(iEleve, buf0);
     Bilan.Add(buf0 + ' - ' + FCdn.GetClasseName + ' - ' + FCdn.GetYear);
     Bilan.Add(FCdn.GetPeriodName( iPeriode) + ' - ' + FCdn.GetMatiereName());
     Bilan.Add('------------------------------------------------------------------------------');

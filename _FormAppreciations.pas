@@ -497,7 +497,7 @@ begin//0
 
     SpeedButton3.Enabled := (f328.EleveCount > f33C);
 
-    f328.GetEleveName__( f33C, buf);
+    f328.GetEleveName( f33C, buf);
 
     Label4.Caption := buf;
 

@@ -117,15 +117,15 @@ begin//0
           R.Top := RHEIGHT * I + RTOP;//EAX
           R.Right := R.Left + lvar_20 + lvar_4C;//EAX
           R.Bottom := R.Top + RHEIGHT;//EAX
-          if (f3C.sub_004C8E50(I)) and (GetimpressionRSeriesDeNotes) then//0051A675 redoublant and imprRedoublant
+          if (f3C.IsRedoublant(I)) and (GetimpressionRSeriesDeNotes) then//0051A675 redoublant and imprRedoublant
           begin//5
               //0051A67E
-              f3C.GetEleveName__(I, buf);
+              f3C.GetEleveName(I, buf);
               lvar_60 := buf + ' (R)';
           end//5
           else
           begin//5
-            f3C.GetEleveName__(I, buf);
+            f3C.GetEleveName(I, buf);
 			lvar_60 := buf;
           end;//5
           if (GetimpressionDatesDeNaissanceSeriesDeNotes) then
@@ -157,13 +157,13 @@ begin//0
           R.Top := RHEIGHT * I + RTOP;
           R.Right := R.Left + lvar_20;
           R.Bottom := R.Top + RHEIGHT;
-          if (f3C.sub_004C8E50(I)) then
+          if (f3C.IsRedoublant(I)) then
           begin//5
             //0051A848
             if (GetimpressionRSeriesDeNotes) then
             begin//6
               //0051A851
-              f3C.GetEleveName__(I, buf);
+              f3C.GetEleveName(I, buf);
               lvar_60 := buf + ' (R)';
             end//6
             else
@@ -174,7 +174,7 @@ begin//0
           else
           begin//5
             //0051A899??? And ???
-            f3C.GetEleveName__(I, buf);
+            f3C.GetEleveName(I, buf);
           end;//5
           
           if (GetimpressionDatesDeNaissanceSeriesDeNotes) then

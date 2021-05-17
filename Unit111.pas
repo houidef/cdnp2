@@ -25,7 +25,7 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function GetPeriodes:TStringList;//004B9A44
 	function _GetPeriodes:TStringList;//004B9B44
 	procedure SetlignesImpaires(a:TColor);//004B9BBC
-	procedure SetColorlignesPaires(a:TColor);//004B9BF8
+	procedure SetColorlignesPaires(Value:TColor);//004B9BF8
 	function GetColorlignesImpaires:TColor;//004B9C34
 	function GetColorlignesPaires:TColor;//004B9C80
 	function sub_004B9CCC:TColor;//004B9CCC
@@ -110,7 +110,7 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	procedure SetafficherFenetreInfo(a:Boolean);//004BB8E0
 	procedure SetafficherR(a:Boolean);//004BB90C
 	function GetafficherFenetreInfo:boolean;//004BB930
-	function GetafficherR:Boolean;//004BB95C
+	function IsRedoublantAfficher:Boolean;//004BB95C
 	procedure SetafficherDatesDeNaissance(a:Boolean);//004BB980
 	function GetafficherDatesDeNaissance:Boolean;//004BB9B4
 	procedure Setgraphe3D(a:Boolean);//004BB9E8
@@ -219,6 +219,9 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function GetimpressionRGrilleVierge:boolean;//004BDA8C
     var 
 	   DefaultColor : TColor;
+	   FColorlignesImpaires:TColor;
+	   FColorlignesPaires : TColor;
+	   FcouleurSelection : TColor;
 	   couleur1Note : boolean = true; //gvar_00617CB8
 	   couleur2Note : boolean = true; //gvar_00617CB9
 	   couleur3Note : boolean = true; //gvar_00617CBA
@@ -509,11 +512,11 @@ begin
 end;
 
 //004B9BF8
-procedure SetColorlignesPaires(a:TColor);
+procedure SetColorlignesPaires(Value:TColor);
 begin
-  if(GetColorlignesPaires <> a ) then 
+  if(GetColorlignesPaires <> Value ) then 
   begin
-	SetValueReg1('lignesPaires',a{,false});
+	SetValueReg1('lignesPaires',Value{,false});
 	lignesPaires := true;
  end;
 end;
@@ -523,10 +526,13 @@ function GetColorlignesImpaires:TColor;
 begin	  
   if (lignesImpaires) then 
   begin
-    {gvar_00617CAC} result:= GetValueRegColor('lignesImpaires', sub_004B9CCC);
-	//result  := gvar_00617CAC;
-  end;
-  lignesImpaires := false;
+    FColorlignesImpaires:= GetValueRegColor('lignesImpaires', sub_004B9CCC);
+	result := FColorlignesImpaires;
+	lignesImpaires := false;
+  end
+  else 
+     result  := FColorlignesImpaires;
+  
 end;//0
 
 //004B9C80
@@ -534,10 +540,12 @@ function GetColorlignesPaires:TColor;
 begin
 	  if (lignesPaires) then 
 	  begin
-	  {gvar_00617CB0} result := GetValueRegColor('lignesPaires', sub_004B9CD4);
-	 // result := gvar_00617CB0;
-	  end;
-	  lignesPaires := false;
+	    FColorlignesPaires := GetValueRegColor('lignesPaires', sub_004B9CD4);
+	    result := FColorlignesPaires;
+		lignesPaires := false;
+	  end
+	  else 
+	    result  := FColorlignesPaires;
 end;//0
 
 //004B9CCC
@@ -570,16 +578,16 @@ end;
 
 //004B9D24
 function GetcouleurSelection:TColor;
-var
- gvar_00617CB4:TColor;
 begin//0
   //004B9D24
   if (couleurSelection) then 
   begin
-	  {gvar_00617CB4} result := GetValueRegColor('couleurSelection', $FFFF00);
-	  //result := gvar_00617CB4;
+	  FcouleurSelection := GetValueRegColor('couleurSelection', $FFFF00);
+	  result := FcouleurSelection;
 	  couleurSelection := false;
-  end;
+  end
+  else 
+    result := FcouleurSelection; 
   
 end;//0
 
@@ -1407,7 +1415,7 @@ end;//0
 
 
 //004BB95C
-function GetafficherR:Boolean;
+function IsRedoublantAfficher:Boolean;
 begin//0
  //004BB95C
  Result := GetValueRegBool('afficherR', true{,false});

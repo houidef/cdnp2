@@ -314,7 +314,7 @@ begin//0
           //00607FF8
           if (CheckListBoxEleves.Checked[I - 1] ) then 
 		  begin
-		      FCdn.GetEleveName__(I,buf);
+		      FCdn.GetEleveName(I,buf);
 			  f3A8.Add(buf + ' (' + FCdn.GetClasseName + ')');
 		  end;
         end;//4

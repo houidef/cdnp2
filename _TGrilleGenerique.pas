@@ -15,14 +15,14 @@ type
   protected
     procedure DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);override;
   public
-    f2D8:byte;//f2D8
+    NPeriode:byte;//f2D8
     FichierCdn : TFichierCdn;// f2DC:dword;//f2DC
-    f2E0:HWND;//f2E0
-    f2E4:byte;//f2E4
+    MyHandle:HWND;//f2E0
+    TypeGrille:byte;//f2E4
 	constructor Create(AOwner: TComponent;b:pointer; FeuilleClasse:TComponent; FichierCdn : TFichierCdn; Periode:byte);//004CA034
 	procedure sub_004CA398(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);//004CA398
-	procedure sub_004CA104(Sender: TObject; ACol, ARow: Integer;
+	procedure _DrawCell(Sender: TObject; ACol, ARow: Integer;
      Rect: TRect; State: TGridDrawState);
 	procedure sub_004CA3B8(Sender: TObject);
   end;
@@ -38,24 +38,24 @@ begin
   
   ScrollBars := ssBoth;
   Parent := TWinControl(AOwner);
-  f2E0 := TWinControl(FeuilleClasse).Handle;
+  MyHandle := TWinControl(FeuilleClasse).Handle;
   Visible := False;
   Align := alClient;  //5
   //DefaultDrawing := False;
   //f28C := Self;
-  //OnDrawCell :=  sub_004CA104;
+  //OnDrawCell :=  _DrawCell;
   //f2AC := Self;
   OnSelectCell := sub_004CA398;
   //f2BC := Self;
   OnTopLeftChanged := sub_004CA3B8;
   Options := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goTabs];//$080F;
   Self.FichierCdn := FichierCdn;   
-  f2D8 := Periode;
+  NPeriode := Periode;
 
 end;
 
 //004CA104
-procedure TGrilleGeneriqueCarnetDeNotes.sub_004CA104(Sender: TObject; ACol, ARow: Integer;
+procedure TGrilleGeneriqueCarnetDeNotes._DrawCell(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);// x:pointer; y:pointer; z:pointer; a:pointer);
 var
   I:integer;
@@ -68,16 +68,7 @@ begin//0
  // I := ACol;
 //004CA137
     Canvas.Font.Style := [] ; //0;//gvar_004CA394;
-
-	{al := f2E4 - 1;
-	if (al < 0) then goto  label_004CA165;
-	al := al - 2;
-	if (al < 0) then goto  label_004CA203;
-	al := al - 1;
-	if (al <> 0) then goto  label_004CA268
-label_004CA164:}
-//=====
-    case f2E4 of
+    case TypeGrille of
       0:
       begin//004CA165
         if (ACol = 1) then
@@ -116,7 +107,8 @@ label_004CA164:}
         begin//004CA26E
           Canvas.Brush.Color := $80000004;
           Canvas.FillRect(Rect);
-        end;//4
+        end//4
+		else
         if (GetcolorationGrille) then
         begin//004CA298*)
           if (ARow mod 2  = 0) then 
@@ -125,12 +117,12 @@ label_004CA164:}
           end//5
           else
           begin//004CA2C1
-            Canvas.Brush.Color := GetColorlignesPaires;
+            Canvas.Brush.Color := GetColorlignesImpaires;
           end;//5
         end//4
         else
         begin//004CA2D8
-          Canvas.Brush.Color := $FFFFFF;
+         // Canvas.Brush.Color := $FFFFFF;
         end;//4
         Canvas.FillRect(Rect);
 	  
@@ -144,12 +136,10 @@ label_004CA164:}
         if(gdSelected in State ) then // state =1 
         if (GetcolorationGrille) then
         begin//004CA336
-          if (GetcolorationGrille) then
-          begin//004CA33F
-            Canvas.Brush.Color := GetcouleurSelection;
-            Exit;
-          end;//5
-          Canvas.Brush.Color := $C0C0C0;
+          if (GetcolorationGrille) then//004CA33F
+            Canvas.Brush.Color := GetcouleurSelection
+          else//5
+            Canvas.Brush.Color := $C0C0C0;
         end;//4
       //end;//3
     //end;//2
@@ -163,18 +153,18 @@ procedure TGrilleGeneriqueCarnetDeNotes.sub_004CA398(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
 
-  SendMessageA(f2E0, $401{1025}, ARow, 255);
+  SendMessageA(MyHandle, $401{1025}, ARow, 255);
 end;
 
 //004CA3B8
 procedure TGrilleGeneriqueCarnetDeNotes.sub_004CA3B8(Sender: TObject);
 begin
-  SendMessageA(f2E0, $402{1026}, {FTopLeft} TopRow, 0);
+  SendMessageA(MyHandle, $402{1026}, {FTopLeft} TopRow, 0);
 end;
 
 procedure TGrilleGeneriqueCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
 
 begin
-    sub_004CA104(Self, ACol, ARow ,ARect , AState);
+    _DrawCell(Self, ACol, ARow ,ARect , AState);
 end;
 end.

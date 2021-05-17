@@ -503,9 +503,9 @@ begin//0
   I := TabControl1.TabIndex + 1;//EBX
   J := ListBoxSeries.ItemIndex + 1;//EAX
   if (RadioGroup2.ItemIndex = 1) then//0050E370
-    {EAX := }f334.sub_004C8EC8(I, J, true)
+    {EAX := }f334.SetEcritOral(I, J, true)
   else
-  {EAX := }f334.sub_004C8EC8(I, J, false);
+  {EAX := }f334.SetEcritOral(I, J, false);
 end;//0
 
 end.

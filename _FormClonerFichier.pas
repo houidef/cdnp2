@@ -172,7 +172,7 @@ begin//0
             for J := 1 to f300.EleveCount do//00537806
             begin//6
               //0053780D
-               FichierClone.SetElevR(J, f300.sub_004C8E50(J));
+               FichierClone.SetElevR(J, f300.IsRedoublant(J));
             end;//6
           text := f300.GetClasseName + ' - ' + Matiere + ' - ' + Enseignant;
           //sub_00497A7C(text,K);

@@ -35,7 +35,7 @@ begin//0
   //004F5B4C
   try
     //004F5B71
-    f2E4 := 0;
+    TypeGrille := 0;
     inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
 
     ScrollBars := ssNone;
@@ -57,7 +57,7 @@ begin//0
     if (FichierCdn.EleveCount <> 0) then
     begin//2//004F5C3A
       f2EC := Cells[1, 1];
-      SendMessageA(f2E0, 1043, 1, 1);
+      SendMessageA(MyHandle, 1043, 1, 1);
     end;//2
   finally//004F5C7F
 
@@ -89,7 +89,7 @@ begin//0
         for I := 1 to IRowCount do
         begin//004F5D56
           Cells[0, byte(I)] := IntToStr(byte(I));
-          FichierCdn.GetEleveName__(I, Buf0);
+          FichierCdn.GetEleveName(I, Buf0);
           FichierCdn.GetElevDateNais(I, Buf);
           if (Trim(Buf) <> '') then
           begin//5
@@ -101,10 +101,10 @@ begin//0
               lvar_8 := Buf0 + ' (' + Buf + ')';
             end;//6
           end;//5
-          if (FichierCdn.sub_004C8E50(I)) then
+          if (FichierCdn.IsRedoublant(I)) then
           begin//5
             //004F5E34
-            if ({GetafficherR} true) then
+            if ({IsRedoublantAfficher} true) then
             begin//6
               //004F5E3D
               lvar_8 := lvar_8 + ' (R)';
@@ -123,8 +123,8 @@ end;
 procedure TGrilleElevesGrapheCarnetDeNotes.sub_004F5FC4(var Message:TMsg);
 begin//0
   //004F5FC4
-  f2D8 := Message.Message;//ECX
-  SendMessageA(f2E0, $413{1043}, f2D8, f2E8);
+  NPeriode := Message.Message;//ECX
+  SendMessageA(MyHandle, 1043, NPeriode, f2E8);
 end;//0
 
 
@@ -140,11 +140,9 @@ var
   lvar_4:AnsiString;
 begin//0
   //004F5FF8
-
-    //004F6012
     f2E8 := ARow;
     f2EC := Cells[1, ARow];
-    SendMessageA(f2E0, $413{1043}, f2D8, ARow);
+    SendMessageA(MyHandle, 1043, NPeriode, ARow);
     CanSelect := True;
 end;//0
 
@@ -154,10 +152,10 @@ end;//0
 procedure TGrilleelevesgrapheCarnetDeNotes.sub_004F5EF4(Sender:TObject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
 begin//0
   //004F5EF4
-    //sub_004CA104(Sender, ACol, ARow, ARect, AState);
+    //_DrawCell(Sender, ACol, ARow, ARect, AState);
     Canvas.FillRect(ARect);
     Canvas.TextOut(ARect.Left + 2, ARect.Top + 2, Cells[ACol, ARow]);
-    SendMessageA(f2E0, $412{1042}, Width, 0);
+    SendMessageA(MyHandle, $412{1042}, Width, 0);
 end;//0
 
 procedure TGrilleElevesGrapheCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);

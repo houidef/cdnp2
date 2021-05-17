@@ -46,7 +46,7 @@ type
     OldVersion:Boolean;//f949
     constructor Create(filename:TFilename{; y:pointer; z:pointer; t:pointer});//004BE7C8
     function EleveCount:integer;//004BEA58
-    procedure GetEleveName__(iEleve:dword; var b:string);//004BEA64
+    procedure GetEleveName(iEleve:dword; var b:string);//004BEA64
     function IsEtablissementVersion:Boolean;//004C6654
     function IsOldVersion___(FFluxCdn:TFluxCdn;CarnetNotesVersion:string) :boolean; //old CarnetNotesVersion of carnetdenote//004C66A8
     procedure readCdn(filename:TFileName; b:integer);//004C6E9C // preaser fichier Cdn
@@ -159,8 +159,8 @@ type
     function GetClassesCount:dword;//004C8D68
     procedure GetClasses(a:dword; var b:String);//004C8D84
     procedure SetElevR(a:dword; b:boolean);//004C8DF8
-    function sub_004C8E50( b:dword):boolean;//004C8E50
-    function sub_004C8EC8(a:integer; b:integer; c:boolean):integer;//004C8EC8
+    function IsRedoublant( b:dword):boolean;//004C8E50
+    function SetEcritOral(a:integer; b:integer; c:boolean):integer;//004C8EC8
     procedure GetStr0Arrondir(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C8F6C
     procedure GetStr0(Periode:dword; ARow:dword; var s:string);//004C8FB0
     procedure GetStrArrondir(Periode:dword; ARow:dword; Arrondir:dword; var s:string);//004C9280
@@ -187,7 +187,7 @@ begin//0
     FFluxCdn._write(IntToStr(EleveCount ));
       for I := 1 to EleveCount do //004BE6E2
       begin//004BE6E9
-        GetEleveName__(I, buf);
+        GetEleveName(I, buf);
         FFluxCdn._write( buf);
       end;//3
     for I := 1 to 19 do
@@ -292,11 +292,10 @@ begin
 end;
 
 //004BEA64
-procedure TFichierCdn.GetEleveName__(iEleve:dword; var b:string);
+procedure TFichierCdn.GetEleveName(iEleve:dword; var b:string);
 begin//0
   //004BEA64
     SEleves.EleveItem(iEleve, b);
-	//b:=SEleves[iEleve-1];
 end;
 
 //004BEAC4
@@ -1092,7 +1091,7 @@ begin//0
         FFluxCdn._write( IntToStr(EleveCount));
         for I := 1 to EleveCount do  //004C049A
         begin//004C04A1
-            GetEleveName__(I, buf);
+            GetEleveName(I, buf);
             FFluxCdn._write( buf);
         end;//5
         
@@ -1201,7 +1200,7 @@ begin//0
             FFluxCdn._write( buf);
             GetInfoEleve(I, buf);
             FFluxCdn._write( buf);
-            if (sub_004C8E50(I) ) then
+            if (IsRedoublant(I) ) then
             begin//004C0A3D
               FFluxCdn._write('R');
             end//6
@@ -1496,7 +1495,7 @@ begin//0
       begin//3
         //004C1C33
         if (I <> b) then 
-        if (sub_004C8E50(a, I) ) then//004C1C56
+        if (IsRedoublant(a, I) ) then//004C1C56
           lvar_20.Add('R')
         else//004C1C65
           lvar_20.add('');
@@ -3618,7 +3617,7 @@ begin
 >004C51C6    jbe         004C51CD
  004C51C8    call        @BoundErr
  004C51CD    mov         eax,dword ptr [ebp-4]
- 004C51D0    call        TFichierCdn.GetEleveName__
+ 004C51D0    call        TFichierCdn.GetEleveName
  004C51D5    lea         edx,[ebp-144]
  004C51DB    lea         eax,[ebp-14C]
  004C51E1    call        @LStrFromString
@@ -3657,7 +3656,7 @@ begin
 >004C5263    jbe         004C526A
  004C5265    call        @BoundErr
  004C526A    mov         eax,dword ptr [ebp-4]
- 004C526D    call        TFichierCdn.GetEleveName__
+ 004C526D    call        TFichierCdn.GetEleveName
  004C5272    lea         edx,[ebp-144]
  004C5278    lea         eax,[ebp-154]
  004C527E    call        @LStrFromString
@@ -4427,7 +4426,6 @@ var
 	lvar_9:integer;
 	NbrEleves:Integer;
 	Periodes:Integer;
-	lvar_C:Integer;
 	lvar_D:Integer;
 	lvar_E:Integer;
 	lvar_110:PShortString;
@@ -4484,16 +4482,15 @@ var
 	StringListTemp : TStringList;
 	STemp:string;
 	ITemp:integer;
-	I:integer;
+	I,J,K:integer;
 begin//0
   //004C6E9C
     try
       //004C6EDF
-	  
-      if (CarnetNotesVersion <> '2.0') then //004C6EF8
-        if (CarnetNotesVersion <> '2.1') then//004C6F11
-          if (CarnetNotesVersion <> '2.2') then//004C6F2A
-            if (CarnetNotesVersion <> '2.3') then//004C6F43
+      if ((CarnetNotesVersion <> '2.0')  //004C6EF8
+        and (CarnetNotesVersion <> '2.1') //004C6F11
+          and (CarnetNotesVersion <> '2.2') //004C6F2A
+            and (CarnetNotesVersion <> '2.3'))then //004C6F43
               raise Exception.Create('Mauvais format');
 
       if (Signature = 'Carnet de notes') then//004C6F72
@@ -4514,31 +4511,26 @@ begin//0
       SPeriodes.SetTypePeriode__(FFluxCdn._Read); //periodes
       Periodes := StrToInt(FFluxCdn._Read);
       StringList := TStringList.Create;
-      if (Periodes > 0) then
-      begin//004C714E
-        for lvar_C := 1 to Periodes do
+        for I := 1 to Periodes do//004C714E
         begin//004C7151
           buf := FFluxCdn._Read;
           StringList.Add(buf);
         end;//4
-      end;//3
       SPeriodes.SetPeriodes(StringList);
       StringList.Free;
       NbrEleves := StrToInt(FFluxCdn._Read);
-        for lvar_C := 1 to NbrEleves do //004C71DF
-        begin//004C71E2 //ajouter liste eleves
+        for I := 1 to NbrEleves do //004C71DF //ajouter liste eleves
           SEleves.AddEleve(FFluxCdn._Read);
-        end;//4
+
       FData.FixedCols := 0;
       FData.FixedRows := 0; 
       FData.RowCount := NbrEleves + $12;{+ gvar_00617902};
       FData.ColCount := 1;
       FNbrModules := TStringList.Create;
       FAttributs0 := TStringList.Create;
-	 
        //:= TStringList.Create
       lvar_9 := 0;
-        for lvar_C := 1 to Periodes do //004C72AB     'nbre_org'//Periodes
+        for K := 1 to Periodes do //004C72AB     'nbre_org'//Periodes
         begin //004C72AE
           ITemp := StrToInt(FFluxCdn._Read);  //ITemp =EBX
           lvar_12C := IntToStr(ITemp);  //nbr_note
@@ -4578,11 +4570,10 @@ begin//0
             end;//6
           end;//5
         end;//4
-      //end;//3
 	  
       FAttributs := TStringList.Create;//004C7669
       
-        for lvar_C := 1 to 2*Periodes do //004C769B
+        for I := 1 to 2*Periodes do //004C769B
         begin//004C769E
           for lvar_D := 1 to  NbrEleves do//004C76A8
             FAttributs.Add('1'); //$4C826C
@@ -4598,23 +4589,23 @@ begin//0
       if (CarnetNotesVersion = '2.0') then
       begin //004C776
         FClasses.Add('classe');
-		for lvar_C := 1 to Periodes do //004C7775
+		for I := 1 to Periodes do //004C7775
 		begin//004C7778
-			for lvar_D := 1 to NbrEleves do
+			for J := 1 to NbrEleves do
 			begin//004C7782
 			  f928.Add(FFluxCdn._Read);
 			end;//6
 		end;//5
         Enseignant := FFluxCdn._Read;
         SArrondirMoyennes := StrToInt(FFluxCdn._Read);
-        for lvar_C := 1 to Periodes do //004C782F
+        for I := 1 to Periodes do //004C782F
         begin//5
-            for lvar_D := 1 to NbrEleves do //004C7832
+            for J := 1 to NbrEleves do //004C7832
             begin //004C783C
               FAppreciations.Add(FFluxCdn._Read);
             end;//6
         end;  
-        for lvar_C := 1 to NbrEleves do //004C7883
+        for I := 1 to NbrEleves do //004C7883
         begin//004C7886
             FDateNais.Add('');
             FRedoublant.Add('');
@@ -4624,15 +4615,15 @@ begin//0
       else if (CarnetNotesVersion = '2.1') then
       begin//004C78DB
         FClasses.Add('classe'); //$4C8278;
-          for lvar_C := 1 to  Periodes do //004C78F9
+          for I := 1 to  Periodes do //004C78F9
           begin//5
-            for lvar_D := 1 to NbrEleves do //004C78FC
+            for J := 1 to NbrEleves do //004C78FC
             begin //004C7906
               f928.Add(FFluxCdn._Read);
               FAppreciations.Add(FFluxCdn._Read);
             end;//6
           end;//5
-          for lvar_C := 1 to NbrEleves do //004C7983
+          for I := 1 to NbrEleves do //004C7983
           begin//004C7986
             FDateNais.Add('');
             FRedoublant.Add('');
@@ -4645,16 +4636,16 @@ begin//0
       else if (CarnetNotesVersion = '2.2') then
       begin//004C7AA1
 	      
-          for lvar_C := 1 to Periodes do //004C7AA8
+          for I := 1 to Periodes do //004C7AA8
           begin//5
-            for lvar_D := 1 to NbrEleves do //004C7AAB
+            for J := 1 to NbrEleves do //004C7AAB
             begin//004C7AB5
               f928.Add(FFluxCdn._Read);
             end;//6
           end;//5
 		
         ITemp := StrToInt(FFluxCdn._Read);
-          for lvar_C := 1 to ITemp do //004C7B32
+          for I := 1 to ITemp do //004C7B32
           begin//004C7B35
             FClasses.Add(FFluxCdn._Read);
           end;//5
@@ -4665,23 +4656,23 @@ begin//0
         
         StringListTemp := TStringList.Create;
 		
-          for lvar_C := 1 to ITemp do //004C7BF4
+          for I := 1 to ITemp do //004C7BF4
           begin//004C7BF7
             StringListTemp.Add(FFluxCdn._Read);
           end;//5
         STypeBulletins.AddNomBulletinsList(StringListTemp);
         StringListTemp.Free;
-          for lvar_C := 1 to Periodes do //004C7C49
+          for I := 1 to Periodes do //004C7C49
           begin//5
-            for lvar_D := 1 to NbrEleves do //004C7C4C
+            for J := 1 to NbrEleves do //004C7C4C
             begin//004C7C56
-              for lvar_E := 1 to ITemp do
+              for K := 1 to ITemp do
               begin//004C7C5D
                 FAppreciations.Add(FFluxCdn._Read);
               end;//7
             end;//6
           end;//5
-          for lvar_C := 1 to ITemp do //004C7CAD
+          for I := 1 to NbrEleves do //004C7CAD
           begin//004C7CB0
             FDateNais.Add(FFluxCdn._Read);
             FInfoEleve.Add(FFluxCdn._Read);
@@ -4697,9 +4688,9 @@ begin//0
       end//3
       else if (CarnetNotesVersion = '2.3') then
       begin//004C7E18
-          for lvar_C := 1 to Periodes do //004C7E1F
+          for I := 1 to Periodes do //004C7E1F
           begin//5
-            for lvar_D := 1 to  NbrEleves do //004C7E22
+            for J := 1 to  NbrEleves do //004C7E22
             begin//004C7E2C
               f928.Add(FFluxCdn._Read);
             end;//6
@@ -4707,7 +4698,7 @@ begin//0
         
         ITemp := StrToInt(FFluxCdn._Read);
 
-          for lvar_C := 1 to ITemp do //004C7EA9
+          for I := 1 to ITemp do //004C7EA9
           begin//004C7EAC
             FClasses.Add(FFluxCdn._Read);
           end;//5
@@ -4724,11 +4715,11 @@ begin//0
         
         //AddNomBulletinsList(STypeBulletins, ESI);
         StringListTemp.Free;
-          for lvar_C := 1 to Periodes do //004C7FC0
+          for I := 1 to Periodes do //004C7FC0
           begin//004C7FC3
-            for lvar_D := 1 to NbrEleves do
+            for J := 1 to NbrEleves do
             begin//004C7FCD
-              for lvar_E := 1 to ITemp do
+              for K := 1 to ITemp do
               begin//004C7FD4
                 FAppreciations.Add(FFluxCdn._Read);
               end;//7
@@ -4982,14 +4973,14 @@ begin//0
 end;//0
 
 //004C8E50
-function TFichierCdn.sub_004C8E50( b:dword):boolean; //redoublant
+function TFichierCdn.IsRedoublant( b:dword):boolean; //redoublant
 begin
   //004C8E50
     result := (FRedoublant[b - 1] = 'R');
 end;
 
 //004C8EC8
-function TFichierCdn.sub_004C8EC8(a:integer; b:integer; c:boolean):integer;
+function TFichierCdn.SetEcritOral(a:integer; b:integer; c:boolean):integer;
 begin//0
   //004C8EC8
   if (c) then //004C8EDB

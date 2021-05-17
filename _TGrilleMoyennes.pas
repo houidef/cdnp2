@@ -43,15 +43,13 @@ var
 begin
  //004CF0A8
  inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
- f2E4:=2;
- 
+ TypeGrille:=2;
   SetLength(f2f4,FichierCdn.GetNbrePeriodes*4);
   //FOwner := FOwner + _DynArr_121_2;
     for I := 0 to FichierCdn.GetNbrePeriodes*4 -1 do
     begin//004CF134
       f2F4[I] := TStringList.Create;
     end;//2
-
   FixedRows := 1;
   FixedCols := 0;
   ColCount :=4;
@@ -206,7 +204,7 @@ begin//0
   begin//004CFAD2
     //Selection := CS;
   end;//1
-  SendMessageA(f2E0, 1039, ARow, 255);
+  SendMessageA(MyHandle, 1039, ARow, 255);
   I := byte(FichierCdn.EleveCount);
   if (ACol = 1) then
   begin//004CFB0C
@@ -264,47 +262,47 @@ begin//0
     begin//2
       //004CFCEB
       if (Message.ItemID = 5) then //004CFCF1
-        FichierCdn.sub_004C3678(f2D8, f2EC,'-2')
+        FichierCdn.sub_004C3678(NPeriode, f2EC,'-2')
       else
       begin//3
         //004CFD1F
         if (Message.ItemID = 6) then//004CFD25
-          FichierCdn.sub_004C3678(f2D8, f2EC,'-1,5')
+          FichierCdn.sub_004C3678(NPeriode, f2EC,'-1,5')
         else
         begin//4
           //004CFD53
           if (Message.ItemID = 7) then//004CFD59
-            FichierCdn.sub_004C3678(f2D8, f2EC,'-1')
+            FichierCdn.sub_004C3678(NPeriode, f2EC,'-1')
           else
           begin//5
             //004CFD87
             if (Message.ItemID = 8) then//004CFD8D
-              FichierCdn.sub_004C3678(f2D8, f2EC,'-0,5')
+              FichierCdn.sub_004C3678(NPeriode, f2EC,'-0,5')
             else
             begin//6
               //004CFDBB
               if (Message.ItemID = 9) then//004CFDC1
-                FichierCdn.sub_004C3678(f2D8, f2EC,'')
+                FichierCdn.sub_004C3678(NPeriode, f2EC,'')
               else
               begin//7
                 //004CFDEF
                 if (Message.ItemID = 10) then//004CFDF5
-                  FichierCdn.sub_004C3678(f2D8, f2EC,'0,5')
+                  FichierCdn.sub_004C3678(NPeriode, f2EC,'0,5')
                 else
                 begin//8
                   //004CFE23
                   if (Message.ItemID = 11) then //004CFE29
-                    FichierCdn.sub_004C3678(f2D8, f2EC,'1')
+                    FichierCdn.sub_004C3678(NPeriode, f2EC,'1')
                   else
                   begin//9
                     //004CFE57
                     if (Message.ItemID = 12) then//004CFE5D
-                      FichierCdn.sub_004C3678(f2D8, f2EC,'1,5')
+                      FichierCdn.sub_004C3678(NPeriode, f2EC,'1,5')
                     else
                     begin//10
                       //004CFE8B
                       if (Message.ItemID = 13) then//004CFE91
-                        FichierCdn.sub_004C3678(f2D8, f2EC,'2')
+                        FichierCdn.sub_004C3678(NPeriode, f2EC,'2')
                       else
                       begin//11
                         //004CFEBF
@@ -316,8 +314,8 @@ begin//0
                           if (FormEdit.ModalResult = 1) then
                           begin//13
                             //004CFF0B
-                            FichierCdn.sub_004C3678(f2D8, f2EC,FormEdit.Edit1.Text);
-                            SendMessageA(FormEdit.Handle, $408{1032}, f2D8, f2EC);
+                            FichierCdn.sub_004C3678(NPeriode, f2EC,FormEdit.Edit1.Text);
+                            SendMessageA(FormEdit.Handle, $408{1032}, NPeriode, f2EC);
                           end;//13
                           FormEdit.Destroy;
                         end//12
@@ -346,8 +344,8 @@ begin//0
                                 begin//16
                                   //004D0010
                                   SetmoyennesSur(StrToInt(FormEdit.Edit1.Text));
-                                  FichierCdn.sub_004C4784(f2D8, true);
-                                  SendMessageA(Handle, $408{1032}, f2D8, 0);
+                                  FichierCdn.sub_004C4784(NPeriode, true);
+                                  SendMessageA(Handle, $408{1032}, NPeriode, 0);
                                 end;//16
                                 FormEdit.Destroy;
                               end//15
@@ -386,10 +384,10 @@ begin//0
                                         begin//20
                                           //004D01A5
                                           Cells[f2E8, I] := lvar_C[I - 1];
-                                          FichierCdn.sub_004C3678(f2D8, I,lvar_C[I - 1]);
+                                          FichierCdn.sub_004C3678(NPeriode, I,lvar_C[I - 1]);
                                         end;//20
                                       lvar_C.Destroy;
-                                      SendMessageA(Handle, $408{1032}, f2D8, 0);
+                                      SendMessageA(Handle, $408{1032}, NPeriode, 0);
                                     end;//18
                                   end;//17
                                 end;//16
@@ -407,23 +405,23 @@ begin//0
         end;//4
       end;//3
     end;//2
-    FichierCdn.sub_004C4784(f2D8, true);
+    FichierCdn.sub_004C4784(NPeriode, true);
     case Message.ItemID of
       1..4:
       begin//3
         //004D028F
-        SendMessageA(Handle, $408{1032}, f2D8, 0);
+        SendMessageA(Handle, $408{1032}, NPeriode, 0);
       end;//3
       5..14:
       begin//3
         //004D02AE
-        SendMessageA(Handle, $408{1032}, f2D8, f2EC); 
+        SendMessageA(Handle, $408{1032}, NPeriode, f2EC); 
       end;//3
       15..16:
       begin//3
         //004D02D2
         FichierCdn.defaultAttributs;
-        SendMessageA(Handle, $408{1032}, f2D8, 0);
+        SendMessageA(Handle, $408{1032}, NPeriode, 0);
       end;//3
     end;//2
     //004D0307
@@ -458,7 +456,7 @@ var
   buf :string;
 begin//0
   //004D08DC..004D0914
-    Visible := ((FichierCdn.GetNbreModules(f2D8) = 0) Xor true);
+    Visible := ((FichierCdn.GetNbreModules(NPeriode) = 0) Xor true);
     FichierCdn.sub_004C213C(Periode, ARow, buf);
     Cells[0, ARow] := buf;
     FichierCdn.GetStrNoteFromFile(Periode, ARow, GetarrondirMoyennes, buf);
@@ -478,7 +476,7 @@ var
  Count : integer;
 begin//0
   //004D0A5C
-  f2D8 := Msg.Message; //Periode
+  NPeriode := Msg.Message; //Periode
   if (FichierCdn.sub_004C4778(Msg.Message)) then // test si periode est deja traité
   begin//004D0A92 
     if (Msg.WParam = 0) then
@@ -491,7 +489,7 @@ begin//0
     else//004D0AD3
       sub_004D08DC(Msg.Message, Msg.WParam);
    
-    Count := 4 * (f2D8 - 1); // count =  lvar_18 
+    Count := 4 * (NPeriode - 1); // count =  lvar_18 
 	  for I:=  Count to Count+3 do //teste
 	  begin
 	     f2F4[I].Clear;
@@ -502,11 +500,11 @@ begin//0
 		f2F4[I].Clear;
 		f2F4[I].AddStrings(Cols[I - lvar_14]);
 	end;//3}
-    FichierCdn.sub_004C4784(f2D8,False);
+    FichierCdn.sub_004C4784(NPeriode,False);
   end
   else 
   begin
-	  Count := 4 * (f2D8 - 1); 
+	  Count := 4 * (NPeriode - 1); 
 	  for I:=  Count to Count+3 do //teste
 	  begin
 		 Cols[I - Count] := f2f4[I];
@@ -516,7 +514,7 @@ begin//0
 		  Cols[lvar_18 - lvar_18] := f2f4[I];
 		end;//2}
 	  
-	  Visible := (FichierCdn.GetNbreModules(f2D8) = 0) Xor true;
+	  Visible := (FichierCdn.GetNbreModules(NPeriode) = 0) Xor true;
   end;
 end;//0
 
@@ -538,7 +536,7 @@ begin//0
   lvar_28 := AState;
   lvar_8 := ARow;}
     //004D0402
-    //sub_004CA104(Self, ACol, ARow ,ARect , AState);
+    //_DrawCell(Self, ACol, ARow ,ARect , AState);
     Canvas.Font.Style := [];//gvar_004D0720;
     Canvas.Font.Color := 0;
     if (GetcolorationNote) then

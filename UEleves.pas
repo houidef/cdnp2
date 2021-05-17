@@ -49,9 +49,7 @@ procedure TELeves.EleveItem(b:dword; var c:String);
 begin//0
   //004B6FCC
   if (Elevelist.count >= b) then
-  begin//004B6FE5
-    c := Elevelist[b - 1];
-  end
+    c := Elevelist[b - 1]
   else 
      c := '';
 end;//0

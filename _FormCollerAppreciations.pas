@@ -161,7 +161,7 @@ begin//0
             if (CheckBox1.Checked <> False) then
             begin//6
               //0053408D
-              f2FC.GetEleveName__(J, buf);
+              f2FC.GetEleveName(J, buf);
               InclurePointVergule := buf + ';';
               Inclure := ';';
             end//6

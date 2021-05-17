@@ -25,11 +25,11 @@ type
     destructor Destroy; virtual;//004D133C
     procedure WMCommand(var Message: TWMCommand); message WM_COMMAND;//004D162C
 	procedure sub_004D1C64(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);//004D1C64
-    procedure sub_004D29FC(var Message:TMsg); message $403;//004D29FC //procedure Dispatch(var Message); override;
-    procedure sub_004D2398(var Msg: TMsg);  message $404;//004D2398 //procedure Dispatch(var Message); override;
+    procedure sub_004D29FC(var Message:TMsg); message 1027;//004D29FC 
+    procedure _Refrech(var Msg: TMsg);  message 1028;//004D2398 
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004D1250
     procedure sub_004D1370;//004D1370
-    procedure sub_004D292C(Sender: TObject; ACol, ARow: Integer;
+    procedure _DrawCellEleve(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);//(a:pointer; b:pointer; c:pointer; d:pointer; e:pointer);//004D292C
   end;
 
@@ -39,9 +39,8 @@ implementation
 constructor TGrilleElevesCarnetDeNotes.Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);
 begin
   //004D1250
-  f2E4 := 0;
+  TypeGrille := 0;
   inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
-    
   ScrollBars := ssNone; //0;
   Visible := False;
   Align := alLeft; //3
@@ -52,7 +51,7 @@ begin
   ColWidths[0] := 18;
   //DefaultDrawing := False;
   //f28C := Self;
-  //OnDrawCell := sub_004D292C;
+  //OnDrawCell := _DrawCellEleve;
   //fBC := Self;
   //OnMouseDown := sub_004D1C64; //004D1C84
   f2F0 := 0;
@@ -88,7 +87,7 @@ begin//0
       //004D13EF
       if (f2EC > 0) then
       begin//004D13FD
-        FichierCdn.GetEleveName__(f2EC{NomEleve}, NomEleve);
+        FichierCdn.GetEleveName(f2EC{NomEleve}, NomEleve);
         AppendMenuA(f2F0, 0, 1, PChar('Supprimer "' + NomEleve + '" de la liste des élèves'));
         AppendMenuA(f2F0, 0, 2, PChar('Modifier les informations de "' + NomEleve + '"'));
         AppendMenuA(f2F0, 2048, 0, '-');
@@ -119,21 +118,21 @@ begin//0
     //004D167C
     if (Message.ItemID = 1) then
     begin//004D1687
-      FichierCdn.GetEleveName__(f2EC {lvar_8}, buf);
+      FichierCdn.GetEleveName(f2EC {lvar_8}, buf);
       if (MessageBoxA(0, PChar('Supprimer "' + buf + '" de la liste des élèves ?'),'Suppression d''un élève' , 36) = 6) then
       begin//004D16F9
         FichierCdn.DeleteEleve(f2EC);
-        SendMessageA(f2E0, 1032, f2D8, 0);
+        SendMessageA(MyHandle, 1032, NPeriode, 0);
         SendMessageA(Handle, 1028, 0, 0);
-        SendMessageA(f2E0, 1033, f2D8, 0);
-        SendMessageA(f2E0, 1030, 0, 0);
+        SendMessageA(MyHandle, 1033, NPeriode, 0);
+        SendMessageA(MyHandle, 1030, 0, 0);
       end;//3*)
     end;//2
     if (Message.ItemID = 2) then
     begin//004D1785
-      FichierCdn.GetEleveName__( f2EC, buf);
+      FichierCdn.GetEleveName( f2EC, buf);
       FichierCdn.GetElevDateNais( f2EC, buf1);
-      FormModifierEleve{gvar_00617CF8} := TFormModifierEleve.Create(Self, buf, buf1, FichierCdn.sub_004C8E50(f2EC),'');
+      FormModifierEleve{gvar_00617CF8} := TFormModifierEleve.Create(Self, buf, buf1, FichierCdn.IsRedoublant(f2EC),'');
       FormModifierEleve.ShowModal;
       if (FormModifierEleve.ModalResult = 1) then
       begin//004D1854
@@ -142,9 +141,9 @@ begin//0
 									  FormModifierEleve.CheckBoxRedoublant_FormModifier.Checked,
 									  FormModifierEleve.EditDateDeNaissance_FormModifier.text);
         SendMessageA(Handle, 1028, 0, 0);
-        SendMessageA(f2E0, 1033, f2D8, 0);
-        SendMessageA(f2E0, 1032, f2D8, 0);
-        SendMessageA(f2E0, 1030, 0, 0);
+        SendMessageA(MyHandle, 1033, NPeriode, 0);
+        SendMessageA(MyHandle, 1032, NPeriode, 0);
+        SendMessageA(MyHandle, 1030, 0, 0);
       end;//3
       FormModifierEleve.Destroy;
     end;//2
@@ -155,10 +154,10 @@ begin//0
       if (FormModifierEleve.ModalResult = 1) then
       begin//004D19B1
         FichierCdn.sub_004C14C8(FormModifierEleve.EditNomPrenom_FormModifier.text, FormModifierEleve.EditDateDeNaissance_FormModifier.text, '1',FormModifierEleve.CheckBoxRedoublant_FormModifier.Checked);
-        SendMessageA(f2E0, 1032, f2D8, 0);
+        SendMessageA(MyHandle, 1032, NPeriode, 0);
         SendMessageA(Handle, 1028, 0, 0);
-        SendMessageA(f2E0, 1033, f2D8, 0);
-        SendMessageA(f2E0, 1030, 0, 0);
+        SendMessageA(MyHandle, 1033, NPeriode, 0);
+        SendMessageA(MyHandle, 1030, 0, 0);
       end;//3
       FormModifierEleve.Destroy;
     end;//2
@@ -168,7 +167,7 @@ begin//0
 		Buf := '';
 		for I := 1 to FichierCdn.EleveCount do //004D1ADE
 		  begin //004D1AE3
-			FichierCdn.GetEleveName__(I, buf1);
+			FichierCdn.GetEleveName(I, buf1);
 			  //....
 			Buf := Buf + buf1 + #13 + #10;
 		  end;//3
@@ -199,21 +198,21 @@ begin//0
           if (GetafficherFenetreInfo) then
           begin//004D1D1A
             FormHint.Color := sub_004BB87C;
-            if (FichierCdn.sub_004C8E50(ARow)) then
+            if (FichierCdn.IsRedoublant(ARow)) then
             begin//004D1D4C
-              FichierCdn.GetEleveName__(ARow, Buf0);//lvar_150
+              FichierCdn.GetEleveName(ARow, Buf0);//lvar_150
               FichierCdn.GetElevDateNais(ARow, Buf1); //lvar_254
               FormHint.Label1.Caption:= Buf0 + ' ' + Buf1 + ' (redoublant)';
             end//6
             else
             begin//004D1DDF
-              FichierCdn.GetEleveName__(ARow, Buf0); //Determiner le Nom d'éleve;
+              FichierCdn.GetEleveName(ARow, Buf0); //Determiner le Nom d'éleve;
               FichierCdn.GetElevDateNais(ARow, Buf1); //Determiner la date de Naissance;
               FormHint.Label1.Caption := Buf0 + ' ' +  Buf1;
             end;//6
-            FichierCdn.GetStrMinMoy(f2D8, ARow, Buf0); //Determiner la Note la plus basse de la période
+            FichierCdn.GetStrMinMoy(NPeriode, ARow, Buf0); //Determiner la Note la plus basse de la période
             FormHint.Label2.Caption := 'Note la plus basse de la période : ' + Buf0;
-            FichierCdn.sub_004C56C0( f2D8, ARow, Buf0);// Determiner la Note la plus haute de la période
+            FichierCdn.sub_004C56C0( NPeriode, ARow, Buf0);// Determiner la Note la plus haute de la période
             FormHint.Label3.Caption := 'Note la plus haute de la période : ' + Buf0;
 			lvar_18 := '';
 			  for I:=1 to FichierCdn.GetNbrePeriodes do //004D1F63
@@ -257,7 +256,7 @@ begin//0
 		if (ARow > 0) then //004D2196
 		  Selection := lvar_24;
 
-		SendMessageA(f2E0, 1025, ARow, 255);
+		SendMessageA(MyHandle, 1025, ARow, 255);
 		f2E8 := ACol;
 		f2EC := ARow;
 		if (ACol <> 1) then Exit;
@@ -276,23 +275,23 @@ end;//0
 
 
 //004D292C
-procedure TGrilleElevesCarnetDeNotes.sub_004D292C(Sender: TObject; ACol, ARow: Integer;
+procedure TGrilleElevesCarnetDeNotes._DrawCellEleve(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);//(a:pointer; b:pointer; c:pointer; d:pointer; e:pointer);
 begin//0
    
   //004D292C
   //canvas.font.size:=17;
-    sub_004CA104(Sender,ACol, ARow, Rect, State);
+    //_DrawCell(Sender,ACol, ARow, Rect, State);
     Canvas.FillRect(Rect);
     Canvas.TextOut(Rect.Left + 2, Rect.Top + 2, Cells[ACol, ARow]);
-    SendMessageA(f2E0, 1042, Width, 0);
+    SendMessageA(MyHandle, 1042, Width, 0);
 end;
 
 //004D2398
-procedure TGrilleElevesCarnetDeNotes.sub_004D2398(var Msg: TMsg);
+procedure TGrilleElevesCarnetDeNotes._Refrech(var Msg: TMsg);
 var 
  count,I : integer;
- buf,lvar_8 :string;
+ buf,affichage :string;
 begin//0
   //004D2398..004D23CE
     Count := FichierCdn.EleveCount;
@@ -317,39 +316,32 @@ begin//0
       for I := 1 to Count do //004D2630
       begin//004D2635
         Cells[0, I] := IntToStr(I);
-		Buf := '1111';
-        FichierCdn.GetEleveName__(I, Buf);
-		lvar_8 := Buf;
+        FichierCdn.GetEleveName(I, Buf);
+		affichage := Buf;
         FichierCdn.GetElevDateNais(I, Buf);
         if (Trim(Buf) <> '') then
         begin//004D26B5
           if (GetafficherDatesDeNaissance) then
           begin//004D26BE
-            lvar_8 := lvar_8 + ' (' +Buf + ')';
+            affichage := affichage + ' (' +Buf + ')';
           end;//5
         end;//4
-        if (FichierCdn.sub_004C8E50(I)) then
-        begin//004D2713
-          if (GetafficherR) then
-          begin//004D271C
-            lvar_8 := lvar_8 + ' (R)';
-          end;//5
-        end;//4
-        Cells[ 1 , I] :=  lvar_8;
+        if (FichierCdn.IsRedoublant(I) and IsRedoublantAfficher) then //004D2713
+            affichage := affichage + ' (R)';
+        Cells[ 1 , I] :=  affichage;
       end;//3
-
     Visible := (Count > 0);
 end;//0
 
 //004D29FC
 procedure TGrilleElevesCarnetDeNotes.sub_004D29FC(var Message: TMsg); //dynamic;
 begin
-   f2D8 := Message.Message;
+   NPeriode := Message.Message;
 end;
 procedure TGrilleElevesCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
 begin
     inherited DrawCell(ACol, ARow, ARect, AState);
-	sub_004D292C(Self, ACol, ARow, ARect, AState);
+	_DrawCellEleve(Self, ACol, ARow, ARect, AState);
 	
 end;
  procedure TGrilleElevesCarnetDeNotes.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);//supprimer le 

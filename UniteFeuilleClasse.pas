@@ -768,7 +768,7 @@ begin
       for I := 1 to FichierCdn.EleveCount do //0053BCBA
       begin//3
         //0053BCBE
-        FichierCdn.GetEleveName__(I, buf);
+        FichierCdn.GetEleveName(I, buf);
         lvar_8 := lvar_8 + buf + #13 + #10;
       end;//3
     
@@ -848,7 +848,7 @@ begin//0
 
       FormModifierEleve{gvar_00617CF8} := TFormModifierEleve.Create(Self, FormListeEleves.ListeEleves.Items[FormListeEleves.ListeEleves.ItemIndex],
 												 buf, 
-												 FichierCdn.sub_004C8E50(FormListeEleves.ListeEleves.ItemIndex + 1),
+												 FichierCdn.IsRedoublant(FormListeEleves.ListeEleves.ItemIndex + 1),
 												 'Modifier les informations de l''élève');
       FormModifierEleve.ShowModal;
       if (FormModifierEleve.ModalResult = 1) then
@@ -1624,7 +1624,7 @@ begin//0
           lvar_28 := lvar_158 / StrToFloat(buf);
           FichierCdn._readCompteMoy( lvar_10, Buf, I);
           Chart1.Series[0].AddXY(I, lvar_28, buf, GetcouleurEleve); // 0053E8B1 
-          FichierCdn.GetEleveName__(lvar_C, buf);
+          FichierCdn.GetEleveName(lvar_C, buf);
           Chart1.Series[0].Title := buf;
           Chart1.Series[0].SeriesColor := GetcouleurEleve;
           TLineSeries(Chart1.Series[0]).LinePen.Width := 2;
@@ -2177,7 +2177,7 @@ begin//0
           
             for I := 1 to FichierCdn1.EleveCount do//005408BC
               //005408C1
-              if (FichierCdn1.sub_004C8E50(I)) then//005408DC
+              if (FichierCdn1.IsRedoublant(I)) then//005408DC
                 StringList2.add('R')
               else//005408EB
                 StringList2.add('');

@@ -212,12 +212,12 @@ begin//0
       begin//00519B9B
         if (ImpRedoublage) then
         begin//00519BA1
-          f3C.GetEleveName__(I, buf);
+          f3C.GetEleveName(I, buf);
           lvar_1C := buf + ' (R)';
         end//4
         else
         begin//00519BDF
-          f3C.GetEleveName__(I, buf);
+          f3C.GetEleveName(I, buf);
 		  lvar_1C := buf;
         end;//4
         if (ImpDateNais) then

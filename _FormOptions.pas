@@ -389,7 +389,7 @@ begin//0
     afficherDate.Checked := sub_004BB5E4;
     CheckBox2.Checked := GetfichierBak;
     CheckBox11.Checked :=GetafficherFenetreInfo;
-    CheckBoxAfficherR.Checked :=GetafficherR;
+    CheckBoxAfficherR.Checked :=IsRedoublantAfficher;
     CheckBoxAfficherDatesDeNaissance.Checked :=GetafficherDatesDeNaissance;
     CheckBox14.Checked :=Getgraphe3D;
     CheckBox15.Checked :=GetgrapheDegrade;

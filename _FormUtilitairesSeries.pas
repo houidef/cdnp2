@@ -489,7 +489,7 @@ begin//0
     else
     begin//2
       //0051103F
-      if (sub_00498A40 = false) then//00511048
+      if (_IsRegistred = false) then//00511048
         Application.MessageBox('Impossible de créer une nouvelle série de notes. Le nombre de séries de notes est limité à 3 pour la version non enregistrée.','Carnet de Notes version Personnelle' , $40{64})
       else//00511062
         Application.MessageBox(PChar('Impossible de créer une nouvelle série de notes. Le nombre de séries de notes est limité à ' + IntToStr({gvar_00617903}255) + '.'),'Carnet de Notes version Personnelle', $40{64});

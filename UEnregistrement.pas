@@ -17,7 +17,7 @@ Forms, Windows,  SysUtils, Classes,Registry, URegistry,unit51;
     procedure sub_0049878C(NumUser:dword; var CleUser:String);//0049878C
     procedure sub_0049884C(a:dword; b:String);//0049884C
     procedure sub_00498978(a:dword; b:String);//00498978
-    function sub_00498A40:boolean;//00498A40
+    function _IsRegistred:boolean;//00498A40
     function sub_00498B20:dword;//00498B20
     procedure sub_00498BFC(a:dword);//00498BFC
 
@@ -186,7 +186,7 @@ begin//0
 end;//0
 
 //00498A40
-function sub_00498A40:boolean;
+function _IsRegistred:boolean;
 var
  NumUser:integer; 
  CleUser,NomUser : string;

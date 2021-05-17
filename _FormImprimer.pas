@@ -213,7 +213,7 @@ begin//0
     CheckBox1.Checked := GetimpressionFermerBoite;
     TabSet1.Tabs := Notebook1.Pages;
     //EDI := ComboBoxBasdepageCentre;
-    if (sub_00498A40) then
+    if (_IsRegistred) then
     begin//2
       //0052534A
         for I := 1 to sub_00498B20 do //00525355

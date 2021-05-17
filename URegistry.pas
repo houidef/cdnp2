@@ -192,7 +192,7 @@ var
  StringList : TStringList;
  lvar_C : string;
  I:integer;
- Drives : set of 0..25;
+ Drives : dword;
 begin//0
   //00497908
     //00497922
@@ -202,14 +202,10 @@ begin//0
     begin//0049793A
 		for I := 0 to 25 do
 		begin//00497944
-		  if (I <= 31) then
+		  if ( (Drives and (1 shl i))<>0) then
 		  begin//0049794B
-			if (I in Drives) then Continue;
 			lvar_C := char(I + 97) + ':\';
-			if (GetDriveTypeA(PChar(lvar_C)) = 0) then
-			begin//00497986 
-				   //error!		
-			end;//4
+			
 			if (GetDriveTypeA(PChar(lvar_C)) <> 2) then Continue;
 			StringList.add(UpperCase(char(I + 97)));
 		  end;//3

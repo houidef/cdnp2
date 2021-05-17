@@ -7,7 +7,7 @@ unit Unit111;
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclureImpression,Constantes;
+Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclureImpression,Constantes,Dialogs;
 
 	procedure AddHistorique(a:AnsiString);//004B901C
 	procedure DeleteFromMainMenu(MainMenu:TMainMenu; ItemIndex:dword);//004B90CC
@@ -175,8 +175,8 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	function GetMatieres:TStringList;//004BC348
 	function _GetMatieres:TStringList;//004BC3F0
 	procedure SetMatieres(a:TStrings);//004BC698
-	//procedure sub_004BC7A0(?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?; ?:?);//004BC7A0
-	//procedure sub_004BCAA0(?:?; ?:?; ?:?; ?:?);//004BCAA0
+	procedure sub_004BC7A0(MainMenu:TMainMenu; tabs:TStringlist; ItemIndex:integer; index1:integer; Event1:TNotifyEvent; index2:integer; Event2:TNotifyEvent; index3:integer; Event3:TNotifyEvent);//004BC7A0
+	procedure EventCopierlefichiersurdisquette(MainMenu:TMainMenu; index:integer; c:integer; Event:TNotifyEvent);//004BCAA0
 	procedure SetDerniersfichiers(StringList:TStringList);//004BCBDC
 	function GetDerniersfichiers:TStringlist;//004BCD14
 	function GetafficherNomEnseignantOnglets:boolean;//004BCDB0
@@ -277,9 +277,7 @@ begin//0
 	begin //004B9223
 	  Find := false;
 	  Files := HistoriqueList;
-	  if (Files.count <> 0) then
-	  begin//004B923F
-		  for I := 1 to Files.count do //004B9265
+	  for I := 0 to Files.count-1 do //004B9265
 		  begin//004B926B
 			if (FileExists(Files[I])) then 
 			begin
@@ -287,22 +285,21 @@ begin//0
 				begin//004B9290
 				  MenuItem := TMenuItem.Create(Nil);
 				  MenuItem.Caption := '-';
-				   MainMenu.Items.Items[ItemIndex].Insert(MainMenu.Items.Items[ItemIndex].Count, MenuItem);
+				  MainMenu.Items[0].add(MenuItem);
 				  Find := true;
 				end;//6
 				MenuItem := TMenuItem.Create(Nil);
 				MenuItem.Caption := Files[I];
 				MenuItem.OnClick := Click;
 				MenuItem.OnDrawItem := DrawItem;
+				
 				if (I <= 9) then//004B931C
 				  MenuItem.ShortCut := TextToShortCut('Alt+' + IntToStr(I))
 				else //004B934B
 				  MenuItem.ShortCut := TextToShortCut('Ctrl+' + IntToStr(I - 10));
-			   
-				MainMenu.Items.Items[ItemIndex].Insert(MainMenu.Items.Items[ItemIndex].Count, MenuItem);
+				MainMenu.Items[0].add(MenuItem);
 			end;
 		  end;//5
-	  end;//3
 	end;//2
 end;//0
 
@@ -1922,7 +1919,6 @@ var
  i : integer;
 begin//0
   //004BC7A0
-
   try
         //004BC804
         for i := 0 to Tabs.count - 1 do
@@ -1932,34 +1928,26 @@ begin//0
           MenuItem.Caption := Tabs[i];
           MenuItem.OnClick := Event1;
           MenuItem.tag := index1;
-          
 		  MainMenu.Items[ItemIndex].Items[0].Insert( MainMenu.Items[ItemIndex].Items[0].count,MenuItem);
         end;//4
     //  EAX := Tabs[MainMenu.Items[ItemIndex].Items[0].Insert( MainMenu.Items[ItemIndex].Items[0].count];
-     
         //004BC8AF
-       
         for i := 0 to Tabs.count - 1 do
         begin//4
           //004BC8B4
-          
           MenuItem := TMenuItem.Create(Nil);
           MenuItem.Caption := Tabs[i];
           MenuItem.OnClick := Event2;
           MenuItem.tag := index2;
           MainMenu.Items[ItemIndex].Items[0].Insert( MainMenu.Items[ItemIndex].Items[0].count,MenuItem);
         end;//4
-      
       MenuItem := TMenuItem.Create(Nil);
       MenuItem.Caption:='Sur l''année';
       MenuItem.OnClick := Event2;
       MenuItem.tag := index2;
       MainMenu.Items[ItemIndex].Items[1].Insert( MainMenu.Items[ItemIndex].Items[1].count,MenuItem);
-      
     //  EAX := Tabs[MainMenu.Items[ItemIndex].Items[1].Insert( MainMenu.Items[ItemIndex].Items[1].count];
-     
         //004BC9D3
-        
         for i := 0 to Tabs.count - 1 do
         begin//4
           //004BC9D8
@@ -1971,13 +1959,12 @@ begin//0
         end;//4
   finally//1
     //004BCA6C
-    
   end;//1
 
 end;
 
 //004BCAA0
-procedure sub_004BCAA0(a:integer; b:integer; c:integer; Event:TNotifyEvent);
+procedure EventCopierlefichiersurdisquette(MainMenu:TMainMenu; index:integer; c:integer; Event:TNotifyEvent);
 var
   i:integer;
   str : TStringList;
@@ -1986,15 +1973,15 @@ begin//0
   //004BCAA0
     //004BCAC5
     str := GetLogDrives;
-    
-      //004BCADD
-        //004BCB03
-        for I := 1 to str.count do
+        for I := 0 to str.count-1 do
         begin//4
           //004BCB09
           MenuItem := TMenuItem.Create(Nil);
           MenuItem.Caption := 'lecteur ' + str[I] + ':';
           MenuItem.OnClick := Event;
+		  //MenuItem.f84 := c;
+		  MenuItem.Tag := c;
+		  MainMenu.Items[0].Items[index].Add(MenuItem);
 		end;
 end;
 

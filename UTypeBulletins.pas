@@ -1,7 +1,8 @@
-{***************************************
-* Version Original V0.01
-* Created by Houidef AEK v 12:03 mardi 27 février 2018
-***************************************}
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by Houidef AEK v 2021-05-16 @ 05:36 PM        *
+* The disassembly process : 100%                           *
+************************************************************}
 unit UTypeBulletins;
 
 interface

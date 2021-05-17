@@ -38,7 +38,7 @@ Initialization
   //if ( <> ) then
   //begin//1
     //00498DE9
-    if (sub_00498A40) then//00498E5B
+    if (_IsRegistred) then//00498E5B
       gvar_00617903 := 255
     else //00498E64
       gvar_00617903 := 3;

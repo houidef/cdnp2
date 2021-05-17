@@ -1,7 +1,8 @@
-//=======================================
-//  Crée par Houidef AEK
-//  Decompiled by Houidef AEK le : mercredi 7 mars 2018     01:34:51
-//=======================================
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by Houidef AEK v 2021-05-16 @ 05:36 PM        *
+* The disassembly process : 100%                           *
+************************************************************}
 unit UnitePrincipale;
 interface      
 uses
@@ -99,12 +100,12 @@ type
     procedure Toutrduire1Click(Sender:TObject);//0060C1B8
     procedure Aproposde1Click(Sender:TObject);//0060C968
   public
-    f3B0:byte;//f3B0
+    TimerActive:boolean;//f3B0
     procedure sub_0060CABC(var Msg:TMsg); Message 1036;//0060CABC
     procedure sub_0060CC64(var Msg:TMsg); Message 1040;//0060CC64
     procedure SetOngletsClassesMsg(var Msg:TMsg); Message 1041;//0060D048
-    function sub_0060B820(FileName:TFileName):Boolean;//0060B820
-    procedure sub_0060B904(s:String);//0060B904
+    function IsFileExist(FileName:TFileName):Boolean;//0060B820
+    procedure BringToFront(s:String);//0060B904
   end;
 var
    FormCarnetDeNotes2:TFormCarnetDeNotes2;
@@ -119,22 +120,20 @@ begin
  Close;
 end;
 //0060B820
-function TFormCarnetDeNotes2.sub_0060B820(FileName:TFileName):Boolean;
+function TFormCarnetDeNotes2.IsFileExist(FileName:TFileName):Boolean;
 var
-  I:integer;  BFileName:ShortString;
-begin//0
+  I:integer;begin//0
   //0060B820
   Result := False;
     //0060B855
 	for I:=0 to MDIChildCount - 1 do 
     begin//0060B86F
-      BFileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
-      if (LowerCase( BFileName) = LowerCase(FileName)) then result := true; //0060B8BC
+      if (LowerCase(TFeuilleClasse(MDIChildren[I]).GetFileName ) = LowerCase(FileName)) then result := true; //0060B8BC
     end;
  
 end;
 //0060B904
-procedure TFormCarnetDeNotes2.sub_0060B904(s:string);
+procedure TFormCarnetDeNotes2.BringToFront(s:string);
 var
   FileName:shortstring;
   I:integer;
@@ -149,7 +148,6 @@ begin//0
 				MDIChildren[I].BringToFront;
 
       end;
-
 end;//0
 
 //0060B9EC
@@ -163,42 +161,34 @@ begin
  begin
 	if(TMenuItem(Sender).caption = '&Ouvrir ...' )then 
     begin//0060BA5D
-		if (sub_0060B820({Sender}'') = false) then //0060BA6B
-		  FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, {Sender}'')
+		if (IsFileExist('') = false) then //0060BA6B
+		  FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, '')
 		else 
-		  sub_0060B904({Sender}'');
-		Exit;
+		  BringToFront({Sender}'');
     end
     else if (OpenDialog1.Execute) then
     begin//0060BAB3
-        if (OpenDialog1.Files.Count - 1 >= 0) then
-        begin //0060BAD3
-          for I := 0 to OpenDialog1.Files.Count do
-          begin//0060BAD9
-            if (sub_0060B820(OpenDialog1.Files[I]) = false) then//0060BAFA
-              FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, OpenDialog1.Files[I])
-            else //0060BB30
-              sub_0060B904(OpenDialog1.Files[I]);
-            OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
-          end;//5
-          Exit;
-        end;//4
+	  for I := 0 to OpenDialog1.Files.Count do
+	  begin//0060BAD9
+		if (IsFileExist(OpenDialog1.Files[I]) = false) then//0060BAFA
+		  FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, OpenDialog1.Files[I])
+		else //0060BB30
+		  BringToFront(OpenDialog1.Files[I]);
+		OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
+	  end;//5
     end;//3
  end
  else 
  if (OpenDialog1.Execute ) then
  begin//0060BB9B
-    if (OpenDialog1.Files.Count >= 1) then
-    begin//0060BBBB
-        for I := 0 to OpenDialog1.Files.Count - 1 do
-        begin//0060BBC1
-          if (sub_0060B820(OpenDialog1.Files[I]) = false) then //0060BBE2
-            FeuilleClasse := TFeuilleClasse.Create(Self, Handle ,logo , OpenDialog1.Files[I])
-          else//0060BC18
-            sub_0060B904(OpenDialog1.Files[I]);
-          OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
-        end;//4
-    end;
+	for I := 0 to OpenDialog1.Files.Count - 1 do
+	begin//0060BBC1
+	  if (IsFileExist(OpenDialog1.Files[I]) = false) then //0060BBE2
+		FeuilleClasse := TFeuilleClasse.Create(Self, Handle ,logo , OpenDialog1.Files[I])
+	  else//0060BC18
+		BringToFront(OpenDialog1.Files[I]);
+	  OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
+	end;//4
 end;
 end;
 //0060BD00
@@ -215,7 +205,7 @@ begin//0
       except//0060BDCD
       end;//3
     end;//2
-    f3B0 := 1;
+    TimerActive := true;
     SetValueRegChemin(ExtractFilePath(ParamStr(0)));
     if (GettailleMaximumAuDemarrage) then
     begin//0060BE24
@@ -226,11 +216,8 @@ begin//0
     ToolButtonSauver.Enabled := False;
     ToolButtonImprimer.Enabled := False;
     Caption := 'Carnet de Notes version Personnelle 2.9a';
-    if (sub_00498A40 = false) then
-    begin//2
-      //0060BE92
+    if (_IsRegistred = false) then//0060BE92
       Caption := Caption + ' - Version non enregistrée';
-    end;//2
     OpenDialog1.InitialDir := ExtractFilePath(ParamStr(0));
     Timer1.Enabled := True;
 end;//0
@@ -329,10 +316,10 @@ begin
   //0060C28C
   //EDX := TSearchRec;
     //0060C2C2
-    if (f3B0 <> 0) then
+    if (TimerActive ) then
     begin//2
       //0060C2CF
-      f3B0 := 0;
+      TimerActive := false;
       Timer1.Interval := 1000;
       if (ParamCount <> 0) then
       begin//3
@@ -481,27 +468,25 @@ procedure TFormCarnetDeNotes2.FormCloseQuery(Sender:TObject; var CanClose:Boolea
 var
   I:integer;
   FileName:ShortString;
+  StrList : TStringList;
 begin//0
   //0060C9CC
     //0060C9F0
-
     Timer1.Enabled := False;
-    StringList := TStringList.Create;
-      for I:=0 to  MDIChildCount-1 do //0060CA23
+	if(MDIChildCount>0) then 
+	begin
+      StrList := TStringList.Create;
+      for I:=1 to  MDIChildCount do //0060CA23
       begin	  //0060CA23
-        FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
-        StringList.Add(FileName);
+        FileName := TFeuilleClasse(MDIChildren[I-1]).GetFileName();
+        StrList.Add(FileName);
       end;
-
-    SetDerniersfichiers(StringList);
-    StringList.Destroy;
-
-       for I:=0 to  MDIChildCount-1 do //0060CA7D
-        //0060CA7D
-        MDIChildren[I].Close;
-
+      SetDerniersfichiers(StrList);
+      StrList.Destroy;
+	  for I:=1 to  MDIChildCount do //0060CA7D
+        MDIChildren[I-1].Close;
+	end;
     CanClose := True;
-
 end;//0
 
 //0060CABC

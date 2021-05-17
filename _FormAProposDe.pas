@@ -52,7 +52,7 @@ begin//0
     Image2.Picture := Logo.Picture;
     LabelAdresseInternet.Caption := 'http://www.carnetdenotes.com';
     LabelEmail.Caption := 'aboisrame@carnetdenotes.com';
-    if (sub_00498A40) then//005505EB
+    if (_IsRegistred) then//005505EB
       LabelVersionEnregistre.Caption := 'Version enregistrée'
     else//005505FD
       LabelVersionEnregistre.Caption := 'Version non enregistrée';

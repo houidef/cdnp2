@@ -28,7 +28,7 @@ type
     procedure sub_004CB4D4(var Msg:TMsg); Message $403;//004CB4D4
     procedure sub_004CEEB4(var Msg:TMsg); Message $404;//004CEEB4
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004CB414
-    procedure sub_004CCCB8;//004CCCB8
+    procedure InitBilan;//004CCCB8
 	procedure sub_004CD7E0(Sender:TObject; ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
     procedure sub_004CD0B0(a:dword);//004CD0B0
 	procedure sub_004CDF20;
@@ -56,7 +56,7 @@ begin
   //OnDrawCell := sub_004CD7E0;
   //fBC := Self
   OnMouseDown := sub_004CE6F4;
-  sub_004CCCB8;
+  InitBilan;
   
 end;
 
@@ -69,7 +69,7 @@ var
 begin//0
 	//004CB4D4
 	//004CB4F9
-	sub_004CCCB8;
+	InitBilan;
 	f2D8 := Msg.message;
     lvar_C := FichierCdn.GetNbrePeriodes();//f2DC est fichierCdn,get Nbre Periodes
     if (lvar_C < f2D8) then //004CB557
@@ -361,7 +361,7 @@ end;//0
 
 
 //004CCCB8
-procedure TGrilleBilanCarnetDeNotes.sub_004CCCB8;
+procedure TGrilleBilanCarnetDeNotes.InitBilan;
 var
    IRowCount,I : integer;
    Buf : string;
@@ -404,7 +404,7 @@ begin//0
         end;//4
         Cells[1 , I] :=  lvar_4;
       end;//3
-	  visible := true; //supprimer le 
+	 // visible := true; //supprimer le 
 end;
 
 //004CD0B0
@@ -682,7 +682,7 @@ end;//0
 //004CEEB4
 procedure TGrilleBilanCarnetDeNotes.sub_004CEEB4(var Msg:TMsg);
 begin
-  sub_004CCCB8();
+  InitBilan();
 end;
 
 //004CD7E0

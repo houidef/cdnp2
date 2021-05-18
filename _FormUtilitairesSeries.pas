@@ -90,7 +90,7 @@ begin//0
     
     CheckBox2.Checked := True;
     CheckBox3.Checked := True;
-    if (f330.sub_004C4790 >= 255{gvar_00617903}) then
+    if (f330.NbrModulesTot >= 255{gvar_00617903}) then
     begin//2
       //0050FBA1
       CheckBox1.Enabled := False;
@@ -336,7 +336,7 @@ begin//0
       end;//3
 
 
-    if (f330.sub_004C4790 < {gvar_00617903}255) then
+    if (f330.NbrModulesTot < {gvar_00617903}255) then
     begin//2
       //00510604
       //lvar_28 := f330;

@@ -522,7 +522,7 @@ begin//0
       sub_004BB6FC(RadioGroup2.ItemIndex);
     end;//2
     sub_004BB534(optionsAuDemarrage.ItemIndex);
-    sub_00498460(ListBoxUtilisateurs.Items);
+    SetUsersList(ListBoxUtilisateurs.Items);
     afficherConseils(CheckBox6.Checked); //sub_00501C70
     sub_004BB694(CheckBoxVerificationMAJ.Checked);
     sub_004BB8B4(CouleurFondFenetreInfos.SelectionColor);
@@ -1076,7 +1076,7 @@ begin//0
     //00506DEA
     if (Application.MessageBox(PChar('Revenir à la liste des utilisateurs par défaut ?'), 'Carnet de Notes version Personnelle', $24{36}) = 6) then 
 	begin
-    ListBoxUtilisateurs.Items := sub_0049856C;
+    ListBoxUtilisateurs.Items := GetUsersList;
     SpeedButton26.Enabled := False;
 	end;
 

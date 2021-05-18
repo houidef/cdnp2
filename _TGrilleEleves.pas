@@ -219,7 +219,7 @@ begin//0
 			  begin
 				  if (FichierCdn.GetNbreModules(I) > 0) then
 				  begin//004D1F82
-					FichierCdn.GetStrNoteAsFloat(I, ARow, GetarrondirMoyennes, Buf0);
+					FichierCdn.GetMoyBulletin(I, ARow, GetarrondirMoyennes, Buf0);
 					lvar_18 := lvar_18 + Buf0 + ' - ';
 				  end//7
 				  else
@@ -230,7 +230,7 @@ begin//0
 				           
             if (FichierCdn.GetNbreModules(FichierCdn.GetNbrePeriodes) > 0) then
             begin//004D200C
-              FichierCdn.GetStrNoteAsFloat(FichierCdn.GetNbrePeriodes, ARow, GetarrondirMoyennes, Buf0);
+              FichierCdn.GetMoyBulletin(FichierCdn.GetNbrePeriodes, ARow, GetarrondirMoyennes, Buf0);
               lvar_18 := lvar_18 + Buf0;
             end//6
             else

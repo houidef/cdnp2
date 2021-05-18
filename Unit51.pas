@@ -10,7 +10,7 @@ uses
 Forms, Windows,  SysUtils, Classes,dialogs;
     procedure sub_00497D18_v1(a:String; b:string; c:dword;var  d:string);
     procedure sub_00497D18(a:String; b:string; c:dword;var  d:string);//00497D18
-    function sub_004981D4(NomUser:String; CleUser:string;c:dword):boolean;//004981D4 
+    function IsValideCleUser(NomUser:String; CleUser:string;c:dword):boolean;//004981D4 
 var
 Const1 : string = 'Carnet de Notes';
 Const2 : string = 'cdn2.0';
@@ -360,39 +360,27 @@ var
   I:integer;
 begin//0
   //00497D18
-
     if (c <> 0) then
     begin//00497D8B
       lvar_20 := 0;
-        
        (* for I := 0 to length(a) - 1 do //00497DAE
           lvar_20 := (ord(22 * a[I] + 1969) And 1) + lvar_20;
-
       lvar_20:=lvar_20 * $4227A;
-
       EAX := 1;
       Text := 'Carnet de Notes';
       EAX := EAX - 1;//EAX
 	  if(EAX = [EDX-4]) then error
       EAX := EAX + 1;//EAX
-	  
       EAX = EDX[EAX-1]
 	  EAX := 15 * EAX;
-	  
 	  lvar_20 = lvar_20+esp //EAX := EAX + lvar_350{270970 * EAX{EAX}};
       lvar_4 := 15 * EDX[EAX];
-	  
       lvar_20 := 0;
-    
-   
 	  for I := 1 to length(b) do //00497E6A
 	  begin//00497E6F
 	   lvar_20 := byte(b[I]) + lvar_20;
 	  end;//4
-
       lvar_10 := lvar_8 + lvar_20;
-     
-	 
       lvar_20 := 0;
       lvar_1C := 0;
       text := 'cdn2.0'
@@ -400,14 +388,10 @@ begin//0
       begin//00497ECD
         lvar_20 := byte(Text[I]) + lvar_20;
       end;//3
-     
       lvar_328 := IntToStr(lvar_20) + IntToStr(lvar_10);
       lvar_320 := lvar_328;
-	  
-	  
       lvar_20 := 0;
       EBX := length(lvar_320);
-
       ESI := length(lvar_320) - 3 - EBX;//ESI - lvar_324
         for ESI := lvar_324 to ESI + lvar_324 - 1 do  //00497F75
         begin//4
@@ -415,28 +399,20 @@ begin//0
           lvar_32C := lvar_320[ebx];
 		  lvar_20:=strtoint(lvar_32C)+lvar_20;
         end;//4
-     
       lvar_20 := lvar_20*lvar_20*lvar_20*lvar_20;
 	  lvar_20 := 2*lvar_20*lvar_20*lvar_20;
-
       lvar_20 := lvar_20 + lvar_350;
       lvar_20 := lvar_20 + $35C6D;*)
 	  d := inttostr(lvar_20);
     end
 	else 
 	begin
-
 		lvar_320 := a + b;
-		 
 		lvar_20 := 0;
-		
 		for I := 0 to length(lvar_320) - 1 do //004980EF
 		begin//004980F2
-		   
 			lvar_20 := 22 * ord(lvar_320[I])+ lvar_20;
 	    end;//3
-	   
-
 		lvar_20 := lvar_20 * lvar_20 * lvar_20;
 		d := IntToStr(lvar_20);
 	end;
@@ -444,7 +420,7 @@ end;//0
 
 
 //004981D4
-function sub_004981D4(NomUser:String; CleUser:string;c:dword):boolean;
+function IsValideCleUser(NomUser:String; CleUser:string;c:dword):boolean;
 var
   buf : string;
 begin//0

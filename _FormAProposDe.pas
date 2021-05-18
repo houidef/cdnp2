@@ -57,9 +57,9 @@ begin//0
     else//005505FD
       LabelVersionEnregistre.Caption := 'Version non enregistrée';
     
-      for NumUser := 1 to sub_00498B20 do //00550618
+      for NumUser := 1 to NbrUtilisateursEnregistres do //00550618
       begin//0055061D
-        sub_004986C0(NumUser, NomUser);
+        GetNomUtilisateurEnregistrement(NumUser, NomUser);
         ListBox1.Items.Add(NomUser);
       end;//3
     

@@ -56,11 +56,10 @@ Copyright (c) 1983,2002 Borland Software Corporation
 cdnp2.dpr(81) _FormOptions.pas(1) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(11) _FormOptions.pas(12) _FormOptions.pas(12) _FormOptions.pas(12) _FormOptions.pas(12) UInclureImpression.pas(1) UInclureImpression.pas(11) UInclureImpression.pas(11) UInclureImpression.pas(11) UInclureImpression.pas(13) UInclureImpression.pas(76) 
 _FormOptions.pas(14) Unit111.pas(1)       Unit111.pas(10) Unit111.pas(10) Unit111.pas(10) Unit111.pas(10) Unit111.pas(10) Unit111.pas(10) URegistry.pas(1) URegistry.pas(10) URegistry.pas(10) URegistry.pas(10) URegistry.pas(10) URegistry.pas(12) URegistry.pas(217) 
 Unit111.pas(10) Unit111.pas(10) Unit111.pas(10) Constantes.pas(1) Constantes.pas(11) Constantes.pas(11) UEnregistrement.pas(1) UEnregistrement.pas(11) UEnregistrement.pas(11) UEnregistrement.pas(11) UEnregistrement.pas(11) UEnregistrement.pas(11) UEnregistrement.pas(11) Unit51.pas(1)           Unit51.pas(10) Unit51.pas(10) Unit51.pas(10) Unit51.pas(10) Unit51.pas(11) Unit51.pas(359) Hint: Variable 'Text' is declared but never used in 'sub_00497D18'
-Unit51.pas(463) 
-UEnregistrement.pas(13) UEnregistrement.pas(29) Hint: Variable 'lvar_4' is declared but never used in '_GetUtilisateurs'
-UEnregistrement.pas(272) 
+Unit51.pas(439) 
+UEnregistrement.pas(13) UEnregistrement.pas(231) 
 Constantes.pas(12) Constantes.pas(51) 
-Unit111.pas(10) Unit111.pas(12) Unit111.pas(512) Unit111.pas(1024) Unit111.pas(1536) Unit111.pas(2048) Unit111.pas(2348) 
+Unit111.pas(10) Unit111.pas(12) Unit111.pas(512) Unit111.pas(1024) Unit111.pas(1536) Unit111.pas(2048) Unit111.pas(2350) 
 _FormOptions.pas(349) _FormOptions.pas(349) _unit146.pas(1)       _unit146.pas(11) _unit146.pas(11) _unit146.pas(13) _unit146.pas(30) Hint: Variable 'lvar_4' is declared but never used in 'WriteNumeroConseilEnCours'
 _unit146.pas(139) 
 _FormOptions.pas(353) _FormOptions.pas(356) Hint: Variable 'lvar_10' is declared but never used in 'TFormOptions.Create'
@@ -80,31 +79,32 @@ Copyright (c) 1983,2002 Borland Software Corporation
 UFichierCdn.pas(11) UFichierCdn.pas(13) UFichierCdn.pas(512) UFichierCdn.pas(752) Hint: Variable 'buf' is declared but never used in 'TFichierCdn.sub_004BFC58'
 UFichierCdn.pas(1024) UFichierCdn.pas(1388) Hint: Variable 'K' is declared but never used in 'TFichierCdn.sub_004C14C8'
 UFichierCdn.pas(1536) UFichierCdn.pas(1440) Hint: Variable 'I' is declared but never used in 'TFichierCdn.sub_004C1954'
-UFichierCdn.pas(1682) Hint: Variable 'buf' is declared but never used in 'TFichierCdn.GetStrMoyArrendit'
-UFichierCdn.pas(1818) Hint: Variable 'lvar_101' is declared but never used in 'TFichierCdn.GetStrNoteAsFloat'
-UFichierCdn.pas(2048) UFichierCdn.pas(2560) UFichierCdn.pas(2616) Hint: Variable 'lvar_2C' is declared but never used in 'TFichierCdn.__GetStrMin'
-UFichierCdn.pas(2616) Hint: Variable 'lvar_24' is declared but never used in 'TFichierCdn.__GetStrMin'
-UFichierCdn.pas(3072) UFichierCdn.pas(3584) UFichierCdn.pas(3772) Hint: Variable 'lvar_30' is declared but never used in 'TFichierCdn.GetStrMinMoy'
-UFichierCdn.pas(3772) Hint: Variable 'lvar_20' is declared but never used in 'TFichierCdn.GetStrMinMoy'
-UFichierCdn.pas(4096) UFichierCdn.pas(4098) Hint: Variable 'I' is declared but never used in 'TFichierCdn.defaultAttributs'
-UFichierCdn.pas(4098) Hint: Variable 'J' is declared but never used in 'TFichierCdn.defaultAttributs'
-UFichierCdn.pas(4608) UFichierCdn.pas(4430) Hint: Variable 'lvar_E' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4431) Hint: Variable 'lvar_110' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4432) Hint: Variable 'lvar_114' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4433) Hint: Variable 'lvar_118' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4434) Hint: Variable 'lvar_11C' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4435) Hint: Variable 'lvar_120' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4436) Hint: Variable 'lvar_124' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4437) Hint: Variable 'lvar_128' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4439) Hint: Variable 'lvar_134' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4440) Hint: Variable 'lvar_138' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4441) Hint: Variable 'lvar_13C' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4442) Hint: Variable 'lvar_140' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4443) Hint: Variable 'lvar_144' is declared but never used in 'TFichierCdn.readCdn'
-UFichierCdn.pas(4756) Hint: Variable 'lvar_4' is declared but never used in 'TFichierCdn.OpenFile'
-UFichierCdn.pas(4757) Hint: Variable 'lvar_8' is declared but never used in 'TFichierCdn.OpenFile'
-UFichierCdn.pas(4758) Hint: Variable 'buf' is declared but never used in 'TFichierCdn.OpenFile'
-UFichierCdn.pas(5120) UFichierCdn.pas(5367) 
+UFichierCdn.pas(1683) Hint: Variable 'buf' is declared but never used in 'TFichierCdn.GetStrMoyArrendit'
+UFichierCdn.pas(1819) Hint: Variable 'lvar_101' is declared but never used in 'TFichierCdn.GetMoyBulletin'
+UFichierCdn.pas(1846) Hint: Variable 'F2' is declared but never used in 'TFichierCdn.SetStrComptMoy'
+UFichierCdn.pas(2048) UFichierCdn.pas(2383) Hint: Variable 'lvar_2C' is declared but never used in 'TFichierCdn.__GetStrMin'
+UFichierCdn.pas(2383) Hint: Variable 'lvar_24' is declared but never used in 'TFichierCdn.__GetStrMin'
+UFichierCdn.pas(2560) UFichierCdn.pas(3072) UFichierCdn.pas(3538) Hint: Variable 'lvar_30' is declared but never used in 'TFichierCdn.GetStrMinMoy'
+UFichierCdn.pas(3538) Hint: Variable 'lvar_20' is declared but never used in 'TFichierCdn.GetStrMinMoy'
+UFichierCdn.pas(3584) UFichierCdn.pas(3864) Hint: Variable 'I' is declared but never used in 'TFichierCdn.defaultAttributs'
+UFichierCdn.pas(3864) Hint: Variable 'J' is declared but never used in 'TFichierCdn.defaultAttributs'
+UFichierCdn.pas(4096) UFichierCdn.pas(4196) Hint: Variable 'lvar_E' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4197) Hint: Variable 'lvar_110' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4198) Hint: Variable 'lvar_114' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4199) Hint: Variable 'lvar_118' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4200) Hint: Variable 'lvar_11C' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4201) Hint: Variable 'lvar_120' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4202) Hint: Variable 'lvar_124' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4203) Hint: Variable 'lvar_128' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4205) Hint: Variable 'lvar_134' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4206) Hint: Variable 'lvar_138' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4207) Hint: Variable 'lvar_13C' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4208) Hint: Variable 'lvar_140' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4209) Hint: Variable 'lvar_144' is declared but never used in 'TFichierCdn.readCdn'
+UFichierCdn.pas(4522) Hint: Variable 'lvar_4' is declared but never used in 'TFichierCdn.OpenFile'
+UFichierCdn.pas(4523) Hint: Variable 'lvar_8' is declared but never used in 'TFichierCdn.OpenFile'
+UFichierCdn.pas(4524) Hint: Variable 'buf' is declared but never used in 'TFichierCdn.OpenFile'
+UFichierCdn.pas(4608) UFichierCdn.pas(5120) UFichierCdn.pas(5133) 
 _FormCreerDisquettes.pas(13) _FormCreerDisquettes.pas(48) _FormCreerDisquettes.pas(52) _FormCreerDisquettes.pas(69) Hint: Variable 'text' is declared but never used in 'TFormCreerDisquettes.FormShow'
 _FormCreerDisquettes.pas(85) Hint: Variable 'text' is declared but never used in 'TFormCreerDisquettes.SpeedButton2Click'
 _FormCreerDisquettes.pas(147) 
@@ -158,17 +158,17 @@ Copyright (c) 1983,2002 Borland Software Corporation
 cdnp2.dpr(81) UniteFeuilleClasse.pas(1) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) _TGrilleEleves.pas(1)      _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleGenerique.pas(1) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(13) _TGrilleGenerique.pas(170) 
 _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(14) _TGrilleEleves.pas(14) _TGrilleEleves.pas(14) _TGrilleEleves.pas(14) _TGrilleEleves.pas(16) _TGrilleEleves.pas(352) 
 UniteFeuilleClasse.pas(11) _TGrilleNotes.pas(1)       _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _Calendrier.pas(1)    _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(13) _Calendrier.pas(52) 
-_TGrilleNotes.pas(14) _TGrilleNotes.pas(512) _TGrilleNotes.pas(237) Hint: Variable 'KJ' is declared but never used in 'TGrilleNotesCarnetDeNotes.WMCommand'
-_TGrilleNotes.pas(677) Hint: Variable 'buf' is declared but never used in 'TGrilleNotesCarnetDeNotes.sub_005464FC'
-_TGrilleNotes.pas(817) Hint: Value assigned to 'lvar_1' never used
-_TGrilleNotes.pas(1024) _TGrilleNotes.pas(1293) 
-UniteFeuilleClasse.pas(11) _TGrilleMoyennes.pas(1)    _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(14) _TGrilleMoyennes.pas(198) Hint: Value assigned to 'lvar_1C' never used
-_TGrilleMoyennes.pas(200) Hint: Value assigned to 'lvar_1C' never used
-_TGrilleMoyennes.pas(192) Hint: Value assigned to 'CS' never used
-_TGrilleMoyennes.pas(194) Hint: Value assigned to 'CS' never used
-_TGrilleMoyennes.pas(190) Hint: Value assigned to 'CS' never used
-_TGrilleMoyennes.pas(176) Hint: Variable 'CXX' is declared but never used in 'TGrilleMoyennesCarnetDeNotes.sub_004CFA2C'
-_TGrilleMoyennes.pas(512) _TGrilleMoyennes.pas(628) 
+_TGrilleNotes.pas(14) _TGrilleNotes.pas(512) _TGrilleNotes.pas(231) Hint: Variable 'KJ' is declared but never used in 'TGrilleNotesCarnetDeNotes.WMCommand'
+_TGrilleNotes.pas(671) Hint: Variable 'buf' is declared but never used in 'TGrilleNotesCarnetDeNotes.sub_005464FC'
+_TGrilleNotes.pas(811) Hint: Value assigned to 'lvar_1' never used
+_TGrilleNotes.pas(1024) _TGrilleNotes.pas(1287) 
+UniteFeuilleClasse.pas(11) _TGrilleMoyennes.pas(1)    _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(14) _TGrilleMoyennes.pas(197) Hint: Value assigned to 'lvar_1C' never used
+_TGrilleMoyennes.pas(199) Hint: Value assigned to 'lvar_1C' never used
+_TGrilleMoyennes.pas(191) Hint: Value assigned to 'CS' never used
+_TGrilleMoyennes.pas(193) Hint: Value assigned to 'CS' never used
+_TGrilleMoyennes.pas(189) Hint: Value assigned to 'CS' never used
+_TGrilleMoyennes.pas(175) Hint: Variable 'CXX' is declared but never used in 'TGrilleMoyennesCarnetDeNotes.sub_004CFA2C'
+_TGrilleMoyennes.pas(512) _TGrilleMoyennes.pas(620) 
 UniteFeuilleClasse.pas(11) _TGrilleBilan.pas(1)       _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(14) _TGrilleBilan.pas(67) Hint: Variable 'lvar_250' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CB4D4'
 _TGrilleBilan.pas(67) Hint: Variable 'lvar_150' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CB4D4'
 _TGrilleBilan.pas(512) _TGrilleBilan.pas(427) Hint: Value assigned to 'lvar_28' never used
@@ -422,4 +422,4 @@ Copyright (c) 1983,2002 Borland Software Corporation
 cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) _FormMarqueCdn.pas(1) _FormMarqueCdn.pas(10) _FormMarqueCdn.pas(10) _FormMarqueCdn.pas(10) _FormMarqueCdn.pas(12) _FormMarqueCdn.pas(14) Warning: Method 'Create' hides virtual method of base type 'TCustomForm'
 _FormMarqueCdn.pas(37) 
 cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(85) cdnp2.dpr(119) 
-214173 lines, 1.77 seconds, 2182000 bytes code, 39189 bytes data.
+213862 lines, 4.75 seconds, 2183712 bytes code, 39189 bytes data.

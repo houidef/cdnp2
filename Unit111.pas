@@ -628,7 +628,9 @@ begin//0
 	 result := GetValueRegInt('moyennesSur',20{, 1})
    else
   if (gvar_00617904) then//004B9E6B
-	 result:= GetValueRegInt('moyennesSur',20,{, 1});
+	 result:= GetValueRegInt('moyennesSur',20,{, 1})
+   else
+   result:= GetValueRegInt('moyennesSur',20,{, 1});
    
 end;//0
 

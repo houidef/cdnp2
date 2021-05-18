@@ -49,9 +49,9 @@ begin//0
     inherited Create(Owner);
     Caption := 'Carnet de Notes version Personnelle 2.9a';
     Label4.Caption := '27572cdn2.x';
-      for NumUser := 1 to sub_00498B20 do//00553775
+      for NumUser := 1 to NbrUtilisateursEnregistres do//00553775
       begin//0055377A 
-        sub_004986C0(NumUser, NomUser);
+        GetNomUtilisateurEnregistrement(NumUser, NomUser);
 		ListBoxUtilisateurs.Items.Add(NomUser);
       end;//3
 end;//0
@@ -74,16 +74,16 @@ begin//0
   //00553834..0055387F
     if (ListBoxUtilisateurs.Items.IndexOf(Edit2.Text) + 1 = 0) then
     begin//005538A8
-      if (sub_004981D4(Edit2.Text, Edit3.Text, 0)) then
+      if (IsValideCleUser(Edit2.Text, Edit3.Text, 0)) then
       begin//00553913
-	     I:=sub_00498B20 + 1;
-        sub_0049884C(I, Edit2.Text);
-        sub_00498978(I, Edit3.Text);
+	     I:=NbrUtilisateursEnregistres + 1;
+        SetUserReg(I, Edit2.Text);
+        SetCleReg(I, Edit3.Text);
         StringList{ESI} := TStringList.Create;
         StringList.AddStrings(_GetUtilisateurs);
         if (StringList.IndexOf(Edit2.Text) + 1 = 0) then//0055399F
           StringList.Add(Edit2.Text);
-        sub_00498460(StringList);
+        SetUsersList(StringList);
         StringList.Destroy;
         Application.MessageBox('Merci de votre soutien !!!'+#13+#10+#13+#10+
 							   'Vous êtes maintenant un utilisateur enregistré et vous bénéficiez des mises à jour et des nouvelles versions gratuitement.'
@@ -92,9 +92,9 @@ begin//0
         //gvar_00617903 := 255;
         //{gvar_006184E0}FormCarnetDeNotes2.Caption := 'Carnet de Notes version Personnelle 2.9a';
         ListBoxUtilisateurs.Clear;
-        for NumUser := 1 to sub_00498B20 do //00553A1A
+        for NumUser := 1 to NbrUtilisateursEnregistres do //00553A1A
         begin//00553A1F
-            sub_004986C0(NumUser, NomUser);
+            GetNomUtilisateurEnregistrement(NumUser, NomUser);
             ListBoxUtilisateurs.items.Add(NomUser);
         end;//5
        
@@ -133,11 +133,11 @@ begin//0
 										ListBoxUtilisateurs.Items[ListBoxUtilisateurs.ItemIndex] + '" ?'),
 										'Carnet de Notes version Personnelle' , $24{36}) = 6) then 
 	  begin
-        //sub_00498BFC(ListBoxUtilisateurs.ItemIndex + 1);
+        DeleteUser(ListBoxUtilisateurs.ItemIndex + 1);
         ListBoxUtilisateurs.Clear;
-        for NumUser := 1 to sub_00498B20 do //00553D31
+        for NumUser := 1 to NbrUtilisateursEnregistres do //00553D31
         begin//00553D36
-          sub_004986C0(NumUser, NomUser);
+          GetNomUtilisateurEnregistrement(NumUser, NomUser);
           ListBoxUtilisateurs.Items.Add(NomUser);
         end;//4
         if (ListBoxUtilisateurs.Items.Count = 0) then

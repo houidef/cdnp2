@@ -545,7 +545,7 @@ end;//0
 procedure TFeuilleClasse.Ajouter1Click(Sender:TObject);
 begin//0
   //0053ABFC
-    if (FichierCdn.sub_004C4790 < gvar_00617903) then
+    if (FichierCdn.NbrModulesTot < gvar_00617903) then
     begin//2
       //0053AC62
       if (FichierCdn.EleveCount > 0) then
@@ -600,13 +600,13 @@ var
 begin//0
   //0053B1EC
 
-  if (FichierCdn.sub_004C4790 > 0) then
+  if (FichierCdn.NbrModulesTot > 0) then
   begin//0053B207
 
     {gvar_00617D84}FormSupprimerSerie:= TFormSupprimerSerie.Create(Self, FichierCdn,logo); 
     FormSupprimerSerie.ShowModal;
       for I := 1 to FichierCdn.GetNbrePeriodes do//0053B252
-        FichierCdn.sub_004C4784(I, true);
+        FichierCdn.SetIsPeriodeInCal(I, true);
     SendMessageA(GrilleNotesCarnetDeNotes.Handle, $403{1027}, GrillesNotes, 0);
     SendMessageA(GrilleMoyennesCarnetDeNotes.Handle, $408{1032}, GrillesNotes, 0);
     SendMessageA(GrilleBilanCarnetDeNotes.Handle, $403{1027},TabControlGrillesBilan.TabIndex + 1 , 0);
@@ -620,10 +620,10 @@ procedure TFeuilleClasse.Sriedenotes1Click(Sender:TObject);
 begin//0
   //0053B308
   Ajouter1.Enabled := (FichierCdn.EleveCount<> 0);
-  Supprimer1.Enabled := (FichierCdn.sub_004C4790 <> 0);
-  Rorganiser1.Enabled := (FichierCdn.sub_004C4790 <> 0);
-  Utilitaires1.Enabled := (FichierCdn.sub_004C4790 >= 2);
-  Transformer1.Enabled := (FichierCdn.sub_004C4790 <> 0);
+  Supprimer1.Enabled := (FichierCdn.NbrModulesTot <> 0);
+  Rorganiser1.Enabled := (FichierCdn.NbrModulesTot <> 0);
+  Utilitaires1.Enabled := (FichierCdn.NbrModulesTot >= 2);
+  Transformer1.Enabled := (FichierCdn.NbrModulesTot <> 0);
   Informationssurlessriesdenotes1.Enabled := (FichierCdn.EleveCount <> 0);
   Importerdepuisunfichier1.Enabled := (FichierCdn.EleveCount <> 0);
 end;//0
@@ -1194,7 +1194,7 @@ begin//0
       end;//3
       
       Label1.Caption := Label1.Caption + ' - ' + lvar_8;
-      I := FichierCdn.sub_004C4790;
+      I := FichierCdn.NbrModulesTot;
       case I of
         0:
         begin//4
@@ -1899,7 +1899,7 @@ begin//0
     for I := 1 to FichierCdn.GetNbrePeriodes do //0053F647
     begin//2
       //0053F64C
-      FichierCdn.sub_004C4784(I, true);
+      FichierCdn.SetIsPeriodeInCal(I, true);
     end;//2
   
   FichierCdn.defaultAttributs;
@@ -1948,7 +1948,7 @@ begin//0
     for I := 1 to FichierCdn.GetNbrePeriodes do//0053F7F4
     begin//2
       //0053F7F9
-      FichierCdn.sub_004C4784(I, true);
+      FichierCdn.SetIsPeriodeInCal(I, true);
     end;//2
   
   FichierCdn.defaultAttributs;
@@ -2026,7 +2026,7 @@ var
 begin//0
   //0053FAA4
     //0053FAC1
-    if (FichierCdn.sub_004C4790 < gvar_00617903) then
+    if (FichierCdn.NbrModulesTot < gvar_00617903) then
     begin//2
       //0053FADA
       FormCarnetDeNotes2.OpenDialog1.Title := 'Informations sur la série de notes à importer';
@@ -2084,7 +2084,7 @@ var
 begin//0
   //0053FFBC
     //00540016
-    if (FichierCdn.sub_004C4790 < gvar_00617903) then
+    if (FichierCdn.NbrModulesTot < gvar_00617903) then
     begin//2
       //0054002F
       FormCarnetDeNotes2.OpenDialog1.Title := 'Informations sur la série de notes à importer';

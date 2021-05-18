@@ -213,7 +213,7 @@ begin//0
             if (f3C.GetNbreModules(f2C) >= J) then
               f3C._GetStrNote(f2C, J, I, text)
             else//0051AAF4
-              f3C.GetStrNoteAsFloat(f2C, I, GetarrondirMoyennes, text);
+              f3C.GetMoyBulletin(f2C, I, GetarrondirMoyennes, text);
             if (GetimpressionCouleurNote) then //0051AB46
               if (text = 'abs') Or (text = '') then//0051AB5B
                 f40.font.Color := 0
@@ -407,7 +407,7 @@ begin//0
                   for C := 1 to f3C.EleveCount do//0051B423
                   begin//9
                     //0051B42A
-                    f3C.GetStrNoteAsFloat(f2C, C, GetarrondirMoyennes, buf);
+                    f3C.GetMoyBulletin(f2C, C, GetarrondirMoyennes, buf);
                     lvar_84.add(buf);
                   end;//9
                

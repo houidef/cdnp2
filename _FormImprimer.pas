@@ -216,9 +216,9 @@ begin//0
     if (_IsRegistred) then
     begin//2
       //0052534A
-        for I := 1 to sub_00498B20 do //00525355
+        for I := 1 to NbrUtilisateursEnregistres do //00525355
         begin//0052535C
-          sub_004986C0(I, buf);
+          GetNomUtilisateurEnregistrement(I, buf);
           ComboBoxBasdepageCentre.Items.Add(buf);
         end;//4
     end//2

@@ -22,8 +22,8 @@ type
     function sub_004B6D34:TStringList;//004B6D34
     procedure SetTypePeriode__(x:String);//004B6D38
     procedure SetPeriodes(x:TStringList);//004B6D84
-    procedure sub_004B6E84(a:byte; b:boolean);//004B6E84
-    function sub_004B6EA8(a:byte):boolean;//004B6EA8
+    procedure SetIsPeriodeInCal(a:byte; b:boolean);//004B6E84
+    function GetIsPeriodeInCal(a:byte):boolean;//004B6EA8
   end;
 
 
@@ -102,13 +102,13 @@ end;//0
 
 
 //004B6E84
-procedure TPeriodes.sub_004B6E84(a:byte; b:boolean);
+procedure TPeriodes.SetIsPeriodeInCal(a:byte; b:boolean);
 begin//004B6E84
   fC[a - 1] :=b
 end;//0
 
 //004B6EA8
-function TPeriodes.sub_004B6EA8(a:byte):boolean;
+function TPeriodes.GetIsPeriodeInCal(a:byte):boolean;
 begin//004B6EA8
   result := fC[a - 1];
 end;//0

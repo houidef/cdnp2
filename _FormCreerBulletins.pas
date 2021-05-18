@@ -386,7 +386,7 @@ begin//0
                 for K := 1 to FCdn.EleveCount  do//00608404
                 begin//8
                   //0060840B
-                  FCdn.GetStrNoteAsFloat(J, K,lvar_D , text);
+                  FCdn.GetMoyBulletin(J, K,lvar_D , text);
                   StList.Add(text);
                 end;//8
               if (CheckBoxInclureEnseignant.Checked) then
@@ -407,7 +407,7 @@ begin//0
               __GetStrPeriodeMoy(StList, text);
               f3C4.Add(text);
               lvar_C := f3CC + 1;
-              FCdn.GetStrNoteAsFloat(J, lvar_C, lvar_D, text);
+              FCdn.GetMoyBulletin(J, lvar_C, lvar_D, text);
               f3B8.Add(text);
               for K := 1 to f394 do
               begin//7

@@ -155,7 +155,7 @@ begin//0
           for K := 1 to f328.EleveCount do//005137DD
           begin//5
             //005137E1
-            f328.GetStrNoteAsFloat(J, K, GetarrondirMoyennes, buf);
+            f328.GetMoyBulletin(J, K, GetarrondirMoyennes, buf);
             lvar_1C.add(buf);
           end;//5
 
@@ -311,7 +311,7 @@ begin//0
       try
         //00514001
         moyennesSur := GetmoyennesSur;
-        f328.GetStrNoteAsFloat(TabControlPeriodes.TabIndex + 1, Arow + 1, GetarrondirMoyennes, buf);
+        f328.GetMoyBulletin(TabControlPeriodes.TabIndex + 1, Arow + 1, GetarrondirMoyennes, buf);
         lvar_10 := StrToFloat(buf);
         //00514078
         if (lvar_10 < 0) Or (lvar_10 <  moyennesSur) then //00514090
@@ -338,7 +338,7 @@ begin//0
 
 
  
-    f328.GetStrNoteAsFloat(TabControlPeriodes.TabIndex + 1, ARow + 1, GetarrondirMoyennes, buf);
+    f328.GetMoyBulletin(TabControlPeriodes.TabIndex + 1, ARow + 1, GetarrondirMoyennes, buf);
     Label7.Caption:= buf;
     Label2.Caption := 'Moy. la + basse : ' + f340;
     Label3.Caption := 'Moy. la + haute : ' + f344;
@@ -469,7 +469,7 @@ begin//0
       begin//3
         //005147C0
 
-        f328.GetStrNoteAsFloat(TabControlPeriodes.TabIndex + 1, J, GetarrondirMoyennes, buf);
+        f328.GetMoyBulletin(TabControlPeriodes.TabIndex + 1, J, GetarrondirMoyennes, buf);
         f32C.Add(buf);
       end;//3
 
@@ -526,7 +526,7 @@ begin//0
       for I := 1 to f328.GetNbrePeriodes  do //00514AC8
       begin//3
         //00514AD0
-        f328.GetStrNoteAsFloat(I, f33C, GetarrondirMoyennes, buf);
+        f328.GetMoyBulletin(I, f33C, GetarrondirMoyennes, buf);
         StringGrid2.Cells[4, I] := buf;
       end;//3
 
@@ -624,7 +624,7 @@ begin//0
       if (f34C <> 0) then
 	  begin
 
-		  f328.sub_004C3798(TabControlPeriodes.TabIndex + 1, f330+1, Memo1.Text,TabSetColonnesBulletin.TabIndex + 1);
+		  f328.SetAppreciations___(TabControlPeriodes.TabIndex + 1, f330+1, Memo1.Text,TabSetColonnesBulletin.TabIndex + 1);
 		  StringGrid1.Cells[TabSetColonnesBulletin.TabIndex + 1, f330] :=  Memo1.Text;
       end;
     end//2
@@ -632,7 +632,7 @@ begin//0
 		if (f34C <> 0) then
 		begin
 
-			f328.sub_004C3798(f334, f33C, Memo1.text,TabSetColonnesBulletin.TabIndex + 1);
+			f328.SetAppreciations___(f334, f33C, Memo1.text,TabSetColonnesBulletin.TabIndex + 1);
 			StringGrid2.Cells[TabSetColonnesBulletin.TabIndex + 5, f334] :=  Memo1.text;
 		end;
     //00514F60

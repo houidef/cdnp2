@@ -22,15 +22,15 @@ type
     f2F4:array of TStringList;//f2F4
     destructor Destroy; virtual;//004CF9F8
     procedure WMCommand(var Message:TWMCommand); message WM_COMMAND;//004CFC74
-    procedure sub_004D0A5C(var Msg:TMsg);  message $408;//004D0A5C
+    procedure Refrech_(var Msg:TMsg);  message $408;//004D0A5C
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004CF0A8
-    procedure sub_004CF21C;//004CF21C
-    procedure sub_004CF4CC;//004CF4CC
-    procedure sub_004CF830;//004CF830
+    procedure AppendMenu1;//004CF21C
+    procedure AppendMenu2;//004CF4CC
+    procedure AppendMenu3;//004CF830
     procedure sub_004CFA2C(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);//004CFA2C
-    procedure sub_004D072C;//004D072C
-    function sub_004D08DC(Periode:dword; ARow:dword):dword;//004D08DC
-	procedure sub_004D03C8(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+    procedure _SetTitle;//004D072C
+    function _SetData(Periode:dword; ARow:dword):dword;//004D08DC
+	procedure _DrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
   end;
 
 
@@ -60,16 +60,15 @@ begin
   //sub_04D03C8
   OnMouseDown := sub_004CFA2C;
   Options := Options + [goRowSelect];
-
- sub_004D072C;
+ _SetTitle;
     for I := 1 to FichierCdn.EleveCount do //004CF1E0
     begin//004CF1E4
-      sub_004D08DC(1, I);
+      _SetData(1, I);
     end;//2
 end;
 
 //004CF21C
-procedure TGrilleMoyennesCarnetDeNotes.sub_004CF21C;
+procedure TGrilleMoyennesCarnetDeNotes.AppendMenu1;
 var 
   x:integer;
 begin//0
@@ -117,7 +116,7 @@ end;//0
 
 
 //004CF4CC
-procedure TGrilleMoyennesCarnetDeNotes.sub_004CF4CC;
+procedure TGrilleMoyennesCarnetDeNotes.AppendMenu2;
 begin//0
   //004CF4CC
     //004CF4E9
@@ -145,7 +144,7 @@ begin//0
 end;//0
 
 //004CF830
-procedure TGrilleMoyennesCarnetDeNotes.sub_004CF830;
+procedure TGrilleMoyennesCarnetDeNotes.AppendMenu3;
 begin//0
   //004CF830
     //004CF849
@@ -212,7 +211,7 @@ begin//0
     begin//004CFB31
 	  if({ARow in I} ARow <I) then 
       begin//004CFB37
-        sub_004CF21C;
+        AppendMenu1;
         TrackPopupMenu(f2F0, 10, ClientToScreen(Point(X,Y)).x, ClientToScreen(Point(X,Y)).y, 0{ reserved }, Handle, nil);
       end;//3
     end;//2
@@ -223,7 +222,7 @@ begin//0
     begin//004CFBA5
       if ({ARow in I} ARow <I) then
       begin//004CFBAB
-        sub_004CF4CC;
+        AppendMenu2;
 		TrackPopupMenu(f2F0, 10, ClientToScreen(Point(X,Y)).x, ClientToScreen(Point(X,Y)).y, 0{ reserved }, Handle, nil);
       end;//3
     end;//2
@@ -236,7 +235,7 @@ begin//0
   begin//004CFC1F
     if ({ARow in I} ARow <I) then
     begin//004CFC25
-      sub_004CF830;
+      AppendMenu3;
       TrackPopupMenu(f2F0, 10,ClientToScreen(Point(X,Y)).X, ClientToScreen(Point(X,Y)).Y, 0, Handle, nil);
     end;//2
   end;//1
@@ -253,56 +252,54 @@ var
 begin//0
   //004CFC74
     //004CFCBB
-    if (Message.ItemID - 1 - 4 < 0) then
-    begin//2
-      //004CFCC8
-      SetarrondirMoyennes(Message.ItemID - 1);
-    end//2
+	showmessage(inttostr(Message.ItemID));
+    if (Message.ItemID  < 5) then //004CFCC8
+      SetarrondirMoyennes(Message.ItemID - 1)
     else
     begin//2
       //004CFCEB
       if (Message.ItemID = 5) then //004CFCF1
-        FichierCdn.sub_004C3678(NPeriode, f2EC,'-2')
+        FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-2')
       else
       begin//3
         //004CFD1F
         if (Message.ItemID = 6) then//004CFD25
-          FichierCdn.sub_004C3678(NPeriode, f2EC,'-1,5')
+          FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-1,5')
         else
         begin//4
           //004CFD53
           if (Message.ItemID = 7) then//004CFD59
-            FichierCdn.sub_004C3678(NPeriode, f2EC,'-1')
+            FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-1')
           else
           begin//5
             //004CFD87
             if (Message.ItemID = 8) then//004CFD8D
-              FichierCdn.sub_004C3678(NPeriode, f2EC,'-0,5')
+              FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-0,5')
             else
             begin//6
               //004CFDBB
               if (Message.ItemID = 9) then//004CFDC1
-                FichierCdn.sub_004C3678(NPeriode, f2EC,'')
+                FichierCdn.SetPointsAdditif(NPeriode, f2EC,'')
               else
               begin//7
                 //004CFDEF
                 if (Message.ItemID = 10) then//004CFDF5
-                  FichierCdn.sub_004C3678(NPeriode, f2EC,'0,5')
+                  FichierCdn.SetPointsAdditif(NPeriode, f2EC,'0,5')
                 else
                 begin//8
                   //004CFE23
                   if (Message.ItemID = 11) then //004CFE29
-                    FichierCdn.sub_004C3678(NPeriode, f2EC,'1')
+                    FichierCdn.SetPointsAdditif(NPeriode, f2EC,'1')
                   else
                   begin//9
                     //004CFE57
                     if (Message.ItemID = 12) then//004CFE5D
-                      FichierCdn.sub_004C3678(NPeriode, f2EC,'1,5')
+                      FichierCdn.SetPointsAdditif(NPeriode, f2EC,'1,5')
                     else
                     begin//10
                       //004CFE8B
                       if (Message.ItemID = 13) then//004CFE91
-                        FichierCdn.sub_004C3678(NPeriode, f2EC,'2')
+                        FichierCdn.SetPointsAdditif(NPeriode, f2EC,'2')
                       else
                       begin//11
                         //004CFEBF
@@ -314,7 +311,7 @@ begin//0
                           if (FormEdit.ModalResult = 1) then
                           begin//13
                             //004CFF0B
-                            FichierCdn.sub_004C3678(NPeriode, f2EC,FormEdit.Edit1.Text);
+                            FichierCdn.SetPointsAdditif(NPeriode, f2EC,FormEdit.Edit1.Text);
                             SendMessageA(FormEdit.Handle, $408{1032}, NPeriode, f2EC);
                           end;//13
                           FormEdit.Destroy;
@@ -344,7 +341,7 @@ begin//0
                                 begin//16
                                   //004D0010
                                   SetmoyennesSur(StrToInt(FormEdit.Edit1.Text));
-                                  FichierCdn.sub_004C4784(NPeriode, true);
+                                  FichierCdn.SetIsPeriodeInCal(NPeriode, true);
                                   SendMessageA(Handle, $408{1032}, NPeriode, 0);
                                 end;//16
                                 FormEdit.Destroy;
@@ -384,7 +381,7 @@ begin//0
                                         begin//20
                                           //004D01A5
                                           Cells[f2E8, I] := lvar_C[I - 1];
-                                          FichierCdn.sub_004C3678(NPeriode, I,lvar_C[I - 1]);
+                                          FichierCdn.SetPointsAdditif(NPeriode, I,lvar_C[I - 1]);
                                         end;//20
                                       lvar_C.Destroy;
                                       SendMessageA(Handle, $408{1032}, NPeriode, 0);
@@ -405,7 +402,7 @@ begin//0
         end;//4
       end;//3
     end;//2
-    FichierCdn.sub_004C4784(NPeriode, true);
+    FichierCdn.SetIsPeriodeInCal(NPeriode, true);
     case Message.ItemID of
       1..4:
       begin//3
@@ -428,12 +425,11 @@ begin//0
 end;//0
 
 //004D072C
-procedure TGrilleMoyennesCarnetDeNotes.sub_004D072C;
+procedure TGrilleMoyennesCarnetDeNotes._SetTitle;
 var
   I:integer;
 begin//0
   //004D072C
-  
     ColCount := 4;
     RowCount := FichierCdn.EleveCount + $12{gvar_00617902};
     for I := 0 to 3 do
@@ -445,49 +441,46 @@ begin//0
     Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr(GetmoyennesSur);
     Cells[2, 0] := 'Point(s) en + ou en -';
     Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
-
-
-
 end;
 
 //004D08DC
-function TGrilleMoyennesCarnetDeNotes.sub_004D08DC(Periode:dword; ARow:dword):dword;
+function TGrilleMoyennesCarnetDeNotes._SetData(Periode:dword; ARow:dword):dword;
 var
   buf :string;
 begin//0
   //004D08DC..004D0914
     Visible := ((FichierCdn.GetNbreModules(NPeriode) = 0) Xor true);
-    FichierCdn.sub_004C213C(Periode, ARow, buf);
+    FichierCdn.GetMoyBrute(Periode, ARow, buf);
     Cells[0, ARow] := buf;
-    FichierCdn.GetStrNoteFromFile(Periode, ARow, GetarrondirMoyennes, buf);
+    FichierCdn.GetMoyArrondie(Periode, ARow, GetarrondirMoyennes, buf);
     Cells[1, ARow] := buf;
-    FichierCdn.sub_004C2B38(Periode, ARow, buf);
+    FichierCdn.GetPointsAdditif(Periode, ARow, buf);
     Cells[2, ARow] := buf;
-    FichierCdn.GetStrNoteAsFloat(Periode, ARow, GetarrondirMoyennes, buf);
+    FichierCdn.GetMoyBulletin(Periode, ARow, GetarrondirMoyennes, buf);
     Cells[3, ARow] := buf;
 end;//0
 
 
 
 //004D0A5C
-procedure TGrilleMoyennesCarnetDeNotes.sub_004D0A5C(var Msg:TMsg);
+procedure TGrilleMoyennesCarnetDeNotes.Refrech_(var Msg:TMsg);
 var
  I:integer;
  Count : integer;
 begin//0
   //004D0A5C
   NPeriode := Msg.Message; //Periode
-  if (FichierCdn.sub_004C4778(Msg.Message)) then // test si periode est deja traité
+  if (FichierCdn.GetIsPeriodeInCal(Msg.Message)) then // test si periode est deja traité
   begin//004D0A92 
     if (Msg.WParam = 0) then
     begin//004D0A99
-      sub_004D072C; 
+      _SetTitle; 
         for I := 1 to FichierCdn.EleveCount do //004D0AAB
-          sub_004D08DC(Msg.Message, I);
+          _SetData(Msg.Message, I);
         
     end//2
     else//004D0AD3
-      sub_004D08DC(Msg.Message, Msg.WParam);
+      _SetData(Msg.Message, Msg.WParam);
    
     Count := 4 * (NPeriode - 1); // count =  lvar_18 
 	  for I:=  Count to Count+3 do //teste
@@ -500,7 +493,7 @@ begin//0
 		f2F4[I].Clear;
 		f2F4[I].AddStrings(Cols[I - lvar_14]);
 	end;//3}
-    FichierCdn.sub_004C4784(NPeriode,False);
+    FichierCdn.SetIsPeriodeInCal(NPeriode,False);
   end
   else 
   begin
@@ -521,9 +514,9 @@ end;//0
 procedure TGrilleMoyennesCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
 begin
     inherited DrawCell(ACol, ARow, ARect, AState);
-	sub_004D03C8(self,ACol,ARow,ARect, AState);	
+	_DrawCell(self,ACol,ARow,ARect, AState);	
 end;
-procedure TGrilleMoyennesCarnetDeNotes.sub_004D03C8(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+procedure TGrilleMoyennesCarnetDeNotes._DrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
 var
    R:TRect;
    Valeur:Real;
@@ -548,7 +541,6 @@ begin//0
         if (ACol <> 2) then
         begin//4
           //004D0464
-          
           if (Cells[ACol, ARow] <> '') then
           begin//5
             //004D0480

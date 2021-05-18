@@ -75,7 +75,7 @@ begin//0
     if (lvar_C < NPeriode) then //004CB557
       Visible := (FichierCdn.GetNbreModules(NPeriode) = 0) Xor True
     else//004CB575
-      Visible := (FichierCdn.sub_004C4790 = 0) Xor True;
+      Visible := (FichierCdn.NbrModulesTot = 0) Xor True;
     if (Visible = False) then Exit;
     lvar_14 := FichierCdn.BulletinsCount;
     if (GetmoyennesEcritEtOral ) then //004CB5B1
@@ -119,7 +119,7 @@ begin//0
 				  Strlist := FichierCdn.sub_004C3134(NPeriode);
 				  Cells[I + 1, 0] :=  'Moy. "' + Strlist[I - 1] + '"';
 				  //Strlist := FichierCdn.sub_004C3134(NPeriode);
-				  FichierCdn.sub_004C2E60(Strlist[I - 1], NPeriode,J ,buf);
+				  FichierCdn.SetStrComptMoy(Strlist[I - 1], NPeriode,J ,buf);
 				  FichierCdn.GetStrMoyArrendit(buf, GetarrondirMoyennes, buf1);
 				  Cells[I + 1, J] :=  buf1;
 				end;//6
@@ -149,7 +149,7 @@ begin//0
 			for I := 1 to FichierCdn.EleveCount do//004CBA16
 			begin//5
 				//004CBA1E
-				FichierCdn.GetStrNoteAsFloat(NPeriode, I, GetarrondirMoyennes, buf);
+				FichierCdn.GetMoyBulletin(NPeriode, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 0, I] := buf;
 			end;//5
 			Cols[lvar_4 + 1].Clear;
@@ -227,7 +227,7 @@ begin//0
 			for I := 1 to FichierCdn.EleveCount  do
 			begin//5
 				//004CC067
-				FichierCdn.GetStrNoteAsFloat(L, I, GetarrondirMoyennes, buf);
+				FichierCdn.GetMoyBulletin(L, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 2 + K + L, I ] := buf;
 			end;//5
 		end;//4
@@ -280,7 +280,7 @@ begin//0
 			for I := 1 to FichierCdn.EleveCount do//004CC511
 			begin//4
 				//004CC519
-				FichierCdn.GetStrNoteAsFloat(NPeriode, I, GetarrondirMoyennes, buf);
+				FichierCdn.GetMoyBulletin(NPeriode, I, GetarrondirMoyennes, buf);
 				Cells[lvar_4 + 2, I] :=  buf;
 			end;//4
 			Cols[lvar_4 + 3].Clear;
@@ -312,7 +312,7 @@ begin//0
 				for I := 1 to FichierCdn.EleveCount  do//004CC79E
 				begin//5
 					//004CC7A6
-					FichierCdn.GetStrNoteAsFloat(L, I, GetarrondirMoyennes, buf);
+					FichierCdn.GetMoyBulletin(L, I, GetarrondirMoyennes, buf);
 					Cells[L + 1, I ] := buf;
 				end;//5
 				sub_004CD0B0(L);
@@ -672,7 +672,7 @@ begin//0
     if (I Or J ) then
     begin//2
       //004CEE06
-      FichierCdn.sub_004C4784(NPeriode, true);
+      FichierCdn.SetIsPeriodeInCal(NPeriode, true);
       FichierCdn.defaultAttributs;
       SendMessageA(Handle, $403{1027}, NPeriode, 0);
     end;//2

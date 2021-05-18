@@ -189,13 +189,13 @@ begin//0
 			Bilan.Add('');
       end;//3
     Bilan.Add('------------------------------------------------------------------------------');
-    FCdn.GetStrNoteAsFloat(iPeriode, iEleve, GetarrondirMoyennes, buf0);
+    FCdn.GetMoyBulletin(iPeriode, iEleve, GetarrondirMoyennes, buf0);
     text := 'Moyenne de la période : ' + buf0;
     lvar_C := TStringList.Create;
       for I := 1 to FCdn.EleveCount  do//00534DB7
       begin//3
         //00534DC1
-        FCdn.GetStrNoteAsFloat(iPeriode, I, GetarrondirMoyennes, buf0);
+        FCdn.GetMoyBulletin(iPeriode, I, GetarrondirMoyennes, buf0);
         lvar_C.Add(buf0);
       end;//3
     __GetStrPeriodeMin(lvar_C,buf0);

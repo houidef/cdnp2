@@ -851,7 +851,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ESI;//ESI
                 EDX := EBX;//EBX
-                EDX[EAX].GetStrNoteAsFloat(EBX, ESI, EDX[EAX].sub_004C4D44{EAX}, lvar_A2C);
+                EDX[EAX].GetMoyBulletin(EBX, ESI, EDX[EAX].sub_004C4D44{EAX}, lvar_A2C);
                 //push EAX
                 ECX := ;
                 ECX := ECX + 1;//ECX
@@ -936,7 +936,7 @@ begin//0
                       EAX := ;
                       EAX := f368[EAX];
                       ECX := EBX;//EBX
-                      ECX[EAX].sub_004C2E60(lvar_B54, EBX, );
+                      ECX[EAX].SetStrComptMoy(lvar_B54, EBX, );
                       //push EAX
                       ECX := ;
                       EDX := EBX;//EBX

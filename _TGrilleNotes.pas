@@ -110,15 +110,15 @@ begin//0
             try
               //0054243B
               FichierCdn.GetStrNoteSur( NPeriode, ACol + 1, buf);
-             // if (StrToFloat(Cells[ACol, ARow]) < 0{gvar_005428A4}) Or ( StrToFloat(Cells[ACol, ARow]) > StrToFloat(buf)) then //005424CC
-				//Canvas.Brush.Color := _Getcouleur5Note;
+              if (StrToFloat(Cells[ACol, ARow]) < 0{gvar_005428A4}) Or ( StrToFloat(Cells[ACol, ARow]) > StrToFloat(buf)) then //005424CC
+				Canvas.Brush.Color := _Getcouleur5Note;
             except//6
               on E:EConvertError do
               begin//005424FF
-               { if (GetcolorationGrille) then//00542508
+                if (GetcolorationGrille) then//00542508
                   Canvas.Brush.Color := _Getcouleur5Note
                 else//00542522;
-                  Canvas.Brush.Color := $FFFFFF;}
+                  Canvas.Brush.Color := $FFFFFF;
               end;//7
             end;//6
           end;//5
@@ -132,7 +132,7 @@ begin//0
             try
               //005425B5
               fichierCdn.GetStrNoteSur(NPeriode, ACol + 1, buf);
-              (*if (StrToFloat(Cells[ACol, ARow]) < 0{gvar_005428A4}) Or (StrToFloat(Cells[ACol, ARow]) > StrToFloat(buf)) then//0054264C
+              if (StrToFloat(Cells[ACol, ARow]) < 0{gvar_005428A4}) Or (StrToFloat(Cells[ACol, ARow]) > StrToFloat(buf)) then//0054264C
                 Canvas.Font.Color := _Getcouleur4Note
               else
               begin//00542669
@@ -144,51 +144,45 @@ begin//0
 				  else //005426CA
 				   Canvas.Font.Color:= _Getcouleur2Note;
               end;//7
-			  *)
+			  
             except//6
               on E:EConvertError do
               begin//00542722
-                (*if (GetcolorationGrille) then//0054272B
+                if (GetcolorationGrille) then//0054272B
                   Canvas.Brush.Color := _Getcouleur5Note
                 else//00542745
-                  Canvas.Brush.Color := $FFFFFF;*)
+                  Canvas.Brush.Color := $FFFFFF;
               end;//7
               on E:EMathError do
               begin//0054275D
-               (* if (GetcolorationGrille) then//00542766
+                if (GetcolorationGrille) then//00542766
                   Canvas.Brush.Color := _Getcouleur5Note
                 else//00542780
-                  Canvas.Brush.Color := $FFFFFF;*)
+                  Canvas.Brush.Color := $FFFFFF;
               end;//7
             end;//6
           end;//5
         end;//4
       end;//3
     end;//2
-    (*if (gdSelected in AState) then//005427A1
+      if (gdSelected in AState) then//005427A1
       if (GetcolorationGrille) then//005427AA
         Canvas.Brush.Color := GetcouleurSelection
       else//005427C4
         Canvas.Brush.Color := $C0C0C0;
-*)
 
-    
     Canvas.FillRect(ARect);
-    
     lvar_5C.Left := ARect.Left;
     lvar_5C.Top := ARect.Top + 2;
     lvar_5C.Right := ARect.Right;
     lvar_5C.Bottom := ARect.Bottom;
-
     DrawTextA(Canvas.Handle, PChar(Cells[ACol, ARow]), Length(Cells[ACol, ARow]), lvar_5C, 1);
-
 end;//0
 
 //00542298
 destructor TGrilleNotesCarnetDeNotes.Destroy;
 begin//0
   //00542298
- 
   DestroyMenu(f2E8);
   inherited destroy;
 end;//0

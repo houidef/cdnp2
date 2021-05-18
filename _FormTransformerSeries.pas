@@ -71,7 +71,7 @@ begin//0
         ListBox2.Items.Add(buf);
       end;//3
 
-    CheckBox1.Enabled := (F.sub_004C4790 < 255{gvar_00617903});
+    CheckBox1.Enabled := (F.NbrModulesTot < 255{gvar_00617903});
     ComboBox1.ItemIndex := 0;
 end;//0
 

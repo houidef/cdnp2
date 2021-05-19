@@ -857,7 +857,7 @@ begin//0
                 ECX := ECX + 1;//ECX
                 EDX := EBX;//EBX
                 EAX := ;
-                .sub_004C1074(EBX, ECX, , lvar_A2C);
+                .AddNoteToPeriode(EBX, ECX, , lvar_A2C);
               end;//7
             end;//6
             1:
@@ -941,7 +941,7 @@ begin//0
                       ECX := ;
                       EDX := EBX;//EBX
                       EAX := ;
-                      .sub_004C1074(EBX, , 0, lvar_A2C);
+                      .AddNoteToPeriode(EBX, , 0, lvar_A2C);
                     end;//10
                   end;//9
                   lvar_10 := lvar_10 + 1;
@@ -1005,7 +1005,7 @@ begin//0
                 EAX := EDX[EAX];
                 ECX := ;
                 EDX := EBX;//EBX
-                _readCompteMoy(EDX[EAX], EBX, lvar_A2C, ?);
+                GetModuleName__v(EDX[EAX], EBX, lvar_A2C, ?);
                  := ;
                  := ;
                
@@ -1067,7 +1067,7 @@ begin//0
                     ECX := ;
                     EDX := EBX;//EBX
                     EAX := ;
-                    .sub_004C1074(EBX, , , lvar_A2C);
+                    .AddNoteToPeriode(EBX, , , lvar_A2C);
                   end;//9
                 end;//8
                 lvar_10 := lvar_10 + 1;

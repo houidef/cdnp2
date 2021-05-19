@@ -84,7 +84,7 @@ begin//0
       for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do //0050FAFA
       begin//3
         //0050FB01
-        f330._readCompteMoy( TabControl1.TabIndex + 1, Buf, I);
+        f330.GetModuleName__v( TabControl1.TabIndex + 1, Buf, I);
         ListBox2.Items.Add(buf);
       end;//3
     
@@ -118,7 +118,7 @@ begin//0
       for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do//0050FC8A
       begin//3
         //0050FC91 
-        f330._readCompteMoy(TabControl1.TabIndex + 1, buf, I);
+        f330.GetModuleName__v(TabControl1.TabIndex + 1, buf, I);
         ListBox2.Items.Add(buf);
       end;//3
     
@@ -375,7 +375,7 @@ begin//0
           for I := 0 to ListBoxSeriesConcernees.Items.Count - 1 do//0051083A
           begin//5
             //0051083D
-            f330._readCompteMoy(f730[I], buf, f334[I]);
+            f330.GetModuleName__v(f730[I], buf, f334[I]);
             StrList1.Add(buf);
           end;//5
         
@@ -399,7 +399,7 @@ begin//0
             for I := 1 to ListBoxSeriesConcernees.Items.Count do//00510A0A
             begin//6
               //00510A0F
-              f330.sub_004BFC58(f730[{EAX}I], f730[I - 1] - I - 1);
+              f330._InsertColone(f730[{EAX}I], f730[I - 1] - I - 1);
             end;//6
           lvar_D := false;
         end;//4
@@ -467,7 +467,7 @@ begin//0
               end;//7
             end;//6
             lvar_18.Free;
-            f330.sub_004C1074(ComboBox1.ItemIndex + 1, f330.GetNbreModules(ComboBox1.ItemIndex + 1), I, lvar_42C);
+            f330.AddNoteToPeriode(ComboBox1.ItemIndex + 1, f330.GetNbreModules(ComboBox1.ItemIndex + 1), I, lvar_42C);
           end;//5 
         if (lvar_D) then
         begin//4

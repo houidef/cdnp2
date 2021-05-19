@@ -6,9 +6,10 @@
 unit UFichierCdn;
 
 interface
-
+  {$I Cdn2.INC}
 uses
-  Forms,SysUtils, Classes, UPeriodes, Dialogs, FFluxCdn, Grids, Windows, unit111, UTypeBulletins, UEleves,UEnregistrement;
+  Forms,SysUtils, Classes, UPeriodes, Dialogs, FFluxCdn, Grids, Windows, unit111, UTypeBulletins, 
+  UEleves,Constantes , UEnregistrement,QSort;
 
 type
   TFichierCdn = class(TObject)
@@ -29,8 +30,8 @@ type
     SArrondirMoyennesAnnuelles:integer;//f911    
     StypeMoyennesAnnuelles:integer;//f912    //typeMoyennesAnnuelles
     STypeBulletins:TTypeBulletins;//f914
-    SPeriodes:TPeriodes;//f918
-    SEleves:TEleves; //f91C
+    FPeriodes:TPeriodes;//f918
+    FEleves:TEleves; //f91C
     FNbrModules:TStringList;//f920
     FData:TStringGrid;//f924
     FPointsAdditif:TStringList;//f928
@@ -65,9 +66,9 @@ type
     function GetPeriodesList_:TStringList;//004BEA4C
     function EleveLists:TStringList;//004BEAC4
     function GetNbreModules(y:byte):integer;//004BEAD0
-    function sub_004BEB40(I:dword; J:dword):TStrings;//004BEB40
-    procedure sub_004BEC04(Periode:dword; ACol:dword; ARow:dword;var data:string);//004BEC04
-    procedure _readCompteMoy(Periode:dword; var NameModule:string; NumModule:integer);//004BED04 Determine le Nom de Module
+    function GetCols__(I:dword; J:dword):TStrings;//004BEB40
+    procedure GetData_V00(Periode:dword; ACol:dword; ARow:dword;var data:string);//004BEC04
+    procedure GetModuleName__v(Periode:dword; var NameModule:string; NumModule:integer);//004BED04 Determine le Nom de Module
     procedure GetStrNoteSur(Periode:dword; ARow:dword; var S:string);//004BED2C
     procedure GetStrCoeff(Periode:dword; ARow:dword; var S:string);//004BED7C
     procedure GetStrComptMoy(Periode:dword; ARow:dword; var S:string);//004BEDCC
@@ -86,11 +87,11 @@ type
     procedure SetAutreInfo(TypeBulletins:String; TypePeriode:string);//004BF258
     procedure sub_004BF544(StringList:TStringList);//004BF544
     procedure SetEleveListsV(a:TStringList);//004BF64C
-    procedure AddColone(iPeriode:dword; b:string; intitule:string; d:string; e:string; f:string; g:string; h:string; ii:boolean);//004BF7F0
-    procedure sub_004BFC58(a:dword; b:dword);//004BFC58
-    procedure sub_004BFD68(index1:integer; index2:integer; index3:integer);//004BFD68
+    procedure AddColone(iPeriode:dword; b:string; intitule:string; d:string; e:string; f:string; g:string; h:string; OralEcrit:boolean);//004BF7F0
+    procedure _InsertColone(a:dword; b:dword);//004BFC58
+    procedure MoveColone(PeriodeSource:integer; ACol:integer; PeriodeDest:integer);//004BFD68
     procedure sub_004C0070(a:dword);//004C0070
-    procedure sub_004C0134(a:dword);//004C0134
+    procedure DecModules(a:dword);//004C0134
     procedure SaveCdn(a:AnsiString; iOldVersion:boolean; c:string; BulletinsDefaut:boolean);//004C01F8   sauvgrader fichier 
     procedure _SetStrNote(Periode:dword; ACol:dword; ARow:dword; Value:string);//004C0C88
     procedure _SetStrNote0(periode:dword; ACol:dword; e:string);//004C0E24
@@ -98,10 +99,10 @@ type
     procedure _SetStrNote15(Periode:dword; ACol :dword; d:string);//004C0EC8
     procedure _SetStrNote17(Periode:dword; ACol:dword; d:string);//004C0F34
     function _SetStrNote13(a:dword; b:dword; c:string):dword;//004C0FA0
-    procedure sub_004C1074(Periode:dword; ACol:dword; ARow:dword; data:string);//004C1074
+    procedure AddNoteToPeriode(Periode:dword; ACol:dword; ARow:dword; data:string);//004C1074
     procedure DeleteEleve(a:dword);//004C1158
     procedure sub_004C14C8(b:String; c:string; d:string; a:boolean);//004C14C8
-    procedure sub_004C1954(a:integer; b:string; c:boolean;d:string);//004C1954
+    procedure SetEleve_v2(NEleve:dword; NomPrenom:string; Redoublant:boolean; DateDeNaissance:string);//004C1954
     procedure GetMoyBrute(Periode:dword; ARow:dword; var Moy:string);//004C213C
     procedure GetStrMoyArrendit(a:String; {b:Integer;}  ArrendirMoyennes:dword; var Moy:string);//004C2410
     procedure GetMoyArrondie(Periode:dword; ARow:dword; ArrondirMoyennes:dword; var RMoy:string);//004C2AF4
@@ -110,7 +111,7 @@ type
     procedure GetMoyBulletin(Periode:dword; ARow:dword; ArrondirMoyennes:dword; var Moy:string);//004C2D10
     procedure SetStrComptMoy(Str : string; Periode:byte; J:integer; var Value:string);//004C2E60
     function sub_004C3134(a:byte):TStringList;//004C3134
-    procedure sub_004C32B4(a:integer; b:integer; c:integer;d:integer;e:string);//004C32B4
+    function GetAllDataEleve(a:integer; b:integer; c:integer;d:integer;e:string):string;//004C32B4
     procedure SetPointsAdditif(Periode:integer; ARow:integer; str:string);//004C3678
     procedure SetAppreciations___(b:dword; c:dword; d:string; e:dword);//004C3798
     function GetEnseignant() : string;//004C3908
@@ -133,9 +134,9 @@ type
     procedure sub_004C4CBC(a:TStringList);//004C4CBC
     procedure SetTypePeriode__(a:string);//004C4CC8
     function sub_004C4D44:dword;//004C4D44
-    function sub_004C5078(a:integer; b:integer; c:integer;d:integer;e:integer):Tstrings;//004C5078
+    function GetAllDataPeriode(Periode:integer; AscDes:integer; ArrondirMoyennes:dword ; arrondirMoyennesAnnuelles : dword ; typeMoyennesAnnuelles:dword):Tstrings;//004C5078
     procedure GetStrMinMoy(Periode:dword; ARow:dword; var S:String);//004C5404
-    procedure sub_004C56C0(a:integer; b:integer; c:string);//004C56C0
+    procedure GetMaxNotePeriode(Periode:integer; Arow:dword ;  buf:string);//004C56C0
     procedure SetAttributs0(periode:dword; ACol:dword; c:dword;s:string);//004C5E04
     procedure GetAttributs0(Periode:dword; ACol:dword; Info:dword; var d:string);//004C5F08
     procedure SetAttributs1(a:dword; b:dword; c:dword; d:Boolean);//004C5FF8
@@ -203,7 +204,7 @@ constructor TFichierCdn.Create(filename:TFilename{; y:pointer; z:pointer; t:poin
 begin//0
 	FFileName := FileName;
     inherited Create;
-    OpenFile{(filename, y, z, t)};
+    OpenFile;
 end;
 
 //004BE8FC
@@ -255,7 +256,7 @@ var
   buf:string;
 begin//0
   //004BE988
-    SPeriodes.GetTypePeriode_(buf);
+    FPeriodes.GetTypePeriode_(buf);
     result := buf;
 end;//0
 
@@ -264,7 +265,7 @@ end;//0
 function TFichierCdn.GetNbrePeriodes:integer; //Nbre Periodes
 begin
   //004BE9E0
-  result := SPeriodes.GetNbrePeriodes;
+  result := FPeriodes.GetNbrePeriodes;
 end;
 
 //004BE9EC
@@ -273,7 +274,7 @@ var
   buf:string;
 begin//0
   //004BE9EC
-    SPeriodes.GetPeriodName(iPeriod, buf);
+    FPeriodes.GetPeriodName(iPeriod, buf);
      result:=buf;
 end;//0
 
@@ -281,28 +282,28 @@ end;//0
 function TFichierCdn.GetPeriodesList_:TStringList;
 begin//0
   //004BEA4C
-  Result := SPeriodes.sub_004B6D34;
+  Result := FPeriodes.sub_004B6D34;
 end;//0
 
 
 //004BEA58
 function TFichierCdn.EleveCount:integer;
 begin
-  result := SEleves.EleveCount;
+  result := FEleves.EleveCount;
 end;
 
 //004BEA64
 procedure TFichierCdn.GetEleveName(iEleve:dword; var b:string);
 begin//0
   //004BEA64
-    SEleves.EleveItem(iEleve, b);
+    FEleves.EleveItem(iEleve, b);
 end;
 
 //004BEAC4
 function TFichierCdn.EleveLists:TStringList;
 begin//0
   //004BEAC4
-  result := SEleves.EleveLists;
+  result := FEleves.EleveLists;
 end;//0
 
 
@@ -314,57 +315,47 @@ begin//0
 end;
 
 //004BEB40
-function TFichierCdn.sub_004BEB40(I:dword; J:dword):TStrings;
+function TFichierCdn.GetCols__(I:dword; J:dword):TStrings;
 var
-  k,lvar_C:Integer;
+  k,Modules:Integer;
 begin//0
   //004BEB40
-  try
-    //004BEB62
-    lvar_C := 0;
+    Modules := 0;
       for k := 1 to I - 1 do //004BEB79
       begin//004BEB7E
-        lvar_C := lvar_C +StrToInt(FNbrModules[k - 1]);
+        Modules := Modules +StrToInt(FNbrModules[k - 1]);
       end;//3
-    result := FData.Cols[lvar_C- 1 + J];   
-  finally//004BEBE9
-  end;//1
+    result := FData.Cols[Modules- 1 + J];   
 end;
 
 //004BEC04
-procedure TFichierCdn.sub_004BEC04(Periode:dword; ACol:dword; ARow:dword;var data:string);
+procedure TFichierCdn.GetData_V00(Periode:dword; ACol:dword; ARow:dword;var data:string);
 var
   I: integer;
-  Somme : integer;
-  Temp : integer;
+  Modules : integer;
 begin//0
   //004BEC04
-  try
-    //004BEC26
-    Somme := 0;
+    Modules := 0;
       for I := 1 to Periode - 1 do //004BEC47
       begin//3
         //004BEC4E
-        Temp := StrToInt(FNbrModules[I - 1]);
-        Somme := Temp + Somme;
+        Modules := StrToInt(FNbrModules[I - 1])+ Modules;
       end;//3
-    data := FData.Cells[Somme - 1 + ACol, ARow];
-  finally//004BECE3
-  end;//1
+    data := FData.Cells[Modules - 1 + ACol, ARow];
 
 end;
 
 //004BED04
-procedure TFichierCdn._readCompteMoy(Periode:dword; var NameModule:string; NumModule:integer); // Nom de Module
+procedure TFichierCdn.GetModuleName__v(Periode:dword; var NameModule:string; NumModule:integer); // Nom de Module
 begin//0
-  sub_004BEC04(Periode, NumModule, 0, NameModule);
+  GetData_V00(Periode, NumModule, 0, NameModule);
 end;
 
 //004BED2C
 procedure TFichierCdn.GetStrNoteSur(Periode:dword; ARow:dword;var S:string);
 begin//0
   //004BED2C
-  sub_004BEC04(Periode, ARow, EleveCount + $0B {gvar_006178FB},S );
+  GetData_V00(Periode, ARow, EleveCount + $0B {gvar_006178FB},S );
 end;//0
 
 
@@ -372,14 +363,14 @@ end;//0
 procedure TFichierCdn.GetStrCoeff(Periode:dword; ARow:dword; var S:string);
 begin//0
   //004BED7C
-  sub_004BEC04(Periode, ARow, EleveCount + $0C {gvar_006178FC},S );
+  GetData_V00(Periode, ARow, EleveCount + $0C {gvar_006178FC},S );
 end;//0
 
 //004BEDCC
 procedure TFichierCdn.GetStrComptMoy(Periode:dword; ARow:dword; var S:string);
 begin//0
   //004BEDCC
-  sub_004BEC04(Periode, ARow, EleveCount + $0D{gvar_006178FD},S );
+  GetData_V00(Periode, ARow, EleveCount + $0D{gvar_006178FD},S );
 end;//0
 
 
@@ -387,34 +378,34 @@ end;//0
 procedure TFichierCdn.GetStrDate(Periode:dword; ARow:dword; var S:string);
 begin//0
   //004BEE1C
-  sub_004BEC04(Periode, ARow, EleveCount + $0E {gvar_006178FE}, S);
+  GetData_V00(Periode, ARow, EleveCount + $0E {gvar_006178FE}, S);
 end;//0
 
 
 //004BEE6C
 procedure TFichierCdn.GetStrCommentaire(Periode:dword; ARow:dword; var S:string);
 begin
- sub_004BEC04(Periode, ARow, EleveCount + $0F {gvar_006178FF}, S);
+ GetData_V00(Periode, ARow, EleveCount + $0F {gvar_006178FF}, S);
 
 end;
 
 //004BEEBC
 procedure TFichierCdn.GetStrTypeNote(Periode:dword; ARow:dword; var S:string);
 begin
- sub_004BEC04(Periode, ARow, EleveCount + $10 {gvar_00617900}, S);
+ GetData_V00(Periode, ARow, EleveCount + $10 {gvar_00617900}, S);
 end;
 
 //004BEF0C
 procedure TFichierCdn.GetStrOraleEcrit(Periode:dword; ARow:dword; var S:string);
 begin
- sub_004BEC04(Periode, ARow, EleveCount + $11 {gvar_00617901}, S);
+ GetData_V00(Periode, ARow, EleveCount + $11 {gvar_00617901}, S);
 end;
 
 //004BEF5C
 procedure TFichierCdn._GetStrNote(Periode:dword; ACol:dword; ARow:dword;var data:string);
 begin//0
   //004BEF5C
-  sub_004BEC04(Periode, ACol, ARow, data);
+  GetData_V00(Periode, ACol, ARow, data);
 end;
 
 //004BEF84
@@ -537,12 +528,11 @@ var
 begin//0
   //004BF258
     //004BF2BE
-    SPeriodes.SetTypePeriode__(TypePeriode);
-    SPeriodes.SetPeriodes(__GetPeriodes(TypePeriode));
+    FPeriodes.SetTypePeriode__(TypePeriode);
+    FPeriodes.SetPeriodes(__GetPeriodes(TypePeriode));
     STypeBulletins.SetTypeBulletins(TypeBulletins);
     STypeBulletins.AddNomBulletinsList(SetNomsbulletins(TypeBulletins));
     FNbrModules.Clear;
-    //call();
       for I := 1 to __GetPeriodes(TypePeriode).count do //004BF384
       begin//3
         //004BF387
@@ -623,7 +613,7 @@ begin//0
       for I := 1 to GetNbrePeriodes do //004BF5FB
       begin//3
         //004BF600
-        SPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetIsPeriodeInCal(I, true);
       end;//3
 end;//0
 
@@ -634,18 +624,13 @@ var
  I,J,K:integer;
 begin//0
   //004BF64C
-  SEleves.CopyEleve(a);
+  FEleves.CopyEleve(a);
   FAttributs.Clear;
     //004BF689
-    for J := 1 to 2 * GetNbrePeriodes  do
-    begin//2
-      //004BF689
-      for I := 1 to 50 do
-      begin//3
-        //004BF68E
+    for J := 1 to 2 * GetNbrePeriodes  do //004BF689
+      for I := 1 to 50 do//004BF68E
         FAttributs.Add('1');
-      end;//3
-    end;//2
+
   FAttributs0.Clear;
     
     for I := 1 to NbrModulesTot do //004BF6C2
@@ -671,13 +656,9 @@ begin//0
         //004BF735
         FPointsAdditif.Add('');
        
-        for K := 1 to BulletinsCount do
-        begin//4
-          //004BF751
+        for K := 1 to BulletinsCount do//004BF751
           FAppreciations.Add('');
-        end;//4
       end;//3
- // call(a);
 
     for J := 1 to a.count do //004BF775
     begin//2
@@ -686,88 +667,78 @@ begin//0
       FInfoEleve.Add('1');
       FRedoublant.Add('');
     end;//2
-  end;//1
+  end;
   FModified := true;
     for I := 1 to GetNbrePeriodes do //004BF7B9
-    begin//2
-      //004BF7BE
-      SPeriodes.SetIsPeriodeInCal(I, true);
-    end;//2
+      FPeriodes.SetIsPeriodeInCal(I, true);
  
 end;//0
 
 //004BF7F0
-procedure TFichierCdn.AddColone(iPeriode:dword; b:string; intitule:string; d:string; e:string; f:string; g:string; h:string; ii:boolean);
+procedure TFichierCdn.AddColone(iPeriode:dword; b:string; intitule:string; d:string; e:string; f:string; g:string; h:string; OralEcrit:boolean);
 var
-  Sum0,I,J,Sum1 : integer;
+  TotalModules,I,J,Modules : integer;
 begin//0
   //004BF7F0
-    //004BF8B6
-    Sum0 := 0;
+    TotalModules := 0;
     for I := 1 to GetNbrePeriodes do //004BF8D7
-        Sum0 := Sum0 + GetNbreModules(I) ;
+        TotalModules := TotalModules + GetNbreModules(I) ;
     
-	FData.ColCount := Sum0 + 1;
-    FData.RowCount := EleveCount + $12{gvar_00617902};
-    Sum1 := 0;
+	FData.ColCount := TotalModules + 1;
+    FData.RowCount := EleveCount + gvar_00617902;
+    Modules := 0;
     for I := 1 to iPeriode do  //004BF94B
-        Sum1 := Sum1 + GetNbreModules(I);
+        Modules := Modules + GetNbreModules(I);
 
-    if(Sum1> Sum0)then 
-        //004BF989
-        for I := Sum0 to Sum1 - 1 do //004BF97F
-          FData.Cols[I] := FData.Cols[I-1]
-    else
-        for I:=0 to Sum0 do //004BF9B8
-          FData.Cols[I] := FData.Cols[I-1];
+	//004BF989
+	for I := TotalModules to Modules + 1 do //004BF97F
+	  FData.Cols[I] := FData.Cols[I-1];
     
-	FData.Cols[Sum1].Clear;
-    FData.Cells[Sum1, 0] := intitule;
+	FData.Cols[Modules].Clear;
+    FData.Cells[Modules, 0] := intitule;
      
     I := EleveCount;
-    FData.Cells[Sum1, $0B {gvar_006178FB} + I] :=  d;
-    FData.Cells[Sum1, $0C {gvar_006178FC} + I] :=  e;
-    FData.Cells[Sum1, $0D {gvar_006178FD} + I] :=  f;
-    FData.Cells[Sum1, $0E {gvar_006178FE} + I] :=  g;
-    FData.Cells[Sum1, $0F {gvar_006178FF} + I] :=  h;
-    FData.Cells[Sum1, $10 {gvar_00617900} + I] :=  h;
-    if (ii ) then//004BFB61
-      FData.Cells[Sum1,  $11{gvar_00617901} + I] := 'Oral'
+	
+	
+    FData.Cells[Modules, gvar_006178FB + I] :=  d;
+    FData.Cells[Modules, gvar_006178FC + I] :=  e;
+    FData.Cells[Modules, gvar_006178FD + I] :=  f;
+    FData.Cells[Modules, gvar_006178FE + I] :=  g;
+    FData.Cells[Modules, gvar_006178FF + I] :=  h;
+    FData.Cells[Modules, gvar_00617900 + I] :=  h;
+    if (OralEcrit ) then//004BFB61
+      FData.Cells[Modules,  gvar_00617901 + I] := 'Oral'
     else //004BFB85
-      FData.Cells[Sum1,  $11{gvar_00617901} + I] :=  'Ecrit';
+      FData.Cells[Modules,  gvar_00617901 + I] :=  'Ecrit';
+
 
     sub_004C0070(iPeriode);
     FModified := true;
-    SPeriodes.SetIsPeriodeInCal(iPeriode, true);
+    FPeriodes.SetIsPeriodeInCal(iPeriode, true);
     FAttributs0.Clear;      
       for J := 1 to NbrModulesTot do//004BFBE3
         for I := 1 to 14 do//004BFBE8
           FAttributs0.Add('1');
+	
 end;//0
 
 //004BFC58
-procedure TFichierCdn.sub_004BFC58(a:dword; b:dword);
+procedure TFichierCdn._InsertColone(a:dword; b:dword);
 var
   I,J:integer;
   buf:string;
 begin//0
   //004BFC58
   FData.Cols[b - 1].Clear;
-  if (FData.ColCount - 2 - (b - 1) >= 0) then
-  begin//1
-    //004BFCB9
-   // EDX := EDX + 1;//EDX
-
-    for I := 1 to FData.ColCount - 2 do
+    for I := (b - 1) to FData.ColCount - 2 do
     begin//2
       //004BFCC0
       FData.Cols[I] := FData.Cols[I + 1];
     end;//2
-  end;//1
   FData.ColCount := FData.ColCount - 1;
-  sub_004C0134(a);
+  DecModules(a);
   FModified := true;
-  SPeriodes.SetIsPeriodeInCal(a, true);
+  FPeriodes.SetIsPeriodeInCal(a, true);
   FAttributs0.Clear;
     for J := 1 to NbrModulesTot do //004BFD34
     begin//2
@@ -782,263 +753,76 @@ begin//0
 end;//0
 
 //004BFD68
-procedure TFichierCdn.sub_004BFD68(index1:integer; index2:integer; index3:integer);
-begin
-{ 004BFD68    push        ebp
- 004BFD69    mov         ebp,esp
- 004BFD6B    add         esp,0FFFFF7EC
- 004BFD71    push        ebx
- 004BFD72    push        esi
- 004BFD73    push        edi
- 004BFD74    xor         ebx,ebx
- 004BFD76    mov         dword ptr [ebp-814],ebx
- 004BFD7C    mov         dword ptr [ebp-710],ebx
- 004BFD82    mov         byte ptr [ebp-2],cl
- 004BFD85    mov         byte ptr [ebp-1],dl
- 004BFD88    mov         esi,eax
- 004BFD8A    xor         eax,eax
- 004BFD8C    push        ebp
- 004BFD8D    push        4C004C
- 004BFD92    push        dword ptr fs:[eax]
- 004BFD95    mov         dword ptr fs:[eax],esp
- 004BFD98    mov         dl,1
- 004BFD9A    mov         eax,[004120B8];TStringList
- 004BFD9F    call        TObject.Create;TStringList.Create
- 004BFDA4    mov         dword ptr [ebp-8],eax
- 004BFDA7    mov         eax,esi
- 004BFDA9    call        TFichierCdn.EleveCount
- 004BFDAE    test        al,al
->004BFDB0    jbe         004BFDF1
- 004BFDB2    mov         byte ptr [ebp-9],al
- 004BFDB5    mov         bl,1
- 004BFDB7    push        ebx
- 004BFDB8    lea         eax,[ebp-810]
- 004BFDBE    push        eax
- 004BFDBF    mov         cl,byte ptr [ebp-2]
- 004BFDC2    mov         dl,byte ptr [ebp-1]
- 004BFDC5    mov         eax,esi
- 004BFDC7    call        004BEF5C
- 004BFDCC    lea         edx,[ebp-810]
- 004BFDD2    lea         eax,[ebp-710]
- 004BFDD8    call        @LStrFromString
- 004BFDDD    mov         edx,dword ptr [ebp-710]
- 004BFDE3    mov         eax,dword ptr [ebp-8]
- 004BFDE6    mov         ecx,dword ptr [eax]
- 004BFDE8    call        dword ptr [ecx+34];TStringList.Add
- 004BFDEB    inc         ebx
- 004BFDEC    dec         byte ptr [ebp-9]
->004BFDEF    jne         004BFDB7
- 004BFDF1    lea         eax,[ebp-109]
- 004BFDF7    push        eax
- 004BFDF8    mov         cl,byte ptr [ebp-2]
- 004BFDFB    mov         dl,byte ptr [ebp-1]
- 004BFDFE    mov         eax,esi
- 004BFE00    call        004BED04
- 004BFE05    lea         eax,[ebp-209]
- 004BFE0B    push        eax
- 004BFE0C    mov         cl,byte ptr [ebp-2]
- 004BFE0F    mov         dl,byte ptr [ebp-1]
- 004BFE12    mov         eax,esi
- 004BFE14    call        004BED2C
- 004BFE19    lea         eax,[ebp-309]
- 004BFE1F    push        eax
- 004BFE20    mov         cl,byte ptr [ebp-2]
- 004BFE23    mov         dl,byte ptr [ebp-1]
- 004BFE26    mov         eax,esi
- 004BFE28    call        004BED7C
- 004BFE2D    lea         eax,[ebp-409]
- 004BFE33    push        eax
- 004BFE34    mov         cl,byte ptr [ebp-2]
- 004BFE37    mov         dl,byte ptr [ebp-1]
- 004BFE3A    mov         eax,esi
- 004BFE3C    call        004BEDCC
- 004BFE41    lea         eax,[ebp-509]
- 004BFE47    push        eax
- 004BFE48    mov         cl,byte ptr [ebp-2]
- 004BFE4B    mov         dl,byte ptr [ebp-1]
- 004BFE4E    mov         eax,esi
- 004BFE50    call        004BEE1C
- 004BFE55    lea         eax,[ebp-609]
- 004BFE5B    push        eax
- 004BFE5C    mov         cl,byte ptr [ebp-2]
- 004BFE5F    mov         dl,byte ptr [ebp-1]
- 004BFE62    mov         eax,esi
- 004BFE64    call        004BEE6C
- 004BFE69    lea         eax,[ebp-709]
- 004BFE6F    push        eax
- 004BFE70    mov         cl,byte ptr [ebp-2]
- 004BFE73    mov         dl,byte ptr [ebp-1]
- 004BFE76    mov         eax,esi
- 004BFE78    call        004BEEBC
- 004BFE7D    lea         eax,[ebp-810]
- 004BFE83    push        eax
- 004BFE84    mov         cl,byte ptr [ebp-2]
- 004BFE87    mov         dl,byte ptr [ebp-1]
- 004BFE8A    mov         eax,esi
- 004BFE8C    call        004BEF0C
- 004BFE91    lea         eax,[ebp-810]
- 004BFE97    mov         edx,4C005C;'Oral'
- 004BFE9C    xor         ecx,ecx
- 004BFE9E    mov         cl,byte ptr [eax]
- 004BFEA0    inc         ecx
- 004BFEA1    call        @AStrCmp
- 004BFEA6    sete        al
- 004BFEA9    lea         edx,[ebp-209]
- 004BFEAF    push        edx
- 004BFEB0    lea         edx,[ebp-309]
- 004BFEB6    push        edx
- 004BFEB7    lea         edx,[ebp-409]
- 004BFEBD    push        edx
- 004BFEBE    lea         edx,[ebp-509]
- 004BFEC4    push        edx
- 004BFEC5    lea         edx,[ebp-609]
- 004BFECB    push        edx
- 004BFECC    lea         edx,[ebp-709]
- 004BFED2    push        edx
- 004BFED3    push        eax
- 004BFED4    lea         ecx,[ebp-109]
- 004BFEDA    mov         dl,byte ptr [ebp+8]
- 004BFEDD    mov         eax,esi
- 004BFEDF    call        004BF7F0
- 004BFEE4    mov         byte ptr [ebp-4],0
- 004BFEE8    xor         eax,eax
- 004BFEEA    mov         al,byte ptr [ebp-1]
- 004BFEED    sub         eax,1
->004BFEF0    jno         004BFEF7
- 004BFEF2    call        @IntOver
- 004BFEF7    cmp         eax,0FF
->004BFEFC    jbe         004BFF03
- 004BFEFE    call        @BoundErr
- 004BFF03    test        al,al
->004BFF05    jbe         004BFF3D
- 004BFF07    mov         byte ptr [ebp-9],al
- 004BFF0A    mov         bl,1
- 004BFF0C    mov         edx,ebx
- 004BFF0E    mov         eax,esi
- 004BFF10    call        004BEAD0
- 004BFF15    and         eax,0FF
- 004BFF1A    xor         edx,edx
- 004BFF1C    mov         dl,byte ptr [ebp-4]
- 004BFF1F    add         eax,edx
->004BFF21    jno         004BFF28
- 004BFF23    call        @IntOver
- 004BFF28    cmp         eax,0FF
->004BFF2D    jbe         004BFF34
- 004BFF2F    call        @BoundErr
- 004BFF34    mov         byte ptr [ebp-4],al
- 004BFF37    inc         ebx
- 004BFF38    dec         byte ptr [ebp-9]
->004BFF3B    jne         004BFF0C
- 004BFF3D    xor         eax,eax
- 004BFF3F    mov         al,byte ptr [ebp-2]
- 004BFF42    xor         edx,edx
- 004BFF44    mov         dl,byte ptr [ebp-4]
- 004BFF47    add         eax,edx
->004BFF49    jno         004BFF50
- 004BFF4B    call        @IntOver
- 004BFF50    cmp         eax,0FF
->004BFF55    jbe         004BFF5C
- 004BFF57    call        @BoundErr
- 004BFF5C    mov         byte ptr [ebp-2],al
- 004BFF5F    mov         cl,byte ptr [ebp-2]
- 004BFF62    mov         dl,byte ptr [ebp-1]
- 004BFF65    mov         eax,esi
- 004BFF67    call        004BFC58
- 004BFF6C    mov         dl,byte ptr [ebp+8]
- 004BFF6F    mov         eax,esi
- 004BFF71    call        004BEAD0
- 004BFF76    mov         byte ptr [ebp-3],al
- 004BFF79    mov         eax,esi
- 004BFF7B    call        TFichierCdn.EleveCount
- 004BFF80    test        al,al
->004BFF82    jbe         004BFFD6
- 004BFF84    mov         byte ptr [ebp-9],al
- 004BFF87    mov         bl,1
- 004BFF89    push        ebx
- 004BFF8A    lea         ecx,[ebp-814]
- 004BFF90    xor         edx,edx
- 004BFF92    mov         dl,bl
- 004BFF94    sub         edx,1
->004BFF97    jno         004BFF9E
- 004BFF99    call        @IntOver
- 004BFF9E    mov         eax,dword ptr [ebp-8]
- 004BFFA1    mov         edi,dword ptr [eax]
- 004BFFA3    call        dword ptr [edi+0C];TStringList.Get
- 004BFFA6    mov         edx,dword ptr [ebp-814]
- 004BFFAC    lea         eax,[ebp-810]
- 004BFFB2    mov         ecx,0FF
- 004BFFB7    call        @LStrToString
- 004BFFBC    lea         eax,[ebp-810]
- 004BFFC2    push        eax
- 004BFFC3    mov         cl,byte ptr [ebp-3]
- 004BFFC6    mov         dl,byte ptr [ebp+8]
- 004BFFC9    mov         eax,esi
- 004BFFCB    call        004C1074
- 004BFFD0    inc         ebx
- 004BFFD1    dec         byte ptr [ebp-9]
->004BFFD4    jne         004BFF89
- 004BFFD6    mov         byte ptr [esi+8],1
- 004BFFDA    mov         cl,1
- 004BFFDC    mov         dl,byte ptr [ebp-1]
- 004BFFDF    mov         eax,dword ptr [esi+918]
- 004BFFE5    call        004B6E84
- 004BFFEA    mov         dl,1
- 004BFFEC    mov         eax,dword ptr [ebp-8]
- 004BFFEF    mov         ecx,dword ptr [eax]
- 004BFFF1    call        dword ptr [ecx-4];TStringList.Destroy
- 004BFFF4    mov         eax,dword ptr [esi+940]
- 004BFFFA    mov         edx,dword ptr [eax]
- 004BFFFC    call        dword ptr [edx+40]
- 004BFFFF    mov         eax,esi
- 004C0001    call        004C4790
- 004C0006    test        al,al
->004C0008    jbe         004C0028
- 004C000A    mov         byte ptr [ebp-9],al
- 004C000D    mov         bl,0E
- 004C000F    mov         edx,4C006C;'1'
- 004C0014    mov         eax,dword ptr [esi+940]
- 004C001A    mov         ecx,dword ptr [eax]
- 004C001C    call        dword ptr [ecx+34]
- 004C001F    dec         bl
->004C0021    jne         004C000F
- 004C0023    dec         byte ptr [ebp-9]
->004C0026    jne         004C000D
- 004C0028    xor         eax,eax
- 004C002A    pop         edx
- 004C002B    pop         ecx
- 004C002C    pop         ecx
- 004C002D    mov         dword ptr fs:[eax],edx
- 004C0030    push        4C0053
- 004C0035    lea         eax,[ebp-814]
- 004C003B    call        @LStrClr
- 004C0040    lea         eax,[ebp-710]
- 004C0046    call        @LStrClr
- 004C004B    ret
-}
-end;
+procedure TFichierCdn.MoveColone(PeriodeSource:integer; ACol:integer; PeriodeDest:integer);
+var
+ NotesList : TStringList;
+ I,J,K,lvar_4 : integer;
+ NbreModules : integer;
+ buf,buf0, buf1, buf2, buf3,buf4, buf5, buf6, buf7 : string;
+begin//0
+  //004BFD68
+    NotesList := TStringList.Create;
+      //004BFDB2
+      for I := 1 to EleveCount do
+      begin//3
+        //004BFDB7
+        _GetStrNote(PeriodeSource, ACol, I , buf);
+        NotesList.Add(buf);
+      end;//3
+    GetModuleName__v(PeriodeSource, buf0, ACol);
+    GetStrNoteSur(PeriodeSource, ACol, buf1);
+    GetStrCoeff(PeriodeSource, ACol, buf2);
+    GetStrComptMoy(PeriodeSource, ACol, buf3);
+    GetStrDate(PeriodeSource, ACol, buf4);
+    GetStrCommentaire(PeriodeSource, ACol, buf5);
+    GetStrTypeNote(PeriodeSource, ACol, buf6);
+    GetStrOraleEcrit(PeriodeSource, ACol, buf7);
+    AddColone(PeriodeDest, buf0, buf1, buf2, buf3, buf4,buf5, buf6, (buf7 = 'Oral'));
+    lvar_4 := 0;
+      //004BFF07
+      for I := 1 to  PeriodeSource-1 do//004BFF0C
+        lvar_4 := GetNbreModules(I) +lvar_4;
+    ACol := ACol + lvar_4;
+    _InsertColone(PeriodeSource, ACol);
+    NbreModules := GetNbreModules(PeriodeDest);
+      //004BFF84
+      for I := 1 to EleveCount do//004BFF89
+        AddNoteToPeriode(PeriodeDest, NbreModules,I,NotesList[I - 1] );
+    FModified := true;
+    FPeriodes.SetIsPeriodeInCal(PeriodeSource, true);
+    NotesList.Destroy();
+    FAttributs0.clear;
+      //004C000A
+      for I := 1 to NbrModulesTot do
+      begin//3
+        //004C000D
+        for J := 1 to 14 do
+        begin//4
+          //004C000F
+          FAttributs0.add('1');
+        end;//4
+      end;//3
+end;//0
+
 
 //004C0070
 procedure TFichierCdn.sub_004C0070(a:dword);
 begin//0
   //004C0070
-
     //004C008E
     FNbrModules[a - 1] :=  IntToStr(StrToInt(FNbrModules[a - 1]) + 1);
     FModified := true;
-    SPeriodes.SetIsPeriodeInCal(a, true);
-
+    FPeriodes.SetIsPeriodeInCal(a, true);
 end;//0
 
 //004C0134
-procedure TFichierCdn.sub_004C0134(a:dword);
+procedure TFichierCdn.DecModules(a:dword);
 begin//0
   //004C0134
-    //004C0152
     FNbrModules[a - 1] := IntToStr(StrToInt(FNbrModules[a - 1]) - 1);
     FModified := true;
-    SPeriodes.SetIsPeriodeInCal(a, true);
+    FPeriodes.SetIsPeriodeInCal(a, true);
 	//004C01D9
- 
 end;//0
 
 //004C01F8
@@ -1101,7 +885,7 @@ begin//0
             if (GetNbreModules(I) <= 0) then Continue;
             for J := 1 to GetNbreModules(I) do
             begin//004C0536
-              _readCompteMoy(I, buf, J);
+              GetModuleName__v(I, buf, J);
               FFluxCdn._write( buf);
               if (EleveCount > 0) then
               begin//004C0564
@@ -1261,7 +1045,7 @@ end;//0
 procedure TFichierCdn._SetStrNote16(periode:dword; ACol:dword; c:string);
 begin//0
   //004C0E5C
-  _SetStrNote(periode, ACol,EleveCount + $0F{gvar_006178FF},c );
+  _SetStrNote(periode, ACol,EleveCount + gvar_006178FF,c );
 end;//0
 
 
@@ -1269,14 +1053,14 @@ end;//0
 procedure TFichierCdn._SetStrNote15(Periode:dword; ACol :dword; d:string);
 begin//0
   //004C0EC8
-  _SetStrNote(Periode, ACol,EleveCount +  $0E {gvar_006178FE} , d);
+  _SetStrNote(Periode, ACol,EleveCount +  gvar_006178FE , d);
 end;//0
 
 //004C0F34
 procedure TFichierCdn._SetStrNote17(Periode:dword; ACol:dword; d:string);
 begin//0
   //004C0F34
-  _SetStrNote(Periode, ACol,EleveCount + $10 {gvar_00617900} , d);
+  _SetStrNote(Periode, ACol,EleveCount + gvar_00617900 , d);
 end;//0
 
 
@@ -1296,38 +1080,27 @@ begin//0
         //004C1003
         SetAttributs2(a, I, true);
       end;//3
-    
   end;//1
-  _SetStrNote(a, b, EleveCount + $0D{gvar_006178FD} , c);
-  SPeriodes.SetIsPeriodeInCal(a, true);
+  _SetStrNote(a, b, EleveCount + gvar_006178FD , c);
+  FPeriodes.SetIsPeriodeInCal(a, true);
 end;//0
 
 //004C1074                          
-procedure TFichierCdn.sub_004C1074(Periode:dword; ACol:dword; ARow:dword; data:string);
+procedure TFichierCdn.AddNoteToPeriode(Periode:dword; ACol:dword; ARow:dword; data:string);
 var
-  lvar_102:string;
-  lvar_204:string;
+  buf:string;
   I :integer;
 begin//0
   //004C1074
-  //ECX := d[1] + 1;//ECX
-  lvar_102 := data;
-  //lvar_2 := ACol;
-  //lvar_1 := Periode;
   for I := 1 to 7 do
   begin//004C109C
-    _GetStrNote(Periode, ACol, ARow, lvar_204);
-    //ECX := lvar_204[1] + 1;
-    //EAX := (lvar_204 = lvar_102) Xor true;
-    //push EAX
-    //SetAttributs1(Periode, ACol);
+    _GetStrNote(Periode, ACol, ARow, buf);
+    SetAttributs1(Periode, ACol,I,(buf = data) Xor true);
   end;//1
-  _GetStrNote(Periode, ACol, ARow, lvar_204);
-  //ECX := lvar_204 + 1;
-  SetAttributs2(Periode, ARow, (lvar_204 = lvar_102) Xor true);
-  //_SetStrNote(Periode, ACol, ARow);
-  SPeriodes.SetIsPeriodeInCal(Periode, true);
-
+  _GetStrNote(Periode, ACol, ARow, buf);
+  SetAttributs2(Periode, ARow, (buf = data) Xor true);
+  _SetStrNote(Periode, ACol, ARow,data);
+  FPeriodes.SetIsPeriodeInCal(Periode, true);
 end;
 
 //004C1158
@@ -1351,7 +1124,7 @@ begin//0
       end;//3
     StringList.destroy;
     FData.RowCount := FData.RowCount - 1;
-    SEleves.DeleteEleve(a);
+    FEleves.DeleteEleve(a);
       for I := 1 to GetNbrePeriodes do //004C12A0
       begin//004C12AA
         FPointsAdditif.Delete(EleveCount * (I - 1) + a - 1);
@@ -1364,7 +1137,7 @@ begin//0
     FModified := true;
       //004C13D8
       for I := 1 to GetNbrePeriodes do//004C13E2
-        SPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetIsPeriodeInCal(I, true);
     FAttributs.Clear;
       for I := 1 to 2 * GetNbrePeriodes do//004C142C
       begin //004C142F
@@ -1391,8 +1164,8 @@ begin//0
   //004C14C8..004C1534
     if (EleveCount >= 50) then Exit;
     FData.RowCount := FData.RowCount + 1;
-    SEleves.AddEleve(b); //ajouter l''eleve
-    StringList := SEleves.EleveLists;
+    FEleves.AddEleve(b); //ajouter l''eleve
+    StringList := FEleves.EleveLists;
     index := StringList.indexof(b);
     lvar_18 := TStringList.Create;
       for I := 1 to NbrModulesTot do //004C15CF
@@ -1419,7 +1192,7 @@ begin//0
     FInfoEleve.Insert(index, d);
     FModified := true;
       for I := 1 to GetNbrePeriodes do//004C1845
-        SPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetIsPeriodeInCal(I, true);
 
     lvar_18.destroy;
     FAttributs.Clear;
@@ -1433,191 +1206,128 @@ begin//0
           FAttributs0.Add('1');
 
 end;//0
-
+//ici
 //004C1954
-procedure TFichierCdn.sub_004C1954(a:integer; b:string; c:boolean;d:string);
+procedure TFichierCdn.SetEleve_v2(NEleve:dword; NomPrenom:string; Redoublant:boolean; DateDeNaissance:string);
 var
-  I:integer;
+  I,Modules, J, K,IndexEleve,M:integer;
+  StrList:TStringList;
+  buf:string;		
 begin//0
   //004C1954
-  (*ESI := c;
-  ECX := ECX + 1;//ECX
-  lvar_228 := c;
-  ESI := d;
-  ECX := ECX + 1;//ECX
-  lvar_124 := d{ECX};
-  lvar_1 := b;
-  EBX := a;
-  try*)
-    //004C19D2
-   (* SEleves.DeleteEleve(b);
-    SEleves.AddEleve(buf);
-    lvar_C := Eleves.EleveLists.indexof(buf);
-    
-    ESI := 0;
+    FEleves.DeleteEleve(NEleve);
+    FEleves.AddEleve(NomPrenom);
+    IndexEleve := FEleves.EleveLists.indexof(NomPrenom);
+    Modules := 0;
 
-      for I := 1 to GetNbrePeriodes(a)  do //004C1A40
+      for I := 1 to GetNbrePeriodes  do //004C1A40
       begin//3
         //004C1A4A
-        ESI := ESI + StrToInt(FNbrModules[I-1]);
+        Modules := Modules + StrToInt(FNbrModules[I-1]);
       end;//3
     
-    lvar_20 := TStringList.Create;
-      for lvar_10 := 1 to ESI do //004C1A9B
+    StrList := TStringList.Create;
+      for K := 1 to Modules do //004C1A9B
       begin//3
         //004C1AA5
-        lvar_20.clear;
-        ESI := lvar_10 - 1;//ESI
-        lvar_20.AddStrings(FData.Cols[lvar_10 - 1]);
-        lvar_20.move(b,lvar_C + 1);
-        FData.Cols[ESI].Clear;
-        for I := 1 to lvar_20.count do
-        begin//4
-          //004C1B12
-          FData.Cells[lvar_10 - 1, I - 1] := lvar_20[I - 1];
-        end;//4
+        StrList.clear;
+        StrList.AddStrings(FData.Cols[K - 1]);
+        StrList.move(NEleve,IndexEleve + 1);
+        FData.Cols[K - 1].Clear;
+        for I := 1 to StrList.count do //004C1B12
+          FData.Cells[K - 1, I - 1] := StrList[I - 1];
       end;//3
-    lvar_20.clear;
+    StrList.clear;
     
-      for I := 1 to a.EleveCount  do //004C1B83
+      for I := 1 to EleveCount  do //004C1B83
       begin//3
         //004C1B8B
-        if (I <> b) then Continue;
-        a.GetElevDateNais(I, buf);
-		lvar_20.Add(buf);
+        if (I <> NEleve) then Continue;
+         GetElevDateNais(I, buf);
+		StrList.Add(buf);
       end;//3
     FDateNais.Clear;
-    FDateNais.AddStrings(lvar_20);
-    FDateNais.Insert(lvar_C, lvar_340);
-    lvar_20.clear;
+    FDateNais.AddStrings(StrList);
+    FDateNais.Insert(IndexEleve, DateDeNaissance);
+    StrList.clear;
 
-      for I := 1 to a.EleveCount  do //004C1C2B
+      for I := 1 to EleveCount  do //004C1C2B
       begin//3
         //004C1C33
-        if (I <> b) then 
-        if (IsRedoublant(a, I) ) then//004C1C56
-          lvar_20.Add('R')
+        if (I <> NEleve) then 
+        if (IsRedoublant(I) ) then//004C1C56
+          StrList.Add('R')
         else//004C1C65
-          lvar_20.add('');
+          StrList.add('');
       end;//3
    
     FRedoublant.Clear;
-    FRedoublant.AddStrings(lvar_20);
-    if (e <> 0) then//004C1C94
-      FRedoublant.Insert(lvar_C, 'R')
+    FRedoublant.AddStrings(StrList);
+    if (Redoublant) then//004C1C94
+      FRedoublant.Insert(IndexEleve, 'R')
     else//004C1CA9
-      FRedoublant.Insert(lvar_C, '');
+      FRedoublant.Insert(IndexEleve, '');
 	  
-    lvar_20.clear;
+    StrList.clear;
    
-      for I := 1 to GetNbrePeriodes(a) do //004C1CD5
+      for I := 1 to GetNbrePeriodes do //004C1CD5
       begin//3
         //004C1CDF
-        if (a.BulletinsCount > 0) then 
-        for J := 1 to a.BulletinsCount do
+        if (BulletinsCount > 0) then 
+        for J := 1 to BulletinsCount do
         begin//4
           //004C1CF9
-          a.GetAppreciations(I, b, J, buf);
-          lvar_20.Add(buf);
+          GetAppreciations(I, NEleve, J, buf);
+          StrList.Add(buf);
         end;//4
       end;//3
-     EDI:=0;
-      for I := 1 to GetNbrePeriodes(a) do //004C1D6D
+     M:=0;
+      for I := 1 to GetNbrePeriodes do //004C1D6D
       begin//3
         //004C1D77
-          for ESI := 1 to a.BulletinsCount do //004C1D8E
+          for J := 1 to BulletinsCount do //004C1D8E
           begin//5
             //004C1D8E
-            lvar_1C := (b - 1) * a.BulletinsCount + ((I - 1) *  a.BulletinsCount * a.BulletinsCount) - EDI;//EAX - 0
-
-            FAppreciations.Delete(lvar_1C);
+            FAppreciations.Delete((NEleve - 1) * BulletinsCount + ((I - 1) *  EleveCount * BulletinsCount) - M);
           end;//5        
-        EDI := EDI + a.BulletinsCount;
+        M := M + BulletinsCount;
       end;//3
   
-      for lvar_14 := 1 to GetNbrePeriodes(a) do  //004C1E4D
+      for I := 1 to GetNbrePeriodes do  //004C1E4D
       begin//3
         //004C1E57
-       
-        for lvar_18 := 1 to a.BulletinsCount  do
+        for J := 1 to BulletinsCount  do
         begin//4
           //004C1E75
-          
-          EDI := a.BulletinsCount;
-         
-          EDI := EDI * lvar_C;
-          EAX := lvar_18 - 1;//EAX
-          EDI := EDI + EAX;//EDI + (EAX)
-          
-          EAX := a.EleveCount;
-          
-          EDX := lvar_14 - 1;//EDX
-          EDX_EAX := EDX * EAX;//EDX * a.EleveCount And $FF{255}
-          
-          EAX := a.BulletinsCount;
-          
-          EDX := EDX * EAX;//EDX * a.EleveCount And $FF{255}{EAX} * (a.BulletinsCount And $FF{255})
-          EDI := EDI + EDX;//EDI + EDX * a.EleveCount And $FF{255}{EAX} * (a.BulletinsCount And $FF{255})
-          lvar_1C := EDI;
-          EDX := 0;
-          EAX := lvar_20;
-          call();
-          ECX := lvar_348;
-          EDX := lvar_1C;
-          EAX := ;
-          call();
-          EDX := 0;
-          EAX := lvar_20;
-          call();
+        FAppreciations.insert(BulletinsCount * IndexEleve + J - 1 + (I - 1) *EleveCount * BulletinsCount, StrList[0]);
+        StrList.delete(0);  
         end;//4
       end;//3
-    
-    EAX := lvar_20;
-    call();
-
-      for lvar_14 := 1 to GetNbrePeriodes(a)  do //004C1F47
+    StrList.clear;
+      for I := 1 to GetNbrePeriodes  do //004C1F47
       begin//3
         //004C1F51
-        //push EAX
-        EDX := lvar_14;
-        ECX := b;
-        EAX := EBX;//a
-        a.GetPointsAdditif(lvar_14, b, lvar_33C);
-         := ;
-        EDX := lvar_34C;
-        EAX := lvar_20;
-        call();
+        GetPointsAdditif(I, NEleve, buf);
+        StrList.add(buf);
       end;//3
-    
-      for I := 1 to GetNbrePeriodes(a)  do //004C1FA9
+      for I := 1 to GetNbrePeriodes  do //004C1FA9
       begin//3
         //004C1FB3
-        FPointsAdditif.Delete( a.EleveCount + (b - 1) - (I - 1)* a.EleveCount);
+        FPointsAdditif.Delete( EleveCount + (NEleve - 1) - (I - 1)* EleveCount);
       end;//3
-   
-
-      for lvar_14 := 1 to GetNbrePeriodes(a)  do //004C202C
+      for I := 1 to GetNbrePeriodes  do //004C202C
       begin//3
         //004C2036
-
-        FPointsAdditif.Insert((lvar_14 - 1) * a.EleveCount + lvar_C, lvar_20[0]);
-        lvar_20.delete(0);
-
+        FPointsAdditif.Insert((I - 1) * EleveCount + IndexEleve, StrList[0]);
+        StrList.delete(0);
       end;//3
-    
-     := 1;
-   
       
-      for I := 1 to GetNbrePeriodes(a)  do //004C20AF
+      for I := 1 to GetNbrePeriodes  do //004C20AF
       //004C20B9
-        SPeriodes.SetIsPeriodeInCal(I, true);
-      
- 
-    a.defaultAttributs;
-    lvar_20.destroy;*)
-    
+        FPeriodes.SetIsPeriodeInCal(I, true);
+    defaultAttributs;
+    StrList.destroy;
 	//004C20FC
-  
 end;//0
 
 //004C213C
@@ -1676,90 +1386,84 @@ end;//0
 
 
 //004C2410
-procedure TFichierCdn.GetStrMoyArrendit(a:String; {b:Integer;} ArrendirMoyennes:dword; var Moy:string);
+procedure TFichierCdn.GetStrMoyArrendit(a:String; ArrendirMoyennes:dword; var Moy:string);
 var
-  lvar_20:real;
-  lvar_30: Extended;
+  RMoy:real;
+  d1: Extended;
   buf:string;
 begin//0
 //004C2410
    try
       //004C2458
-      lvar_20 := StrToFloat(a);
+      RMoy := StrToFloat(a);
       case ArrendirMoyennes of
         0: Moy := a; //004C24A0 ne pas arrendir
         1:
         begin//004C24B3
-          lvar_30 := 1;//INT(lvar_20 * 10);
-          if (ROUND(lvar_20 * 10 * 10) = 0) then
+          d1 := INT(RMoy * 10);
+          if (ROUND(RMoy * 10 * 10) = 0) then
           begin//004C24F6
-            if (lvar_30 / 10 = 0) then//004C250F
-              Moy := FloatToStrF(lvar_30 / 10,ffFixed{2}, 18, 0)
+            if (d1 / 10 = 0) then//004C250F
+              Moy := FloatToStrF(d1 / 10,ffFixed{2}, 18, 0)
 			else
-            Moy := FloatToStrF(lvar_30 / 10,ffFixed{2}, 18, 1);
+              Moy := FloatToStrF(d1 / 10,ffFixed{2}, 18, 1);
           end
 		  else
-          if ((ROUND(lvar_20 * 10 * 10) - 1) - 4 < 0) then//004C2592
-            Moy:= FloatToStrF(lvar_30 / 10,ffFixed{2}, 18, 1)
+          if (ROUND(RMoy * 10 * 10)   < 5) then//004C2592
+            Moy:= FloatToStrF(d1 / 10,ffFixed{2}, 18, 1)
 		  else  
-            Moy := FloatToStrF((lvar_30 + 1) / 10,ffFixed{2}, 18, 1);
+            Moy := FloatToStrF((d1 + 1) / 10,ffFixed{2}, 18, 1);
         end;//4
-       (* 2:
+        2:
         begin//004C2618
-          if (ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100) - 13 < 0) then
+		
+          if (ROUND(RMoy * 100 - TRUNC(RMoy) * 100) - 13 < 0) then
           begin///004C2669
-            d := FloatToStrF(TRUNC(lvar_20),ffFixed{2}, 18, 0);
-            Exit;
-          end;//5
-          if ((ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100) -13) - 25 < 0) then
+            Moy := FloatToStrF(TRUNC(RMoy),ffFixed{2}, 18, 0);
+          end//5
+		  else
+          if ((ROUND(RMoy * 100 - TRUNC(RMoy) * 100) -13) - 25 < 0) then
           begin//004C26C1
-            d := FloatToStrF(TRUNC(lvar_20) + 0.25,ffFixed{2}, 18, 2);
-            Exit;
-          end;//5
-          if ((ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100)  -38) - 25 < 0) then
+            Moy := FloatToStrF(TRUNC(RMoy) + 0.25,ffFixed{2}, 18, 2);
+          end//5
+		  else
+          if ((ROUND(RMoy * 100 - TRUNC(RMoy) * 100)  -38) - 25 < 0) then
           begin//004C2722
-            d := FloatToStrF(TRUNC(lvar_20) + 0.5,ffFixed{2}, 18, 1);
-            Exit;
-          end;//5
-          if ((ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100)  -63) - 25 < 0) then
+            Moy := FloatToStrF(TRUNC(RMoy) + 0.5,ffFixed{2}, 18, 1);
+          end//5
+		  else
+          if ((ROUND(RMoy * 100 - TRUNC(RMoy) * 100)  -63) - 25 < 0) then
           begin//004C2783
-            d := FloatToStrF(TRUNC(lvar_20) + 0.75,ffFixed{2}, 18, 2);
-            Exit;
-          end;//5
-          if (ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100) -88 - 12 < 0) then
+            Moy := FloatToStrF(TRUNC(RMoy) + 0.75,ffFixed{2}, 18, 2);
+          end//5
+		  else
+          if (ROUND(RMoy * 100 - TRUNC(RMoy) * 100) -88 - 12 < 0) then
           begin//004C27E6
-            d := FloatToStrF(TRUNC(lvar_20) + 1,ffFixed{2}, 18, 0);
-            Exit;
+            Moy := FloatToStrF(TRUNC(RMoy) + 1,ffFixed{2}, 18, 0);
           end;//5
+		  
         end;//4
         3:
         begin//004C2841
-          if (ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100)  - 25 < 0) then
-          begin//004C2892
-            d := FloatToStrF(TRUNC(lvar_20),ffFixed{2}, 18, 0);
-            Exit;
-          end;//5
-          if (ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100) -25 - 50 < 0) then
-          begin//004C28EA
-            d := FloatToStrF(TRUNC(lvar_20) + 0.5,ffFixed{2}, 18, 1);
-            Exit;
-          end;//5
-          if (ROUND(lvar_20 * 100 - TRUNC(lvar_20) * 100) -75 - 25 < 0) then
-          begin//004C294D
-            d := FloatToStrF(TRUNC(lvar_20) + 1,ffFixed{2}, 18, 0);
-            Exit;
-          end;//5
+          if (ROUND(RMoy * 100 - TRUNC(RMoy) * 100)  - 25 < 0) then//004C2892
+            Moy:= FloatToStrF(TRUNC(RMoy),ffFixed{2}, 18, 0)
+		  else
+          if (ROUND(RMoy * 100 - TRUNC(RMoy) * 100) -25 - 50 < 0) then//004C28EA
+            Moy := FloatToStrF(TRUNC(RMoy) + 0.5,ffFixed{2}, 18, 1)
+		  else
+          if (ROUND(RMoy * 100 - TRUNC(RMoy) * 100) -75 - 25 < 0) then//004C294D
+            Moy := FloatToStrF(TRUNC(RMoy) + 1,ffFixed{2}, 18, 0);
         end;//4
         4:
         begin//004C29A8
           GetStrMoyArrendit(a,3,buf);
-          if (GetStrMoyArrendit(buf) < lvar_20) then
+          if (StrToFloat(buf) < RMoy) then
           begin//004C2A04
-            d := FloatToStrF(lvar_20 + 0.5,ffFixed{2}, 18, 1);
-            Exit;
-          end;//5
-          GetStrMoyArrendit(a,3,d);
-        end;//4*)
+            Moy := FloatToStrF(RMoy + 0.5,ffFixed{2}, 18, 1);
+          end//5
+		  else
+          GetStrMoyArrendit(a,3,Moy);
+        end;//4
       end;//3
     except//2
       on E:EConvertError do
@@ -1893,417 +1597,121 @@ end;//0
 
 //004C3134
 function TFichierCdn.sub_004C3134(a: byte):TStringList;
-begin
-{ 004C3134    push        ebp
- 004C3135    mov         ebp,esp
- 004C3137    add         esp,0FFFFFECC
- 004C313D    push        ebx
- 004C313E    push        esi
- 004C313F    xor         ecx,ecx
- 004C3141    mov         dword ptr [ebp-134],ecx
- 004C3147    mov         dword ptr [ebp-30],ecx
- 004C314A    mov         byte ptr [ebp-1],dl
- 004C314D    mov         esi,eax
- 004C314F    xor         eax,eax
- 004C3151    push        ebp
- 004C3152    push        4C32A5
- 004C3157    push        dword ptr fs:[eax]
- 004C315A    mov         dword ptr fs:[eax],esp
- 004C315D    mov         eax,esi
- 004C315F    call        004BE9E0
- 004C3164    xor         edx,edx
- 004C3166    mov         dl,al
- 004C3168    cmp         edx,0FF
->004C316E    jbe         004C3175
- 004C3170    call        @BoundErr
- 004C3175    mov         al,1
- 004C3177    lea         ecx,[ebp-2C]
- 004C317A    mov         ah,20
- 004C317C    call        @SetRange
- 004C3181    mov         al,byte ptr [ebp-1]
- 004C3184    and         eax,0FF
- 004C3189    bt          dword ptr [ebp-2C],eax
->004C318D    jae         004C31FC
- 004C318F    mov         dl,1
- 004C3191    mov         eax,[004120B8];TStringList
- 004C3196    call        TObject.Create;TStringList.Create
- 004C319B    mov         dword ptr [ebp-8],eax
- 004C319E    mov         dl,1
- 004C31A0    mov         eax,dword ptr [ebp-8]
- 004C31A3    call        TStringList.SetSorted
- 004C31A8    mov         eax,dword ptr [ebp-8]
- 004C31AB    mov         byte ptr [eax+19],0;TStringList.FDuplicates:TDuplicates
- 004C31AF    mov         dl,byte ptr [ebp-1]
- 004C31B2    mov         eax,esi
- 004C31B4    call        004BEAD0
- 004C31B9    test        al,al
->004C31BB    jbe         004C31F4
- 004C31BD    mov         byte ptr [ebp-9],al
- 004C31C0    mov         bl,1
- 004C31C2    lea         eax,[ebp-130]
- 004C31C8    push        eax
- 004C31C9    mov         ecx,ebx
- 004C31CB    mov         dl,byte ptr [ebp-1]
- 004C31CE    mov         eax,esi
- 004C31D0    call        004BEEBC
- 004C31D5    lea         edx,[ebp-130]
- 004C31DB    lea         eax,[ebp-30]
- 004C31DE    call        @LStrFromString
- 004C31E3    mov         edx,dword ptr [ebp-30]
- 004C31E6    mov         eax,dword ptr [ebp-8]
- 004C31E9    mov         ecx,dword ptr [eax]
- 004C31EB    call        dword ptr [ecx+34];TStringList.Add
- 004C31EE    inc         ebx
- 004C31EF    dec         byte ptr [ebp-9]
->004C31F2    jne         004C31C2
- 004C31F4    mov         ebx,dword ptr [ebp-8]
->004C31F7    jmp         004C3284
- 004C31FC    mov         dl,1
- 004C31FE    mov         eax,[004120B8];TStringList
- 004C3203    call        TObject.Create;TStringList.Create
- 004C3208    mov         dword ptr [ebp-8],eax
- 004C320B    mov         dl,1
- 004C320D    mov         eax,dword ptr [ebp-8]
- 004C3210    call        TStringList.SetSorted
- 004C3215    mov         eax,dword ptr [ebp-8]
- 004C3218    mov         byte ptr [eax+19],0;TStringList.FDuplicates:TDuplicates
- 004C321C    mov         eax,esi
- 004C321E    call        004BE9E0
- 004C3223    test        al,al
->004C3225    jbe         004C3281
- 004C3227    mov         byte ptr [ebp-9],al
- 004C322A    mov         byte ptr [ebp-2],1
- 004C322E    mov         dl,byte ptr [ebp-2]
- 004C3231    mov         eax,esi
- 004C3233    call        004BEAD0
- 004C3238    test        al,al
->004C323A    jbe         004C3279
- 004C323C    mov         byte ptr [ebp-0A],al
- 004C323F    mov         bl,1
- 004C3241    lea         eax,[ebp-130]
- 004C3247    push        eax
- 004C3248    mov         ecx,ebx
- 004C324A    mov         dl,byte ptr [ebp-2]
- 004C324D    mov         eax,esi
- 004C324F    call        004BEEBC
- 004C3254    lea         edx,[ebp-130]
- 004C325A    lea         eax,[ebp-134]
- 004C3260    call        @LStrFromString
- 004C3265    mov         edx,dword ptr [ebp-134]
- 004C326B    mov         eax,dword ptr [ebp-8]
- 004C326E    mov         ecx,dword ptr [eax]
- 004C3270    call        dword ptr [ecx+34];TStringList.Add
- 004C3273    inc         ebx
- 004C3274    dec         byte ptr [ebp-0A]
->004C3277    jne         004C3241
- 004C3279    inc         byte ptr [ebp-2]
- 004C327C    dec         byte ptr [ebp-9]
->004C327F    jne         004C322E
- 004C3281    mov         ebx,dword ptr [ebp-8]
- 004C3284    xor         eax,eax
- 004C3286    pop         edx
- 004C3287    pop         ecx
- 004C3288    pop         ecx
- 004C3289    mov         dword ptr fs:[eax],edx
- 004C328C    push        4C32AC
- 004C3291    lea         eax,[ebp-134]
- 004C3297    call        @LStrClr
- 004C329C    lea         eax,[ebp-30]
- 004C329F    call        @LStrClr
- 004C32A4    ret
->004C32A5    jmp         @HandleFinally
->004C32AA    jmp         004C3291
- 004C32AC    mov         eax,ebx
- 004C32AE    pop         esi
- 004C32AF    pop         ebx
- 004C32B0    mov         esp,ebp
- 004C32B2    pop         ebp
- 004C32B3    ret}
+var
+  lvar_8 : TStringList;
+  buf : string;
+  I,J : integer;
+begin//0
+  //004C3134
+    if (a < GetNbrePeriodes) then
+    begin//2
+      //004C318F
+      lvar_8 := TStringList.Create;
+      lvar_8.Sorted := True;
+      lvar_8.Duplicates := dupAccept; //false;
+ 
+        for I := 1 to GetNbreModules(a) do
+        begin//4
+          //004C31C2
+          GetStrTypeNote(a, I, buf);
+          lvar_8.Add(buf);
+        end;//4
+      result := lvar_8;
+    end//2
+	else
+	begin
+		lvar_8 := TStringList.Create;
+		lvar_8.Sorted := True;
+		lvar_8.Duplicates := dupAccept; //false;
+
+      for I := 1 to GetNbreModules(a) do
+      begin//3
+        //004C322E
+        for J := 1 to GetNbreModules(I) do
+        begin//4
+          //004C3241
+          GetStrTypeNote(I, J, buf);
+          lvar_8.Add(buf);
+        end;//4
+      end;//3
+    end;//2
+    result := lvar_8;
 end;
 
 //004C32B4
-procedure TFichierCdn.sub_004C32B4(a:integer; b:integer; c:integer;d:integer;e:string);
-begin
-{*
- 004C32B4    push        ebp
- 004C32B5    mov         ebp,esp
- 004C32B7    add         esp,0FFFFFE8C
- 004C32BD    push        ebx
- 004C32BE    push        esi
- 004C32BF    push        edi
- 004C32C0    xor         ebx,ebx
- 004C32C2    mov         dword ptr [ebp-174],ebx
- 004C32C8    mov         dword ptr [ebp-170],ebx
- 004C32CE    mov         dword ptr [ebp-16C],ebx
- 004C32D4    mov         dword ptr [ebp-168],ebx
- 004C32DA    mov         dword ptr [ebp-160],ebx
- 004C32E0    mov         dword ptr [ebp-5C],ebx
- 004C32E3    mov         byte ptr [ebp-6],cl
- 004C32E6    mov         byte ptr [ebp-5],dl
- 004C32E9    mov         dword ptr [ebp-4],eax
- 004C32EC    xor         eax,eax
- 004C32EE    push        ebp
- 004C32EF    push        4C3660
- 004C32F4    push        dword ptr fs:[eax]
- 004C32F7    mov         dword ptr fs:[eax],esp
- 004C32FA    mov         al,byte ptr [ebp+0C]
- 004C32FD    sub         al,1
->004C32FF    jb          004C330C
->004C3301    je          004C3429
->004C3307    jmp         004C362F
- 004C330C    xor         eax,eax
- 004C330E    mov         dword ptr [ebp-10],eax
- 004C3311    mov         dword ptr [ebp-0C],eax
- 004C3314    mov         word ptr [ebp-8],ax
- 004C3318    mov         byte ptr [ebp-52],0
- 004C331C    mov         eax,dword ptr [ebp-4]
- 004C331F    call        004BE9E0
- 004C3324    test        al,al
->004C3326    jbe         004C33B3
- 004C332C    mov         byte ptr [ebp-54],al
- 004C332F    mov         byte ptr [ebp-51],1
- 004C3333    xor         eax,eax
- 004C3335    push        ebp
- 004C3336    push        4C338E
- 004C333B    push        dword ptr fs:[eax]
- 004C333E    mov         dword ptr fs:[eax],esp
- 004C3341    mov         al,byte ptr [ebp-6]
- 004C3344    push        eax
- 004C3345    lea         eax,[ebp-15C]
- 004C334B    push        eax
- 004C334C    mov         cl,byte ptr [ebp-5]
- 004C334F    mov         dl,byte ptr [ebp-51]
- 004C3352    mov         eax,dword ptr [ebp-4]
- 004C3355    call        004C2D10
- 004C335A    lea         edx,[ebp-15C]
- 004C3360    lea         eax,[ebp-5C]
- 004C3363    call        @LStrFromString
- 004C3368    mov         eax,dword ptr [ebp-5C]
- 004C336B    call        GetStrMoyArrendit
- 004C3370    fld         tbyte ptr [ebp-10]
- 004C3373    faddp       st(1),st
- 004C3375    fstp        tbyte ptr [ebp-10]
- 004C3378    wait
- 004C3379    add         byte ptr [ebp-52],1
->004C337D    jae         004C3384
- 004C337F    call        @IntOver
- 004C3384    xor         eax,eax
- 004C3386    pop         edx
- 004C3387    pop         ecx
- 004C3388    pop         ecx
- 004C3389    mov         dword ptr fs:[eax],edx
->004C338C    jmp         004C33AB
->004C338E    jmp         @HandleOnException
- 004C3393    dd          1
- 004C3397    dd          00409B50;EConvertError
- 004C339B    dd          004C339F
- 004C339F    call        @DoneExcept
->004C33A4    jmp         004C33AB
- 004C33A6    call        @DoneExcept
- 004C33AB    inc         byte ptr [ebp-51]
- 004C33AE    dec         byte ptr [ebp-54]
->004C33B1    jne         004C3333
- 004C33B3    cmp         byte ptr [ebp-52],0
->004C33B7    je          004C341E
- 004C33B9    mov         eax,dword ptr [ebp+8]
- 004C33BC    push        eax
- 004C33BD    xor         eax,eax
- 004C33BF    mov         al,byte ptr [ebp-52]
- 004C33C2    mov         dword ptr [ebp-164],eax
- 004C33C8    fild        dword ptr [ebp-164]
- 004C33CE    fld         tbyte ptr [ebp-10]
- 004C33D1    fdivrp      st(1),st
- 004C33D3    add         esp,0FFFFFFF4
- 004C33D6    fstp        tbyte ptr [esp]
- 004C33D9    wait
- 004C33DA    lea         eax,[ebp-160]
- 004C33E0    push        eax
- 004C33E1    mov         ecx,2
- 004C33E6    mov         edx,12
- 004C33EB    mov         al,2
- 004C33ED    call        FloatToStrF
- 004C33F2    mov         edx,dword ptr [ebp-160]
- 004C33F8    lea         eax,[ebp-15C]
- 004C33FE    mov         ecx,0FF
- 004C3403    call        @LStrToString
- 004C3408    lea         edx,[ebp-15C]
- 004C340E    mov         cl,byte ptr [ebp+10]
- 004C3411    mov         eax,dword ptr [ebp-4]
- 004C3414    call        004C2410
->004C3419    jmp         004C362F
- 004C341E    mov         eax,dword ptr [ebp+8]
- 004C3421    mov         byte ptr [eax],0
->004C3424    jmp         004C362F
- 004C3429    xor         eax,eax
- 004C342B    mov         dword ptr [ebp-10],eax
- 004C342E    mov         dword ptr [ebp-0C],eax
- 004C3431    mov         word ptr [ebp-8],ax
- 004C3435    xor         eax,eax
- 004C3437    mov         dword ptr [ebp-50],eax
- 004C343A    mov         dword ptr [ebp-4C],eax
- 004C343D    mov         word ptr [ebp-48],ax
- 004C3441    mov         eax,dword ptr [ebp-4]
- 004C3444    call        004BE9E0
- 004C3449    test        al,al
->004C344B    jbe         004C35B4
- 004C3451    mov         byte ptr [ebp-54],al
- 004C3454    mov         byte ptr [ebp-51],1
- 004C3458    mov         dl,byte ptr [ebp-51]
- 004C345B    mov         eax,dword ptr [ebp-4]
- 004C345E    call        004BEAD0
- 004C3463    test        al,al
->004C3465    jbe         004C35A8
- 004C346B    mov         byte ptr [ebp-55],al
- 004C346E    mov         byte ptr [ebp-53],1
- 004C3472    lea         eax,[ebp-15C]
- 004C3478    push        eax
- 004C3479    mov         cl,byte ptr [ebp-53]
- 004C347C    mov         dl,byte ptr [ebp-51]
- 004C347F    mov         eax,dword ptr [ebp-4]
- 004C3482    call        004BEDCC
- 004C3487    lea         eax,[ebp-15C]
- 004C348D    mov         edx,4C3670;'oui'
- 004C3492    xor         ecx,ecx
- 004C3494    mov         cl,byte ptr [eax]
- 004C3496    inc         ecx
- 004C3497    call        @AStrCmp
->004C349C    jne         004C359C
- 004C34A2    xor         eax,eax
- 004C34A4    push        ebp
- 004C34A5    push        4C357F
- 004C34AA    push        dword ptr fs:[eax]
- 004C34AD    mov         dword ptr fs:[eax],esp
- 004C34B0    mov         al,byte ptr [ebp-5]
- 004C34B3    push        eax
- 004C34B4    lea         eax,[ebp-15C]
- 004C34BA    push        eax
- 004C34BB    mov         cl,byte ptr [ebp-53]
- 004C34BE    mov         dl,byte ptr [ebp-51]
- 004C34C1    mov         eax,dword ptr [ebp-4]
- 004C34C4    call        004BEF5C
- 004C34C9    lea         edx,[ebp-15C]
- 004C34CF    lea         eax,[ebp-168]
- 004C34D5    call        @LStrFromString
- 004C34DA    mov         eax,dword ptr [ebp-168]
- 004C34E0    call        GetStrMoyArrendit
- 004C34E5    fstp        tbyte ptr [ebp-20]
- 004C34E8    wait
- 004C34E9    lea         eax,[ebp-15C]
- 004C34EF    push        eax
- 004C34F0    mov         cl,byte ptr [ebp-53]
- 004C34F3    mov         dl,byte ptr [ebp-51]
- 004C34F6    mov         eax,dword ptr [ebp-4]
- 004C34F9    call        004BED2C
- 004C34FE    lea         edx,[ebp-15C]
- 004C3504    lea         eax,[ebp-16C]
- 004C350A    call        @LStrFromString
- 004C350F    mov         eax,dword ptr [ebp-16C]
- 004C3515    call        GetStrMoyArrendit
- 004C351A    fstp        tbyte ptr [ebp-40]
- 004C351D    wait
- 004C351E    lea         eax,[ebp-15C]
- 004C3524    push        eax
- 004C3525    mov         cl,byte ptr [ebp-53]
- 004C3528    mov         dl,byte ptr [ebp-51]
- 004C352B    mov         eax,dword ptr [ebp-4]
- 004C352E    call        004BED7C
- 004C3533    lea         edx,[ebp-15C]
- 004C3539    lea         eax,[ebp-170]
- 004C353F    call        @LStrFromString
- 004C3544    mov         eax,dword ptr [ebp-170]
- 004C354A    call        GetStrMoyArrendit
- 004C354F    fstp        tbyte ptr [ebp-30]
- 004C3552    wait
- 004C3553    fld         tbyte ptr [ebp-20]
- 004C3556    fld         tbyte ptr [ebp-30]
- 004C3559    fmulp       st(1),st
- 004C355B    fld         tbyte ptr [ebp-10]
- 004C355E    faddp       st(1),st
- 004C3560    fstp        tbyte ptr [ebp-10]
- 004C3563    wait
- 004C3564    fld         tbyte ptr [ebp-40]
- 004C3567    fld         tbyte ptr [ebp-30]
- 004C356A    fmulp       st(1),st
- 004C356C    fld         tbyte ptr [ebp-50]
- 004C356F    faddp       st(1),st
- 004C3571    fstp        tbyte ptr [ebp-50]
- 004C3574    wait
- 004C3575    xor         eax,eax
- 004C3577    pop         edx
- 004C3578    pop         ecx
- 004C3579    pop         ecx
- 004C357A    mov         dword ptr fs:[eax],edx
->004C357D    jmp         004C359C
->004C357F    jmp         @HandleOnException
- 004C3584    dd          1
- 004C3588    dd          004094F8;Exception
- 004C358C    dd          004C3590
- 004C3590    call        @DoneExcept
->004C3595    jmp         004C359C
- 004C3597    call        @DoneExcept
- 004C359C    inc         byte ptr [ebp-53]
- 004C359F    dec         byte ptr [ebp-55]
->004C35A2    jne         004C3472
- 004C35A8    inc         byte ptr [ebp-51]
- 004C35AB    dec         byte ptr [ebp-54]
->004C35AE    jne         004C3458
- 004C35B4    fld         tbyte ptr [ebp-50]
- 004C35B7    fcomp       dword ptr ds:[4C3674];0:Single
- 004C35BD    fnstsw      al
- 004C35BF    sahf
->004C35C0    je          004C3629
- 004C35C2    mov         eax,dword ptr [ebp+8]
- 004C35C5    push        eax
- 004C35C6    call        004B9E48
- 004C35CB    mov         dword ptr [ebp-164],eax
- 004C35D1    fild        dword ptr [ebp-164]
- 004C35D7    fld         tbyte ptr [ebp-10]
- 004C35DA    fld         tbyte ptr [ebp-50]
- 004C35DD    fdivp       st(1),st
- 004C35DF    fmulp       st(1),st
- 004C35E1    add         esp,0FFFFFFF4
- 004C35E4    fstp        tbyte ptr [esp]
- 004C35E7    wait
- 004C35E8    lea         eax,[ebp-174]
- 004C35EE    push        eax
- 004C35EF    mov         ecx,2
- 004C35F4    mov         edx,12
- 004C35F9    mov         al,2
- 004C35FB    call        FloatToStrF
- 004C3600    mov         edx,dword ptr [ebp-174]
- 004C3606    lea         eax,[ebp-15C]
- 004C360C    mov         ecx,0FF
- 004C3611    call        @LStrToString
- 004C3616    lea         edx,[ebp-15C]
- 004C361C    mov         cl,byte ptr [ebp+10]
- 004C361F    mov         eax,dword ptr [ebp-4]
- 004C3622    call        004C2410
->004C3627    jmp         004C362F
- 004C3629    mov         eax,dword ptr [ebp+8]
- 004C362C    mov         byte ptr [eax],0
- 004C362F    xor         eax,eax
- 004C3631    pop         edx
- 004C3632    pop         ecx
- 004C3633    pop         ecx
- 004C3634    mov         dword ptr fs:[eax],edx
- 004C3637    push        4C3667
- 004C363C    lea         eax,[ebp-174]
- 004C3642    mov         edx,4
- 004C3647    call        @LStrArrayClr
- 004C364C    lea         eax,[ebp-160]
- 004C3652    call        @LStrClr
- 004C3657    lea         eax,[ebp-5C]
- 004C365A    call        @LStrClr
- 004C365F    ret
->004C3660    jmp         @HandleFinally
->004C3665    jmp         004C363C
- 004C3667    pop         edi
- 004C3668    pop         esi
- 004C3669    pop         ebx
- 004C366A    mov         esp,ebp
- 004C366C    pop         ebp
- 004C366D    ret         0C}
-
+function TFichierCdn.GetAllDataEleve(a:integer; b:integer; c:integer;d:integer;e:string):string;
+var
+ sum,tot ,F0,F1,F2: real;
+ P,I,J:integer;
+ buf:string;
+begin//0
+  //004C32B4
+    //004C32FA
+    case d of
+      0:
+      begin//3
+        //004C330C
+        for P := 1 to GetNbrePeriodes do 
+        begin//4
+          //004C332C
+          try
+            //004C3341
+            GetMoyBulletin(P, a, b, buf);
+            sum := StrToFloat(buf) + sum;
+            tot := tot + 1;
+          except//5
+            on E:EConvertError do
+            begin//6
+              //004C339F
+            end;//6
+          end;//5
+        end;//4
+        if (tot <> 0) then
+        begin//4
+          //004C33B9
+          GetStrMoyArrendit(FloatToStrF((sum / tot),ffFixed, 18,2), c, e);
+        end//4
+		else
+          result := e;
+      end;//3
+      1:
+      begin//3
+        //004C3429
+          for I := 1 to GetNbrePeriodes do
+          begin//5
+            //004C3458
+            for J := 1 to GetNbreModules(I) do
+            begin//6
+              //004C3472
+              GetStrComptMoy(I, J, buf);
+              if (buf = 'oui') then
+              begin//7
+                //004C34A2
+                try
+                  //004C34B0
+                  _GetStrNote(I, J, a, buf);
+                  F0 := StrToFloat(buf);
+                  GetStrNoteSur(I, J, buf);
+                  F1 := StrToFloat(buf);
+                  GetStrNoteSur(I, J, buf);
+                  F2 := StrToFloat(buf);
+                  sum := F0 * F2 + sum;
+                  tot := F1 * F2 + tot;
+                except//8
+                  on E:Exception do
+                  begin//9
+                    //004C3590
+                  end;//9
+                end;//8
+              end;//7
+            end;//6
+          end;//5
+        if (tot <> 0) then //004C35C2
+          GetStrMoyArrendit(FloatToStrF(GetmoyennesSur * (sum / tot) ,ffFixed, $12{18},2), c, e)
+		else
+         result := e;
+      end;//3
+	end;
 end;
 
 //004C3678
@@ -2323,7 +1731,7 @@ begin//0
       //FPointsAdditif.insert(indice,str);
       //FPointsAdditif.delete(indice + 1);
 	  FPointsAdditif[indice] := str;
-      SPeriodes.SetIsPeriodeInCal(Periode, true);
+      FPeriodes.SetIsPeriodeInCal(Periode, true);
 	  FModified := true;
     end;//2
   finally//1
@@ -2348,7 +1756,7 @@ begin//0
       FAppreciations.insert(K,buf);
       FAppreciations.delete(K + 1);
       FModified := true;
-      SPeriodes.SetIsPeriodeInCal(b, True);
+      FPeriodes.SetIsPeriodeInCal(b, True);
     end;//2
 end;//0
 
@@ -2809,7 +2217,7 @@ end;//0
 function TFichierCdn.GetIsPeriodeInCal(Periode:dword):boolean;
 begin//0
   //004C4778
-  result := SPeriodes.GetIsPeriodeInCal(Periode);
+  result := FPeriodes.GetIsPeriodeInCal(Periode);
 end;//0
 
 
@@ -2817,7 +2225,7 @@ end;//0
 procedure TFichierCdn.SetIsPeriodeInCal(Periode:dword;b:boolean);
 begin//0
   //004C4784
-  SPeriodes.SetIsPeriodeInCal(Periode, b);
+  FPeriodes.SetIsPeriodeInCal(Periode, b);
 end;//0
 
 
@@ -3268,14 +2676,14 @@ end;
 procedure TFichierCdn.sub_004C4CBC(a:TStringlist);
 begin//0
   //004C4CBC
-  SPeriodes.SetPeriodes(a);
+  FPeriodes.SetPeriodes(a);
 end;//0
 
 
 //004C4CC8
 procedure TFichierCdn.SetTypePeriode__(a:string);
 begin//0
-    SPeriodes.SetTypePeriode__(a);
+    FPeriodes.SetTypePeriode__(a);
 end;//0
 
 //004C4D44
@@ -3287,247 +2695,68 @@ end;//0
 
 
 //004C5078
-function TFichierCdn.sub_004C5078(a:integer; b:integer; c:integer;d:integer;e:integer):Tstrings;
-begin
-{ 004C5078    push        ebp
- 004C5079    mov         ebp,esp
- 004C507B    add         esp,0FFFFFEA8
- 004C5081    push        ebx
- 004C5082    push        esi
- 004C5083    push        edi
- 004C5084    xor         ebx,ebx
- 004C5086    mov         dword ptr [ebp-158],ebx
- 004C508C    mov         dword ptr [ebp-150],ebx
- 004C5092    mov         dword ptr [ebp-154],ebx
- 004C5098    mov         dword ptr [ebp-148],ebx
- 004C509E    mov         dword ptr [ebp-14C],ebx
- 004C50A4    mov         dword ptr [ebp-24],ebx
- 004C50A7    mov         byte ptr [ebp-9],cl
- 004C50AA    mov         dword ptr [ebp-8],edx
- 004C50AD    mov         dword ptr [ebp-4],eax
- 004C50B0    xor         eax,eax
- 004C50B2    push        ebp
- 004C50B3    push        4C53A0
- 004C50B8    push        dword ptr fs:[eax]
- 004C50BB    mov         dword ptr fs:[eax],esp
- 004C50BE    xor         ecx,ecx
- 004C50C0    mov         dl,1
- 004C50C2    mov         eax,[004B8694];TQSort
- 004C50C7    call        TComponent.Create;TQSort.Create
- 004C50CC    mov         dword ptr [ebp-1C],eax
- 004C50CF    mov         eax,dword ptr [ebp-1C]
- 004C50D2    mov         edx,dword ptr [ebp-4]
- 004C50D5    mov         dword ptr [eax+2C],edx;TQSort.?f2C:dword
- 004C50D8    mov         dword ptr [eax+28],4C4D4C;TQSort.Compare:TCompareEvent
- 004C50DF    mov         eax,dword ptr [ebp-1C]
- 004C50E2    mov         edx,dword ptr [ebp-4]
- 004C50E5    mov         dword ptr [eax+34],edx;TQSort.?f34:dword
- 004C50E8    mov         dword ptr [eax+30],4C4FA0;TQSort.Swap:TSwapEvent
- 004C50EF    mov         dl,1
- 004C50F1    mov         eax,[004120B8];TStringList
- 004C50F6    call        TObject.Create;TStringList.Create
- 004C50FB    mov         esi,eax
- 004C50FD    mov         dl,1
- 004C50FF    mov         eax,[004120B8];TStringList
- 004C5104    call        TObject.Create;TStringList.Create
- 004C5109    mov         dword ptr [ebp-18],eax
- 004C510C    mov         eax,dword ptr [ebp-4]
- 004C510F    call        004BE9E0
- 004C5114    xor         edx,edx
- 004C5116    mov         dl,al
- 004C5118    cmp         edx,0FF
->004C511E    jbe         004C5125
- 004C5120    call        @BoundErr
- 004C5125    mov         al,1
- 004C5127    lea         ecx,[ebp-44]
- 004C512A    mov         ah,20
- 004C512C    call        @SetRange
- 004C5131    mov         eax,dword ptr [ebp-8]
- 004C5134    cmp         eax,0FF
->004C5139    ja          004C513F
- 004C513B    bt          dword ptr [ebp-44],eax
- 004C513F    setb        al
- 004C5142    xor         al,1
- 004C5144    mov         byte ptr [ebp-1D],al
- 004C5147    mov         eax,dword ptr [ebp-4]
- 004C514A    call        TFichierCdn.EleveCount
- 004C514F    xor         ebx,ebx
- 004C5151    mov         bl,al
- 004C5153    test        ebx,ebx
->004C5155    jle         004C52B8
- 004C515B    mov         dword ptr [ebp-10],1
- 004C5162    cmp         byte ptr [ebp-1D],0
->004C5166    jne         004C5216
- 004C516C    mov         al,byte ptr [ebp+10]
- 004C516F    push        eax
- 004C5170    lea         eax,[ebp-144]
- 004C5176    push        eax
- 004C5177    mov         ecx,dword ptr [ebp-10]
- 004C517A    cmp         ecx,0FF
->004C5180    jbe         004C5187
- 004C5182    call        @BoundErr
- 004C5187    mov         edx,dword ptr [ebp-8]
- 004C518A    cmp         edx,0FF
->004C5190    jbe         004C5197
- 004C5192    call        @BoundErr
- 004C5197    mov         eax,dword ptr [ebp-4]
- 004C519A    call        004C2D10
- 004C519F    lea         edx,[ebp-144]
- 004C51A5    lea         eax,[ebp-24]
- 004C51A8    call        @LStrFromString
- 004C51AD    cmp         dword ptr [ebp-24],0
->004C51B1    je          004C52AE
- 004C51B7    lea         ecx,[ebp-144]
- 004C51BD    mov         edx,dword ptr [ebp-10]
- 004C51C0    cmp         edx,0FF
->004C51C6    jbe         004C51CD
- 004C51C8    call        @BoundErr
- 004C51CD    mov         eax,dword ptr [ebp-4]
- 004C51D0    call        TFichierCdn.GetEleveName
- 004C51D5    lea         edx,[ebp-144]
- 004C51DB    lea         eax,[ebp-14C]
- 004C51E1    call        @LStrFromString
- 004C51E6    push        dword ptr [ebp-14C]
- 004C51EC    push        4C53BC;' -> '
- 004C51F1    push        dword ptr [ebp-24]
- 004C51F4    lea         eax,[ebp-148]
- 004C51FA    mov         edx,3
- 004C51FF    call        @LStrCatN
- 004C5204    mov         edx,dword ptr [ebp-148]
- 004C520A    mov         eax,esi
- 004C520C    mov         ecx,dword ptr [eax]
- 004C520E    call        dword ptr [ecx+34];TStringList.Add
->004C5211    jmp         004C52AE
- 004C5216    mov         al,byte ptr [ebp+0C]
- 004C5219    push        eax
- 004C521A    mov         al,byte ptr [ebp+8]
- 004C521D    push        eax
- 004C521E    lea         eax,[ebp-144]
- 004C5224    push        eax
- 004C5225    mov         edx,dword ptr [ebp-10]
- 004C5228    cmp         edx,0FF
->004C522E    jbe         004C5235
- 004C5230    call        @BoundErr
- 004C5235    mov         cl,byte ptr [ebp+10]
- 004C5238    mov         eax,dword ptr [ebp-4]
- 004C523B    call        004C32B4
- 004C5240    lea         edx,[ebp-144]
- 004C5246    lea         eax,[ebp-24]
- 004C5249    call        @LStrFromString
- 004C524E    cmp         dword ptr [ebp-24],0
->004C5252    je          004C52AE
- 004C5254    lea         ecx,[ebp-144]
- 004C525A    mov         edx,dword ptr [ebp-10]
- 004C525D    cmp         edx,0FF
->004C5263    jbe         004C526A
- 004C5265    call        @BoundErr
- 004C526A    mov         eax,dword ptr [ebp-4]
- 004C526D    call        TFichierCdn.GetEleveName
- 004C5272    lea         edx,[ebp-144]
- 004C5278    lea         eax,[ebp-154]
- 004C527E    call        @LStrFromString
- 004C5283    push        dword ptr [ebp-154]
- 004C5289    push        4C53BC;' -> '
- 004C528E    push        dword ptr [ebp-24]
- 004C5291    lea         eax,[ebp-150]
- 004C5297    mov         edx,3
- 004C529C    call        @LStrCatN
- 004C52A1    mov         edx,dword ptr [ebp-150]
- 004C52A7    mov         eax,esi
- 004C52A9    mov         ecx,dword ptr [eax]
- 004C52AB    call        dword ptr [ecx+34];TStringList.Add
- 004C52AE    inc         dword ptr [ebp-10]
- 004C52B1    dec         ebx
->004C52B2    jne         004C5162
- 004C52B8    mov         eax,esi
- 004C52BA    mov         edx,dword ptr [eax]
- 004C52BC    call        dword ptr [edx+14];TStringList.GetCount
- 004C52BF    mov         ecx,eax
- 004C52C1    cmp         ecx,0FFFF
->004C52C7    jbe         004C52CE
- 004C52C9    call        @BoundErr
- 004C52CE    mov         edx,esi
- 004C52D0    mov         eax,dword ptr [ebp-1C]
- 004C52D3    call        004B8B48
- 004C52D8    cmp         byte ptr [ebp-9],0
->004C52DC    jne         004C52F8
- 004C52DE    mov         ecx,4C53CC;'Classement ascendant'
- 004C52E3    xor         edx,edx
- 004C52E5    mov         eax,esi
- 004C52E7    mov         ebx,dword ptr [eax]
- 004C52E9    call        dword ptr [ebx+54];TStringList.Insert
- 004C52EC    mov         edx,esi
- 004C52EE    mov         eax,dword ptr [ebp-18]
- 004C52F1    mov         ecx,dword ptr [eax]
- 004C52F3    call        dword ptr [ecx+3C];TStrings.AddStrings
->004C52F6    jmp         004C5364
- 004C52F8    mov         eax,esi
- 004C52FA    mov         edx,dword ptr [eax]
- 004C52FC    call        dword ptr [edx+14];TStringList.GetCount
- 004C52FF    mov         ebx,eax
- 004C5301    sub         ebx,1
->004C5304    jno         004C530B
- 004C5306    call        @IntOver
- 004C530B    test        ebx,ebx
->004C530D    jl          004C5355
- 004C530F    inc         ebx
- 004C5310    mov         dword ptr [ebp-14],0
- 004C5317    mov         eax,esi
- 004C5319    mov         edx,dword ptr [eax]
- 004C531B    call        dword ptr [edx+14];TStringList.GetCount
- 004C531E    mov         edx,eax
- 004C5320    sub         edx,1
->004C5323    jno         004C532A
- 004C5325    call        @IntOver
- 004C532A    sub         edx,dword ptr [ebp-14]
->004C532D    jno         004C5334
- 004C532F    call        @IntOver
- 004C5334    lea         ecx,[ebp-158]
- 004C533A    mov         eax,esi
- 004C533C    mov         edi,dword ptr [eax]
- 004C533E    call        dword ptr [edi+0C];TStringList.Get
- 004C5341    mov         edx,dword ptr [ebp-158]
- 004C5347    mov         eax,dword ptr [ebp-18]
- 004C534A    mov         ecx,dword ptr [eax]
- 004C534C    call        dword ptr [ecx+34];TStringList.Add
- 004C534F    inc         dword ptr [ebp-14]
- 004C5352    dec         ebx
->004C5353    jne         004C5317
- 004C5355    mov         ecx,4C53EC;'Classement descendant'
- 004C535A    xor         edx,edx
- 004C535C    mov         eax,dword ptr [ebp-18]
- 004C535F    mov         ebx,dword ptr [eax]
- 004C5361    call        dword ptr [ebx+54];TStringList.Insert
- 004C5364    mov         dl,1
- 004C5366    mov         eax,esi
- 004C5368    mov         ecx,dword ptr [eax]
- 004C536A    call        dword ptr [ecx-4];TStringList.Destroy
- 004C536D    mov         dl,1
- 004C536F    mov         eax,dword ptr [ebp-1C]
- 004C5372    mov         ecx,dword ptr [eax]
- 004C5374    call        dword ptr [ecx-4];TComponent.Destroy
- 004C5377    mov         ebx,dword ptr [ebp-18]
- 004C537A    xor         eax,eax
- 004C537C    pop         edx
- 004C537D    pop         ecx
- 004C537E    pop         ecx
- 004C537F    mov         dword ptr fs:[eax],edx
- 004C5382    push        4C53A7
- 004C5387    lea         eax,[ebp-158]
- 004C538D    mov         edx,5
- 004C5392    call        @LStrArrayClr
- 004C5397    lea         eax,[ebp-24]
- 004C539A    call        @LStrClr
- 004C539F    ret
->004C53A0    jmp         @HandleFinally
->004C53A5    jmp         004C5387
- 004C53A7    mov         eax,ebx
- 004C53A9    pop         edi
- 004C53AA    pop         esi
- 004C53AB    pop         ebx
- 004C53AC    mov         esp,ebp
- 004C53AE    pop         ebp
- 004C53AF    ret         0C}
+function TFichierCdn.GetAllDataPeriode(Periode:integer; AscDes:integer; ArrondirMoyennes:dword ; arrondirMoyennesAnnuelles : dword ; typeMoyennesAnnuelles:dword):Tstrings;
+var
+ Str0,Str1 : TStringList;
+ QSort : TQSort;
+ I:integer;
+ buf0,buf: string;
+begin//0
+  try
+    //004C50BE
+    QSort := TQSort.Create(Nil);
+   // QSort.f2C := Self;
+   // QSort.f34 := Self;
+    Str0 := TStringList.Create;
+    Str1 := TStringList.Create;
+    //if (Periode  GetNbrePeriodes ) then
+    begin//2
+      //004C513B
+        for I := 1 to EleveCount do
+        begin//4
+          //004C5162
+          if (Periode <= GetNbrePeriodes) then
+          begin//5
+            //004C516C
+            GetMoyBulletin(Periode, I, ArrondirMoyennes, buf0);
+            if (buf0 = '') then Continue;
+            GetEleveName( I, buf);
+            Str0.Add(buf + ' -> ' + buf0);
+          end//5
+          else
+          begin//5
+            //004C5216
+            GetAllDataEleve(I, ArrondirMoyennes, arrondirMoyennesAnnuelles, typeMoyennesAnnuelles, buf0);
+            if (buf0 = '') then Continue;
+            GetEleveName(I, buf);
+            Str0.Add(buf + ' -> ' + buf0);
+          end;//5
+        end;//4
+      QSort.{sub_004B8B48}Sort(Str0,Str0.Count);
+      if (AscDes = 0) then
+      begin//3
+        //004C52DE
+        Str0.Insert(0, 'Classement ascendant');
+        Str1.AddStrings(Str0);
+      end//3
+      else
+      begin//3
+        //004C52F8
+          for I := 0 to Str0.Count - 1 do//004C530F
+          begin//5
+            //004C5317
+            Str1.Add(Str0[Str0.Count - 1 - I]);
+          end;//5
+        Str1.Insert(0, 'Classement descendant');
+      end;//3
+      Str0.Destroy();
+      QSort.Destroy();
+      result := Str1;
+    end;//2
+  finally//1
+    //004C5387
+  end;//1
+  result := Str1;
 end;
 
 //004C5404
@@ -3568,7 +2797,7 @@ begin//0
 	//004C55A7
     if (lvar_38 <> 0) then
     begin//004C55B1
-      _readCompteMoy(Periode, Buf, NumModule);
+      GetModuleName__v(Periode, Buf, NumModule);
       S := FloatToStrF(NoteBasse,ffFixed{2}, 18, 2) + '/' + IntToStr(GetmoyennesSur) + ' (' + Buf + ')';
     end
 	else 
@@ -3577,196 +2806,109 @@ end;//0
 
 
 //004C56C0
-procedure TFichierCdn.sub_004C56C0(a:integer; b:integer; c:string);
-begin
-{*
- 004C56C0    push        ebp
- 004C56C1    mov         ebp,esp
- 004C56C3    add         esp,0FFFFFE98
- 004C56C9    push        ebx
- 004C56CA    push        esi
- 004C56CB    push        edi
- 004C56CC    xor         ebx,ebx
- 004C56CE    mov         dword ptr [ebp-15C],ebx
- 004C56D4    mov         dword ptr [ebp-160],ebx
- 004C56DA    mov         dword ptr [ebp-164],ebx
- 004C56E0    mov         dword ptr [ebp-168],ebx
- 004C56E6    mov         dword ptr [ebp-158],ebx
- 004C56EC    mov         dword ptr [ebp-48],ebx
- 004C56EF    mov         byte ptr [ebp-6],cl
- 004C56F2    mov         byte ptr [ebp-5],dl
- 004C56F5    mov         dword ptr [ebp-4],eax
- 004C56F8    xor         eax,eax
- 004C56FA    push        ebp
- 004C56FB    push        4C593D
- 004C5700    push        dword ptr fs:[eax]
- 004C5703    mov         dword ptr fs:[eax],esp
- 004C5706    xor         eax,eax
- 004C5708    mov         dword ptr [ebp-38],eax
- 004C570B    xor         eax,eax
- 004C570D    mov         dword ptr [ebp-3C],eax
- 004C5710    call        004B9E48
- 004C5715    mov         dword ptr [ebp-44],eax
- 004C5718    fild        dword ptr [ebp-44]
- 004C571B    fstp        tbyte ptr [ebp-30]
- 004C571E    wait
- 004C571F    xor         eax,eax
- 004C5721    mov         dword ptr [ebp-10],eax
- 004C5724    mov         dword ptr [ebp-0C],eax
- 004C5727    mov         word ptr [ebp-8],ax
- 004C572B    mov         dl,byte ptr [ebp-5]
- 004C572E    mov         eax,dword ptr [ebp-4]
- 004C5731    call        004BEAD0
- 004C5736    and         eax,0FF
- 004C573B    test        eax,eax
->004C573D    jle         004C585B
- 004C5743    mov         dword ptr [ebp-40],eax
- 004C5746    mov         dword ptr [ebp-34],1
- 004C574D    xor         eax,eax
- 004C574F    push        ebp
- 004C5750    push        4C5832
- 004C5755    push        dword ptr fs:[eax]
- 004C5758    mov         dword ptr fs:[eax],esp
- 004C575B    mov         al,byte ptr [ebp-6]
- 004C575E    push        eax
- 004C575F    lea         eax,[ebp-148]
- 004C5765    push        eax
- 004C5766    mov         ebx,dword ptr [ebp-34]
- 004C5769    cmp         ebx,0FF
->004C576F    jbe         004C5776
- 004C5771    call        @BoundErr
- 004C5776    mov         ecx,ebx
- 004C5778    mov         dl,byte ptr [ebp-5]
- 004C577B    mov         eax,dword ptr [ebp-4]
- 004C577E    call        004BEF5C
- 004C5783    lea         edx,[ebp-148]
- 004C5789    lea         eax,[ebp-48]
- 004C578C    call        @LStrFromString
- 004C5791    mov         eax,dword ptr [ebp-48]
- 004C5794    call        GetStrMoyArrendit
- 004C5799    fstp        tbyte ptr [ebp-154]
- 004C579F    wait
- 004C57A0    lea         eax,[ebp-148]
- 004C57A6    push        eax
- 004C57A7    mov         eax,dword ptr [ebp-34]
- 004C57AA    cmp         eax,0FF
->004C57AF    jbe         004C57B6
- 004C57B1    call        @BoundErr
- 004C57B6    mov         ecx,ebx
- 004C57B8    mov         dl,byte ptr [ebp-5]
- 004C57BB    mov         eax,dword ptr [ebp-4]
- 004C57BE    call        004BED2C
- 004C57C3    lea         edx,[ebp-148]
- 004C57C9    lea         eax,[ebp-158]
- 004C57CF    call        @LStrFromString
- 004C57D4    mov         eax,dword ptr [ebp-158]
- 004C57DA    call        StrToInt
- 004C57DF    mov         dword ptr [ebp-44],eax
- 004C57E2    fild        dword ptr [ebp-44]
- 004C57E5    fld         tbyte ptr [ebp-154]
- 004C57EB    fdivrp      st(1),st
- 004C57ED    fld         tbyte ptr [ebp-30]
- 004C57F0    fmulp       st(1),st
- 004C57F2    fstp        tbyte ptr [ebp-20]
- 004C57F5    wait
- 004C57F6    fld         tbyte ptr [ebp-20]
- 004C57F9    fld         tbyte ptr [ebp-10]
- 004C57FC    fcompp
- 004C57FE    fnstsw      al
- 004C5800    sahf
->004C5801    jae         004C581D
- 004C5803    mov         eax,dword ptr [ebp-20]
- 004C5806    mov         dword ptr [ebp-10],eax
- 004C5809    mov         eax,dword ptr [ebp-1C]
- 004C580C    mov         dword ptr [ebp-0C],eax
- 004C580F    mov         ax,word ptr [ebp-18]
- 004C5813    mov         word ptr [ebp-8],ax
- 004C5817    mov         eax,dword ptr [ebp-34]
- 004C581A    mov         dword ptr [ebp-3C],eax
- 004C581D    add         dword ptr [ebp-38],1
->004C5821    jno         004C5828
- 004C5823    call        @IntOver
- 004C5828    xor         eax,eax
- 004C582A    pop         edx
- 004C582B    pop         ecx
- 004C582C    pop         ecx
- 004C582D    mov         dword ptr fs:[eax],edx
->004C5830    jmp         004C584F
->004C5832    jmp         @HandleOnException
- 004C5837    dd          1
- 004C583B    dd          00409B50;EConvertError
- 004C583F    dd          004C5843
- 004C5843    call        @DoneExcept
->004C5848    jmp         004C584F
- 004C584A    call        @DoneExcept
- 004C584F    inc         dword ptr [ebp-34]
- 004C5852    dec         dword ptr [ebp-40]
->004C5855    jne         004C574D
- 004C585B    cmp         dword ptr [ebp-38],0
->004C585F    je          004C5911
- 004C5865    mov         ax,word ptr [ebp-8]
- 004C5869    push        eax
- 004C586A    push        dword ptr [ebp-0C]
- 004C586D    push        dword ptr [ebp-10]
- 004C5870    lea         eax,[ebp-160]
- 004C5876    push        eax
- 004C5877    mov         ecx,2
- 004C587C    mov         edx,12
- 004C5881    mov         al,2
- 004C5883    call        FloatToStrF
- 004C5888    push        dword ptr [ebp-160]
- 004C588E    push        4C5958;'/'
- 004C5893    call        004B9E48
- 004C5898    lea         edx,[ebp-164]
- 004C589E    call        IntToStr
- 004C58A3    push        dword ptr [ebp-164]
- 004C58A9    push        4C5964;' ('
- 004C58AE    lea         eax,[ebp-148]
- 004C58B4    push        eax
- 004C58B5    mov         ecx,dword ptr [ebp-3C]
- 004C58B8    cmp         ecx,0FF
->004C58BE    jbe         004C58C5
- 004C58C0    call        @BoundErr
- 004C58C5    mov         dl,byte ptr [ebp-5]
- 004C58C8    mov         eax,dword ptr [ebp-4]
- 004C58CB    call        004BED04
- 004C58D0    lea         edx,[ebp-148]
- 004C58D6    lea         eax,[ebp-168]
- 004C58DC    call        @LStrFromString
- 004C58E1    push        dword ptr [ebp-168]
- 004C58E7    push        4C5970;')'
- 004C58EC    lea         eax,[ebp-15C]
- 004C58F2    mov         edx,6
- 004C58F7    call        @LStrCatN
- 004C58FC    mov         edx,dword ptr [ebp-15C]
- 004C5902    mov         eax,dword ptr [ebp+8]
- 004C5905    mov         ecx,0FF
- 004C590A    call        @LStrToString
->004C590F    jmp         004C5917
- 004C5911    mov         eax,dword ptr [ebp+8]
- 004C5914    mov         byte ptr [eax],0
- 004C5917    xor         eax,eax
- 004C5919    pop         edx
- 004C591A    pop         ecx
- 004C591B    pop         ecx
- 004C591C    mov         dword ptr fs:[eax],edx
- 004C591F    push        4C5944
- 004C5924    lea         eax,[ebp-168]
- 004C592A    mov         edx,5
- 004C592F    call        @LStrArrayClr
- 004C5934    lea         eax,[ebp-48]
- 004C5937    call        @LStrClr
- 004C593C    ret
->004C593D    jmp         @HandleFinally
->004C5942    jmp         004C5924
- 004C5944    pop         edi
- 004C5945    pop         esi
- 004C5946    pop         ebx
- 004C5947    mov         esp,ebp
- 004C5949    pop         ebp
- 004C594A    ret         4
-*}
-end;
+procedure TFichierCdn.GetMaxNotePeriode(Periode:integer; Arow:dword ;  buf:string);
+begin//0
+  //004C56C0
+  (*
+  lvar_6 := AscDes;
+  lvar_5 := Periode;
+  lvar_4 := Self;
+  try
+    //004C5706
+    EAX := 0;
+    lvar_38 := EAX;
+    EAX := 0;
+    lvar_3C := EAX;
+    EAX := sub_004B9E48;
+    lvar_44 := sub_004B9E48;
+    lvar_30 := lvar_44;
+    EAX := 0;
+    lvar_10 := EAX;
+    lvar_C := EAX;
+    lvar_8 := EAX;
+    EDX := Periode;
+    EAX := Self;
+    EAX := sub_004BEAD0(Periode);
+    EAX := EAX And $FF{255};//sub_004BEAD0(Periode) And $FF{255}
+    if (EAX{sub_004BEAD0(Periode) And $FF{255}} > 0) then
+    begin//2
+      //004C5743
+      lvar_40 := sub_004BEAD0(Periode) And $FF{255};
+      lvar_34 := 1;
+      try
+        //004C575B
+        EAX := AscDes;
+        //push EAX
+        //push EAX
+        EBX := lvar_34;
+        ECX := EBX;//lvar_34
+        EDX := Periode;
+        sub_004BEF5C(Periode, lvar_34, AscDes{EAX}, lvar_148);
+        EAX := lvar_48;
+        lvar_154 := StrToFloat(lvar_48);
+        //push EAX
+        EAX := lvar_34;
+        ECX := EBX;//lvar_34
+        EDX := Periode;
+        EAX := Self;
+        sub_004BED2C(Periode, lvar_34, lvar_148);
+        EAX := lvar_158;
+        EAX := StrToInt(lvar_158);
+        lvar_44 := StrToInt(lvar_158);
+        lvar_20 := lvar_154{lvar_154} / lvar_44{lvar_44} * lvar_30{lvar_30};
+        if (lvar_10 < lvar_20) then
+        begin//4
+          //004C5803
+          lvar_10 := lvar_20;
+          lvar_C := lvar_1C;
+          lvar_8 := lvar_18;
+          lvar_3C := lvar_34;
+        end;//4
+        lvar_38 := lvar_38 + 1;
+      except//3
+        on E:EConvertError do
+        begin//4
+          //004C5843
+        end;//4
+      end;//3
+      lvar_34 := lvar_34 + 1;
+      lvar_40 := lvar_40 - 1;
+      if ( ? ) then
+      begin//3
+        //004C585B
+      end;//3
+    end;//2
+    if (lvar_38 <> 0) then
+    begin//2
+      //004C5865
+      EAX := lvar_8;
+      ECX := 2;
+      EDX := $12{18};
+      EAX := 2;
+      lvar_160 := FloatToStrF(EAX{2}, {$12{18}}, {2}, lvar_10);
+      lvar_164 := IntToStr(sub_004B9E48);
+      //push EAX
+      ECX := lvar_3C;
+      EDX := Periode;
+      EAX := Self;
+      sub_004BED04(Periode, lvar_148, lvar_3C);
+       := ;
+      EDX := 6;
+      lvar_15C := lvar_160 + '/' + lvar_164 + ' (' + lvar_168 + ')';
+      EDX := lvar_15C;
+      EAX := typeMoyennesAnnuelles;
+      ECX := $FF{255};
+       := lvar_15C;
+      Exit;
+    end;//2
+    EAX := typeMoyennesAnnuelles;
+    typeMoyennesAnnuelles[1] := '
+  finally//1
+    //004C5924
+  end;//1
+  *)
+end;//0
+
 
 //004C5E04
 procedure TFichierCdn.SetAttributs0(periode:dword; ACol:dword; c:dword;s:string);
@@ -4091,7 +3233,7 @@ begin//0
         for J := 1 to NbrEleves do
         begin//4
           //004C69A9
-		  SEleves.AddEleve(FFluxCdn._read);
+		  FEleves.AddEleve(FFluxCdn._read);
         end;//4
       
       Periodes := StrToInt(FFluxCdn._read());
@@ -4158,9 +3300,9 @@ begin//0
             //004C6CA1
 			buf := FFluxCdn._read();
             if (buf  <> '-1') then //004C6CC5
-              sub_004C1074(1, I, J,buf )
+              AddNoteToPeriode(1, I, J,buf )
             else//004C6CDE
-              sub_004C1074(1, I, J,buf );
+              AddNoteToPeriode(1, I, J,buf );
           end;//5
         end;//4
       user := GetUsersList;
@@ -4274,7 +3416,7 @@ begin//0
       FMatiere := FFluxCdn._Read;
       FYear := FFluxCdn._Read;
       FRemarque := FFluxCdn._Read;
-      SPeriodes.SetTypePeriode__(FFluxCdn._Read); //periodes
+      FPeriodes.SetTypePeriode__(FFluxCdn._Read); //periodes
       Periodes := StrToInt(FFluxCdn._Read);
       StringList := TStringList.Create;
         for I := 1 to Periodes do//004C714E
@@ -4282,11 +3424,11 @@ begin//0
           buf := FFluxCdn._Read;
           StringList.Add(buf);
         end;//4
-      SPeriodes.SetPeriodes(StringList);
+      FPeriodes.SetPeriodes(StringList);
       StringList.Free;
       NbrEleves := StrToInt(FFluxCdn._Read);
         for I := 1 to NbrEleves do //004C71DF //ajouter liste eleves
-          SEleves.AddEleve(FFluxCdn._Read);
+          FEleves.AddEleve(FFluxCdn._Read);
 
       FData.FixedCols := 0;
       FData.FixedRows := 0; 
@@ -4535,8 +3677,8 @@ begin//0
     SArrondirMoyennesAnnuelles := GetarrondirMoyennesAnnuelles;
     StypeMoyennesAnnuelles := GettypeMoyennesAnnuelles;
     STypeBulletins := TTypeBulletins.Create;
-    SPeriodes := TPeriodes.Create;
-    SEleves := TEleves.Create;
+    FPeriodes := TPeriodes.Create;
+    FEleves := TEleves.Create;
     Succes := True;
     OldVersion := false;
     //FFileName := FileName;

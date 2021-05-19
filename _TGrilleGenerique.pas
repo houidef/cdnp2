@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by Houidef AEK v Thursday 20 May 2021 @ 12:47 AM*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _TGrilleGenerique;
@@ -63,10 +63,6 @@ var
   RowWith : integer;
 begin//0
  //004CA104
-  //ECX := 4;
-  //lvar_24 := z;
- // I := ACol;
-//004CA137
     Canvas.Font.Style := [] ; //0;//gvar_004CA394;
     case TypeGrille of
       0:
@@ -153,13 +149,13 @@ procedure TGrilleGeneriqueCarnetDeNotes.sub_004CA398(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
 
-  SendMessageA(MyHandle, $401{1025}, ARow, 255);
+  SendMessageA(MyHandle, 1025, ARow, 255);
 end;
 
 //004CA3B8
 procedure TGrilleGeneriqueCarnetDeNotes.sub_004CA3B8(Sender: TObject);
 begin
-  SendMessageA(MyHandle, $402{1026}, {FTopLeft} TopRow, 0);
+  SendMessageA(MyHandle, 1026, {FTopLeft} TopRow, 0);
 end;
 
 procedure TGrilleGeneriqueCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);

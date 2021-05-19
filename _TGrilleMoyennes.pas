@@ -418,7 +418,7 @@ begin//0
       begin//3
         //004D02D2
         FichierCdn.defaultAttributs;
-        SendMessageA(Handle, $408{1032}, NPeriode, 0);
+        SendMessageA(Handle, 1032, NPeriode, 0);
       end;//3
     end;//2
     //004D0307
@@ -571,7 +571,7 @@ begin//0
                 else
                 begin//8
                   //004D05CF
-                  Canvas.Brush.Color := $FFFFFF{16777215};
+                  Canvas.Brush.Color := $FFFFFF;
                 end;//8
               end;//7
               on E:EMathError do
@@ -586,7 +586,7 @@ begin//0
                 else
                 begin//8
                   //004D060A
-                  Canvas.Brush.Color := $FFFFFF{16777215};
+                  Canvas.Brush.Color := $FFFFFF;
                 end;//8
               end;//7
             end;//6

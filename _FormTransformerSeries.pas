@@ -67,7 +67,7 @@ begin//0
       for I := 1 to F.GetNbreModules(TabControl1.TabIndex + 1) do //0051187D
       begin//3
         //00511884
-        F._readCompteMoy( TabControl1.TabIndex + 1, buf, I);
+        F.GetModuleName__v( TabControl1.TabIndex + 1, buf, I);
         ListBox2.Items.Add(buf);
       end;//3
 
@@ -96,7 +96,7 @@ begin//0
       for I := 1 to f314.GetNbreModules(TabControl1.TabIndex + 1) do//005119DE
       begin//3
         //005119E5
-        f314._readCompteMoy(TabControl1.TabIndex + 1, buf, I);
+        f314.GetModuleName__v(TabControl1.TabIndex + 1, buf, I);
         ListBox2.Items.Add(buf);
       end;//3
 
@@ -227,7 +227,7 @@ begin//0
         if (CheckBox1.Checked ) then
         begin//4
           //0051217B
-          f314._readCompteMoy(f318, buf0, I);
+          f314.GetModuleName__v(f318, buf0, I);
           f314.GetStrCoeff(f318, I, buf2);
           f314.GetStrComptMoy(f318, I, buf3);
           f314.GetStrCommentaire(f318, I, buf4);
@@ -254,7 +254,7 @@ begin//0
             //00512475
             f314._GetStrNote(f318, I, K, buf); 
             f314.GetStrMoyArrendit(FloatToStrF(StrToFloat(buf) * lvar_10 , ffFixed{2}, $12{18}, 2), RadioGroup1.ItemIndex, MoyArrondi);
-            f314.sub_004C1074(f318, J, K, MoyArrondi);
+            f314.AddNoteToPeriode(f318, J, K, MoyArrondi);
           except//5
             on E:EConvertError do
             begin//6

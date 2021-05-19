@@ -154,7 +154,7 @@ begin//0
 			end;//5
 			Cols[lvar_4 + 1].Clear;
 			Cols[lvar_4 + 2].Clear;
-			Cols[lvar_4 + 2] :=FichierCdn.sub_004C5078(NPeriode, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+			Cols[lvar_4 + 2] :=FichierCdn.GetAllDataPeriode(NPeriode, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			for I := 1 to lvar_4 - 3 do//004CBAF5
 			begin//5
 				//004CBAFF
@@ -236,12 +236,12 @@ begin//0
 		for I := 1 to FichierCdn.EleveCount  do//004CC184
 		begin//4
 			//004CC18C
-			FichierCdn.sub_004C32B4(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf);
+			FichierCdn.GetAllDataEleve(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf);
 			Cells[lvar_4 + 4 + K + lvar_C, I ] :=buf;
 		end;//4
 		Cols[lvar_4 + 5 + K + lvar_C].Clear;  
 		Cols[lvar_4 + 6 + K + lvar_C].Clear;
-		//Cols[ESI] := lvar_1C.sub_004C5078(EDX, ECX, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+		//Cols[ESI] := lvar_1C.GetAllDataPeriode(EDX, ECX, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 		for I :=  K + 2 to lvar_C - 1 do //004CC2C2
 		begin//4
 			//004CC2C9
@@ -285,7 +285,7 @@ begin//0
 			end;//4
 			Cols[lvar_4 + 3].Clear;
 			Cols[lvar_4 + 4].Clear;
-			Cols[lvar_4 + 4] :=  FichierCdn.sub_004C5078(NPeriode, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+			Cols[lvar_4 + 4] :=  FichierCdn.GetAllDataPeriode(NPeriode, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			sub_004CD0B0(lvar_4 + 1);
 			Cols[lvar_4 + 5].Clear;
 			for I := 1 to lvar_14 do//004CC624
@@ -347,13 +347,13 @@ begin//0
 			for I := 1 to FichierCdn.EleveCount  do//004CCA69
 			begin//3
 				//004CCA71
-				FichierCdn.sub_004C32B4(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf); 
+				FichierCdn.GetAllDataEleve(I, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles, buf); 
 				Cells[lvar_4 + 3 + lvar_C, I ] := buf;
 			end;//3
 			sub_004CD0B0(lvar_4 + lvar_C + 2);
 			Cols[lvar_4 + 4 + lvar_C].Clear;
 			Cols[lvar_4 + 5 + lvar_C].Clear;
-			Cols[lvar_4 + 5 + lvar_C] := FichierCdn.sub_004C5078(lvar_C + 1, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
+			Cols[lvar_4 + 5 + lvar_C] := FichierCdn.GetAllDataPeriode(lvar_C + 1, GettrierMoyennes, GetarrondirMoyennes, GetarrondirMoyennesAnnuelles, GettypeMoyennesAnnuelles);
 			sub_004CD0B0(lvar_4 + 4 + lvar_C);
 		end;
 	end;

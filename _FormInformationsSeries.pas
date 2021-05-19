@@ -85,7 +85,7 @@ begin//0
       for I := 1 to f334.GetNbreModules(TabControl1.TabIndex + 1) do //0050C8CA
       begin//3
         //0050C8D1
-        f334._readCompteMoy(TabControl1.TabIndex + 1, buf, I);
+        f334.GetModuleName__v(TabControl1.TabIndex + 1, buf, I);
         ListBoxSeries.Items.Add(buf);
       end;//3
  
@@ -119,7 +119,7 @@ begin//0
       for I := 1 to f334.GetNbreModules(  TabControl1.TabIndex + 1) do
       begin//3
         //0050CA27
-        f334._readCompteMoy(TabControl1.TabIndex + 1, buf, I);
+        f334.GetModuleName__v(TabControl1.TabIndex + 1, buf, I);
         ListBoxSeries.Items.Add(buf);
       end;//3
 
@@ -187,7 +187,7 @@ begin//0
       SpeedButton2.Enabled :=True;
       SpeedButton3.Enabled :=True;
       SpeedButton4.Enabled :=True;
-      f334._readCompteMoy(I, buf, J);
+      f334.GetModuleName__v(I, buf, J);
       Edit1.Text := buf;
       ComboBox2.Items.Clear;
       ComboBox2.Items.Add('20');

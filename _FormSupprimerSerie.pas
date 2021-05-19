@@ -70,7 +70,7 @@ begin//0
       begin//3
         //0050BAC0
 
-        f2F8._readCompteMoy( 1, Buf, I);
+        f2F8.GetModuleName__v( 1, Buf, I);
 
         CheckListBox1.Items.Add(buf);
       end;//3
@@ -199,7 +199,7 @@ begin//0
       for I := 1 to f2F8.GetNbreModules(TabControl1.TabIndex + 1) do//0050C027
       begin//3
         //0050C02E
-        f2F8._readCompteMoy( TabControl1.TabIndex + 1, buf, I);
+        f2F8.GetModuleName__v( TabControl1.TabIndex + 1, buf, I);
         CheckListBox1.Items.Add(buf);
       end;//3
     
@@ -242,7 +242,7 @@ begin//0
               //0050C1AE
               S := S + f2F8.GetNbreModules(L) ;
             end;//6
-			f2F8.sub_004BFC58(TabControl1.TabIndex + 1, S + J);
+			f2F8._InsertColone(TabControl1.TabIndex + 1, S + J);
 			CheckListBox1.Items.Delete(J - 1);
 			Break;
 		  end;

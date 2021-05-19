@@ -854,7 +854,7 @@ begin//0
       if (FormModifierEleve.ModalResult = 1) then
       begin//3
         //0053C357
-        FichierCdn.sub_004C1954(FormListeEleves.ListeEleves.ItemIndex + 1, 
+        FichierCdn.SetEleve_v2(FormListeEleves.ListeEleves.ItemIndex + 1, 
 								FormModifierEleve.EditNomPrenom_FormModifier.Text,
 								FormModifierEleve.CheckBoxRedoublant_FormModifier.Checked,
 								FormModifierEleve.EditDateDeNaissance_FormModifier.Text);
@@ -1622,7 +1622,7 @@ begin//0
           lvar_158 := GetmoyennesSur * StrToFloat(buf);
           fichiercdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
-          FichierCdn._readCompteMoy( lvar_10, Buf, I);
+          FichierCdn.GetModuleName__v( lvar_10, Buf, I);
           Chart1.Series[0].AddXY(I, lvar_28, buf, GetcouleurEleve); // 0053E8B1 
           FichierCdn.GetEleveName(lvar_C, buf);
           Chart1.Series[0].Title := buf;
@@ -1637,7 +1637,7 @@ begin//0
           //lvar_158 := GetmoyennesSur * StrToFloat(buf);
           FichierCdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
-          FichierCdn._readCompteMoy(lvar_10, buf, I);
+          FichierCdn.GetModuleName__v(lvar_10, buf, I);
           //Chart1.Series[1}.AddXY(, 0, lvar_170, GetcouleurMin);
           Chart1.Series[1].Title := 'Minimum de la classe';
           //Chart1.Series[1].SeriesColor := GetcouleurMin;
@@ -1651,7 +1651,7 @@ begin//0
           //lvar_158 := GetmoyennesSur * StrToFloat(buf);
           FichierCdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
-          FichierCdn._readCompteMoy( lvar_10, buf, I);
+          FichierCdn.GetModuleName__v( lvar_10, buf, I);
           //Chart1.Series[2].AddXY(, 0, lvar_17C, GetcouleurMax);
           Chart1.Series[2].Title := 'Maximum de la classe';
           //Chart1.Series[2].SeriesColor := GetcouleurMax;
@@ -1664,7 +1664,7 @@ begin//0
           lvar_158 := GetmoyennesSur * StrToFloat(buf);
           FichierCdn.GetStrNoteSur( lvar_10, I, buf);
           lvar_28 := lvar_158 / StrToFloat(buf);
-          FichierCdn._readCompteMoy( lvar_10, buf, I);
+          FichierCdn.GetModuleName__v( lvar_10, buf, I);
           Chart1.Series[3].AddXY(I, lvar_28, buf, GetcouleurMoyenne);
           Chart1.Series[3].Title := 'Moyenne de la classe';
           Chart1.Series[3].SeriesColor := GetcouleurMoyenne;
@@ -2112,9 +2112,9 @@ begin//0
             begin//6
               //005402F5
               if (StringList1.count >= I) then //00540305
-                FichierCdn.sub_004C1074(FormNouvelleSerieDeNotes.f334, lvar_5, I, StringList1[I - 1])
+                FichierCdn.AddNoteToPeriode(FormNouvelleSerieDeNotes.f334, lvar_5, I, StringList1[I - 1])
               else//00540369
-                FichierCdn.sub_004C1074(FormNouvelleSerieDeNotes.f334, lvar_5, I, '');
+                FichierCdn.AddNoteToPeriode(FormNouvelleSerieDeNotes.f334, lvar_5, I, '');
             end;//6
           StringList1.Free;
           GrillesNotes := FormNouvelleSerieDeNotes.f334;

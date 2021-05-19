@@ -171,7 +171,7 @@ begin//0
       for I := 1 to FCdn.GetNbreModules(iPeriode)  do//00534AA4
       begin//3
         //00534AAC
-        FCdn._readCompteMoy(iPeriode, buf0, I);
+        FCdn.GetModuleName__v(iPeriode, buf0, I);
         FCdn._GetStrNote(iPeriode, I, iEleve, buf1);
         FCdn.GetStrNoteSur(iPeriode, I, buf2);
         text := buf0 + ' : ' + buf1 + '/' + buf2;

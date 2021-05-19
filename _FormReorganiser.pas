@@ -69,7 +69,7 @@ begin//0
     ComboBox1.ItemIndex := 0;
       for I := 1 to f310.GetNbreModules(1) do //0050AA1A
       begin//0050AA21
-        f310._readCompteMoy(1, buf, I);
+        f310.GetModuleName__v(1, buf, I);
         ListBox1.Items.Add(buf);
       end;//3
     ComboBox2.Items := ComboBox1.Items;
@@ -84,7 +84,7 @@ begin//0
         //0050AAD6
         
      
-        f310._readCompteMoy(ComboBox2.ItemIndex + 1, buf, I);
+        f310.GetModuleName__v(ComboBox2.ItemIndex + 1, buf, I);
         ListBox2.Items.Add(buf);
       end;//3
     end;//2
@@ -126,7 +126,7 @@ begin//0
       begin//3
         //0050AC95
         
-        f310._readCompteMoy( ComboBox1.ItemIndex + 1, buf, I);
+        f310.GetModuleName__v( ComboBox1.ItemIndex + 1, buf, I);
         ListBox1.Items.Add(buf);
       end;//3
 
@@ -169,7 +169,7 @@ begin//0
       for I := 1 to f310.GetNbreModules(ComboBox2.ItemIndex + 1) do//0050AE22
       begin//3
         //0050AE29
-        f310._readCompteMoy(ComboBox2.ItemIndex + 1, buf, I);
+        f310.GetModuleName__v(ComboBox2.ItemIndex + 1, buf, I);
        ListBox2.Items.Add(buf);
       end;//3
     //0050AEAC
@@ -200,7 +200,7 @@ begin//0
   if (ListBox1.ItemIndex + 1 <> 0) then
   begin//1
     //0050AF5C
-    f310.sub_004BFD68(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1, ComboBox2.ItemIndex + 1);
+    f310.MoveColone(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1, ComboBox2.ItemIndex + 1);
     ComboBox1Change(Sender);
     ComboBox2Change(Sender);
   end;//1
@@ -357,7 +357,7 @@ begin//0
     for I := 1 to ListBox1.Items.Count do//0050B662
     begin//2
       //0050B662
-      f310.sub_004BFD68(ComboBox1.ItemIndex + 1, 1, ComboBox2.ItemIndex + 1);
+      f310.MoveColone(ComboBox1.ItemIndex + 1, 1, ComboBox2.ItemIndex + 1);
     end;//2
 
   ComboBox1Change(Sender);

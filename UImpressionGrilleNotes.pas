@@ -68,7 +68,7 @@ begin//0
         if (f3C.GetNbreModules(f2C)  >= NumModule) then
         begin//4
           //0051A3E2
-         f3C._readCompteMoy(f2C, text, NumModule+1);
+         f3C.GetModuleName__v(f2C, text, NumModule+1);
         end//4
         else
         begin//4
@@ -564,7 +564,7 @@ begin//0
       for I := 1 to f3C.GetNbreModules(f2C) do //0051BBAF
       begin//3
         //0051BBB6
-        f3C._readCompteMoy(f2C, buf, I);
+        f3C.GetModuleName__v(f2C, buf, I);
         if (f40.TextWidth(buf) > res) then 
 			res := f40.TextWidth(buf);
       end;//3

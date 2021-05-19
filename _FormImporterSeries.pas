@@ -91,7 +91,7 @@ begin//0
       for I := 1 to FichierCdn2.GetNbreModules(1) do //0050E8EE
       begin//3
         //0050E8F5
-        FichierCdn2._readCompteMoy( 1, Buf, I);
+        FichierCdn2.GetModuleName__v( 1, Buf, I);
         CheckListBoxSeries.Items.Add(buf);
       end;//3
 

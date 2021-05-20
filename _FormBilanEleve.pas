@@ -182,7 +182,7 @@ begin//0
           text := text + ' (non compté dans la moyenne)';
         end;//4
         FCdn.__GetStrMin(iPeriode, buf0,I);
-        FCdn.__GetStrMoy(iPeriode, buf1, I);
+        FCdn.GetMoyenne_vv(iPeriode, buf1, I);
         FCdn.__GetStrMax(iPeriode, buf2,I);
         Bilan.Add(text + ' (Min. ' + buf0 + ' - Moy. ' + buf1 + ' - Max. ' + buf2 + ')');
         if (I <> FCdn.GetNbreModules(iPeriode)) then

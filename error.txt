@@ -59,7 +59,7 @@ Copyright (c) 1983,2002 Borland Software Corporation
 Unit51.pas(439) 
 UEnregistrement.pas(13) UEnregistrement.pas(231) 
 Constantes.pas(12) Constantes.pas(51) 
-Unit111.pas(11) Unit111.pas(13) Unit111.pas(512) Unit111.pas(1024) Unit111.pas(1536) Unit111.pas(2048) Unit111.pas(2351) 
+Unit111.pas(11) Unit111.pas(13) Unit111.pas(512) Unit111.pas(1024) Unit111.pas(1536) Unit111.pas(2048) Unit111.pas(2363) 
 _FormOptions.pas(349) _FormOptions.pas(349) _unit146.pas(1)       _unit146.pas(11) _unit146.pas(11) _unit146.pas(13) _unit146.pas(30) Hint: Variable 'lvar_4' is declared but never used in 'WriteNumeroConseilEnCours'
 _unit146.pas(139) 
 _FormOptions.pas(353) _FormOptions.pas(356) Hint: Variable 'lvar_10' is declared but never used in 'TFormOptions.Create'
@@ -159,30 +159,31 @@ Copyright (c) 1983,2002 Borland Software Corporation
 cdnp2.dpr(81) _FormClonerFichier.pas(1) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(11) _FormClonerFichier.pas(13) Unit49.pas(1)              Unit49.pas(11) Unit49.pas(11) Unit49.pas(11) Unit49.pas(13) Unit49.pas(114) 
 _FormClonerFichier.pas(50) _FormClonerFichier.pas(54) _FormClonerFichier.pas(131) Hint: Variable 'buf2' is declared but never used in 'TFormClonerFichier.SpeedButtonCreerFichiersClick'
 _FormClonerFichier.pas(323) 
-cdnp2.dpr(81) UniteFeuilleClasse.pas(1) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(10) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) _TGrilleEleves.pas(1)      _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleGenerique.pas(1) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(13) _TGrilleGenerique.pas(166) 
+cdnp2.dpr(81) UniteFeuilleClasse.pas(1) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) _TGrilleEleves.pas(1)      _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleGenerique.pas(1) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(11) _TGrilleGenerique.pas(13) _TGrilleGenerique.pas(166) 
 _TGrilleEleves.pas(13) _TGrilleEleves.pas(13) _TGrilleEleves.pas(14) _TGrilleEleves.pas(14) _TGrilleEleves.pas(14) _TGrilleEleves.pas(14) _TGrilleEleves.pas(16) _TGrilleEleves.pas(366) 
-UniteFeuilleClasse.pas(11) _TGrilleNotes.pas(1)       _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _Calendrier.pas(1)    _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(13) _Calendrier.pas(52) 
-_TGrilleNotes.pas(14) _TGrilleNotes.pas(512) _TGrilleNotes.pas(231) Hint: Variable 'KJ' is declared but never used in 'TGrilleNotesCarnetDeNotes.WMCommand'
-_TGrilleNotes.pas(669) Hint: Variable 'buf' is declared but never used in 'TGrilleNotesCarnetDeNotes.sub_005464FC'
-_TGrilleNotes.pas(809) Hint: Value assigned to 'lvar_1' never used
-_TGrilleNotes.pas(1024) _TGrilleNotes.pas(1285) 
-UniteFeuilleClasse.pas(11) _TGrilleMoyennes.pas(1)    _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(14) _TGrilleMoyennes.pas(197) Hint: Value assigned to 'lvar_1C' never used
+UniteFeuilleClasse.pas(12) _TGrilleNotes.pas(1)       _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(11) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _TGrilleNotes.pas(12) _Calendrier.pas(1)    _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(11) _Calendrier.pas(13) _Calendrier.pas(52) 
+_TGrilleNotes.pas(12) _TGrilleNotes.pas(14) _TGrilleNotes.pas(512) _TGrilleNotes.pas(218) Hint: Variable 'KJ' is declared but never used in 'TGrilleNotesCarnetDeNotes.WMCommand'
+_TGrilleNotes.pas(653) Hint: Variable 'buf' is declared but never used in 'TGrilleNotesCarnetDeNotes.RefrechHaut'
+_TGrilleNotes.pas(684) Hint: Variable 'I' is declared but never used in 'TGrilleNotesCarnetDeNotes.RefrechBas'
+_TGrilleNotes.pas(771) Hint: Value assigned to 'lvar_1' never used
+_TGrilleNotes.pas(1024) _TGrilleNotes.pas(1247) 
+UniteFeuilleClasse.pas(12) _TGrilleMoyennes.pas(1)    _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(11) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(12) _TGrilleMoyennes.pas(14) _TGrilleMoyennes.pas(197) Hint: Value assigned to 'lvar_1C' never used
 _TGrilleMoyennes.pas(199) Hint: Value assigned to 'lvar_1C' never used
 _TGrilleMoyennes.pas(191) Hint: Value assigned to 'CS' never used
 _TGrilleMoyennes.pas(193) Hint: Value assigned to 'CS' never used
 _TGrilleMoyennes.pas(189) Hint: Value assigned to 'CS' never used
 _TGrilleMoyennes.pas(175) Hint: Variable 'CXX' is declared but never used in 'TGrilleMoyennesCarnetDeNotes.sub_004CFA2C'
-_TGrilleMoyennes.pas(512) _TGrilleMoyennes.pas(620) 
-UniteFeuilleClasse.pas(11) _TGrilleBilan.pas(1)       _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(14) _TGrilleBilan.pas(67) Hint: Variable 'lvar_250' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CB4D4'
+_TGrilleMoyennes.pas(512) _TGrilleMoyennes.pas(619) 
+UniteFeuilleClasse.pas(12) _TGrilleBilan.pas(1)       _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(11) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(12) _TGrilleBilan.pas(14) _TGrilleBilan.pas(67) Hint: Variable 'lvar_250' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CB4D4'
 _TGrilleBilan.pas(67) Hint: Variable 'lvar_150' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CB4D4'
 _TGrilleBilan.pas(512) _TGrilleBilan.pas(427) Hint: Value assigned to 'lvar_28' never used
 _TGrilleBilan.pas(414) Hint: Variable 'Coefficient' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CD0B0'
 _TGrilleBilan.pas(414) Hint: Variable 'NoteSur' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CD0B0'
 _TGrilleBilan.pas(1024) _TGrilleBilan.pas(894) Hint: Variable 'J' is declared but never used in 'TGrilleBilanCarnetDeNotes.sub_004CDF20'
 _TGrilleBilan.pas(1074) 
-UniteFeuilleClasse.pas(11) _TGrilleElevesGraphe.pas(1) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(13) _TGrilleElevesGraphe.pas(140) Hint: Variable 'lvar_4' is declared but never used in 'TGrilleElevesGrapheCarnetDeNotes.sub_004F5FF8'
-_TGrilleElevesGraphe.pas(168) 
-UniteFeuilleClasse.pas(11) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(18) UnitePrincipale.pas(1)     UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(10) UnitePrincipale.pas(10) UnitePrincipale.pas(10) UnitePrincipale.pas(10) UnitePrincipale.pas(10) _FormAProposDe.pas(1)   _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(13) _FormAProposDe.pas(107) 
+UniteFeuilleClasse.pas(12) _TGrilleElevesGraphe.pas(1) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(11) _TGrilleElevesGraphe.pas(13) _TGrilleElevesGraphe.pas(32) _TGrilleElevesGraphe.pas(119) Hint: Variable 'lvar_4' is declared but never used in 'TGrilleElevesGrapheCarnetDeNotes.SelectCellEvent'
+_TGrilleElevesGraphe.pas(147) 
+UniteFeuilleClasse.pas(12) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(13) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(14) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(15) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(16) UniteFeuilleClasse.pas(17) UniteFeuilleClasse.pas(17) UniteFeuilleClasse.pas(17) UniteFeuilleClasse.pas(19) UnitePrincipale.pas(1)     UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(9) UnitePrincipale.pas(10) UnitePrincipale.pas(10) UnitePrincipale.pas(10) UnitePrincipale.pas(10) UnitePrincipale.pas(10) _FormAProposDe.pas(1)   _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(11) _FormAProposDe.pas(13) _FormAProposDe.pas(107) 
 UnitePrincipale.pas(10) _FormEnregistrement.pas(1) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(11) _FormEnregistrement.pas(13) _FormEnregistrement.pas(153) 
 UnitePrincipale.pas(10) _FormRappelSauvegarde.pas(1) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(11) _FormRappelSauvegarde.pas(13) UnitePrincipale.pas(11)       _FormCreerBulletins.pas(1) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) _FormCreerBulletins.pas(11) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(1) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frx.inc(481)    
 C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(20) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(20) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(21) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(21) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(21) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(21) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(21) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(21) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(22) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(22) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(22) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxClass.pas(22) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frxVariables.pas(1) C:\Program Files (x86)\Borland\Delphi7\FastReport\LibD7\frx.inc(481)        
@@ -397,33 +398,41 @@ Copyright (c) 1983,2002 Borland Software Corporation
 _FormConseilsDemarrage.pas(90) Hint: Variable 'lvar_8' is declared but never used in 'TFormConseilsDemarrage.SpeedButton3Click'
 _FormConseilsDemarrage.pas(106) Hint: Variable 'lvar_8' is declared but never used in 'TFormConseilsDemarrage.SpeedButton4Click'
 _FormConseilsDemarrage.pas(131) 
-UnitePrincipale.pas(113) UnitePrincipale.pas(113) UnitePrincipale.pas(117) UnitePrincipale.pas(310) Hint: Variable 'buf1' is declared but never used in 'TFormCarnetDeNotes2.Timer1Timer'
-UnitePrincipale.pas(310) Hint: Variable 'buf2' is declared but never used in 'TFormCarnetDeNotes2.Timer1Timer'
-UnitePrincipale.pas(310) Hint: Variable 'lvar_14' is declared but never used in 'TFormCarnetDeNotes2.Timer1Timer'
-UnitePrincipale.pas(512) UnitePrincipale.pas(597) Hint: Variable 'Buf' is declared but never used in 'TFormCarnetDeNotes2.SetOngletsClassesMsg'
-UnitePrincipale.pas(597) Hint: Variable 'buf0' is declared but never used in 'TFormCarnetDeNotes2.SetOngletsClassesMsg'
-UnitePrincipale.pas(597) Hint: Variable 'buf1' is declared but never used in 'TFormCarnetDeNotes2.SetOngletsClassesMsg'
-UnitePrincipale.pas(741) 
+UnitePrincipale.pas(113) UnitePrincipale.pas(113) UnitePrincipale.pas(117) UnitePrincipale.pas(311) Hint: Variable 'buf1' is declared but never used in 'TFormCarnetDeNotes2.Timer1Timer'
+UnitePrincipale.pas(311) Hint: Variable 'buf2' is declared but never used in 'TFormCarnetDeNotes2.Timer1Timer'
+UnitePrincipale.pas(311) Hint: Variable 'lvar_14' is declared but never used in 'TFormCarnetDeNotes2.Timer1Timer'
+UnitePrincipale.pas(512) UnitePrincipale.pas(595) Hint: Variable 'Buf' is declared but never used in 'TFormCarnetDeNotes2.SetOngletsClassesMsg'
+UnitePrincipale.pas(595) Hint: Variable 'buf0' is declared but never used in 'TFormCarnetDeNotes2.SetOngletsClassesMsg'
+UnitePrincipale.pas(595) Hint: Variable 'buf1' is declared but never used in 'TFormCarnetDeNotes2.SetOngletsClassesMsg'
+UnitePrincipale.pas(737) 
 _FormRappelSauvegarde.pas(49) _FormRappelSauvegarde.pas(359) 
-UniteFeuilleClasse.pas(265) UniteFeuilleClasse.pas(265) UniteFeuilleClasse.pas(269) UniteFeuilleClasse.pas(271) Hint: Variable 'R' is declared but never used in 'TFeuilleClasse.Create'
-UniteFeuilleClasse.pas(273) Hint: Variable 'st' is declared but never used in 'TFeuilleClasse.Create'
-UniteFeuilleClasse.pas(430) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.sub_0053A140'
-UniteFeuilleClasse.pas(512) UniteFeuilleClasse.pas(511) Hint: Variable 'Buf' is declared but never used in 'TFeuilleClasse.Enregistrersous1Click'
-UniteFeuilleClasse.pas(668) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.Modifier1Click'
-UniteFeuilleClasse.pas(890) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.Imprimer1Click'
-UniteFeuilleClasse.pas(1024) UniteFeuilleClasse.pas(1020) Hint: Variable 'y' is declared but never used in 'TFeuilleClasse.SpeedButtonEgaliserPanneauClick'
-UniteFeuilleClasse.pas(1124) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.MsgOpenFile'
-UniteFeuilleClasse.pas(1332) Hint: Variable 'P' is declared but never used in 'TFeuilleClasse.Envoyerlefichierpourcourrierlectronique1Click'
-UniteFeuilleClasse.pas(1536) UniteFeuilleClasse.pas(1653) Hint: Value assigned to 'lvar_28' never used
-UniteFeuilleClasse.pas(1639) Hint: Value assigned to 'lvar_28' never used
-UniteFeuilleClasse.pas(1584) Hint: Value assigned to 'lvar_18' never used
-UniteFeuilleClasse.pas(1577) Hint: Value assigned to 'lvar_18' never used
-UniteFeuilleClasse.pas(1639) Warning: Variable 'lvar_158' might not have been initialized
-UniteFeuilleClasse.pas(2048) UniteFeuilleClasse.pas(2275) Warning: Variable 'lvar_C' might not have been initialized
-UniteFeuilleClasse.pas(2286) Warning: Variable 'lvar_10' might not have been initialized
-UniteFeuilleClasse.pas(2333) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.FormClose'
-UniteFeuilleClasse.pas(2480) 
+UniteFeuilleClasse.pas(263) UniteFeuilleClasse.pas(263) smapi.pas(1)                smapi.pas(10) smapi.pas(10) smapi.pas(11) smapi.pas(244) 
+UniteFeuilleClasse.pas(263) UniteFeuilleClasse.pas(263) UniteFeuilleClasse.pas(267) UniteFeuilleClasse.pas(269) Hint: Variable 'R' is declared but never used in 'TFeuilleClasse.Create'
+UniteFeuilleClasse.pas(271) Hint: Variable 'st' is declared but never used in 'TFeuilleClasse.Create'
+UniteFeuilleClasse.pas(427) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.EventBarStatus'
+UniteFeuilleClasse.pas(512) UniteFeuilleClasse.pas(508) Hint: Variable 'Buf' is declared but never used in 'TFeuilleClasse.Enregistrersous1Click'
+UniteFeuilleClasse.pas(663) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.Modifier1Click'
+UniteFeuilleClasse.pas(868) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.Imprimer1Click'
+UniteFeuilleClasse.pas(991) Hint: Variable 'y' is declared but never used in 'TFeuilleClasse.SpeedButtonEgaliserPanneauClick'
+UniteFeuilleClasse.pas(1024) UniteFeuilleClasse.pas(1084) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.MsgOpenFile'
+UniteFeuilleClasse.pas(1303) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1304) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1306) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1307) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1308) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1309) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1311) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1313) Warning: Constant 0 converted to NIL
+UniteFeuilleClasse.pas(1305) Warning: Variable 'lpMessage' might not have been initialized
+UniteFeuilleClasse.pas(1292) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.Envoyerlefichierpourcourrierlectronique1Click'
+UniteFeuilleClasse.pas(1294) Hint: Variable 'FileName' is declared but never used in 'TFeuilleClasse.Envoyerlefichierpourcourrierlectronique1Click'
+UniteFeuilleClasse.pas(1536) UniteFeuilleClasse.pas(1587) Hint: Value assigned to 'lvar_28' never used
+UniteFeuilleClasse.pas(1735) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.Imprimer2Click'
+UniteFeuilleClasse.pas(2048) UniteFeuilleClasse.pas(2194) Warning: Variable 'lvar_C' might not have been initialized
+UniteFeuilleClasse.pas(2199) Warning: Variable 'lvar_10' might not have been initialized
+UniteFeuilleClasse.pas(2246) Hint: Variable 'buf' is declared but never used in 'TFeuilleClasse.FormClose'
+UniteFeuilleClasse.pas(2383) 
 cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(81) _FormMarqueCdn.pas(1) _FormMarqueCdn.pas(10) _FormMarqueCdn.pas(10) _FormMarqueCdn.pas(10) _FormMarqueCdn.pas(12) _FormMarqueCdn.pas(14) Warning: Method 'Create' hides virtual method of base type 'TCustomForm'
 _FormMarqueCdn.pas(37) 
 cdnp2.dpr(81) cdnp2.dpr(81) cdnp2.dpr(85) cdnp2.dpr(119) 
-213173 lines, 1.77 seconds, 2189768 bytes code, 39193 bytes data.
+213269 lines, 4.91 seconds, 2191272 bytes code, 39221 bytes data.

@@ -14,16 +14,16 @@ type
   public
     typeperiode : String;//f4
 	PeriodesList : TStringList;//f8
-    fC : array of boolean;//fC
+    FShowPeriode : array of boolean;//fC
     constructor Create;//004B6B8C
     procedure GetTypePeriode_(a:string);//004B6CC4
     function GetNbrePeriodes:integer;//004B6CD8 
     procedure GetPeriodName(a:dword; b:string);//004B6CF4
-    function sub_004B6D34:TStringList;//004B6D34
+    function GetPeriodesListx:TStringList;//004B6D34
     procedure SetTypePeriode__(x:String);//004B6D38
     procedure SetPeriodes(x:TStringList);//004B6D84
-    procedure SetIsPeriodeInCal(a:byte; b:boolean);//004B6E84
-    function GetIsPeriodeInCal(a:byte):boolean;//004B6EA8
+    procedure SetShowPeriode(a:byte; b:boolean);//004B6E84
+    function GetShowPeriode(a:byte):boolean;//004B6EA8
   end;
 
 
@@ -41,9 +41,9 @@ begin//0
   PeriodesList.Add('Premier trimestre');
   PeriodesList.Add('Deuxième trimestre');
   PeriodesList.Add('Troisième trimestre');
-  SetLength(fC, PeriodesList.Count);
+  SetLength(FShowPeriode, PeriodesList.Count);
 	for I := 0 to PeriodesList.Count - 1 do//004B6C28
-      fC[I] := true;  
+      FShowPeriode[I] := true;  
 
 end;
 
@@ -73,7 +73,7 @@ end;
 
 
 //004B6D34
-function TPeriodes.sub_004B6D34:TStringList;
+function TPeriodes.GetPeriodesListx:TStringList;
 begin
    result:= PeriodesList;
 end;
@@ -95,22 +95,22 @@ begin//0
     PeriodesList.Clear;
       for I := 0 to x.Count - 1 do //004B6DD2
         PeriodesList.Add(x[I]);
-    SetLength(fC, x.Count);
+    SetLength(FShowPeriode, x.Count);
       for I := 0 to x.Count - 1 do //004B6E3D
-        fC[I] := true;
+        FShowPeriode[I] := true;
 end;//0
 
 
 //004B6E84
-procedure TPeriodes.SetIsPeriodeInCal(a:byte; b:boolean);
+procedure TPeriodes.SetShowPeriode(a:byte; b:boolean);
 begin//004B6E84
-  fC[a - 1] :=b
+  FShowPeriode[a - 1] :=b
 end;//0
 
 //004B6EA8
-function TPeriodes.GetIsPeriodeInCal(a:byte):boolean;
+function TPeriodes.GetShowPeriode(a:byte):boolean;
 begin//004B6EA8
-  result := fC[a - 1];
+  result := FShowPeriode[a - 1];
 end;//0
 
 

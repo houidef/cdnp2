@@ -155,7 +155,7 @@ end;
 //004CA3B8
 procedure TGrilleGeneriqueCarnetDeNotes.sub_004CA3B8(Sender: TObject);
 begin
-  SendMessageA(MyHandle, 1026, {FTopLeft} TopRow, 0);
+  SendMessageA(MyHandle, 1026,  TopRow, 0);
 end;
 
 procedure TGrilleGeneriqueCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);

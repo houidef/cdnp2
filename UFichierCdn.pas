@@ -119,13 +119,13 @@ type
     function IsModified:boolean;//004C3954
     procedure __GetStrMin(Periode:dword; var s:string; ACol:dword);//004C3958
     procedure __GetStrMax(Periode:dword; var s:string; ACol:dword);//004C3B54
-    procedure sub_004C3D1C(Periode:dword; ACol:dword; var c:string);//004C3D1C
-    procedure sub_004C3EA4(Periode:dword; ACol:dword;var b:string);//004C3EA4
-    procedure __GetStrMoy(Periode:dword;var b:string; ACol:dword);//004C40D4
-    procedure sub_004C42D4(Periode:dword; ACol:dword; var s:string);//004C42D4
-    procedure sub_004C451C(Periode:dword; ACol:dword; var s:string);//004C451C
-    function GetIsPeriodeInCal(Periode:dword):boolean;//004C4778
-    procedure SetIsPeriodeInCal(Periode:dword;b:boolean);//004C4784
+    procedure GetElevesPresents(Periode:dword; ACol:dword; var c:string);//004C3D1C
+    procedure GetNotesInfMoy_VX(Periode:dword; ACol:dword;var b:string);//004C3EA4
+    procedure GetMoyenne_vv(Periode:dword;var b:string; ACol:dword);//004C40D4
+    procedure GetEcartType(Periode:dword; ACol:dword; var s:string);//004C42D4
+    procedure GetNotesInfMoyClasse_VX(Periode:dword; ACol:dword; var s:string);//004C451C
+    function GetShowPeriode(Periode:dword):boolean;//004C4778
+    procedure SetShowPeriode(Periode:dword;b:boolean);//004C4784
     function NbrModulesTot:dword;//004C4790
     procedure sub_004C47E8(index1:integer; index2:integer; str:string);//004C47E8
     procedure sub_004C48BC(index1:integer; index2:integer; str:string);//004C48BC
@@ -282,7 +282,7 @@ end;//0
 function TFichierCdn.GetPeriodesList_:TStringList;
 begin//0
   //004BEA4C
-  Result := FPeriodes.sub_004B6D34;
+  Result := FPeriodes.GetPeriodesListx;
 end;//0
 
 
@@ -613,7 +613,7 @@ begin//0
       for I := 1 to GetNbrePeriodes do //004BF5FB
       begin//3
         //004BF600
-        FPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetShowPeriode(I, true);
       end;//3
 end;//0
 
@@ -670,7 +670,7 @@ begin//0
   end;
   FModified := true;
     for I := 1 to GetNbrePeriodes do //004BF7B9
-      FPeriodes.SetIsPeriodeInCal(I, true);
+      FPeriodes.SetShowPeriode(I, true);
  
 end;//0
 
@@ -714,7 +714,7 @@ begin//0
 
     sub_004C0070(iPeriode);
     FModified := true;
-    FPeriodes.SetIsPeriodeInCal(iPeriode, true);
+    FPeriodes.SetShowPeriode(iPeriode, true);
     FAttributs0.Clear;      
       for J := 1 to NbrModulesTot do//004BFBE3
         for I := 1 to 14 do//004BFBE8
@@ -738,7 +738,7 @@ begin//0
   FData.ColCount := FData.ColCount - 1;
   DecModules(a);
   FModified := true;
-  FPeriodes.SetIsPeriodeInCal(a, true);
+  FPeriodes.SetShowPeriode(a, true);
   FAttributs0.Clear;
     for J := 1 to NbrModulesTot do //004BFD34
     begin//2
@@ -789,7 +789,7 @@ begin//0
       for I := 1 to EleveCount do//004BFF89
         AddNoteToPeriode(PeriodeDest, NbreModules,I,NotesList[I - 1] );
     FModified := true;
-    FPeriodes.SetIsPeriodeInCal(PeriodeSource, true);
+    FPeriodes.SetShowPeriode(PeriodeSource, true);
     NotesList.Destroy();
     FAttributs0.clear;
       //004C000A
@@ -812,7 +812,7 @@ begin//0
     //004C008E
     FNbrModules[a - 1] :=  IntToStr(StrToInt(FNbrModules[a - 1]) + 1);
     FModified := true;
-    FPeriodes.SetIsPeriodeInCal(a, true);
+    FPeriodes.SetShowPeriode(a, true);
 end;//0
 
 //004C0134
@@ -821,7 +821,7 @@ begin//0
   //004C0134
     FNbrModules[a - 1] := IntToStr(StrToInt(FNbrModules[a - 1]) - 1);
     FModified := true;
-    FPeriodes.SetIsPeriodeInCal(a, true);
+    FPeriodes.SetShowPeriode(a, true);
 	//004C01D9
 end;//0
 
@@ -1082,7 +1082,7 @@ begin//0
       end;//3
   end;//1
   _SetStrNote(a, b, EleveCount + gvar_006178FD , c);
-  FPeriodes.SetIsPeriodeInCal(a, true);
+  FPeriodes.SetShowPeriode(a, true);
 end;//0
 
 //004C1074                          
@@ -1100,7 +1100,7 @@ begin//0
   _GetStrNote(Periode, ACol, ARow, buf);
   SetAttributs2(Periode, ARow, (buf = data) Xor true);
   _SetStrNote(Periode, ACol, ARow,data);
-  FPeriodes.SetIsPeriodeInCal(Periode, true);
+  FPeriodes.SetShowPeriode(Periode, true);
 end;
 
 //004C1158
@@ -1137,7 +1137,7 @@ begin//0
     FModified := true;
       //004C13D8
       for I := 1 to GetNbrePeriodes do//004C13E2
-        FPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetShowPeriode(I, true);
     FAttributs.Clear;
       for I := 1 to 2 * GetNbrePeriodes do//004C142C
       begin //004C142F
@@ -1192,7 +1192,7 @@ begin//0
     FInfoEleve.Insert(index, d);
     FModified := true;
       for I := 1 to GetNbrePeriodes do//004C1845
-        FPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetShowPeriode(I, true);
 
     lvar_18.destroy;
     FAttributs.Clear;
@@ -1324,7 +1324,7 @@ begin//0
       
       for I := 1 to GetNbrePeriodes  do //004C20AF
       //004C20B9
-        FPeriodes.SetIsPeriodeInCal(I, true);
+        FPeriodes.SetShowPeriode(I, true);
     defaultAttributs;
     StrList.destroy;
 	//004C20FC
@@ -1731,7 +1731,7 @@ begin//0
       //FPointsAdditif.insert(indice,str);
       //FPointsAdditif.delete(indice + 1);
 	  FPointsAdditif[indice] := str;
-      FPeriodes.SetIsPeriodeInCal(Periode, true);
+      FPeriodes.SetShowPeriode(Periode, true);
 	  FModified := true;
     end;//2
   finally//1
@@ -1756,7 +1756,7 @@ begin//0
       FAppreciations.insert(K,buf);
       FAppreciations.delete(K + 1);
       FModified := true;
-      FPeriodes.SetIsPeriodeInCal(b, True);
+      FPeriodes.SetShowPeriode(b, True);
     end;//2
 end;//0
 
@@ -1913,7 +1913,7 @@ begin//0
 end;//0
 
 //004C3D1C
-procedure TFichierCdn.sub_004C3D1C(Periode:dword; ACol:dword; var c:string);
+procedure TFichierCdn.GetElevesPresents(Periode:dword; ACol:dword; var c:string);
 var
   lvar_10,I:integer;
   buf:string;
@@ -1946,7 +1946,7 @@ end;//0
 
 
 //004C3EA4
-procedure TFichierCdn.sub_004C3EA4(Periode:dword; ACol:dword; var b:string);
+procedure TFichierCdn.GetNotesInfMoy_VX(Periode:dword; ACol:dword; var b:string);
 var
  I,J,K,N:integer;
  Moy:real;
@@ -2007,7 +2007,7 @@ begin//0
 end;//0
 
 //004C40D4
-procedure TFichierCdn.__GetStrMoy(Periode:dword;var b:string; ACol:dword);
+procedure TFichierCdn.GetMoyenne_vv(Periode:dword;var b:string; ACol:dword);
 var
    lvar_18,I:integer;
    lvar_10 :real;
@@ -2056,7 +2056,7 @@ begin//0
 end;//0
 
 //004C42D4
-procedure TFichierCdn.sub_004C42D4(Periode:dword; ACol:dword; var s:string);
+procedure TFichierCdn.GetEcartType(Periode:dword; ACol:dword; var s:string);
 var
   I,N,lvar_34:integer;
   lvar_20,lvar_30:real;
@@ -2138,7 +2138,7 @@ begin//0
 end;//0
 
 //004C451C
-procedure TFichierCdn.sub_004C451C(Periode:dword; ACol:dword; var s:string);
+procedure TFichierCdn.GetNotesInfMoyClasse_VX(Periode:dword; ACol:dword; var s:string);
 var
  I,J,K,N :integer;
  buf:string;
@@ -2155,7 +2155,7 @@ begin//0
         //004C4580
         //push EAX
 
-        __GetStrMoy(Periode, buf, ACol);
+        GetMoyenne_vv(Periode, buf, ACol);
 
         Val := StrToFloat(buf);
 
@@ -2214,18 +2214,18 @@ begin//0
 end;//0
 
 //004C4778
-function TFichierCdn.GetIsPeriodeInCal(Periode:dword):boolean;
+function TFichierCdn.GetShowPeriode(Periode:dword):boolean;
 begin//0
   //004C4778
-  result := FPeriodes.GetIsPeriodeInCal(Periode);
+  result := FPeriodes.GetShowPeriode(Periode);
 end;//0
 
 
 //004C4784
-procedure TFichierCdn.SetIsPeriodeInCal(Periode:dword;b:boolean);
+procedure TFichierCdn.SetShowPeriode(Periode:dword;b:boolean);
 begin//0
   //004C4784
-  FPeriodes.SetIsPeriodeInCal(Periode, b);
+  FPeriodes.SetShowPeriode(Periode, b);
 end;//0
 
 

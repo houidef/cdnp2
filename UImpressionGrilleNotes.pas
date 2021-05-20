@@ -327,7 +327,7 @@ begin//0
                   0:
                   begin//9
                     //0051B00A
-                    f3C.sub_004C3D1C(f2C, J, text);
+                    f3C.GetElevesPresents(f2C, J, text);
                   end;//9
                   1:
                   begin//9
@@ -344,23 +344,23 @@ begin//0
                   3:
                   begin//9
                     //0051B0E2
-                    f3C.__GetStrMoy(f2C, text, J);
+                    f3C.GetMoyenne_vv(f2C, text, J);
                   end;//9
                   4:
                   begin//9
                     //0051B12A
-                    f3C.sub_004C42D4(f2C, J, text);
+                    f3C.GetEcartType(f2C, J, text);
 					
                   end;//9
                   5:
                   begin//9
                     //0051B172
-                    f3C.sub_004C3EA4(f2C, J, text);
+                    f3C.GetNotesInfMoy_VX(f2C, J, text);
                   end;//9
                   6:
                   begin//9
                     //0051B1BA
-                    f3C.sub_004C451C(f2C, J, text);
+                    f3C.GetNotesInfMoyClasse_VX(f2C, J, text);
 					
                   end;//9
                   7:
@@ -712,7 +712,7 @@ begin//0
 				  0: //Nombre d'élèves présents
 				  begin//7
 					//0051C0E6
-					f3C.sub_004C3D1C(f2C, ACol, buf);
+					f3C.GetElevesPresents(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  1://Min
@@ -730,25 +730,25 @@ begin//0
 				  3://Moyenne
 				  begin//7
 					//0051C1E5
-					f3C.__GetStrMoy(f2C, buf, ACol);
+					f3C.GetMoyenne_vv(f2C, buf, ACol);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  4://Ecart type
 				  begin//7
 					//0051C23C
-					f3C.sub_004C42D4(f2C, ACol, buf);
+					f3C.GetEcartType(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  5://% notes < moyenne
 				  begin//7
 					//0051C293
-					f3C.sub_004C3EA4(f2C, ACol, buf);
+					f3C.GetNotesInfMoy_VX(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  6://% notes < moyenne classe
 				  begin//7
 					//0051C2EA
-					f3C.sub_004C451C(f2C, ACol, buf);
+					f3C.GetNotesInfMoyClasse_VX(f2C, ACol, buf);
 					Res := sub_00519AA8(f40, buf);
 				  end;//7
 				  7://Noté sur

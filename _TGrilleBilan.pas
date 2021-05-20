@@ -672,7 +672,7 @@ begin//0
     if (I Or J ) then
     begin//2
       //004CEE06
-      FichierCdn.SetIsPeriodeInCal(NPeriode, true);
+      FichierCdn.SetShowPeriode(NPeriode, true);
       FichierCdn.defaultAttributs;
       SendMessageA(Handle, $403{1027}, NPeriode, 0);
     end;//2

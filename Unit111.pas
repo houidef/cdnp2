@@ -223,6 +223,12 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, URegistry,Registry,UInclure
 	   FColorlignesImpaires:TColor;
 	   FColorlignesPaires : TColor;
 	   FcouleurSelection : TColor;
+	   Fcouleur1Note : TColor;
+	   Fcouleur2Note : TColor;
+	   Fcouleur3Note : TColor;
+	   Fcouleur4Note : TColor;
+	   Fcouleur5Note : TColor;
+	   
 	   couleur1Note : boolean = true; //gvar_00617CB8
 	   couleur2Note : boolean = true; //gvar_00617CB9
 	   couleur3Note : boolean = true; //gvar_00617CBA
@@ -689,10 +695,11 @@ begin//0
   //004B9FD8
   if (couleur2Note) then 
   begin
-  {gvar_00617C9C}result := GetValueRegColor('couleur2Note', sub_004BA26C);
-  //result :=gvar_00617C9C ;
-  end;
+  Fcouleur2Note := GetValueRegColor('couleur2Note', sub_004BA26C);
   couleur2Note := false;
+  end;
+  result := Fcouleur2Note;
+  
 end;//0
 
 
@@ -702,10 +709,12 @@ begin//0
   //004BA024
   if (couleur3Note) then 
   begin
-  {gvar_00617CA0}result := GetValueRegColor('couleur3Note', sub_004BA274);
-  //result :=gvar_00617CA0;
-  end;
-  couleur3Note := false;
+   Fcouleur2Note := GetValueRegColor('couleur3Note', sub_004BA274);
+   couleur3Note := false;
+  end
+  else 
+    result :=Fcouleur2Note;
+ 
 end;//0
 
 
@@ -714,10 +723,12 @@ function _Getcouleur4Note:TColor;
 begin//0
   if (couleur4Note) then 
   begin
-   {gvar_00617CA4}result := GetValueRegColor('couleur4Note', sub_004BA27C);
-   //result := gvar_00617CA4;
-  end;
-  couleur4Note := false;
+   Fcouleur4Note := GetValueRegColor('couleur4Note', sub_004BA27C);
+   couleur4Note := false;
+  end
+  else
+   result := Fcouleur4Note;
+  
 end;//0
 
 
@@ -727,10 +738,11 @@ begin//0
   //004BA0BC
   if (couleur5Note) then 
   begin
-  {gvar_00617CA8}result := GetValueRegColor('couleur5Note', sub_004BA280);
-  //result := gvar_00617CA8;
-  end;
-  couleur5Note := false;
+  Fcouleur5Note := GetValueRegColor('couleur5Note', sub_004BA280);
+   couleur5Note := false;
+  end
+  else
+  result :=Fcouleur5Note;
  
 end;//0
 

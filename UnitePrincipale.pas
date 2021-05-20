@@ -211,7 +211,7 @@ begin//0
     begin//0060BE24
       WindowState := wsMaximized; //2
     end;//2
-    //_AddToMainMenu(MainMenuPrincipal, 0, 255, Self, Ouvrir1Click);
+    _AddToMainMenu(MainMenuPrincipal, 0, {Self}nil, Ouvrir1Click);
     ToolBarreDeBoutons.Visible := sub_004BB55C;
     ToolButtonSauver.Enabled := False;
     ToolButtonImprimer.Enabled := False;
@@ -220,6 +220,7 @@ begin//0
       Caption := Caption + ' - Version non enregistrée';
     OpenDialog1.InitialDir := ExtractFilePath(ParamStr(0));
     Timer1.Enabled := True;
+	Logo.visible := false; //supprimer le
 end;//0
 //0060BFC0
 procedure TFormCarnetDeNotes2.Options1Click(Sender:TObject);
@@ -231,11 +232,11 @@ begin
   FormOptions := TFormOptions.Create(Self, Logo);
   FormOptions.ShowModal;
   FormOptions.Destroy;
-  ToolBarreDeBoutons.Visible:=sub_004BB55C;
-  //AddToMainMenuWithDelete(MainMenuPrincipal, 0, ?, Self);
+  ToolBarreDeBoutons.Visible := sub_004BB55C;
+  AddToMainMenuWithDelete(MainMenuPrincipal, 0,{Self}nil,Ouvrir1Click);
   for I:= 1 to MDIChildCount do begin
       //0060C03F
-      //AddToMainMenuWithDelete(MDIChildren[I-1], 0, ?, Self);
+      AddToMainMenuWithDelete(TFeuilleClasse(MDIChildren[I-1]).MainMenuPrincipal, 0, {Self}nil,Ouvrir1Click);
       SendMessageA(MDIChildren[I-1].Handle, 1045, 0, 0);
       SendMessageA(MDIChildren[I-1].Handle, 1032, 0, 0);
       SendMessageA(MDIChildren[I-1].Handle, 1029, 0, 0);
@@ -442,7 +443,7 @@ begin
     try
       //0060C81C
       for I:=0 to MDIChildCount - 1 do//0060C834
-        SendMessageA(MDIChildren [I].Handle, $40A{1034}, 0, 0);
+        SendMessageA(MDIChildren [I].Handle, 1034, 0, 0);
         
     except//2
       //0060C866
@@ -467,14 +468,12 @@ end;
 procedure TFormCarnetDeNotes2.FormCloseQuery(Sender:TObject; var CanClose:Boolean);
 var
   I:integer;
-  FileName:ShortString;
+  FileName: String;
   StrList : TStringList;
 begin//0
   //0060C9CC
     //0060C9F0
     Timer1.Enabled := False;
-	if(MDIChildCount>0) then 
-	begin
       StrList := TStringList.Create;
       for I:=1 to  MDIChildCount do //0060CA23
       begin	  //0060CA23
@@ -485,7 +484,6 @@ begin//0
       StrList.Destroy;
 	  for I:=1 to  MDIChildCount do //0060CA7D
         MDIChildren[I-1].Close;
-	end;
     CanClose := True;
 end;//0
 
@@ -496,7 +494,7 @@ var
 begin//0
   //0060CABC
     for I:=0 to MDIChildCount-1 do //0060CAE5
-    SendMessageA(MDIChildren[I].Handle, $40D{1037}, 0, 0);
+    SendMessageA(MDIChildren[I].Handle, 1037, 0, 0);
 end;//0
 
 //0060CB10
@@ -658,8 +656,6 @@ begin//0
       begin//3
         //0060D387
         MDIChildren[I].BringToFront;
-        //Exit;
-        //Break;
       end;//3
      end;
 end;//0

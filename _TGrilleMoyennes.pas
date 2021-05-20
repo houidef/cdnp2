@@ -341,7 +341,7 @@ begin//0
                                 begin//16
                                   //004D0010
                                   SetmoyennesSur(StrToInt(FormEdit.Edit1.Text));
-                                  FichierCdn.SetIsPeriodeInCal(NPeriode, true);
+                                  FichierCdn.SetShowPeriode(NPeriode, true);
                                   SendMessageA(Handle, $408{1032}, NPeriode, 0);
                                 end;//16
                                 FormEdit.Destroy;
@@ -402,7 +402,7 @@ begin//0
         end;//4
       end;//3
     end;//2
-    FichierCdn.SetIsPeriodeInCal(NPeriode, true);
+    FichierCdn.SetShowPeriode(NPeriode, true);
     case Message.ItemID of
       1..4:
       begin//3
@@ -470,14 +470,13 @@ var
 begin//0
   //004D0A5C
   NPeriode := Msg.Message; //Periode
-  if (FichierCdn.GetIsPeriodeInCal(Msg.Message)) then // test si periode est deja traité
+  if (FichierCdn.GetShowPeriode(Msg.Message)) then // test si periode est affiché
   begin//004D0A92 
     if (Msg.WParam = 0) then
     begin//004D0A99
       _SetTitle; 
         for I := 1 to FichierCdn.EleveCount do //004D0AAB
           _SetData(Msg.Message, I);
-        
     end//2
     else//004D0AD3
       _SetData(Msg.Message, Msg.WParam);
@@ -493,7 +492,7 @@ begin//0
 		f2F4[I].Clear;
 		f2F4[I].AddStrings(Cols[I - lvar_14]);
 	end;//3}
-    FichierCdn.SetIsPeriodeInCal(NPeriode,False);
+    FichierCdn.SetShowPeriode(NPeriode,False);
   end
   else 
   begin

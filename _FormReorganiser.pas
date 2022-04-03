@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormReorganiser;
@@ -67,45 +67,33 @@ begin//0
     f310 := F;
     //ComboBox1.Items := gvar_006184E0.ActiveMDIChild.TabControlGrillesNotes{f328}.f210;
     ComboBox1.ItemIndex := 0;
-      for I := 1 to f310.GetNbreModules(1) do //0050AA1A
+      for I := 1 to f310.NbreModules(1) do //0050AA1A
       begin//0050AA21
-        f310.GetModuleName__v(1, buf, I);
-        ListBox1.Items.Add(buf);
+        ListBox1.Items.Add(f310.GetTitleModule(1, I));
       end;//3
     ComboBox2.Items := ComboBox1.Items;
     ComboBox2.ItemIndex := 0;
    // lvar_10 := f310;
-    if (f310.GetNbreModules(ComboBox2.ItemIndex + 1) > 0) then
+    if (f310.NbreModules(ComboBox2.ItemIndex + 1) > 0) then
     begin//2
       //0050AACF
-      
-      for I := 1 to f310.GetNbreModules(ComboBox2.ItemIndex + 1) do
+      for I := 1 to f310.NbreModules(ComboBox2.ItemIndex + 1) do
       begin//3
         //0050AAD6
-        
-     
-        f310.GetModuleName__v(ComboBox2.ItemIndex + 1, buf, I);
-        ListBox2.Items.Add(buf);
+        ListBox2.Items.Add(f310.GetTitleModule(ComboBox2.ItemIndex + 1, I));
       end;//3
     end;//2
-   
-
     //0050AB5F
     if (ComboBox1.ItemIndex = ComboBox2.ItemIndex) Or (ListBox1.Items.Count = 0) then//0050AB78
       SpeedButton1.Enabled := false
     else//0050AB7C
       SpeedButton1.Enabled := true;
-
     //0050ABA1
-
     if (ComboBox1.ItemIndex = ComboBox2.ItemIndex) Or (ListBox1.Items.Count = 0) then//0050ABBA
       SpeedButton5.Enabled := false
     else//0050ABBE
       SpeedButton5.Enabled := true;
-    
-
     //sub_0050B494;
-
 end;
 
 
@@ -119,41 +107,25 @@ begin//0
   //0050AC1C
     //0050AC3C
     ListBox1.Items.Clear;
-    
-    
-   
-      for I := 1 to f310.GetNbreModules(ComboBox1.ItemIndex + 1) do//0050AC8E
+      for I := 1 to f310.NbreModules(ComboBox1.ItemIndex + 1) do//0050AC8E
       begin//3
         //0050AC95
-        
-        f310.GetModuleName__v( ComboBox1.ItemIndex + 1, buf, I);
-        ListBox1.Items.Add(buf);
+        ListBox1.Items.Add(f310.GetTitleModule( ComboBox1.ItemIndex + 1, I));
       end;//3
-
-
     //0050AD18
-
     if (ComboBox1.ItemIndex = ComboBox2.ItemIndex) Or (ListBox1.Items.Count = 0) then //0050AD31
       b := false
     else//0050AD35
       b := true;
-
-
     SpeedButton1.Enabled := b;
-
     //0050AD5A
-
     if (ComboBox1.ItemIndex = ComboBox2.ItemIndex) Or (ListBox1.Items.Count = 0) then//0050AD73
       b := false
     else//0050AD77
       b := true;
-
-
     SpeedButton5.Enabled := b;
     sub_0050B494;
-
     //0050AD98
-
 end;//0
 
 //0050ADB0
@@ -166,31 +138,25 @@ begin//0
   //0050ADB0
     //0050ADD0
     ListBox2.Items.Clear;
-      for I := 1 to f310.GetNbreModules(ComboBox2.ItemIndex + 1) do//0050AE22
+      for I := 1 to f310.NbreModules(ComboBox2.ItemIndex + 1) do//0050AE22
       begin//3
         //0050AE29
-        f310.GetModuleName__v(ComboBox2.ItemIndex + 1, buf, I);
-       ListBox2.Items.Add(buf);
+       ListBox2.Items.Add(f310.GetTitleModule(ComboBox2.ItemIndex + 1, I));
       end;//3
     //0050AEAC
     if (ComboBox1.ItemIndex = ComboBox2.ItemIndex) Or (ListBox1.Items.Count = 0) then //0050AEC5
       b := false
 	else//0050AEC9
       b := true;
-
     SpeedButton1.Enabled := b;
-    
     //0050AEEE
-    
     if (ComboBox1.ItemIndex = ComboBox2.ItemIndex) Or (ListBox1.Items.Count = 0) then //0050AF07
       b := false
     else //0050AF0B
       b := true;
-
     SpeedButton5.Enabled := b;
     sub_0050B494;
     //0050AF2C
-
 end;//0
 
 //0050AF44
@@ -200,7 +166,7 @@ begin//0
   if (ListBox1.ItemIndex + 1 <> 0) then
   begin//1
     //0050AF5C
-    f310.MoveColone(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1, ComboBox2.ItemIndex + 1);
+    f310.CreerListeElevesNotes(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1, ComboBox2.ItemIndex + 1);
     ComboBox1Change(Sender);
     ComboBox2Change(Sender);
   end;//1
@@ -271,7 +237,7 @@ begin//0
     //0050B34A
     if (ListBox1.Items.Count - 1 = ListBox1.ItemIndex) then Exit;
    
-    f310.sub_004C4990(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1);
+    f310.DataCopyCols_H01(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1);
     ComboBox1Change(Sender);
     ListBox1.ItemIndex := ListBox1.ItemIndex + 1;
   end;//1
@@ -281,15 +247,13 @@ end;//0
 procedure TFormReorganiser.SpeedButton2Click(Sender:TObject);
 begin//0
   //0050B3E8
-
   if (ListBox1.ItemIndex + 1 <> 0) then
   begin//1
     //0050B401
-
     if (ListBox1.ItemIndex <> 0) then
     begin//2
       //0050B410
-      f310.sub_004C4B20(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1);
+      f310.DataCopyCols_H02(ComboBox1.ItemIndex + 1, ListBox1.ItemIndex + 1);
       ComboBox1Change(Sender);
       ListBox1.ItemIndex := ListBox1.ItemIndex - 1;
     end;//2
@@ -309,7 +273,7 @@ K:integer;
 begin//0
   //0050B494
     //0050B4AE
-	K := f310.GetNbreModules(ComboBox1.ItemIndex + 1);
+	K := f310.NbreModules(ComboBox1.ItemIndex + 1);
     case K of
       0:
       begin//3
@@ -324,7 +288,7 @@ begin//0
       else 
         Label3.Caption := IntToStr(K) + ' séries de notes';
 	end;//2
-	K := f310.GetNbreModules(ComboBox2.ItemIndex + 1);
+	K := f310.NbreModules(ComboBox2.ItemIndex + 1);
     case K of
       0:
       begin//3
@@ -357,7 +321,7 @@ begin//0
     for I := 1 to ListBox1.Items.Count do//0050B662
     begin//2
       //0050B662
-      f310.MoveColone(ComboBox1.ItemIndex + 1, 1, ComboBox2.ItemIndex + 1);
+      f310.CreerListeElevesNotes(ComboBox1.ItemIndex + 1, 1, ComboBox2.ItemIndex + 1);
     end;//2
 
   ComboBox1Change(Sender);

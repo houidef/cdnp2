@@ -1,7 +1,7 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v2021-05-16 @ 05:37 PM         *
-* The disassembly process : 100%                           *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
+* The disassembly process : 80%                            *
 ************************************************************}
 unit _FormCreerBulletins;
 
@@ -107,9 +107,9 @@ type
     f3C4:TStringList;//f3C4
     f3C8:TStringList;//f3C8
     f3CC:dword;//f3CC
-    f3D4:String;//f3D4
-    f3D8:String;//f3D8
-    f3DC:String;//f3DC
+    FYear:String;//f3D4
+    FEtablissment:String;//f3D8
+    FPicture:String;//f3DC
     constructor Create(Owner:TComponent);//006072E8
 	procedure sub_006074D0(Y:String);//006074D0
     procedure sub_00607EE4;//00607EE4
@@ -119,7 +119,7 @@ type
     FormCreerBulletins:TFormCreerBulletins;
 
 implementation
-     uses Unit49,Unit111,_Unit112,UTypeBulletins,_FormAide;
+     uses UWindow,UBiblio,PeriodeCalc,UTypeBulletins,_FormAide;
 {$R *.DFM}
 
 //006072E8
@@ -132,10 +132,8 @@ begin//0
     //00607332
 
     inherited Create(Owner);
-    GetValueRegChemin(buf);
-    DriveComboBox1.Drive := ExtractFileDrive(buf)[1]; //?????
-    GetValueRegChemin(buf);
-    DirectoryListBox1.Directory := buf;
+    DriveComboBox1.Drive := ExtractFileDrive(GetChemin)[1]; //?????
+    DirectoryListBox1.Directory := GetChemin;
     f3A4 := TStringList.Create;
     Caption := 'Créer les bulletins des élèves  --> étape 1 : ' + Notebook1.Pages[0];
 end;//0
@@ -163,55 +161,48 @@ var
   FCdn : TFichierCdn;
   K,lvar_8:integer;
 begin//0
-  //006074D0
-
-    //006074FD
-
     FCdn := TFichierCdn.Create(Y{, 1, 0});
-    if (FCdn.succes) then
+    if (FCdn.Succes) then
     begin//2
       //00607521
       if (FCdn.OldVersion = false) then
       begin//3
         //0060752E
-        K := FCdn.EleveCount;
-        lvar_8 := FCdn.GetNbrePeriodes;		
+        K := FCdn.NbreEleves;
+        lvar_8 := FCdn.NbrePeriodes;		
         if (K <> 0) then
         begin//4
           //00607554
-
           if (ListBoxFichiers.Items.Count = 0) then
           begin//5
             //0060756D
             f3A8.Clear;
-            f3A8.AddStrings(FCdn.EleveLists);
+            f3A8.AddStrings(FCdn.GetEleveList);
             f3C8.Clear;
-            f3C8.AddStrings(FCdn.GetPeriodesList_);
+            f3C8.AddStrings(FCdn.GetPeriodeNameList);
             f3B0.Clear;
-            f3B0.AddStrings(FCdn.sub_004C8BAC);
+            f3B0.AddStrings(FCdn.GetNomsbulletinsList);
             ListBoxFichiers.Items.Add(Y);
-            ListBoxMatieres.Items.Add(FCdn.GetMatiereName());
+            ListBoxMatieres.Items.Add(FCdn.GetMatiereName);
             FileListBox1.ItemIndex :=FileListBox1.ItemIndex + 1;
             f398 := K;
             f39C := lvar_8;
-            f394  := FCdn.BulletinsCount;
-            f3A4.addstrings(FCdn.sub_004C8BAC);
+            f394  := FCdn.GetbulletinsCount;
+            f3A4.addstrings(FCdn.GetNomsbulletinsList);
             Label1.Caption := 'Elèves : ' + IntToStr(f398);
             Label2.Caption:='Périodes : ' + IntToStr(f39C);
-            FCdn.GetTypeBulletins_(text);
-            Label6.caption := 'Type de bulletins : ' + text;
+            Label6.caption := 'Type de bulletins : ' + FCdn.GetBulletinsTitle;
           end//5
           else
           begin//5
             //0060771E
-            if (sub_00497B4C(FCdn.EleveLists, f3A8) ) then
+            if (Comparer2List(FCdn.GetEleveList, f3A8) ) then
             begin//6
               //00607738
-              if (sub_00497B4C(FCdn.GetPeriodesList_, f3C8) ) then
+              if (Comparer2List(FCdn.GetPeriodeNameList, f3C8) ) then
               begin//7
                 //00607752
-
-                if (sub_00497B4C(TStringlist(FCdn.sub_004C8BAC), f3B0) ) then
+                if (Comparer2List(TStringlist(FCdn.GetNomsbulletinsList), f3B0) ) then
                 begin//8
                   //00607768
                   ListBoxFichiers.Items.Add(Y);
@@ -228,6 +219,7 @@ begin//0
               else
               begin//7
                 //00607842
+
                 text := 'Le fichier "' + ExtractFileName(Y) + '" n''a pas le même type de périodes que les autres fichiers.' + #13 + #10 + #13 + #10 + 'Ce fichier ne peut être ajouté pour la création des bulletins.';
                 MessageBoxA(Handle, PChar(text), 'Carnet de Notes version Personnelle', $10{16});
               end;//7
@@ -235,7 +227,9 @@ begin//0
             else
             begin//6
               //006078AE
+
               text := 'Le fichier "' + ExtractFileName(Y) + '" n''a pas la même liste d''élèves que les autres fichiers.' + #13 + #10 + #13 + #10 + 'Ce fichier ne peut être ajouté pour la création des bulletins.';
+
               MessageBoxA(Handle, PChar(text), 'Carnet de Notes version Personnelle', $10{16});
             end;//6
           end;//5
@@ -303,26 +297,23 @@ begin//0
 
     FCdn := TFichierCdn.Create(ListBoxFichiers.Items[0]{, 1, 0});
 
-    if (FCdn.succes) then
+    if (FCdn.Succes) then
     begin//2
       //00607F7F
-      f3D4 := FCdn.GetYear;
-      f3D8 := FCdn.GetEtablissment;
+      FYear := FCdn.GetYear;
+      FEtablissment := FCdn.GetEtablissment;
+      buf0:=FCdn.GetClasseName();
         //00607FF1
-        for I := 1 to FCdn.EleveCount  do
+        for I := 1 to FCdn.NbreEleves  do
         begin//4
           //00607FF8
           if (CheckListBoxEleves.Checked[I - 1] ) then 
 		  begin
-		      FCdn.GetEleveName(I,buf);
-			  f3A8.Add(buf + ' (' + FCdn.GetClasseName + ')');
+			  f3A8.Add(FCdn.GetEleveName(I) + ' (' + buf0 + ')');
 		  end;
         end;//4
-        for I := 1 to  FCdn.GetNbrePeriodes do//00608095
-        begin//4
-          //0060809C
-          f3C8.Add(FCdn.GetPeriodName(I));
-        end;//4
+        for I := 1 to  FCdn.NbrePeriodes do//00608095
+          f3C8.Add(FCdn.GetPeriodeName(I));
       FCdn.Destroy;
     end//2
 	else 
@@ -332,7 +323,9 @@ begin//0
 		FCdn.Destroy;
 		Close;
 	end;
+
     //00608176
+
 end;//0
 
 //00608214
@@ -351,27 +344,23 @@ begin//0
     f3C0.Clear;
     f3C4.Clear;
     f3B8.Clear;
-
       for I := 0 to Length(f3B4) - 1 do//00608286
       begin//3
         //00608291
         f3B4[I].clear;
       end;//3
-
     SetLength(f3B4, f394);
-
       for I := 0 to Length(f3B4) - 1 do//006082ED
       begin//3
         //006082F8
         f3B4[I] := TStringList.Create;
       end;//3
-
     StList := TStringList.Create;
       for I := 0 to ListBoxFichiers.Items.Count - 1 do//00608354
       begin//3
         //0060835F
         FCdn := TFichierCdn.Create(ListBoxFichiers.Items[I]{, 1, 0});
-        if (FCdn.succes) then
+        if (FCdn.Succes) then
         begin//4
           //0060839E
             //006083B1
@@ -381,18 +370,16 @@ begin//0
               if (J - 1 <> RadioGroup1.ItemIndex) then Continue;
               //f3D0 := EAX;//EAX
               StList.Clear;
-
-                lvar_D := GetarrondirMoyennes;
-                for K := 1 to FCdn.EleveCount  do//00608404
+                lvar_D := GetArrondirMoyennes;
+                for K := 1 to FCdn.NbreEleves  do//00608404
                 begin//8
                   //0060840B
-                  FCdn.GetMoyBulletin(J, K,lvar_D , text);
-                  StList.Add(text);
+                  StList.Add(FCdn.GetMoyennePeriode(J, K,lvar_D));
                 end;//8
               if (CheckBoxInclureEnseignant.Checked) then
               begin//7
                 //0060846F
-                {lvar_1C}text := FCdn.GetMatiereName + #13+#10 +  FCdn.GetEnseignant;
+                {lvar_1C}text := FCdn.GetMatiereName + #13+#10 + FCdn.GetEnseignant;
               end//7
               else
               begin//7
@@ -400,19 +387,15 @@ begin//0
                 text := FCdn.GetMatiereName();
               end;//7
               f3AC.Add(text);
-              __GetStrPeriodeMin(StList, text);
-              f3BC.Add(text);
-             __GetStrPeriodeMax(StList, text);
-              f3C0.Add(text);
-              __GetStrPeriodeMoy(StList, text);
-              f3C4.Add(text);
+              f3BC.Add(GetPeriodeMin(StList));
+              f3C0.Add(GetPeriodeMax(StList));
+              f3C4.Add(GetPeriodeMoy(StList));
               lvar_C := f3CC + 1;
-              FCdn.GetMoyBulletin(J, lvar_C, lvar_D, text);
-              f3B8.Add(text);
+              f3B8.Add(FCdn.GetMoyennePeriode(J, lvar_C, lvar_D));
               for K := 1 to f394 do
               begin//7
                 //006085FE
-                FCdn.GetAppreciations(J, lvar_C,K , text);
+                FCdn.GetApreciations(J, lvar_C,K , text);
                 f3B4[K - 1].add(text);
               end;//7
             end;//6
@@ -430,8 +413,6 @@ begin//0
         end;//4
       end;//3
     f3CC := f3CC + 1;
-    //00608740
-
 end;//0
 
 //006087E8
@@ -489,7 +470,7 @@ begin//0
     f3C4.Destroy;
     sub_004C9BC0(CheckBoxInclureEnseignant.Checked);
     sub_004C9BF8(CheckBoxInclureAppreciation.Checked);
-    Setintitulecadrebulletin(EditIntituleCadre.Text);
+    sub_004C9CA0(EditIntituleCadre.Text);
     f3A4.Destroy;
 
 
@@ -589,11 +570,11 @@ begin//0
       begin//3
         //00608DDC
         f3A0 := TFichierCdn.Create(ListBoxFichiers.Items[0]{, 1, 0});
-        if (f3A0.succes) then
+        if (f3A0.Succes) then
         begin//4
           //00608E18
-          RadioGroup1.items :=  f3A0.GetPeriodesList_;
-          CheckListBoxEleves.Items := f3A0.EleveLists;
+          RadioGroup1.items :=  f3A0.GetPeriodeNameList;
+          CheckListBoxEleves.Items := f3A0.GetEleveList;
           SpeedButtonSuivant.Enabled := False;
           SpeedButtonCreerBulletins.Enabled := False;
         end//4
@@ -610,7 +591,7 @@ begin//0
         //00608ED4
         SpeedButtonCreerBulletins.Visible := True;
         f3A0 := TFichierCdn.Create(ListBoxFichiers.Items[0]{, 1, 0});
-        if (f3A0.succes) then
+        if (f3A0.Succes) then
         begin//4
           //00608F1D
           EditEtablissement.Text := f3A0.GetEtablissment;
@@ -847,14 +828,14 @@ begin//0
     EAX := Self;
     EAX := CheckBoxInclureAppreciation;
     CheckBoxInclureAppreciation.SetChecked(EDX{EDX});
-    _Getintitulecadrebulletin(lvar_8);
+    sub_004C9D28(lvar_8);
     EditIntituleCadre.Text := lvar_8;
     try
       //006098AC
-      Getfichierlogobulletin(lvar_C);
+      sub_004C9E2C(lvar_C);
       f3DC := lvar_C;
 
-      ImageLogo.Picture.LoadFromFile(f3DC);
+      ImageLogo.Picture.LoadFromFile(FPicture);
     except//2
       //006098F0
     end;//2
@@ -886,12 +867,8 @@ var
   Cross: TfrxCrossView;
   lvar_48,lvar_68,text: string;
 begin//0
-  //00609A30
-    //00609A55
-
     if (f3A8.Count <= f3CC) then//00609A68
       f3CC := 0;//EAX
-
     if (c is TfrxCrossView ) then
     begin//2
       //00609A85
@@ -914,23 +891,15 @@ begin//0
           end;//5
           if (Trim(f3B8[I]) <> '') then //00609B49
             lvar_D := true;
-
           if (lvar_D = false) then Continue;
-
-
- 
           Cross.AddValue([I], ['Matières'], [f3AC[I]]);
 		  Cross.AddValue([I], ['Elève'], [f3B8[I]]);
-
-		
-
           if (frxReport1.Tag = 0) then
           begin//5
             //00609C77
             Cross.AddValue([I], ['Min'], [f3BC[I]]);
 			Cross.AddValue([I], ['Max'], [f3C0[I]]);
 			Cross.AddValue([I], ['Classe'], [f3C4[I]]);
-
           end;//5
           
           if (CheckBoxInclureAppreciation.Checked) then
@@ -953,68 +922,35 @@ begin//0
               end;//7
           end;//5
           lvar_C := lvar_C + 1;
-		 
         end;//4
-
-      Cross.AddValue([lvar_C + 1], ['Matières'], ['Moyenne générale']);
-      
-      __GetStrPeriodeMoy(f3B8,text);
-
-	   Cross.AddValue([lvar_C + 1], ['Elève'], [text]);
-      
-      if (frxReport1.Tag <> 0) then Exit;
-
-     __GetStrPeriodeMoy( f3BC,text);
-
-      Cross.AddValue([lvar_C + 1], ['Min'], [text]);
-     
-      __GetStrPeriodeMoy(f3C0,text);
-
-      Cross.AddValue([lvar_C + 1], ['Max'], [text]);
-
-      __GetStrPeriodeMoy(f3C4,text);
- 
-       Cross.AddValue([lvar_C + 1], ['Classe'], [text]);
-	  
+		Cross.AddValue([lvar_C + 1], ['Matières'], ['Moyenne générale']);
+		Cross.AddValue([lvar_C + 1], ['Elève'], [GetPeriodeMoy(f3B8)]);
+		if (frxReport1.Tag = 0) then
+		begin
+			Cross.AddValue([lvar_C + 1], ['Min'], [GetPeriodeMoy( f3BC)]);
+			Cross.AddValue([lvar_C + 1], ['Max'], [GetPeriodeMoy(f3C0)]);
+			Cross.AddValue([lvar_C + 1], ['Classe'], [GetPeriodeMoy(f3C4)]);
+		end;
     end;//2
-	
-    //0060A22C
 end;//0
 
 //0060A3B4
 procedure TFormCreerBulletins.frxReport1GetValue(VarName: String; var Value: Variant);
 begin//0
-  //0060A3B4
-    //0060A3DB
-
     if (f3A8.Count <= f3CC) then//0060A3EE
       f3CC := 0;//EAX
-
-
     if (CompareText(VarName, 'etablissement') = 0) then //0060A406
       Value := EditEtablissement.Text;
-
     if (CompareText(VarName, 'eleve') = 0) then //0060A42F
      Value:= f3A8[f3CC];
-
-
     if (CompareText(VarName, 'periode') = 0) then//0060A45E
       Value :=  EditNomPeriode.Text;
-
-
     if (CompareText(VarName, 'annee') = 0) then //0060A487
-
       Value := EditAnneeScolaire.Text;
-
     if (CompareText(VarName, 'intitulecadre') = 0) then//0060A4B0
       Value:=  EditIntituleCadre.Text;
-
     if (CompareText(VarName, 'picture') = 0) then//0060A4D9
-      Value := f3DC;
-
-
-    //0060A4F4
-
+      Value := FPicture;
 end;//0
 
 //0060A590
@@ -1039,11 +975,7 @@ begin//0
         if (CheckListBoxEleves.Checked[I]) then 
             lvar_2 := true;
       end;//3
-
     SpeedButtonSuivant.Enabled := lvar_1 And lvar_2;
-
-    //0060A64C
-
 end;//0
 
 //0060A664
@@ -1055,8 +987,8 @@ begin//0
     begin//2
       //0060A68B
       ImageLogo.Picture.LoadFromFile(OpenPictureDialog1.FileName);
-      f3DC := OpenPictureDialog1.FileName;
-      Setfichierlogobulletin(f3DC);
+      FPicture := OpenPictureDialog1.FileName;
+      sub_004C9DA8(FPicture);
     end;//2
     //0060A6E1
 end;//0
@@ -1066,8 +998,8 @@ procedure TFormCreerBulletins.SpeedButton6Click(Sender:TObject);
 begin//0
   //0060A6FC
   ImageLogo.Picture := Nil;
-  f3DC := '';
-  Setfichierlogobulletin(f3DC);
+  FPicture := '';
+  sub_004C9DA8(FPicture);
 end;//0
 
 //0060A724

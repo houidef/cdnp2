@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 99.99%                         *
 ************************************************************}
 unit _FormUtilitairesSeries;
@@ -8,7 +8,7 @@ unit _FormUtilitairesSeries;
 interface
 
 uses
-  Forms,Windows, SysUtils, Classes, ExtCtrls, StdCtrls, ComCtrls, Buttons, Controls, UFichierCdn,Unit111;
+  Forms,Windows, SysUtils, Classes, ExtCtrls, StdCtrls, ComCtrls, Buttons, Controls, UFichierCdn,UBiblio;
 
 type
   TFormUtilitairesSeries = class(TForm)
@@ -61,7 +61,7 @@ type
   var
    FormUtilitairesSeries:TFormUtilitairesSeries;
 implementation
-   uses _Unit112,UEnregistrement;
+   uses PeriodeCalc,UEnregistrement;
 {$R *.DFM}
 
 //0050FA0C
@@ -76,21 +76,19 @@ begin//0
     inherited Create(Owner);
     Image1.Picture := logo.Picture;
     f330 := F;
-    TabControl1.Tabs := F.GetPeriodesList_;
-    ComboBox1.Items := f330.GetPeriodesList_;
+    TabControl1.Tabs := F.GetPeriodeNameList;
+    ComboBox1.Items := f330.GetPeriodeNameList;
     ComboBox1.ItemIndex := 0;
     ComboBox2.Items := GetTypesdenotes;
     ComboBox2.ItemIndex := 0;
-      for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do //0050FAFA
+      for I := 1 to f330.NbreModules(TabControl1.TabIndex + 1) do //0050FAFA
       begin//3
         //0050FB01
-        f330.GetModuleName__v( TabControl1.TabIndex + 1, Buf, I);
-        ListBox2.Items.Add(buf);
+        ListBox2.Items.Add(f330.GetTitleModule( TabControl1.TabIndex + 1, I));
       end;//3
-    
     CheckBox2.Checked := True;
     CheckBox3.Checked := True;
-    if (f330.NbrModulesTot >= 255{gvar_00617903}) then
+    if (f330.IndexModule >= 255{gvar_00617903}) then
     begin//2
       //0050FBA1
       CheckBox1.Enabled := False;
@@ -114,17 +112,11 @@ begin//0
   //0050FC18
     //0050FC38
     ListBox2.Items.Clear;
-    
-      for I := 1 to f330.GetNbreModules(TabControl1.TabIndex + 1) do//0050FC8A
+      for I := 1 to f330.NbreModules(TabControl1.TabIndex + 1) do//0050FC8A
       begin//3
         //0050FC91 
-        f330.GetModuleName__v(TabControl1.TabIndex + 1, buf, I);
-        ListBox2.Items.Add(buf);
+        ListBox2.Items.Add(f330.GetTitleModule(TabControl1.TabIndex + 1, I));
       end;//3
-    
-
-    //0050FD09
-    
 end;//0
 
 //0050FD20
@@ -336,20 +328,17 @@ begin//0
       end;//3
 
 
-    if (f330.NbrModulesTot < {gvar_00617903}255) then
+    if (f330.IndexModule < {gvar_00617903}255) then
     begin//2
       //00510604
       //lvar_28 := f330;
 	  Trouver := true;
-      f330.GetStrNoteSur(f730[0], f334[0], buf0);
+      buf0 := f330.GetDateNoteSur(f730[0], f334[0]);
         for I := 0 to ListBoxSeriesConcernees.Items.Count - 1  do //00510673
         begin//4
           //00510676
-          f330.GetStrNoteSur(f730[I], f334[I], buf1);
-          //ECX := lvar_22C + 1;//ECX
-          if (buf0 <> buf1) then //005106E7
+          if (buf0 <> f330.GetDateNoteSur(f730[I], f334[I])) then //005106E7
             Trouver := false;
-          
         end;//4
      
       if (Trouver = false) then
@@ -365,22 +354,21 @@ begin//0
           //0051074B
           for I := 0 to ListBoxSeriesConcernees.Items.Count - 1 do
           begin//5
-				for J := 1 to f330.EleveCount  do//0051074E
+				for J := 1 to f330.NbreEleves  do//0051074E
 				begin//6
 				  //0051076D
-				  f330._GetStrNote(f730[I], f334[I], J, buf);
-				  StrList[I].add(buf);
+				  ;
+				  StrList[I].add(f330.Get_Sum(f730[I], f334[I], J));
 				end;//6
           end;//5
           for I := 0 to ListBoxSeriesConcernees.Items.Count - 1 do//0051083A
           begin//5
             //0051083D
-            f330.GetModuleName__v(f730[I], buf, f334[I]);
-            StrList1.Add(buf);
+            StrList1.Add(f330.GetTitleModule(f730[I], f334[I]));
           end;//5
         
         
-       // f330.GetStrNoteSur(f730[0], f334[0], lvar_12C);//lvar_22C,lvar_64C,lvar_654
+       // f330.GetDateNoteSur(f730[0], f334[0], lvar_12C);//lvar_22C,lvar_64C,lvar_654
         if (CheckBox1.Checked) then
         begin//4
           //0051090D
@@ -391,7 +379,7 @@ begin//0
                 for J:= 1 to f730[I - 1] - 1 do//00510965
                 begin//8
                   //0051096D
-                  lvar_C := lvar_C + f330.GetNbreModules(J) ;
+                  lvar_C := lvar_C + f330.NbreModules(J) ;
                 end;//8
               f730[I - 1] := f334[I - 1] + lvar_C;
             end;//6
@@ -399,7 +387,7 @@ begin//0
             for I := 1 to ListBoxSeriesConcernees.Items.Count do//00510A0A
             begin//6
               //00510A0F
-              f330._InsertColone(f730[{EAX}I], f730[I - 1] - I - 1);
+              f330.DeleteColoneData(f730[{EAX}I], f730[I - 1] - I - 1);
             end;//6
           lvar_D := false;
         end;//4
@@ -438,8 +426,8 @@ begin//0
         lvar_62C := DateToStr(Date);
         lvar_760 := ComboBox2.Items[ComboBox2.ItemIndex];
 		                  
-        f330.AddColone(ComboBox1.ItemIndex + 1, lvar_52C, lvar_22C, '', 'oui', lvar_62C, lvar_32C, lvar_760, RadioGroupEcritOuOral.ItemIndex = 1);
-          for I := 1 to f330.EleveCount do//00510DD3
+        f330.SetData_V1(ComboBox1.ItemIndex + 1, lvar_52C, lvar_22C, '', 'oui', lvar_62C, lvar_32C, lvar_760, RadioGroupEcritOuOral.ItemIndex = 1);
+          for I := 1 to f330.NbreEleves do//00510DD3
           begin//5
             //00510DDA
             lvar_18 := TStringList.Create;
@@ -452,22 +440,22 @@ begin//0
               0:
               begin//7
                 //00510E68
-               __GetStrPeriodeMax(lvar_18, lvar_42C);
+                lvar_42C := GetPeriodeMax(lvar_18);
               end;//7
               1:
               begin//7
                 //00510E78
-                __GetStrPeriodeMoy(lvar_18, lvar_62C);
-                f330.GetStrMoyArrendit(lvar_62C, RadioGroup2.ItemIndex, lvar_42C{, '1'});
+                lvar_62C:= GetPeriodeMoy(lvar_18);
+                f330.Arrondir__(lvar_62C, RadioGroup2.ItemIndex, lvar_42C{, '1'});
               end;//7
               2:
               begin//7
                 //00510EB9
-                sub_0051030C(lvar_18, lvar_42C);
+                 sub_0051030C(lvar_18,lvar_42C);
               end;//7
             end;//6
             lvar_18.Free;
-            f330.AddNoteToPeriode(ComboBox1.ItemIndex + 1, f330.GetNbreModules(ComboBox1.ItemIndex + 1), I, lvar_42C);
+            f330.SetAbs(ComboBox1.ItemIndex + 1, f330.NbreModules(ComboBox1.ItemIndex + 1), I, lvar_42C);
           end;//5 
         if (lvar_D) then
         begin//4
@@ -478,7 +466,7 @@ begin//0
               for I := 1 to ListBoxSeriesConcernees.Items.Count do //00510F99
               begin//7
                 //00510F9E
-                f330._SetStrNote13(f730[I - 1], f334[I - 1],'non');
+                f330.SetData_V7(f730[I - 1], f334[I - 1],'non');
               end;//7
           end;//5
         end;//4
@@ -489,7 +477,7 @@ begin//0
     else
     begin//2
       //0051103F
-      if (_IsRegistred = false) then//00511048
+      if (IsRegistred = false) then//00511048
         Application.MessageBox('Impossible de créer une nouvelle série de notes. Le nombre de séries de notes est limité à 3 pour la version non enregistrée.','Carnet de Notes version Personnelle' , $40{64})
       else//00511062
         Application.MessageBox(PChar('Impossible de créer une nouvelle série de notes. Le nombre de séries de notes est limité à ' + IntToStr({gvar_00617903}255) + '.'),'Carnet de Notes version Personnelle', $40{64});

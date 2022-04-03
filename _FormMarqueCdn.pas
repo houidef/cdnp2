@@ -1,6 +1,6 @@
 {***************************************
 * Version Original V0.01
-* Decompiled by Houidef AEK v.05.02.2018
+* Decompiled by HOUIDEF AEK v.05.02.2018
 ***************************************}
 unit _FormMarqueCdn;
 
@@ -11,7 +11,7 @@ Forms, Windows,  SysUtils, Classes;
 
 type
   TFormMarqueCdn = class(TForm)
-    constructor Create(s:String);//0060D834
+    constructor Create(AOwner: TComponent; b:string);//0060D834
   end;
   
 var
@@ -21,17 +21,14 @@ implementation
 {$R *.DFM}
 
 //0060D834
-constructor TFormMarqueCdn.Create(s:String);
+constructor TFormMarqueCdn.Create(AOwner: TComponent; b:string);
 begin//0
-  //0060D808
-  try
-    //0060D836
-    inherited create(nil);
-    Caption := s;
-  finally//1
-    //0060D858
-  end;//1
+  //0060D834
+    //0060D862
+    inherited create(AOwner);
+    Caption := b;
+    //0060D884
+end;//0
 
-end;
 
 end.

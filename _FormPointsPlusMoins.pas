@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormPointsPlusMoins;
@@ -42,48 +42,38 @@ implementation
 
 //00516938
 constructor TFormPointsPlusMoins.Create(owner:TComponent; F:TFichierCdn; Logo:Timage);
-var
-  Buf:String;
 begin//0
-  //00516938
-    //00516967
-
     inherited Create(Owner);
     Image1.Picture := logo.Picture;
     f2F4 := F;
-    TabControlPeriodes.Tabs := F.GetPeriodesList_;
-    ListBoxEleves.Items := f2F4.EleveLists;
+    TabControlPeriodes.Tabs := F.GetPeriodeNameList;
+    ListBoxEleves.Items := f2F4.GetEleveList;
     ListBoxEleves.ItemIndex := 0;
-    f2F4.GetPointsAdditif(1, 1, Buf);
-    Edit1.Text := Buf;
+    Edit1.Text := f2F4.GetPointsPlusMoins__V00(1, 1);
 end;//0
 
 //00516A38
 procedure TFormPointsPlusMoins.SpeedButton1Click(Sender:TObject);
 var
  lvar_10 : Real;
- 
 begin//0
-  //00516A38
-    //00516A6C
     if (Trim(Edit1.Text) <> '') then
     begin//2
       //00516A92
       try
         //00516AA0
-        lvar_10 := StrToFloat(Edit1.Text);
-        f2F4.SetPointsAdditif( TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
+        lvar_10 := StrtoFloat(Edit1.Text);
+        f2F4.SetPointsAdditif_X1( TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
         Close;
       except//3
         //00516B5E
         Application.MessageBox(PChar(Edit1.Text + ' n''est pas un nombre correct.'),'Carnet de Notes version Personnelle' , $10{16});
         Edit1.SetFocus;
         Edit1.SelectAll;
-        Exit;
       end;//3
-    end;//2
-    Close;
-    //00516BDD
+    end//2
+	else
+      Close;
 end;//0
 
 
@@ -116,41 +106,28 @@ end;
 
 //00516DCC
 procedure TFormPointsPlusMoins.ListBoxElevesClick(Sender:TObject);
-var
-  buf:string;
 begin//0
-  //00516DCC
-    //00516DEC
     if (ListBoxEleves.ItemIndex + 1 <> 0) then
     begin//2
       //00516DFC
-      f2F4.GetPointsAdditif( TabControlPeriodes.TabIndex + 1,  ListBoxEleves.ItemIndex + 1, buf);
-      Edit1.Text := buf;
+      Edit1.Text := f2F4.GetPointsPlusMoins__V00( TabControlPeriodes.TabIndex + 1,  ListBoxEleves.ItemIndex + 1);
       Edit1.SetFocus;
     end;//2
     //00516E88
-
 end;//0
 
 //00516EA0
 procedure TFormPointsPlusMoins.TabControlPeriodesChange(Sender:Tobject);
 var
-  buf : string;
   k:integer;
 begin//0
-  //00516EA0
-    //00516EC1
 	k:=ListBoxEleves.ItemIndex;
     if (k <> -1) then
     begin//2
       //00516ED5
-      f2F4.GetPointsAdditif(TabControlPeriodes.TabIndex + 1, k + 1, buf);
-      Edit1.Text := buf;
+      Edit1.Text := f2F4.GetPointsPlusMoins__V00(TabControlPeriodes.TabIndex + 1, k + 1);
     end;//2
     ListBoxEleves.ItemIndex := k;
-
-    //00516F56
-
 end;//0
 
 
@@ -163,7 +140,7 @@ begin//0
 	begin
 		try
 		  //00516FD8
-		  f2F4.SetPointsAdditif(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
+		  f2F4.SetPointsAdditif_X1(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
 		except//2
 		  //0051708E
 		  Application.MessageBox(PChar(Edit1.Text + ' n''est pas un nombre correct.'),'Carnet de Notes version Personnelle' , $10{16});
@@ -171,7 +148,6 @@ begin//0
 		  Edit1.SelectAll;
 		end;//2
 	end;
-    //00517103
 end;//0
 
 
@@ -190,10 +166,9 @@ begin//0
 	begin
 		try
 		  //00517203
-		  f2F4.SetPointsAdditif(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
+		  f2F4.SetPointsAdditif_X1(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
 		  ListBoxEleves.ItemIndex := ListBoxEleves.ItemIndex + 1;
-		  f2F4.GetPointsAdditif(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1, buf);
-		  Edit1.Text := buf;
+		  Edit1.Text := f2F4.GetPointsPlusMoins__V00(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1);
 		  Edit1.SetFocus;
 		except//2
 		  //00517374
@@ -215,7 +190,7 @@ begin//0
       //005174D9
       try
         //005174E7
-        f2F4.SetPointsAdditif(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
+        f2F4.SetPointsAdditif_X1(TabControlPeriodes.TabIndex + 1, ListBoxEleves.ItemIndex + 1,Edit1.Text);
         AllowChange := True;
       except//3
         //005175A3

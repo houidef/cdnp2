@@ -1,38 +1,38 @@
 {***********************************************************
-* Version Original V0.01                                   *
-* Decompiled by Houidef AEK v 14:44 Vendredi 17 aout 2018  *
-* The disassembly process : 90%                            *
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* The disassembly process : 100%                           *
 ************************************************************}
 unit UImpression;
 
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, Graphics, Printers,UFichierCdn,Unit173,UInclureImpression;
+Forms, Windows,  SysUtils, Classes, Graphics, Printers, 
+UFichierCdn, UBlocTexte, UInclureImpression;
 
 type
-
   TImpression = class(TObject)
   public
-  f4  : DWORD;
-  f8  : DWORD;
-  f3C : TFichierCdn;
-  f40 : TCanvas;
-  f38 : TFont;
-  f44 : TEnteteBasDePage; //Entete De Page
-  f48 : TEnteteBasDePage; //Bas De Page
-  f2C : DWORD;
-  f30 : byte;  //Nbr des page vertical imprimé
-  f4C : TInclureImpression; 
-  f34 : boolean;  //imprime Num de etudiant
-  f14 : DWORD; //marge de page
-  f1C : DWORD;
-  fC  : DWORD;
-  f10 : DWORD;
-  f18 : DWORD;
-  f20 : DWORD;
-  f24 :DWORD; //witdth of page
-  f28 :DWORD; //Height of page
+	f4  : DWORD;
+	f8  : DWORD;
+	f3C : TFichierCdn;
+	f40 : TCanvas;
+	f38 : TFont;
+	f44 : TEnteteBasDePage; //Entete De Page
+	f48 : TEnteteBasDePage; //Bas De Page
+	f2C : DWORD;
+	f30 : byte;  //Nbr des page vertical imprimé
+	f4C : TInclureImpression; 
+	f34 : boolean;  //imprime Num de etudiant
+	f14 : DWORD; //marge de page
+	f1C : DWORD;
+	fC  : DWORD;
+	f10 : DWORD;
+	f18 : DWORD;
+	f20 : DWORD;
+	f24 :DWORD; //witdth of page
+	f28 :DWORD; //Height of page
     f50:array of integer;//f50
     procedure sub_00519534;//00519534
     procedure sub_0051954C;//0051954C
@@ -61,7 +61,6 @@ procedure TImpression.sub_0051954C;
 begin//0
   //0051954C
   f8 := sub_00519578(f28 - f1C - 40, f48{Bas de page}, False);
-
 end;//0
 
 
@@ -72,63 +71,46 @@ var
 begin//0
   //00519578
   //005195A3
-    if (Trim(b.f4.f4) = '') then
-    begin//005195B7
-      if (Trim(b.f8.f4) = '') then
-      begin//005195CB
-        if (Trim(b.fC.f4) = '') then
-        begin//005195DF
-          //EBX := 40;
-          Exit;
-        end;//4
-      end;//3
-    end;//
-
-    {f40.font.Name := f38.Name;}
-    if (c) then
-    begin//00519608
-      f40.font.Size := 10;
-    end//2
-    else
-    begin//0051961A
-      f40.font.Size := 8;
-    end;//2
-    f40.MoveTo(f14, Ligne);
-    f40.LineTo(f24 - f14, Ligne);
-    lvar_18  := f40.TextWidth(b.f4.f4);
-    lvar_1C  := f40.TextWidth(b.f8.f4);
-    lvar_20  := f40.TextWidth(b.fC.f4);
-    lvar_C   := f40.TextHeight(b.f4.f4);
-    lvar_10  := f40.TextHeight(b.f8.f4);
-    lvar_14  := f40.TextHeight(b.fC.f4);
-    if ( b.f4.f8) then //????
-    begin//2
-      //005196BD
-      f40.Rectangle(f14,Ligne + 8 ,Ligne + 8 + lvar_8 + 10,f14 + lvar_14 + 5 );
-    end;//2
-    f40.TextOut(f14, Ligne + 8 + 5, b.f4.f4);
-    lvar_4 := TRUNC((fC - lvar_18) / 2){ Div -2147483648};
-    if (lvar_4<> 0) then
-    begin//2//00519765
-      //f40.Rectangle(lvar_4 - 5, Ligne + 8, Ligne + 8 + lvar_C + 10,lvar_4 + lvar_18 + 5 );
-    end;//2
-    f40.TextOut(lvar_4, Ligne + 8 + 5,b.f8.f4 );
-    if (b.fC.f8) then  //????????
-    begin//2
-      //f40.Rectangle(f24 - f14 - lvar_1C - 5, Ligne + 8, f24 - f14,Ligne + 8 + lvar_10 + 10);//,f24 - f14 );
-    end;//2
-    f40.TextOut(f24 - lvar_1C - f14 - 5, Ligne + 8 + 5, b.fC.f4);
-    if (c ) then
-    begin//00519895
-      f40.MoveTo(f14, lvar_C + Ligne + 26);
-      f40.LineTo(f24 - f14, lvar_C + Ligne + 26);
-    end;//2
-
-   // f40.font.Size := f38.Size;
-    result := lvar_C + 40;
+    if ((Trim(b.f4.f4) <> '') or (Trim(b.f8.f4) <> '') or (Trim(b.fC.f4) <> '')) then //005195B7
+    begin//005195DF
+		f40.font.Name := f38.Name;
+		if (c) then//00519608
+		  f40.font.Size := 10
+		else //0051961A
+		  f40.font.Size := 8;
+		f40.MoveTo(f14, Ligne);
+		f40.LineTo(f24 - f14, Ligne);
+		lvar_18  := f40.TextWidth(b.f4.f4);
+		lvar_1C  := f40.TextWidth(b.f8.f4);
+		lvar_20  := f40.TextWidth(b.fC.f4);
+		lvar_C   := f40.TextHeight(b.f4.f4);
+		lvar_10  := f40.TextHeight(b.f8.f4);
+		lvar_14  := f40.TextHeight(b.fC.f4);
+		if ( b.f4.f8) then //005196BD
+		  f40.Rectangle(f14,Ligne + 8 ,Ligne + 8 + lvar_8 + 10,f14 + lvar_14 + 5 );
+		f40.TextOut(f14, Ligne + 8 + 5, b.f4.f4);
+		lvar_4 := TRUNC((fC - lvar_18) / 2){ Div -2147483648};
+		if (lvar_4<> 0) then
+		begin//2//00519765
+		  //f40.Rectangle(lvar_4 - 5, Ligne + 8, Ligne + 8 + lvar_C + 10,lvar_4 + lvar_18 + 5 );
+		end;//2
+		f40.TextOut(lvar_4, Ligne + 8 + 5,b.f8.f4 );
+		if (b.fC.f8) then  //????????
+		begin//2
+		  //f40.Rectangle(f24 - f14 - lvar_1C - 5, Ligne + 8, f24 - f14,Ligne + 8 + lvar_10 + 10);//,f24 - f14 );
+		end;//2
+		f40.TextOut(f24 - lvar_1C - f14 - 5, Ligne + 8 + 5, b.fC.f4);
+		if (c ) then
+		begin//00519895
+		  f40.MoveTo(f14, lvar_C + Ligne + 26);
+		  f40.LineTo(f24 - f14, lvar_C + Ligne + 26);
+		end;//2
+	   // f40.font.Size := f38.Size;
+		result := lvar_C + 40;
+	end
+	else 
+	   result := 40;
   //005198FE
-
-  
 end;//0
 
 
@@ -201,29 +183,24 @@ var
  buf,lvar_1C,lvar_18,lvar_130 : string;
 begin//0
   //00519AF8
-
   Max :=0;
-
     //00519B40
     //f40.Name := f38.Name;
     //f40.Size := f38.Size;
-	Nbr := byte(f3C.EleveCount);
+	Nbr := byte(f3C.NbreEleves);
       for I := 1 to Nbr do  //00519B94
       begin//00519B9B
         if (ImpRedoublage) then
         begin//00519BA1
-          f3C.GetEleveName(I, buf);
-          lvar_1C := buf + ' (R)';
+          lvar_1C := f3C.GetEleveName(I) + ' (R)';
         end//4
         else
         begin//00519BDF
-          f3C.GetEleveName(I, buf);
-		  lvar_1C := buf;
+		  lvar_1C := f3C.GetEleveName(I);
         end;//4
         if (ImpDateNais) then
         begin//00519C11
-          f3C.GetElevDateNais(I, buf);
-          lvar_18 := ' ' + lvar_1C + ' (' + buf + ')';
+          lvar_18 := ' ' + lvar_1C + ' (' + f3C.GetDateNais(I) + ')';
         end//4
         else
         begin//00519C67
@@ -242,13 +219,9 @@ begin//0
 			  Max := sub_00519AA8(f40, lvar_130);
 		  end;
         end;//4
-
     if (f34) then //00519D3C
       Max := sub_00519AA8(f40, IntToStr(Nbr)) + Max + 10;
-    
     result := Max + 20;//EBX
-
-  
 end;//0
 
 
@@ -267,9 +240,7 @@ begin//0
         if (f4C.fC[I]) then
 			Count := Count + 1;
       end;//3
-
     result := Count;
-
   end;
 end;//0
 
@@ -278,8 +249,7 @@ end;//0
 function TImpression.sub_00519E58:dword;
 begin//0
   //00519E58
-  result := (f40.TextHeight('ALEXANDRE')+ 4)*(Byte(f3C.EleveCount)+1);
-
+  result := (f40.TextHeight('ALEXANDRE')+ 4)*(Byte(f3C.NbreEleves)+1);
 end;//0
 
 //00519EB0

@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormTransformerSeries;
@@ -58,20 +58,16 @@ var
 begin//0
   //005117D8
     //00511807
-    
     inherited Create(Owner);
     Image1.Picture := logo.Picture;
     f314 := F;
-    TabControl1.Tabs := F.GetPeriodesList_;
-
-      for I := 1 to F.GetNbreModules(TabControl1.TabIndex + 1) do //0051187D
+    TabControl1.Tabs := F.GetPeriodeNameList;
+      for I := 1 to F.NbreModules(TabControl1.TabIndex + 1) do //0051187D
       begin//3
         //00511884
-        F.GetModuleName__v( TabControl1.TabIndex + 1, buf, I);
-        ListBox2.Items.Add(buf);
+        ListBox2.Items.Add(F.GetTitleModule( TabControl1.TabIndex + 1, I));
       end;//3
-
-    CheckBox1.Enabled := (F.NbrModulesTot < 255{gvar_00617903});
+    CheckBox1.Enabled := (F.IndexModule < 255{gvar_00617903});
     ComboBox1.ItemIndex := 0;
 end;//0
 
@@ -86,32 +82,19 @@ procedure TFormTransformerSeries.TabControl1Change(Sender:TObject);
 var
   I:integer;
   b:boolean;
-  buf:string;
 begin//0
-  //00511960
-  
-    //0051198C
     ListBox2.Items.Clear;
-	
-      for I := 1 to f314.GetNbreModules(TabControl1.TabIndex + 1) do//005119DE
+      for I := 1 to f314.NbreModules(TabControl1.TabIndex + 1) do//005119DE
       begin//3
         //005119E5
-        f314.GetModuleName__v(TabControl1.TabIndex + 1, buf, I);
-        ListBox2.Items.Add(buf);
+        ListBox2.Items.Add(f314.GetTitleModule(TabControl1.TabIndex + 1, I));
       end;//3
-
     //00511A5B
-    
     if (ListBox2.ItemIndex + 1 <> 0) and (Edit1.Text = ComboBox1.Items[ComboBox1.ItemIndex]) then//00511AA4
       b := false
 	else//00511AA8
       b := true;
-   
-    
     SpeedButton1.Enabled := b;
-  
-    //00511AC2
-   
 end;//0
 
 //00511AF0
@@ -146,28 +129,16 @@ var
   b:boolean;
   buf:string;
 begin//0
-  //00511C5C
-
-    //00511C88
-  
     if (ListBox2.ItemIndex + 1 <> 0) then
     begin//2
       //00511C96
-      f314.GetStrNoteSur(TabControl1.TabIndex + 1,  ListBox2.ItemIndex + 1, buf);
-      Edit1.Text := buf;
+      Edit1.Text := f314.GetDateNoteSur(TabControl1.TabIndex + 1,  ListBox2.ItemIndex + 1);
     end;//2
-
-    
     if (ListBox2.ItemIndex + 1 <> 0) and (Edit1.Text = ComboBox1.Items[ComboBox1.ItemIndex]) then//00511D5F
       b := false
     else//00511D63
       b := true;
-
-
     SpeedButton1.Enabled := b;
-
-    //00511D7D
-
 end;//0
 
 //00511DAC
@@ -214,12 +185,11 @@ begin//0
       //00511F4C
 
       //lvar_A28 := ComboBox1.Items[ComboBox1.ItemIndex];
-      //f314.GetStrNoteSur(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, lvar_B2C);
+      //f314.GetDateNoteSur(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, lvar_B2C);
       if (ComboBox1.Items[ComboBox1.ItemIndex] <> '') then
       begin//3
         //00512001
-        f314.GetStrNoteSur(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1, buf1);
-        lvar_10 := StrToInt(ComboBox1.Items[ComboBox1.ItemIndex]) / StrToInt(buf1);
+        lvar_10 := StrToInt(ComboBox1.Items[ComboBox1.ItemIndex]) / StrToInt(f314.GetDateNoteSur(TabControl1.TabIndex + 1, ListBox2.ItemIndex + 1));
         f318 := TabControl1.TabIndex + 1;//EAX
         I := ListBox2.ItemIndex + 1;//EAX
         J := ListBox2.ItemIndex + 1;//EAX
@@ -227,34 +197,34 @@ begin//0
         if (CheckBox1.Checked ) then
         begin//4
           //0051217B
-          f314.GetModuleName__v(f318, buf0, I);
-          f314.GetStrCoeff(f318, I, buf2);
-          f314.GetStrComptMoy(f318, I, buf3);
-          f314.GetStrCommentaire(f318, I, buf4);
-          f314.GetStrTypeNote(f318, I, buf5);
-          f314.GetStrOraleEcrit(f318, I, buf1);
-          f314.AddColone(f318, 'Copie de ' + buf0, buf6, buf2, buf3, DateToStr(Date), buf4, buf5, buf1 = 'Oral');
-          J := f314.GetNbreModules(f318);   
+          f314.SetData_V1(f318, 'Copie de ' + f314.GetTitleModule(f318, I), 
+											buf6, 
+											f314.Get_Coefficient(f318, I),
+											f314.GetCompteMoyenne(f318, I), 
+											DateToStr(Date), 
+											f314.GetDataCommentaire(f318, I), 
+											f314.GetDataTypeNote(f318, I), 
+											f314.GetOralEcrit(f318, I) = 'Oral');
+          J := f314.NbreModules(f318);   
         end;//4
-        f314.sub_004C48BC(f318, J,buf6);
+        f314.SetPeriodeTraiteList_H03(f318, J,buf6);
         if (CheckBox2.Enabled) then
         begin//4
           //00512400
           if (CheckBox2.Checked ) then
           begin//5
             //00512415
-            f314._SetStrNote13(f318, I,'non');
+            f314.SetData_V7(f318, I,'non');
           end;//5
         end;//4
         
-        for K := 1 to f314.EleveCount do
+        for K := 1 to f314.NbreEleves do
         begin//4
           //0051245D 
           try
             //00512475
-            f314._GetStrNote(f318, I, K, buf); 
-            f314.GetStrMoyArrendit(FloatToStrF(StrToFloat(buf) * lvar_10 , ffFixed{2}, $12{18}, 2), RadioGroup1.ItemIndex, MoyArrondi);
-            f314.AddNoteToPeriode(f318, J, K, MoyArrondi);
+            f314.Arrondir__(FloatToStrF(StrToFloat(f314.Get_Sum(f318, I, K)) * lvar_10 , ffFixed{2}, $12{18}, 2), RadioGroup1.ItemIndex, MoyArrondi);
+            f314.SetAbs(f318, J, K, MoyArrondi);
           except//5
             on E:EConvertError do
             begin//6
@@ -271,9 +241,6 @@ begin//0
     end//2
     else 
 		ModalResult := 2;
-  
-    //005125F2
-    
 end;//0
 
 //00512658
@@ -281,22 +248,12 @@ procedure TFormTransformerSeries.ComboBox1Change(Sender:TObject);
 var
   b:boolean;
 begin//0
-  //00512658
-    //00512671
-
-
-    
     //==>if(ListBox2.ItemIndex + 1 <> 0)then //0051267C
     if (ListBox2.ItemIndex + 1 <> 0) and (Edit1.Text = ComboBox1.Items[ComboBox1.ItemIndex]) then//005126B9
       b := false
     else//005126BD
       b := true;
-   
-
     SpeedButton1.Enabled := b;
-
-    //005126D7
-
 end;//0
 
 //005126F8

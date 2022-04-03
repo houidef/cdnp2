@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 00:44 samedi 17 février 2018 *
+* Decompiled by HOUIDEF AEK v 00:44 samedi 17 février 2018 *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _Calendrier;
@@ -41,12 +41,8 @@ end;
 //00541FB0
 procedure TFormCalendrier.FormKeyPress(Sender:TObject; var Key:Char);
 begin
-  //00541FB0
-  if (Key = char($0D)) then//00541FB5
-    ModalResult := 1
-  else
-  if (Key = char($1B)) then 
-   ModalResult := 2;
+  if (Key = #13) then ModalResult := 1
+  else if (Key = #27) then  ModalResult := 2;
 end;
 
 end.

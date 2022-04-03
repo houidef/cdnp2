@@ -1,14 +1,15 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 2021-05-16 @ 05:36 PM        *
-* The disassembly process : 100%                           *
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* The disassembly process : 100%                            *
 ************************************************************}
 unit UnitePrincipale;
 interface      
 uses
 Forms, Windows,  SysUtils, Classes, Menus, Dialogs, ExtCtrls, Controls, ComCtrls, frstatus, uTiler,
-ShellAPI,URegistry,Unit111,UEnregistrement,_FormAProposDe, _FormEnregistrement,_FormRappelSauvegarde,
-_FormCreerBulletins,_FormFusionner,_FormPatientez,_Unit146,_FormNouvelleVersionDisponible,UFichierCdn;
+ShellAPI,URegistry,UBiblio,UEnregistrement,_FormAProposDe, _FormEnregistrement,_FormRappelSauvegarde,
+_FormCreerBulletins,_FormFusionner,_FormPatientez,UConseil,_FormNouvelleVersionDisponible,UFichierCdn,
+_UHTTP;
 type
   TFormCarnetDeNotes2 = class(TForm)
   published
@@ -101,11 +102,11 @@ type
     procedure Aproposde1Click(Sender:TObject);//0060C968
   public
     TimerActive:boolean;//f3B0
-    procedure sub_0060CABC(var Msg:TMsg); Message 1036;//0060CABC
-    procedure sub_0060CC64(var Msg:TMsg); Message 1040;//0060CC64
-    procedure SetOngletsClassesMsg(var Msg:TMsg); Message 1041;//0060D048
-    function IsFileExist(FileName:TFileName):Boolean;//0060B820
-    procedure BringToFront(s:String);//0060B904
+    procedure EvenemtsSave(var Msg:TMsg); Message $40C;//0060CABC
+    procedure EvRefreshHistroqiueMainMenu(var Msg:TMsg); Message $410;//0060CC64
+    procedure EvRefreshOngletsClasses(var Msg:TMsg); Message $411;//0060D048
+    function IsFileOpen(FileName:TFileName):Boolean;//0060B820
+    procedure BringToFront_(s:String);//0060B904
   end;
 var
    FormCarnetDeNotes2:TFormCarnetDeNotes2;
@@ -120,33 +121,29 @@ begin
  Close;
 end;
 //0060B820
-function TFormCarnetDeNotes2.IsFileExist(FileName:TFileName):Boolean;
+function TFormCarnetDeNotes2.IsFileOpen(FileName:TFileName):Boolean;
 var
-  I:integer;begin//0
+  I:integer;  BFileName:String;
+begin//0
   //0060B820
   Result := False;
     //0060B855
 	for I:=0 to MDIChildCount - 1 do 
     begin//0060B86F
-      if (LowerCase(TFeuilleClasse(MDIChildren[I]).GetFileName ) = LowerCase(FileName)) then result := true; //0060B8BC
+      if (LowerCase( TFeuilleClasse(MDIChildren[I]).GetFileName) = LowerCase(FileName)) then result := true; //0060B8BC
     end;
- 
 end;
 //0060B904
-procedure TFormCarnetDeNotes2.BringToFront(s:string);
+procedure TFormCarnetDeNotes2.BringToFront_(s:string);
 var
-  FileName:shortstring;
+  FileName:string;
   I:integer;
 begin//0
-  //0060B904
-    //0060B938
 	  for I:=0 to MDIChildCount do 
 	  begin
       //0060B950
-        FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
-		if (LowerCase(s) = LowerCase(FileName)) then//0060B99D
+		if (LowerCase(s) = LowerCase(TFeuilleClasse(MDIChildren[I]).GetFileName)) then//0060B99D
 				MDIChildren[I].BringToFront;
-
       end;
 end;//0
 
@@ -159,41 +156,47 @@ begin
  OpenDialog1.Filter := 'Fichier Carnet de Notes *.cdn|*.cdn';
  if (Sender is TMenuItem) then 
  begin
-	if(TMenuItem(Sender).caption = '&Ouvrir ...' )then 
+	if(TMenuItem(Sender).caption <> '&Ouvrir ...' )then 
     begin//0060BA5D
-		if (IsFileExist('') = false) then //0060BA6B
-		  FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, '')
+		if (Not(IsFileOpen({Sender}''))) then //0060BA6B
+		  FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, {Sender}'')
 		else 
-		  BringToFront({Sender}'');
+		  BringToFront_({Sender}'');
     end
     else if (OpenDialog1.Execute) then
     begin//0060BAB3
-	  for I := 0 to OpenDialog1.Files.Count do
-	  begin//0060BAD9
-		if (IsFileExist(OpenDialog1.Files[I]) = false) then//0060BAFA
-		  FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, OpenDialog1.Files[I])
-		else //0060BB30
-		  BringToFront(OpenDialog1.Files[I]);
-		OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
-	  end;//5
+        if (OpenDialog1.Files.Count - 1 >= 0) then
+        begin //0060BAD3
+          for I := 0 to OpenDialog1.Files.Count - 1 do
+          begin//0060BAD9
+            if (IsFileOpen(OpenDialog1.Files[I]) = false) then//0060BAFA
+              FeuilleClasse := TFeuilleClasse.Create(Self, Handle, Logo, OpenDialog1.Files[I])
+            else //0060BB30
+              BringToFront_(OpenDialog1.Files[I]);
+            OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
+          end;//5
+          Exit;
+        end;//4
     end;//3
  end
  else 
  if (OpenDialog1.Execute ) then
  begin//0060BB9B
-	for I := 0 to OpenDialog1.Files.Count - 1 do
-	begin//0060BBC1
-	  if (IsFileExist(OpenDialog1.Files[I]) = false) then //0060BBE2
-		FeuilleClasse := TFeuilleClasse.Create(Self, Handle ,logo , OpenDialog1.Files[I])
-	  else//0060BC18
-		BringToFront(OpenDialog1.Files[I]);
-	  OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
-	end;//4
-end;
+    if (OpenDialog1.Files.Count >= 1) then
+    begin//0060BBBB
+        for I := 0 to OpenDialog1.Files.Count - 1 do
+        begin//0060BBC1
+          if (IsFileOpen(OpenDialog1.Files[I]) = false) then //0060BBE2
+            FeuilleClasse := TFeuilleClasse.Create(Self, Handle ,logo , OpenDialog1.Files[I])
+          else//0060BC18
+            BringToFront_(OpenDialog1.Files[I]);
+          OpenDialog1.InitialDir := ExtractFilePath(OpenDialog1.Files[I]);
+        end;//4
+    end;
+ end;
 end;
 //0060BD00
 procedure TFormCarnetDeNotes2.FormCreate(Sender:TObject);
-//var
 begin//0
   //0060BD00
     if (FileExists(ExtractFilePath(ParamStr(0)) + 'logo.bmp') ) then
@@ -206,43 +209,40 @@ begin//0
       end;//3
     end;//2
     TimerActive := true;
-    SetValueRegChemin(ExtractFilePath(ParamStr(0)));
-    if (GettailleMaximumAuDemarrage) then
-    begin//0060BE24
+    SetChemin(ExtractFilePath(ParamStr(0)));
+    if (GettailleMaximumAuDemarrage) then //0060BE24
       WindowState := wsMaximized; //2
-    end;//2
-    _AddToMainMenu(MainMenuPrincipal, 0, {Self}nil, Ouvrir1Click);
-    ToolBarreDeBoutons.Visible := sub_004BB55C;
+    _AddHistroiqueToMainMenu(MainMenuPrincipal, 0, Self, Ouvrir1Click);
+    ToolBarreDeBoutons.Visible := GetAfficherBarreOutils;
     ToolButtonSauver.Enabled := False;
     ToolButtonImprimer.Enabled := False;
     Caption := 'Carnet de Notes version Personnelle 2.9a';
-    if (_IsRegistred = false) then//0060BE92
+    if (IsRegistred = false) then //0060BE92
       Caption := Caption + ' - Version non enregistrée';
     OpenDialog1.InitialDir := ExtractFilePath(ParamStr(0));
     Timer1.Enabled := True;
-	Logo.visible := false; //supprimer le
+	Logo.visible := false; //supprimer le!
 end;//0
 //0060BFC0
 procedure TFormCarnetDeNotes2.Options1Click(Sender:TObject);
 var 
-  FormOptions:TFormOptions; 
   I:integer;
 begin
   //0060BFC0
   FormOptions := TFormOptions.Create(Self, Logo);
   FormOptions.ShowModal;
   FormOptions.Destroy;
-  ToolBarreDeBoutons.Visible := sub_004BB55C;
-  AddToMainMenuWithDelete(MainMenuPrincipal, 0,{Self}nil,Ouvrir1Click);
+  ToolBarreDeBoutons.Visible:=GetAfficherBarreOutils;
+  RefreshHistroqiueMainMenu(MainMenuPrincipal, 0, Self,Ouvrir1Click);
   for I:= 1 to MDIChildCount do begin
       //0060C03F
-      AddToMainMenuWithDelete(TFeuilleClasse(MDIChildren[I-1]).MainMenuPrincipal, 0, {Self}nil,Ouvrir1Click);
-      SendMessageA(MDIChildren[I-1].Handle, 1045, 0, 0);
-      SendMessageA(MDIChildren[I-1].Handle, 1032, 0, 0);
-      SendMessageA(MDIChildren[I-1].Handle, 1029, 0, 0);
-      SendMessageA(MDIChildren[I-1].Handle, 1035, 0, 0);
-      SendMessageA(MDIChildren[I-1].Handle, 1028, 0, 0);
-      SendMessageA(MDIChildren[I-1].Handle, 1027, 0, 0);
+      RefreshHistroqiueMainMenu(TFeuilleClasse(MDIChildren[I-1]).MainMenuPrincipal, 0, Self,Ouvrir1Click);
+      SendMessageA(MDIChildren[I-1].Handle, $415, 0, 0);
+      SendMessageA(MDIChildren[I-1].Handle, $408, 0, 0);
+      SendMessageA(MDIChildren[I-1].Handle, $405, 0, 0);
+      SendMessageA(MDIChildren[I-1].Handle, $40B, 0, 0);
+      SendMessageA(MDIChildren[I-1].Handle, $404, 0, 0);
+      SendMessageA(MDIChildren[I-1].Handle, $403, 0, 0);
   end;//1
   SendMessageA(Handle, 1041, 0, 0);
 end;
@@ -308,16 +308,15 @@ end;
 procedure TFormCarnetDeNotes2.Timer1Timer(Sender: TObject);
 var
   I,k:integer;
-  buf,buf0,buf1,buf2,lvar_14:string;
+  buf,buf0,buf1,buf2,versioninfo:string;
   searchResult : TSearchRec;
-  lvar_4: TStringlist;
-
+  Derniersfichiers: TStringlist;
 begin
   //0060C28C
   //0060C28C
   //EDX := TSearchRec;
     //0060C2C2
-    if (TimerActive ) then
+    if (TimerActive) then
     begin//2
       //0060C2CF
       TimerActive := false;
@@ -337,36 +336,36 @@ begin
 				  buf0 := '\';
 				 FindFirst(ParamStr(I), $3F{63}, searchResult);
 				FindClose(searchResult);
-				FeuilleClasse{EAX} := TFeuilleClasse.Create(Self, Handle, {buf2 + buf0 + searchResult.Name,} Logo, searchResult.Name);
+				FeuilleClasse := TFeuilleClasse.Create(Self, Handle, {buf2 + buf0 + searchResult.Name,} Logo, searchResult.Name);
 			end;
           end;//5
       end//3
       else
       begin//3
         //0060C427
-        sub_004BB60C;
+        GetAuDemarrage;
         case ParamCount of
           1:
           begin//5
             //0060C43D
-            lvar_4 := GetDerniersfichiers;
-            FormPatientez{gvar_00617C64} := TFormPatientez.Create(Self);
-            FormPatientez.ProgressBar1.Position := 0;
+            Derniersfichiers := GetDerniersfichiers;
+			
+            FormPatientez := TFormPatientez.Create(Self);
+            (*FormPatientez.ProgressBar1.Position := 0;
             FormPatientez.caption := 'Ouverture de vos fichiers ... patientez';
-            FormPatientez.ProgressBar1.Max := lvar_4.count;
+            FormPatientez.ProgressBar1.Max := Derniersfichiers.count;
             FormPatientez.ProgressBar1.Min := 0;
-            FormPatientez.ProgressBar1.Step := 1;
-            if ( lvar_4.count <> 0) then//0060C4D3
+            FormPatientez.ProgressBar1.Step := 1;*)
+            if ( Derniersfichiers.count <> 0) then//0060C4D3
               FormPatientez.Show;
-
               
-              for I := 0 to lvar_4.count-1 do //0060C4F5
+              for I := 0 to Derniersfichiers.count-1 do //0060C4F5
               begin//7
                 //0060C4FB
-                FormPatientez.ProgressBar1.StepIt;
+               // FormPatientez.ProgressBar1.StepIt;
                 Application.ProcessMessages;
-                if (FileExists( lvar_4[I])) then 
-                FeuilleClasse := TFeuilleClasse.Create(Self,Handle, {'', lvar_28C,} Logo,lvar_4[I]);
+                if (FileExists( Derniersfichiers[I])) then 
+                FeuilleClasse := TFeuilleClasse.Create(Self,Handle, {'', lvar_28C,} Logo,Derniersfichiers[I]);
               end;//7
             
             if (FormPatientez.Showing) then//0060C582 
@@ -380,7 +379,7 @@ begin
           end;//5
         end;//4
       end;//3
-      if (sub_00501C44) then
+      if (GetAfficherConseils) then
       begin//3
         //0060C5B0
         FormConseilsDemarrage := TFormConseilsDemarrage.Create(Self, Logo);
@@ -388,28 +387,28 @@ begin
         FormConseilsDemarrage.Destroy;
       end;//3
       K := 0;
-      if (sub_004BB668) then
+      if (GetRappelSauvegarde) then
       begin//3
         //0060C5F5
-        if (sub_004BB728 = 0) then
+        if (GetFrequenceRappel = 0) then
         begin//0060C5FE
-          if (sub_004BB75C >= 10) then
+          if (GetNumeroRappel >= 10) then
           begin//0060C60D
-            sub_004BB790(1);
+            SetNumeroRappel(1);
             K := 1;
           end//5
           else//0060C618
-            sub_004BB790(sub_004BB75C + 1);
+            SetNumeroRappel(GetNumeroRappel + 1);
         end//4
         else//0060C635
           K := 1;
       end//3
       else//0060C639
-        sub_004BB790(1);
+        SetNumeroRappel(1);
       if (K <> 0) then
       begin//3
         //0060C644
-        if (HistoriqueList(*(sub_00501C44, $3E8{1000})*).Count <> 0) then
+        if (GetHistorique(*(GetAfficherConseils, $3E8{1000})*).Count <> 0) then
         begin//4
           //0060C652
           FormRappelSauvegarde{gvar_006182F4} := TFormRappelSauvegarde.Create(Self,Logo);
@@ -417,25 +416,25 @@ begin
           FormRappelSauvegarde.Destroy;
         end;//4
       end;//3
-      if (sub_004BB6C8) then
+      if (GetRappelMiseAJourDisponible) then
       begin//0060C695
-        if ({sub_004B6350('http://www.carnetdenotes.com/versioninfo.txt', lvar_14, lvar_14) <> 0}false) then
+        if (VerificationMiseAJour__(self,'http://www.carnetdenotes.com/versioninfo.txt', versioninfo, versioninfo)) then
         begin//4
           //0060C6A9
-          FormNouvelleVersionDisponible{gvar_006184D8} := TFormNouvelleVersionDisponible.Create(Self,lvar_14);
+          FormNouvelleVersionDisponible{gvar_006184D8} := TFormNouvelleVersionDisponible.Create(Self,versioninfo);
           FormNouvelleVersionDisponible.ShowModal;
           FormNouvelleVersionDisponible.Destroy;
         end;//4
       end;//3
     end;//2
     //EBX := BarreDeStatut;
-    if (sub_004BB5E4) then//0060C6EF
+    if (GetAfficherDate) then//0060C6EF
       BarreDeStatut.Panels.Items[0].Text := FormatDateTime('dddd d mmmm yyyy', Date)
     else//0060C727
       BarreDeStatut.Panels.Items[0].Text := '';
     BarreDeStatut.Panels.Items[0].Width := BarreDeStatut.Canvas.TextWidth(BarreDeStatut.Panels.Items[0].Text) + 10;
     
-    if (GetafficherHeure) then//0060C77D
+    if (GetAfficherHeure) then//0060C77D
       BarreDeStatut.Panels.Items[1].Text := FormatDateTime('h "h" nn "mn" ss "s"', Time)
     else//0060C7B8
       BarreDeStatut.Panels.Items[1].Text := '';
@@ -443,8 +442,7 @@ begin
     try
       //0060C81C
       for I:=0 to MDIChildCount - 1 do//0060C834
-        SendMessageA(MDIChildren [I].Handle, 1034, 0, 0);
-        
+        SendMessageA(MDIChildren [I].Handle, $40A{1034}, 0, 0);
     except//2
       //0060C866
     end;//2
@@ -468,33 +466,37 @@ end;
 procedure TFormCarnetDeNotes2.FormCloseQuery(Sender:TObject; var CanClose:Boolean);
 var
   I:integer;
-  FileName: String;
+  FileName:String;
   StrList : TStringList;
 begin//0
   //0060C9CC
     //0060C9F0
     Timer1.Enabled := False;
-      StrList := TStringList.Create;
-      for I:=1 to  MDIChildCount do //0060CA23
+    StrList := TStringList.Create;
+      for I:=0 to  MDIChildCount-1 do //0060CA23
       begin	  //0060CA23
-        FileName := TFeuilleClasse(MDIChildren[I-1]).GetFileName();
-        StrList.Add(FileName);
+        StrList.Add(TFeuilleClasse(MDIChildren[I]).GetFileName);
       end;
-      SetDerniersfichiers(StrList);
-      StrList.Destroy;
-	  for I:=1 to  MDIChildCount do //0060CA7D
-        MDIChildren[I-1].Close;
+
+    SetDerniersfichiers(StrList);
+    StrList.Destroy;
+
+       for I:=0 to  MDIChildCount-1 do //0060CA7D
+        //0060CA7D
+        MDIChildren[I].Close;
+
     CanClose := True;
+
 end;//0
 
 //0060CABC
-procedure TFormCarnetDeNotes2.sub_0060CABC(var Msg:TMsg);
+procedure TFormCarnetDeNotes2.EvenemtsSave;
 var
  I:integer;
 begin//0
   //0060CABC
     for I:=0 to MDIChildCount-1 do //0060CAE5
-    SendMessageA(MDIChildren[I].Handle, 1037, 0, 0);
+       SendMessageA(MDIChildren[I].Handle, $40D, 0, 0);
 end;//0
 
 //0060CB10
@@ -534,13 +536,14 @@ begin//0
       end;//3
     end;//2
     FormFusionner.Destroy;
+ 
 end;//0
 
 //0060CC64
-procedure TFormCarnetDeNotes2.sub_0060CC64(var Msg:TMsg);
+procedure TFormCarnetDeNotes2.EvRefreshHistroqiueMainMenu;
 begin//0
   //0060CC64
-  AddToMainMenuWithDelete(MainMenuPrincipal, 0, {Self}nil, Ouvrir1Click);
+  RefreshHistroqiueMainMenu(MainMenuPrincipal, 0, Self, Ouvrir1Click);
 end;//0
 
 //0060CC78
@@ -555,7 +558,7 @@ begin//0
     begin//2
       //0060CCD1
       FichierCdn := TFichierCdn.Create(OpenDialog1.FileName{, 0, 0, 0});
-      if (FichierCdn.succes) then
+      if (FichierCdn.Succes) then
       begin//3
         //0060CCFF
         SaveDialog1.Title := 'Enregistrer le fichier de sauvegarde "' + ExtractFileName(OpenDialog1.FileName) + '"';
@@ -563,7 +566,7 @@ begin//0
         begin//4
           //0060CD47
 
-          FichierCdn.SaveCdn(SaveDialog1.FileName, false, '', false);
+          FichierCdn.SaveToFile__(SaveDialog1.FileName, false, '', 0);
        
           Application.MessageBox(PChar('Le fichier "' + ExtractFileName(OpenDialog1.FileName) + '" a été récupéré avec succés.'),'Carnet de Notes version Personnelle' , $40{64});
         end;//4
@@ -589,16 +592,16 @@ begin//0
   FormRappelSauvegarde.Destroy;
 end;//0
 //0060D048
-procedure TFormCarnetDeNotes2.SetOngletsClassesMsg(var Msg:TMsg);
+procedure TFormCarnetDeNotes2.EvRefreshOngletsClasses;
 var
   I:integer;
-  Buf,buf0,buf1,OngletsClassesName:string;
-  filename:shortstring;
+  Buf,buf0,buf1,lvar_4:string;
+  filename:string;
 begin//0
   //0060D048
     //0060D07E
-    OngletsClasses.Visible := OngletsClassesVisible;
-    case OngletsClassesStyle of
+    OngletsClasses.Visible := GetAfficherOngletsClasses;
+    case GetOngletClasses of
       0:
       begin//3
         //0060D0A5
@@ -620,44 +623,54 @@ begin//0
     end;//2
     OngletsClasses.Tabs.Clear;
     TabControl2.Tabs.Clear;
+
       for I:=0 to MDIChildCount - 1 do //0060D117
 	  begin
         //0060D117
-        if (GetafficherMatiereOnglets) then //0060D120
-          OngletsClassesName := TFeuilleClasse(MDIChildren[I]).GetClasseName + ' - ' + TFeuilleClasse(MDIChildren[I]).GetMatiereName
+        if (GetAfficherMatiereOnglets) then
+        begin//4
+          //0060D120
+          TFeuilleClasse(MDIChildren[I]).GetClasseName(buf0);
+          TFeuilleClasse(MDIChildren[I]).GetMatiereName(buf1);
+          lvar_4 := buf0 + ' - ' + buf1;
+        end//4
         else//0060D184
-          OngletsClassesName := TFeuilleClasse(MDIChildren[I]).GetClasseName;
+          TFeuilleClasse(MDIChildren[I]).GetClasseName(buf);
         
-        if (GetafficherNomEnseignantOnglets) then
+        if (GetAfficherNomEnseignantOnglets) then
         begin//4
           //0060D1AF
-          OngletsClassesName := OngletsClassesName + ' - ' + TFeuilleClasse(MDIChildren[I]).GetEnseignant;
+          TFeuilleClasse(MDIChildren[I]).GetEnseignant(buf);
+          lvar_4 := lvar_4 + ' - ' + buf;
         end;//4
-        OngletsClasses.Tabs.Add(OngletsClassesName);
-         Filename := TFeuilleClasse(MDIChildren[I]).GetFileName();
-        TabControl2.Tabs.Add(Filename);
+        OngletsClasses.Tabs.Add(lvar_4);
+        TabControl2.Tabs.Add(TFeuilleClasse(MDIChildren[I]).GetFileName);
+        
+     // end;
     end;//2
     OngletsClasses.TabIndex := MDIChildCount - 1;
     TabControl2.TabIndex := MDIChildCount - 1;
+
 end;//0
 
 //0060D2D8
 procedure TFormCarnetDeNotes2.OngletsClassesChange(Sender: TObject);
 var
-  FileName:Shortstring;
+  FileName:string;
   I:integer;
 begin//0
-  //0060D2D8
     TabControl2.TabIndex := OngletsClasses.TabIndex;
 	  for I:=0 to MDIChildCount-1 do //0060D32F
 	  begin
-		FileName := TFeuilleClasse(MDIChildren[I]).GetFileName();
-      if (FileName = TabControl2.Tabs[TabControl2.TabIndex]) then
+      if (TFeuilleClasse(MDIChildren[I]).GetFileName = TabControl2.Tabs[TabControl2.TabIndex]) then
       begin//3
         //0060D387
         MDIChildren[I].BringToFront;
+        //Exit;
+        //Break;
       end;//3
      end;
+
 end;//0
 //0060D3CC
 procedure TFormCarnetDeNotes2.Enregistrement1Click(Sender:TObject);
@@ -672,7 +685,6 @@ end;//0
 procedure TFormCarnetDeNotes2.Crerlesbulletinsdeslves1Click(Sender:TObject);
 begin//0
   //0060D404
-  Showmessage('FormCreerBulletins');
   FormCreerBulletins{gvar_006184D0} := TFormCreerBulletins.Create(self);
   FormCreerBulletins.ShowModal;
   FormCreerBulletins.Destroy;

@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 11:45 lundi, août 27, 2018   *
+* Decompiled by HOUIDEF AEK v 11:45 lundi, août 27, 2018   *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormCreerDisquettes;
@@ -45,7 +45,7 @@ type
   var
     FormCreerDisquettes:TFormCreerDisquettes;
 implementation
-     uses Unit111,_FormOptions;
+     uses UBiblio,_FormOptions;
 {$R *.DFM}
 
 //00509744
@@ -77,6 +77,7 @@ begin//0
     Edit3.Text := f31C.GetEtablissment;
     Edit1.SetFocus;
   //005098A0
+
 end;//0
 
 //005098CC
@@ -93,25 +94,27 @@ begin//0
     begin//2
       //00509921
       FCdn := TFichierCdn.Create(''{, 1, 0});
-      FCdn.SetTypePeriode__(f31C.GetTypePeriode());
+      FCdn.SetTypePeriode(f31C.GetTypePeriode);
       StList := TStringList.Create;
-        for I := 1 to f31C.GetNbrePeriodes  do//00509978
+        for I := 1 to f31C.NbrePeriodes  do//00509978
         begin//4
           //00509982
-          StList.Add(f31C.GetPeriodName(I));
+          StList.Add(f31C.GetPeriodeName(I));
         end;//4
 
-      FCdn.sub_004C4CBC(StList);
+      FCdn.SetPeriodeNameList_Hxx(StList);
       StList.Destroy;
       FCdn.SetEnseignant(Edit1.Text);
-      FCdn.setClasseName(f31C.GetClasseName);
-      FCdn.setEtablissment(f31C.GetEtablissment);
-      FCdn.setMatiere(ComboBox1.Items[ComboBox1.ItemIndex]);
+      FCdn.SetClasseName(f31C.GetClasseName);
+      FCdn.SetEtablissment(f31C.GetEtablissment);
+
+
+      FCdn.SetMatiere(ComboBox1.Items[ComboBox1.ItemIndex]);
       FCdn.SetYear(f31C.GetYear);
-      FCdn.setRemarque('Fichier créé par ' + f31C.GetEnseignant + ' pour ses collègues');
-      FCdn.SetEleveListsV(f31C.EleveLists);
-      FCdn.init();
-      FCdn.SaveCdn(SaveDialog1.FileName, CheckBox1.Checked, '', false);
+      FCdn.SetRemarque('Fichier créé par ' + f31C.GetEnseignant + ' pour ses collègues');
+      FCdn.CreerListeEleves(f31C.GetEleveList);
+      FCdn.DataClear();
+      FCdn.SaveToFile__(SaveDialog1.FileName, CheckBox1.Checked, '', 0);
       FCdn.Destroy;
     end;//2
     //00509B7E

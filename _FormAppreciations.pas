@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 1:37 samedi, août 25, 2018   *
+* Decompiled by HOUIDEF AEK v 1:37 samedi, août 25, 2018   *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormAppreciations;
@@ -76,7 +76,7 @@ type
    FormAppreciations:TFormAppreciations;
 
 implementation
-   uses Unit111,_Unit112;
+   uses UBiblio,PeriodeCalc;
 {$R *.DFM}
 
 //005133D4
@@ -87,32 +87,25 @@ buf:string;
 lvar_1C : TStringList;
 CanSelect : boolean;
 begin//0
-  //005133D4
-    //0051343A
-    
     inherited Create(Owner);;
     Memo1.MaxLength := 255;
     f328 := FichierCdn;
     f338 := 1;
     f33C := 1;
     f334 := 1;
-    
     f32C := TStringList.Create;
-    
-    TabControlPeriodes.Tabs := f328.GetPeriodesList_;
-    TabSetColonnesBulletin.Tabs := f328.sub_004C8BAC;
+    TabControlPeriodes.Tabs := f328.GetPeriodeNameList;
+    TabSetColonnesBulletin.Tabs := f328.GetNomsbulletinsList;
     StringGrid1.DefaultRowHeight := $12{18};
-    StringGrid1.ColCount := f328.BulletinsCount + 1;
-    StringGrid1.RowCount := f328.EleveCount;
-    StringGrid1.Cols[0 ] := f328.EleveLists;
-
-      for I := 1 to f328.EleveCount do //00513548
+    StringGrid1.ColCount := f328.GetbulletinsCount + 1;
+    StringGrid1.RowCount := f328.NbreEleves;
+    StringGrid1.Cols[0 ] := f328.GetEleveList;
+      for I := 1 to f328.NbreEleves do //00513548
       begin//3
         //0051354C
-        f328.GetAppreciations(1, I,TabSetColonnesBulletin.TabIndex + 1 , buf);
+        f328.GetApreciations(1, I,TabSetColonnesBulletin.TabIndex + 1 , buf);
         StringGrid1.Cells[1, I - 1] :=  buf;
       end;//3
-    
       K := 0;
       for I := 0 to StringGrid1.colcount - 1 do//005135D6
       begin//3
@@ -123,62 +116,52 @@ begin//0
             if (StringGrid1.Canvas.TextWidth(StringGrid1.Cells[I, J]) > K) then 
                   K := StringGrid1.Canvas.TextWidth(StringGrid1.Cells[I, J]);
           end;//5
-       
         StringGrid1.ColWidths[I] := K + 10;
       end;//3
-    
     StringGrid1.DefaultDrawing := False;
     //StringGrid1.f28C := Self;
     StringGrid2.DefaultRowHeight := $12{18};
-    StringGrid2.ColCount := f328.BulletinsCount + 5;
-    StringGrid2.RowCount := f328.GetNbrePeriodes + 1;
+    StringGrid2.ColCount := f328.GetbulletinsCount + 5;
+    StringGrid2.RowCount := f328.NbrePeriodes + 1;
     StringGrid2.Cells[0, 0] := 'Périodes';
     StringGrid2.Cells[1, 0] :='+ basse';
     StringGrid2.Cells[2, 0] :='+ haute';
     StringGrid2.Cells[3, 0] :='Classe';
     StringGrid2.Cells[4, 0] := 'Elève';
-
-      for I := 1 to f328.BulletinsCount  do//00513740
+      for I := 1 to f328.GetbulletinsCount  do//00513740
       begin//3
         //00513748
-        f328.GetBulletinsName__(I, buf);
+        f328.GetNomsbulletins(I, buf);
         StringGrid2.Cells[I + 4, 0] := buf;
       end;//3
-    
     lvar_1C := TStringList.Create;
 
-      for {lvar_14 } J:= 1 to f328.GetNbrePeriodes  do//005137BD
+      for {lvar_14 } J:= 1 to f328.NbrePeriodes  do//005137BD
       begin//3
         //005137C7
        // EDX := lvar_1C.f3A205844;
         lvar_1C.Clear;
-          for K := 1 to f328.EleveCount do//005137DD
+          for K := 1 to f328.NbreEleves do//005137DD
           begin//5
             //005137E1
-            f328.GetMoyBulletin(J, K, GetarrondirMoyennes, buf);
-            lvar_1C.add(buf);
+            lvar_1C.add(f328.GetMoyennePeriode(J, K, GetArrondirMoyennes));
           end;//5
-
-        StringGrid2.Cells[0, J ] := f328.GetPeriodName(J);
-        __GetStrPeriodeMin(lvar_1C, buf);
-        StringGrid2.Cells[1, J]:= buf;
-       __GetStrPeriodeMax(lvar_1C, buf);
-        StringGrid2.Cells[2, J] := buf;
-        __GetStrPeriodeMoy(lvar_1C, buf);
-        StringGrid2.Cells[3, J] :=  buf;
+        StringGrid2.Cells[0, J ] := f328.GetPeriodeName(J);
+        StringGrid2.Cells[1, J]:= GetPeriodeMin(lvar_1C);
+        StringGrid2.Cells[2, J] := GetPeriodeMax(lvar_1C);
+        StringGrid2.Cells[3, J] :=  GetPeriodeMoy(lvar_1C);
         StringGrid2.Cells[4, J] := 'élève';
-        if (f328.BulletinsCount > 0) then 
+        if (f328.GetbulletinsCount > 0) then 
 		begin
-			for K := 1 to f328.BulletinsCount do
+			for K := 1 to f328.GetbulletinsCount do
 			begin//4
 			  //0051393E
-			  f328.GetAppreciations(J, 1,K , buf);
+			  f328.GetApreciations(J, 1,K,buf);
 			  StringGrid2.Cells[K + 4, J] := buf;
 			end;//4
 		end;
       end;//3
     lvar_1C.Destroy;
-
       for I := 0 to  StringGrid2.ColCount -1 do//005139D1
       begin//3
         //005139D7
@@ -189,10 +172,8 @@ begin//0
             if (StringGrid2.Canvas.TextWidth(StringGrid2.Cells[I, J]) > K) then 
 					K := StringGrid2.Canvas.TextWidth(StringGrid2.Cells[I, J]);
           end;//5
-        
         StringGrid2.ColWidths[I]:=K + 10;
       end;//3
-
     sub_005148C0;
     StringGrid2SelectCell(Self, 1, f334,CanSelect);
     sub_00514620;
@@ -257,7 +238,7 @@ begin//0
     f330 := ARow;
     
     SpeedButtonElevePrecedent.Enabled := (f338 > 1); 
-    SpeedButtonEleveSuivant.Enabled := (f328.EleveCount  > f338);
+    SpeedButtonEleveSuivant.Enabled := (f328.NbreEleves  > f338);
     if (ACol >= 1) then
     begin//2
       //00513E07
@@ -305,25 +286,24 @@ begin//0
     GridRect.Bottom := f330;
     StringGrid1.Selection := GridRect;
 
-    if (GetcolorationNote ) then
+    if (GetColorationNote ) then
     begin//2
       //00513FF3
       try
         //00514001
-        moyennesSur := GetmoyennesSur;
-        f328.GetMoyBulletin(TabControlPeriodes.TabIndex + 1, Arow + 1, GetarrondirMoyennes, buf);
-        lvar_10 := StrToFloat(buf);
+        moyennesSur := GetMoyennesSur;
+        lvar_10 := StrToFloat(f328.GetMoyennePeriode(TabControlPeriodes.TabIndex + 1, Arow + 1, GetArrondirMoyennes));
         //00514078
         if (lvar_10 < 0) Or (lvar_10 <  moyennesSur) then //00514090
-          Label7.Font.Color := _Getcouleur4Note
+          Label7.Font.Color := GetColor4Note
         else//005140AD
           if (lvar_10 >= 0) and (lvar_10 <  moyennesSur/2) then//005140BB  //005140CE
-              Label7.Font.Color:= _Getcouleur1Note
+              Label7.Font.Color:= GetColor1Note
           else //005140E8
 		     if (lvar_10 >=  moyennesSur*3/4 ) and (lvar_10 <  moyennesSur) then//00514101//0051410E
-               Label7.Font.Color := _Getcouleur3Note
+               Label7.Font.Color := GetColor3Note
 			  else 
-			    Label7.Font.Color := _Getcouleur2Note;
+			    Label7.Font.Color := GetColor2Note;
         
       except//3
         on E:EConvertError do
@@ -335,11 +315,7 @@ begin//0
     end//2
     else//00514175
       Label7.Font.Color := 0;
-
-
- 
-    f328.GetMoyBulletin(TabControlPeriodes.TabIndex + 1, ARow + 1, GetarrondirMoyennes, buf);
-    Label7.Caption:= buf;
+    Label7.Caption:= f328.GetMoyennePeriode(TabControlPeriodes.TabIndex + 1, ARow + 1, GetArrondirMoyennes);
     Label2.Caption := 'Moy. la + basse : ' + f340;
     Label3.Caption := 'Moy. la + haute : ' + f344;
     Label5.Caption := 'Moy. de la classe : ' + f348;
@@ -435,21 +411,16 @@ var
 begin//0
   //00514620
     //0051464D
-    
-
       for I := 1 to StringGrid1.ColCount - 1 do//00514680
       begin//3
         //00514687
-          for J := 1 to f328.EleveCount do//00514695
+          for J := 1 to f328.NbreEleves do//00514695
           begin//5
             //00514699
-            f328.GetAppreciations(TabControlPeriodes.TabIndex + 1, J, I, buf);
+            f328.GetApreciations(TabControlPeriodes.TabIndex + 1, J, I, buf);
             StringGrid1.Cells[I, J - 1 ] := buf;
           end;//5
-
-
         K := 0;
-
           for J := 0 to StringGrid1.RowCount - 1 do//0051472D
           begin//5
             //00514732
@@ -465,23 +436,14 @@ begin//0
         StringGrid1.ColWidths[I] := K + 10;
       end;//3
    f32C.Clear;
-      for J := 1 to f328.EleveCount do//005147B9
+      for J := 1 to f328.NbreEleves do//005147B9
       begin//3
         //005147C0
-
-        f328.GetMoyBulletin(TabControlPeriodes.TabIndex + 1, J, GetarrondirMoyennes, buf);
-        f32C.Add(buf);
+        f32C.Add(f328.GetMoyennePeriode(TabControlPeriodes.TabIndex + 1, J, GetArrondirMoyennes));
       end;//3
-
-
-    __GetStrPeriodeMin(f32C, buf);
-    f340 := buf;
-   __GetStrPeriodeMax(f32C, buf);
-    f344 := buf;
-    __GetStrPeriodeMoy(f32C, buf);
-    f348 := buf;
-    //00514899
-
+    f340 := GetPeriodeMin(f32C);
+    f344 := GetPeriodeMax(f32C);
+    f348 := GetPeriodeMoy(f32C);
 end;//0
 
 //005148C0
@@ -490,24 +452,16 @@ var
    buf:string;
    I,J,K:integer;
 begin//0
-  //005148C0
-    //005148F3
-
     SpeedButton2.Enabled := (f33C > 1);
-
-    SpeedButton3.Enabled := (f328.EleveCount > f33C);
-
-    f328.GetEleveName( f33C, buf);
-
-    Label4.Caption := buf;
-
-      for I := 1 to f328.BulletinsCount do//00514984
+    SpeedButton3.Enabled := (f328.NbreEleves > f33C);
+    Label4.Caption := f328.GetEleveName( f33C);
+      for I := 1 to f328.GetbulletinsCount do//00514984
       begin//3
         //0051498E
-          for J := 1 to f328.GetNbrePeriodes  do//005149A2
+          for J := 1 to f328.NbrePeriodes  do//005149A2
           begin//5
             //005149A7
-            f328.GetAppreciations(J, f33C, I, buf);
+            f328.GetApreciations(J, f33C, I, buf);
             StringGrid2.Cells[I + 4, J] := buf;
           end;//5
      
@@ -516,23 +470,16 @@ begin//0
           begin//5
             //00514A42
             Buf := StringGrid2.Cells[I + 4, J];
-            
             if (StringGrid2.Canvas.TextWidth(Buf) > K) then 
                 K := StringGrid2.Canvas.TextWidth(Buf);
           end;//5
         StringGrid2.ColWidths[I + 4] :=  K + 10;
       end;//3
-
-      for I := 1 to f328.GetNbrePeriodes  do //00514AC8
+      for I := 1 to f328.NbrePeriodes  do //00514AC8
       begin//3
         //00514AD0
-        f328.GetMoyBulletin(I, f33C, GetarrondirMoyennes, buf);
-        StringGrid2.Cells[4, I] := buf;
+        StringGrid2.Cells[4, I] := f328.GetMoyennePeriode(I, f33C, GetArrondirMoyennes);
       end;//3
-
-
-    //00514B44
-
 end;//0
 
 //00514B6C
@@ -541,7 +488,7 @@ var
  CanSelect:boolean;
 begin//0
   //00514B6C
-  if (f328.EleveCount  > f33C) then 
+  if (f328.NbreEleves  > f33C) then 
   begin
 	  f33C := f33C + 1;
 	  sub_005148C0;
@@ -565,7 +512,7 @@ var
  CanSelect:boolean;
 begin//0
   //00514BF0
-  f33C := f328.EleveCount;
+  f33C := f328.NbreEleves;
   sub_005148C0;
   StringGrid2SelectCell(Self, 1, f334, CanSelect);
 end;//0
@@ -591,7 +538,7 @@ var
  CanSelect :boolean;
 begin//0
   //00514CA8
-  if (f328.EleveCount  > f338) then 
+  if (f328.NbreEleves  > f338) then 
   begin
 	  f338 := f338 + 1;
 	  sub_00514620;
@@ -624,7 +571,7 @@ begin//0
       if (f34C <> 0) then
 	  begin
 
-		  f328.SetAppreciations___(TabControlPeriodes.TabIndex + 1, f330+1, Memo1.Text,TabSetColonnesBulletin.TabIndex + 1);
+		  f328.SetApreciations_x1(TabControlPeriodes.TabIndex + 1, f330+1, Memo1.Text,TabSetColonnesBulletin.TabIndex + 1);
 		  StringGrid1.Cells[TabSetColonnesBulletin.TabIndex + 1, f330] :=  Memo1.Text;
       end;
     end//2
@@ -632,7 +579,7 @@ begin//0
 		if (f34C <> 0) then
 		begin
 
-			f328.SetAppreciations___(f334, f33C, Memo1.text,TabSetColonnesBulletin.TabIndex + 1);
+			f328.SetApreciations_x1(f334, f33C, Memo1.text,TabSetColonnesBulletin.TabIndex + 1);
 			StringGrid2.Cells[TabSetColonnesBulletin.TabIndex + 5, f334] :=  Memo1.text;
 		end;
     //00514F60
@@ -658,7 +605,7 @@ begin//0
 
       Memo1.Clear;
 
-      f328.GetAppreciations(TabControlPeriodes.TabIndex + 1, f330 + 1,TabSetColonnesBulletin.TabIndex + 1 , buf);
+      f328.GetApreciations(TabControlPeriodes.TabIndex + 1, f330 + 1,TabSetColonnesBulletin.TabIndex + 1 , buf);
 
       if (Trim(buf) <> '') then //005150AA
         Memo1.Text := buf;
@@ -681,7 +628,7 @@ begin//0
     f34C := 0;
     Memo1.Clear;
 
-    f328.GetAppreciations(f334, f33C,TabSetColonnesBulletin.TabIndex + 1 , buf);
+    f328.GetApreciations(f334, f33C,TabSetColonnesBulletin.TabIndex + 1 , buf);
 
     if (Trim(buf) <> '') then//005151BA
       Memo1.Text := buf;
@@ -709,7 +656,7 @@ begin//0
     if (PageControl1.ActivePage = TabSheet1) then
     begin//2
       //005152BA
-      if (f328.EleveCount  > f338) then//005152D2
+      if (f328.NbreEleves  > f338) then//005152D2
         f338 := f338 + 1;
 
 
@@ -721,7 +668,7 @@ begin//0
 
       Memo1.Clear;
 
-      f328.GetAppreciations(TabControlPeriodes.TabIndex + 1, f330 + 1,TabSetColonnesBulletin.TabIndex + 1 , buf);
+      f328.GetApreciations(TabControlPeriodes.TabIndex + 1, f330 + 1,TabSetColonnesBulletin.TabIndex + 1 , buf);
 
       if (Trim(buf) <> '') then//005153E6
         Memo1.Text := buf;
@@ -735,7 +682,7 @@ begin//0
     end//2
     else 
 	begin
-    if (f328.GetNbrePeriodes  > f334) then //00515459
+    if (f328.NbrePeriodes  > f334) then //00515459
       f334 := f334 + 1;
 
 
@@ -746,7 +693,7 @@ begin//0
     Memo1.Clear;
 
     
-    f328.GetAppreciations(f334, f33C, TabSetColonnesBulletin.TabIndex + 1, buf);
+    f328.GetApreciations(f334, f33C, TabSetColonnesBulletin.TabIndex + 1, buf);
     if (Trim(buf) <> '') then//0051552D
 		Memo1.Text:= buf;
 
@@ -828,14 +775,14 @@ begin//0
 		begin//2
 		  //00515899
 		  sub_00514620;
-		  f328.GetAppreciations(TabControlPeriodes.TabIndex + 1, f330 + 1,NewTab + 1 , buf);
+		  f328.GetApreciations(TabControlPeriodes.TabIndex + 1, f330 + 1,NewTab + 1 , buf);
 		  Memo1.Text := buf;
 		end//2
 		else
 		begin//2
 		  //00515925
 		  sub_005148C0;
-		  f328.GetAppreciations(f334, f33C, NewTab + 1, buf);
+		  f328.GetApreciations(f334, f33C, NewTab + 1, buf);
 		  Memo1.Text := buf;
 		end;//2
 		f34C := 1;

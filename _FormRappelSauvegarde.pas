@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 3:28 lundi, août 27, 2018    *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormRappelSauvegarde;
@@ -8,7 +8,7 @@ unit _FormRappelSauvegarde;
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, ExtCtrls, CheckLst, StdCtrls, Controls, Buttons, RxToolEdit, Dialogs, Unit111, ShellAPI, FileCtrl;
+Forms, Windows,  SysUtils, Classes, ExtCtrls, CheckLst, StdCtrls, Controls, Buttons, RxToolEdit, Dialogs, UBiblio, ShellAPI, FileCtrl;
 
 type
   TFormRappelSauvegarde = class(TForm)
@@ -51,10 +51,9 @@ var
   I:integer;
 begin//0
   //0055420C
-
   inherited create(Owner);
   Image1.Picture := logo.Picture;
-  CheckListBox1.Items := HistoriqueList;
+  CheckListBox1.Items := GetHistorique;
  
     for I := 0 to CheckListBox1.Items.Count - 1 do//00554277
       CheckListBox1.Checked[I] :=True;// EDI, ECX{});
@@ -189,7 +188,7 @@ begin//0
     //005546F8
 
     CheckListBox1.Clear;
-    CheckListBox1.Items := HistoriqueList;
+    CheckListBox1.Items := GetHistorique;
       for I := 0 to CheckListBox1.Items.Count - 1 do//00554736
       begin//3
         //00554739
@@ -297,9 +296,6 @@ begin//0
 				lvar_8 := lvar_8 + CheckListBox1.Items[I] + ';';
 			end;
           end;//5
-
-
-
           for I := 1 to Length(lvar_8) do//00554A2A
           begin//5
             //00554A2F
@@ -309,11 +305,9 @@ begin//0
 				lvar_8[I] := #0;
 			end;
           end;//5
-
         pFrom := PChar(lvar_8 + #0);
         pTo := PChar(DirectoryEdit1.Text + #0);
         fFlags := $40{64};
-        //push EAX
         SHFileOperationA(Info);
 	  end;
       end;//3

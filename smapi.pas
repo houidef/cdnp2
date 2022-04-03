@@ -81,7 +81,7 @@ TFnMapiSendMail = function(lhSession  : LHANDLE;
                       ulReserved : ULONG) : ULONG
 {$IFNDEF WIN32} ; {$ELSE} stdcall; {$ENDIF WIN32}
     procedure InitializeSMAPI;//005328B8
-    function sub_005329D4(lhSession  : LHANDLE; 
+    function ProcSendEmail(lhSession  : LHANDLE; 
                       ulUIParam  : ULONG; 
                       lpMessage  : lpMapiMessage; 
                       flFlags    : ULONG; 
@@ -190,7 +190,7 @@ begin
 end; 
 
 //005329D4
-function sub_005329D4(lhSession  : LHANDLE; 
+function ProcSendEmail(lhSession  : LHANDLE; 
                       ulUIParam  : ULONG; 
                       lpMessage  : lpMapiMessage; 
                       flFlags    : ULONG; 

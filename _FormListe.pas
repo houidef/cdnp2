@@ -19,7 +19,7 @@ type
     Label1:TLabel;//f2E0
     SpeedButton2:TSpeedButton;//f2E4
     SpeedButton1:TSpeedButton;//f2E8
-	f2EC : TFichierCdn;
+	FFCdn : TFichierCdn; //f2EC
     procedure SpeedButton1Click(Sender:TObject);//00519234
     procedure FormKeyPress(Sender:TObject; var Key:Char);//00519240
     procedure SpeedButton2Click(Sender:TObject);//00519228
@@ -44,8 +44,8 @@ begin//0
     inherited create(Owner);
     Image1.Picture := Logo.picture;
     Caption := d;
-    f2EC := FichierCdn;
-    ListeEleves.Items := FichierCdn.EleveLists;
+    FFCdn := FichierCdn;
+    ListeEleves.Items := FichierCdn.GetEleveList;
     ListeEleves.ItemIndex := 0;
     sub_00519150;
 end;//0
@@ -88,7 +88,7 @@ procedure TFormListeEleves.sub_00519150;
 begin//0
   //00519150
     //00519167
-    case f2EC.EleveCount of
+    case FFCdn.NbreEleves of
       0:
       begin//00519186
         Label1.Caption := 'aucun élève';
@@ -101,7 +101,7 @@ begin//0
         Exit;
       end;//3
     end;//2
-    Label1.Caption := IntToStr(f2EC.EleveCount) + ' élèves';
+    Label1.Caption := IntToStr(FFCdn.NbreEleves) + ' élèves';
 end;//0
 
 

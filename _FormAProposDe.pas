@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                            *
-* Decompiled by Houidef AEK v 18:48 mercredi 28 février 2018*
+* Decompiled by HOUIDEF AEK v 18:48 mercredi 28 février 2018*
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormAProposDe;
@@ -52,7 +52,7 @@ begin//0
     Image2.Picture := Logo.Picture;
     LabelAdresseInternet.Caption := 'http://www.carnetdenotes.com';
     LabelEmail.Caption := 'aboisrame@carnetdenotes.com';
-    if (_IsRegistred) then//005505EB
+    if (IsRegistred) then//005505EB
       LabelVersionEnregistre.Caption := 'Version enregistrée'
     else//005505FD
       LabelVersionEnregistre.Caption := 'Version non enregistrée';

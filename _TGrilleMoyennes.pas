@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:20 mercredi, août 29, 2018*
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _TGrilleMoyennes;
@@ -9,33 +9,33 @@ interface
 
 uses
 Forms, Windows,  SysUtils, Classes, Messages, Grids, Controls, dialogs,
- _TGrilleGenerique , UFichierCdn, Unit111,_FormHint,Clipbrd,_FormEdit;
+ _TGrilleGenerique , UFichierCdn, UBiblio,_FormHint,Clipbrd,_FormEdit;
 
 type
   TGrilleMoyennesCarnetDeNotes = class(TGrilleGeneriqueCarnetDeNotes)
-  protected
-    procedure DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);override; //supprimer le
+  //protected
+    //procedure DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);override; //supprimer le
   public
     f2E8:dword;//f2E8
-    f2EC:dword;//f2EC
+    FIdNumEleve:dword;//f2EC
     f2F0:HMENU;//f2F0
     f2F4:array of TStringList;//f2F4
     destructor Destroy; virtual;//004CF9F8
     procedure WMCommand(var Message:TWMCommand); message WM_COMMAND;//004CFC74
-    procedure Refrech_(var Msg:TMsg);  message $408;//004D0A5C
+    procedure EvOnCalcule(var Msg:TMsg);  message $408;//004D0A5C
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004CF0A8
-    procedure AppendMenu1;//004CF21C
-    procedure AppendMenu2;//004CF4CC
-    procedure AppendMenu3;//004CF830
-    procedure sub_004CFA2C(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);//004CFA2C
-    procedure _SetTitle;//004D072C
-    function _SetData(Periode:dword; ARow:dword):dword;//004D08DC
-	procedure _DrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+    procedure TurboMenuArrondirMoyennes;//004CF21C
+    procedure TurboMenuPointPlusMoins;//004CF4CC
+    procedure TurboMenuMoyennesCalculees;//004CF830
+    procedure EvOnMouseDown(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);//004CFA2C
+    procedure DrawMyColumn;//004D072C
+    function RemplireMyColumn(Periode:dword; ARow:dword):dword;//004D08DC
+	procedure EvOnDrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
   end;
 
 
 implementation
-
+	uses constantes;
 //004CF0A8
 constructor TGrilleMoyennesCarnetDeNotes.Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);
 var 
@@ -43,39 +43,38 @@ var
 begin
  //004CF0A8
  inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
- TypeGrille:=2;
-  SetLength(f2f4,FichierCdn.GetNbrePeriodes*4);
+ FGrilleType:=2;
+ 
+  SetLength(f2f4,FichierCdn.NbrePeriodes*4);
   //FOwner := FOwner + _DynArr_121_2;
-    for I := 0 to FichierCdn.GetNbrePeriodes*4 -1 do
+    for I := 0 to FichierCdn.NbrePeriodes*4 -1 do
     begin//004CF134
       f2F4[I] := TStringList.Create;
     end;//2
+
   FixedRows := 1;
   FixedCols := 0;
   ColCount :=4;
   DefaultRowHeight := 18;
   //DefaultDrawing := False;
-  //f28C := Self
-  //fBC := Self
-  //sub_04D03C8
-  OnMouseDown := sub_004CFA2C;
+  OnDrawCell :=  EvOnDrawCell;
+  OnMouseDown := EvOnMouseDown;
   Options := Options + [goRowSelect];
- _SetTitle;
-    for I := 1 to FichierCdn.EleveCount do //004CF1E0
-    begin//004CF1E4
-      _SetData(1, I);
-    end;//2
+
+  DrawMyColumn;
+    for I := 1 to FichierCdn.NbreEleves do //004CF1E0
+      RemplireMyColumn(1, I);
 end;
 
 //004CF21C
-procedure TGrilleMoyennesCarnetDeNotes.AppendMenu1;
+procedure TGrilleMoyennesCarnetDeNotes.TurboMenuArrondirMoyennes;
 var 
   x:integer;
 begin//0
   //004CF21C
     DestroyMenu(f2F0);
     f2F0 := CreatePopupMenu;
-	x:=GetarrondirMoyennes;
+	x:=GetArrondirMoyennes;
     AppendMenuA(f2F0, 0, 0, 'Turbo Menu "Arrondir les moyennes"');
     AppendMenuA(f2F0, 2048, 0, '-');
     if (x = 0) then
@@ -116,7 +115,7 @@ end;//0
 
 
 //004CF4CC
-procedure TGrilleMoyennesCarnetDeNotes.AppendMenu2;
+procedure TGrilleMoyennesCarnetDeNotes.TurboMenuPointPlusMoins;
 begin//0
   //004CF4CC
     //004CF4E9
@@ -135,16 +134,16 @@ begin//0
      AppendMenuA(f2F0, 0, 13, '+ 2');
      AppendMenuA(f2F0, 0, 14, 'Autre ...');
      AppendMenuA(f2F0, $800{2048}, 0, '-');
-     AppendMenuA(f2F0, 0, $12{18}, PChar('Copier la colonne "' + Cells[f2E8, 0] + '" dans le Presse-Papiers'));
+     AppendMenuA(f2F0, 0, 18, PChar('Copier la colonne "' + Cells[f2E8, 0] + '" dans le Presse-Papiers'));
     if (Clipboard.HasFormat(1)) then
-       AppendMenuA(f2F0, 0, $13{19}, PChar('Coller la colonne "' + Cells[f2E8, 0] + '" depuis le Presse-Papiers'))
+       AppendMenuA(f2F0, 0, 19, PChar('Coller la colonne "' + Cells[f2E8, 0] + '" depuis le Presse-Papiers'))
 	else
-     AppendMenuA(f2F0, 1, $13{19}, PChar('Coller la colonne "' + Cells[f2E8, 0] + '" depuis le Presse-Papiers'));
+     AppendMenuA(f2F0, 1, 19, PChar('Coller la colonne "' + Cells[f2E8, 0] + '" depuis le Presse-Papiers'));
     //004CF706
 end;//0
 
 //004CF830
-procedure TGrilleMoyennesCarnetDeNotes.AppendMenu3;
+procedure TGrilleMoyennesCarnetDeNotes.TurboMenuMoyennesCalculees;
 begin//0
   //004CF830
     //004CF849
@@ -153,10 +152,10 @@ begin//0
      AppendMenuA(f2F0, 0, 0, 'Turbo Menu "Moyennes calculées sur ..."');
      AppendMenuA(f2F0, $800{2048}, 0, '-');
      AppendMenuA(f2F0, 0, 15, 'Moyenne calculée sur 20');
-     AppendMenuA(f2F0, 0, $10{16}, 'Moyenne calculée sur 10');
-     AppendMenuA(f2F0, 0, $11{17}, 'Autre ...');
+     AppendMenuA(f2F0, 0, 16, 'Moyenne calculée sur 10');
+     AppendMenuA(f2F0, 0, 17, 'Autre ...');
      AppendMenuA(f2F0, $800{2048}, 0, '-');
-     AppendMenuA(f2F0, 0, $12{18}, PChar('Copier la colonne "' + Cells[f2E8, 0] + '" dans le Presse-Papiers'));
+     AppendMenuA(f2F0, 0, 18, PChar('Copier la colonne "' + Cells[f2E8, 0] + '" dans le Presse-Papiers'));
     //004CF933
 end;//0
 
@@ -170,7 +169,7 @@ end;//0
 
 
 //004CFA2C
-procedure TGrilleMoyennesCarnetDeNotes.sub_004CFA2C(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);
+procedure TGrilleMoyennesCarnetDeNotes.EvOnMouseDown(Sender:TObject; Button:TMouseButton; Shift:TShiftState; X:Integer; Y:Integer);
 var
   ACol,ARow,CS,CXX:integer;
   lvar_1C,I :integer;
@@ -181,38 +180,34 @@ begin//0
     FormHint.Hide;
   end;
   if (Button <> mbRight{1}) then Exit;
-  
   MouseToCell(X, Y, ACol, ARow);
-  //showmessage('ACol:'+inttostr(ACol)+' ARow:'+inttostr(ARow));
   f2E8 := ACol;
-  f2EC := ARow;
+  FIdNumEleve := ARow;
   CS := ACol;
   if (ACol <> 2) then//004CFA9A
     CS := 1
   else//004CFAA3
     CS := ARow;
-
   //CXX := ACol;
   if (ACol <> 2) then//004CFAB5
     lvar_1C := RowCount
   else//004CFAC0
     lvar_1C := ARow;
-
   //004CFAC6
   if (ARow <> 0) Or (ACol <> 2) then
   begin//004CFAD2
     //Selection := CS;
   end;//1
-  SendMessageA(MyHandle, 1039, ARow, 255);
-  I := byte(FichierCdn.EleveCount);
+  SendMessageA(FeuilleClasseHandle, $40F, ARow, 255);
+  I := byte(FichierCdn.NbreEleves);
   if (ACol = 1) then
   begin//004CFB0C
     if (ARow <= 255) then //lvar14 = ACol
     begin//004CFB31
 	  if({ARow in I} ARow <I) then 
       begin//004CFB37
-        AppendMenu1;
-        TrackPopupMenu(f2F0, 10, ClientToScreen(Point(X,Y)).x, ClientToScreen(Point(X,Y)).y, 0{ reserved }, Handle, nil);
+        TurboMenuArrondirMoyennes;
+        TrackPopupMenu(f2F0, 10, ClientToScreen(Point(X,Y)).x, ClientToScreen(Point(X,Y)).y, 0, Handle, nil);
       end;//3
     end;//2
   end;
@@ -222,8 +217,8 @@ begin//0
     begin//004CFBA5
       if ({ARow in I} ARow <I) then
       begin//004CFBAB
-        AppendMenu2;
-		TrackPopupMenu(f2F0, 10, ClientToScreen(Point(X,Y)).x, ClientToScreen(Point(X,Y)).y, 0{ reserved }, Handle, nil);
+        TurboMenuPointPlusMoins;
+		TrackPopupMenu(f2F0, 10, ClientToScreen(Point(X,Y)).x, ClientToScreen(Point(X,Y)).y, 0, Handle, nil);
       end;//3
     end;//2
   end;//1
@@ -231,17 +226,13 @@ begin//0
   begin//004CFBF4
     if (ACol <> 0) then Exit;
   end;//1
-  if (ARow <= 255) then
-  begin//004CFC1F
+  //004CFC1F
     if ({ARow in I} ARow <I) then
     begin//004CFC25
-      AppendMenu3;
+      TurboMenuMoyennesCalculees;
       TrackPopupMenu(f2F0, 10,ClientToScreen(Point(X,Y)).X, ClientToScreen(Point(X,Y)).Y, 0, Handle, nil);
     end;//2
-  end;//1
 end;//0
-
-
 
 //004CFC74
 procedure TGrilleMoyennesCarnetDeNotes.WMCommand(var Message:TWMCommand);
@@ -252,54 +243,56 @@ var
 begin//0
   //004CFC74
     //004CFCBB
-	showmessage(inttostr(Message.ItemID));
-    if (Message.ItemID  < 5) then //004CFCC8
-      SetarrondirMoyennes(Message.ItemID - 1)
+    if (Message.ItemID < 5) then
+    begin//2
+      //004CFCC8
+      SetarrondirMoyennes(Message.ItemID - 1);
+    end//2
     else
     begin//2
       //004CFCEB
       if (Message.ItemID = 5) then //004CFCF1
-        FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-2')
+        FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'-2')
       else
       begin//3
         //004CFD1F
         if (Message.ItemID = 6) then//004CFD25
-          FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-1,5')
+          FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'-1,5')
         else
         begin//4
           //004CFD53
           if (Message.ItemID = 7) then//004CFD59
-            FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-1')
+            FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'-1')
           else
           begin//5
             //004CFD87
             if (Message.ItemID = 8) then//004CFD8D
-              FichierCdn.SetPointsAdditif(NPeriode, f2EC,'-0,5')
+              FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'-0,5')
             else
             begin//6
               //004CFDBB
               if (Message.ItemID = 9) then//004CFDC1
-                FichierCdn.SetPointsAdditif(NPeriode, f2EC,'')
+                FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'')
               else
               begin//7
                 //004CFDEF
                 if (Message.ItemID = 10) then//004CFDF5
-                  FichierCdn.SetPointsAdditif(NPeriode, f2EC,'0,5')
+                  FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'0,5')
                 else
                 begin//8
                   //004CFE23
                   if (Message.ItemID = 11) then //004CFE29
-                    FichierCdn.SetPointsAdditif(NPeriode, f2EC,'1')
+                    FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'1')
                   else
                   begin//9
                     //004CFE57
                     if (Message.ItemID = 12) then//004CFE5D
-                      FichierCdn.SetPointsAdditif(NPeriode, f2EC,'1,5')
+                      FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'1,5')
                     else
                     begin//10
                       //004CFE8B
                       if (Message.ItemID = 13) then//004CFE91
-                        FichierCdn.SetPointsAdditif(NPeriode, f2EC,'2')
+                        FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,'2')
                       else
                       begin//11
                         //004CFEBF
@@ -311,8 +304,8 @@ begin//0
                           if (FormEdit.ModalResult = 1) then
                           begin//13
                             //004CFF0B
-                            FichierCdn.SetPointsAdditif(NPeriode, f2EC,FormEdit.Edit1.Text);
-                            SendMessageA(FormEdit.Handle, $408{1032}, NPeriode, f2EC);
+                            FichierCdn.SetPointsAdditif_X1(FPeriode, FIdNumEleve,FormEdit.Edit1.Text);
+                            SendMessageA(FormEdit.Handle, $408, FPeriode, FIdNumEleve);
                           end;//13
                           FormEdit.Destroy;
                         end//12
@@ -327,12 +320,12 @@ begin//0
                           else
                           begin//13
                             //004CFFB3
-                            if (Message.ItemID = $10{16}) then //004CFFB9
+                            if (Message.ItemID = 16) then //004CFFB9
                               SetmoyennesSur(10)
                             else
                             begin//14
                               //004CFFC8
-                              if (Message.ItemID = $11{17}) then
+                              if (Message.ItemID = 17) then
                               begin//15
                                 //004CFFD2
                                 FormEdit{gvar_00617CE0} := TFormEdit.Create(Self, 'Moyennes exprimées sur', '',1);
@@ -341,20 +334,20 @@ begin//0
                                 begin//16
                                   //004D0010
                                   SetmoyennesSur(StrToInt(FormEdit.Edit1.Text));
-                                  FichierCdn.SetShowPeriode(NPeriode, true);
-                                  SendMessageA(Handle, $408{1032}, NPeriode, 0);
+                                  FichierCdn.SetPeriodeTraiteList_H01(FPeriode, true);
+                                  SendMessageA(Handle, $408, FPeriode, 0);
                                 end;//16
                                 FormEdit.Destroy;
                               end//15
                               else
                               begin//15
                                 //004D007B
-                                if (Message.ItemID = $12{18}) then
+                                if (Message.ItemID = 18) then
                                 begin//16
                                   //004D0085
                                   Clipboard.Clear;
                                   lvar_4 := '';
-                                    for I := 0 to FichierCdn.EleveCount - 1 do //004D00AB
+                                    for I := 0 to FichierCdn.NbreEleves - 1 do //004D00AB
                                     begin//18
                                       //004D00B6
                                       lvar_4 := lvar_4 + Cells[f2E8, I] + #13 + #10;
@@ -364,7 +357,7 @@ begin//0
                                 else
                                 begin//16
                                   //004D010E
-                                  if (Message.ItemID = $13{19}) then
+                                  if (Message.ItemID = 19) then
                                   begin//17
                                     //004D0118
                                     if (Clipboard.HasFormat(1) ) then
@@ -372,8 +365,8 @@ begin//0
                                       //004D012E
                                       lvar_C := TStringList.Create;
                                       lvar_C.Text := Clipboard.AsText;
-                                      if (lvar_C.Count > FichierCdn.EleveCount) then //004D0179
-                                        C := FichierCdn.EleveCount
+                                      if (lvar_C.Count > FichierCdn.NbreEleves) then //004D0179
+                                        C := FichierCdn.NbreEleves
                                       else //004D018B
                                         C := lvar_C.Count;
 
@@ -381,10 +374,10 @@ begin//0
                                         begin//20
                                           //004D01A5
                                           Cells[f2E8, I] := lvar_C[I - 1];
-                                          FichierCdn.SetPointsAdditif(NPeriode, I,lvar_C[I - 1]);
+                                          FichierCdn.SetPointsAdditif_X1(FPeriode, I,lvar_C[I - 1]);
                                         end;//20
                                       lvar_C.Destroy;
-                                      SendMessageA(Handle, $408{1032}, NPeriode, 0);
+                                      SendMessageA(Handle, $408, FPeriode, 0);
                                     end;//18
                                   end;//17
                                 end;//16
@@ -402,86 +395,79 @@ begin//0
         end;//4
       end;//3
     end;//2
-    FichierCdn.SetShowPeriode(NPeriode, true);
+    FichierCdn.SetPeriodeTraiteList_H01(FPeriode, true);
     case Message.ItemID of
       1..4:
       begin//3
         //004D028F
-        SendMessageA(Handle, $408{1032}, NPeriode, 0);
+        SendMessageA(Handle, $408, FPeriode, 0);
       end;//3
       5..14:
       begin//3
         //004D02AE
-        SendMessageA(Handle, $408{1032}, NPeriode, f2EC); 
+        SendMessageA(Handle, $408, FPeriode, FIdNumEleve); 
       end;//3
       15..16:
       begin//3
         //004D02D2
-        FichierCdn.defaultAttributs;
-        SendMessageA(Handle, 1032, NPeriode, 0);
+        FichierCdn.Initialisation;
+        SendMessageA(Handle, $408, FPeriode, 0);
       end;//3
     end;//2
     //004D0307
 end;//0
 
 //004D072C
-procedure TGrilleMoyennesCarnetDeNotes._SetTitle;
+procedure TGrilleMoyennesCarnetDeNotes.DrawMyColumn;
 var
   I:integer;
 begin//0
   //004D072C
     ColCount := 4;
-    RowCount := FichierCdn.EleveCount + $12{gvar_00617902};
+    RowCount := FichierCdn.NbreEleves + IdNbrEleves__;
     for I := 0 to 3 do
     begin//004D077E
-      if (I = 2) then Continue;
-      Cols[I].Clear;
+      if (I <> 2) then 
+		Cols[I].Clear;
     end;//2
-    Cells[0, 0] := 'Moyenne brute sur ' + IntToStr(GetmoyennesSur);
-    Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr(GetmoyennesSur);
+    Cells[0, 0] := 'Moyenne brute sur ' + IntToStr(GetMoyennesSur);
+    Cells[1, 0] := 'Moyenne arrondie sur ' + IntToStr(GetMoyennesSur);
     Cells[2, 0] := 'Point(s) en + ou en -';
-    Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr(GetmoyennesSur);
+    Cells[3, 0] := 'Moyenne bulletin sur ' + IntToStr(GetMoyennesSur);
 end;
 
 //004D08DC
-function TGrilleMoyennesCarnetDeNotes._SetData(Periode:dword; ARow:dword):dword;
-var
-  buf :string;
+function TGrilleMoyennesCarnetDeNotes.RemplireMyColumn(Periode:dword; ARow:dword):dword;
 begin//0
-  //004D08DC..004D0914
-    Visible := ((FichierCdn.GetNbreModules(NPeriode) = 0) Xor true);
-    FichierCdn.GetMoyBrute(Periode, ARow, buf);
-    Cells[0, ARow] := buf;
-    FichierCdn.GetMoyArrondie(Periode, ARow, GetarrondirMoyennes, buf);
-    Cells[1, ARow] := buf;
-    FichierCdn.GetPointsAdditif(Periode, ARow, buf);
-    Cells[2, ARow] := buf;
-    FichierCdn.GetMoyBulletin(Periode, ARow, GetarrondirMoyennes, buf);
-    Cells[3, ARow] := buf;
+    Visible := ((FichierCdn.NbreModules(FPeriode) = 0) Xor true);
+    Cells[0, ARow] := FichierCdn.CalcMoyBrute(Periode, ARow);
+    Cells[1, ARow] := FichierCdn.CalcMoyBrute_V03(Periode, ARow, GetArrondirMoyennes);
+    Cells[2, ARow] := FichierCdn.GetPointsPlusMoins__V00(Periode, ARow);
+    Cells[3, ARow] := FichierCdn.GetMoyennePeriode(Periode, ARow, GetArrondirMoyennes);
 end;//0
 
 
 
 //004D0A5C
-procedure TGrilleMoyennesCarnetDeNotes.Refrech_(var Msg:TMsg);
+procedure TGrilleMoyennesCarnetDeNotes.EvOnCalcule(var Msg:TMsg);
 var
  I:integer;
  Count : integer;
 begin//0
   //004D0A5C
-  NPeriode := Msg.Message; //Periode
-  if (FichierCdn.GetShowPeriode(Msg.Message)) then // test si periode est affiché
+  FPeriode := Msg.Message; //Periode
+  if (FichierCdn.GetPeriodeTraite(Msg.Message)) then // test si periode est deja traité
   begin//004D0A92 
     if (Msg.WParam = 0) then
     begin//004D0A99
-      _SetTitle; 
-        for I := 1 to FichierCdn.EleveCount do //004D0AAB
-          _SetData(Msg.Message, I);
+      DrawMyColumn; 
+        for I := 1 to FichierCdn.NbreEleves do //004D0AAB
+          RemplireMyColumn(Msg.Message, I);
     end//2
     else//004D0AD3
-      _SetData(Msg.Message, Msg.WParam);
+      RemplireMyColumn(Msg.Message, Msg.WParam);
    
-    Count := 4 * (NPeriode - 1); // count =  lvar_18 
+    Count := 4 * (FPeriode - 1); // count =  lvar_18 
 	  for I:=  Count to Count+3 do //teste
 	  begin
 	     f2F4[I].Clear;
@@ -492,11 +478,11 @@ begin//0
 		f2F4[I].Clear;
 		f2F4[I].AddStrings(Cols[I - lvar_14]);
 	end;//3}
-    FichierCdn.SetShowPeriode(NPeriode,False);
+    FichierCdn.SetPeriodeTraiteList_H01(FPeriode,False);
   end
   else 
   begin
-	  Count := 4 * (NPeriode - 1); 
+	  Count := 4 * (FPeriode - 1); 
 	  for I:=  Count to Count+3 do //teste
 	  begin
 		 Cols[I - Count] := f2f4[I];
@@ -506,32 +492,26 @@ begin//0
 		  Cols[lvar_18 - lvar_18] := f2f4[I];
 		end;//2}
 	  
-	  Visible := (FichierCdn.GetNbreModules(NPeriode) = 0) Xor true;
+	  Visible := (FichierCdn.NbreModules(FPeriode) = 0) Xor true;
   end;
 end;//0
 
-procedure TGrilleMoyennesCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
+{procedure TGrilleMoyennesCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);
 begin
     inherited DrawCell(ACol, ARow, ARect, AState);
-	_DrawCell(self,ACol,ARow,ARect, AState);	
-end;
-procedure TGrilleMoyennesCarnetDeNotes._DrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+	EvOnDrawCell(self,ACol,ARow,ARect, AState);	
+end;}
+procedure TGrilleMoyennesCarnetDeNotes.EvOnDrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
 var
    R:TRect;
    Valeur:Real;
 begin//0
   //004D03C8
-  {lvar_4C := 0;
-  lvar_4C := 0;
-  lvar_40 := 0;
-  lvar_40 := 0;
-  lvar_28 := AState;
-  lvar_8 := ARow;}
     //004D0402
-    //_DrawCell(Self, ACol, ARow ,ARect , AState);
+    EvOnDrawCell(Self, ACol, ARow ,ARect , AState);
     Canvas.Font.Style := [];//gvar_004D0720;
     Canvas.Font.Color := 0;
-    if (GetcolorationNote) then
+    if (GetColorationNote) then
     begin//2
       //004D0450
       if (ARow > 0) then
@@ -547,46 +527,33 @@ begin//0
               //004D048E
               Valeur:= StrToFloat(Cells[ACol, ARow]);
               //004D04AF
-              if ( Valeur < 0) Or ( Valeur > GetmoyennesSur) then //004D04CF
-                Canvas.Font.Color := _Getcouleur4Note
+              if ( Valeur < 0) Or ( Valeur > GetMoyennesSur) then //004D04CF
+                Canvas.Font.Color := GetColor4Note
               else//004D04EC
-                if (Valeur >= 0) and(Valeur < GetmoyennesSur/2  ) then//004D04FA //004D0515
-                    Canvas.Font.Color := _Getcouleur1Note
+                if (Valeur >= 0) and(Valeur < GetMoyennesSur/2  ) then//004D04FA //004D0515
+                    Canvas.Font.Color := GetColor1Note
                 else//004D052F       
-                  if (Valeur >= 3/4 * GetmoyennesSur ) then //004D0554
-                    Canvas.Font.Color := _Getcouleur3Note
+                  if (Valeur >= 3/4 * GetMoyennesSur ) then //004D0554
+                    Canvas.Font.Color := GetColor3Note
                   else//004D056E
-                    Canvas.Font.Color := _Getcouleur2Note;
+                    Canvas.Font.Color := GetColor2Note;
 
             except//6
               on E:EConvertError do
               begin//7
                 //004D05AC
-                if (GetcolorationGrille) then
-                begin//8
-                  //004D05B5
-                  Canvas.Brush.Color := _Getcouleur5Note;
-                end//8
-                else
-                begin//8
-                  //004D05CF
+                if (GetColorationGrille) then//004D05B5
+                  Canvas.Brush.Color := GetColor5Note
+                else//004D05CF
                   Canvas.Brush.Color := $FFFFFF;
-                end;//8
               end;//7
               on E:EMathError do
               begin//7
                 //004D05E7
-                
-                if (GetcolorationGrille) then
-                begin//8
-                  //004D05F0
-                  Canvas.Brush.Color := _Getcouleur5Note;
-                end//8
-                else
-                begin//8
-                  //004D060A
+                if (GetColorationGrille) then//004D05F0
+                  Canvas.Brush.Color := GetColor5Note
+                else//004D060A
                   Canvas.Brush.Color := $FFFFFF;
-                end;//8
               end;//7
             end;//6
           end;//5
@@ -596,16 +563,13 @@ begin//0
     if (gdSelected in AState) then
     begin//2
       //004D062B
-      if (GetcolorationGrille) then
+      if (GetColorationGrille) then
       begin//3
         //004D0634
         Canvas.Brush.Color := GetcouleurSelection;
       end//3
-      else
-      begin//3
-        //004D064E
+      else//004D064E
         Canvas.Brush.Color := $C0C0C0;
-      end;//3
     end;//2
 	Canvas.FillRect(ARect);
     R.Left := ARect.Left;

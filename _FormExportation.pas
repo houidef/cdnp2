@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 3:28 lundi, août 27, 2018    *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormExportation;
@@ -61,7 +61,6 @@ begin//0
       for I := 1 to FileListBox1.Items.Count do//00515DD2
       begin//3
         //00515DDC
-		//showmessage(PChar(FileListBox1.Items[I - 1]));
 		Hdle := LoadLibraryA(PChar(FileListBox1.Items[I - 1]));
         if (Hdle <> 0) then 
         if (GetProcAddress(Hdle, 'renvoieIdentification') <> nil) then
@@ -72,17 +71,14 @@ begin//0
           begin//5
             //00515E5E
             renvoieNombreFormatsProposes := GetProcAddress(Hdle, 'renvoieNombreFormatsProposes');
-            
               for J := 1 to renvoieNombreFormatsProposes do//00515E7A
               begin//7
                 //00515E84
                 renvoiePetiteDescription := GetProcAddress(Hdle, 'renvoiePetiteDescription');
-				
 				myString := '                               ';
 				//setlength(myString,255);
 				Description := Addr(myString[1]);
 				renvoiePetiteDescription(J,pchar(myString));
-				//showmessage(format('Description =%s',[myString])); 
                 ListBoxPetiteDescription.Items.Add(myString);
                 ListBoxNomsFichiers.Items.Add(FileListBox1.Items[I - 1]);
                 ListBoxNumerosFormats.Items.Add(IntToStr(J));

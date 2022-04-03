@@ -1,6 +1,6 @@
 {**************************************************************
 * Version Original V0.03 build 1                              *
-* Decompiled by Houidef AEK v 10:18 samedi, septembre 08, 2018*
+* Decompiled by HOUIDEF AEK v 10:18 samedi, septembre 08, 2018*
 * The disassembly process : 100%                              *
 ***************************************************************}
 unit _FormSupprimerSerie;
@@ -47,37 +47,17 @@ implementation
 constructor TFormSupprimerSerie.Create(Owner:TComponent; F:TFichierCdn; Logo:Timage);
 var
  I:integer;
- buf:string;
 begin//0
-  //0050BA30
-
-    //0050BA5F
-
     inherited Create(Owner);
-
     f2F8 := F;
-
     Image1.Picture := Logo.Picture;
-
-
-
-    TabControl1.Tabs := f2F8.GetPeriodesList_;
-
-   
-
- 
-      for I := 1 to f2F8.GetNbreModules(1) do //0050BAB9
+    TabControl1.Tabs := f2F8.GetPeriodeNameList;
+      for I := 1 to f2F8.NbreModules(1) do //0050BAB9
       begin//3
         //0050BAC0
-
-        f2F8.GetModuleName__v( 1, Buf, I);
-
-        CheckListBox1.Items.Add(buf);
+        CheckListBox1.Items.Add(f2F8.GetTitleModule( 1, I));
       end;//3
-
-    
     sub_0050BDC4;
- 
 end;//0
 
 //0050BB50
@@ -119,13 +99,11 @@ var
  I:integer;
 begin//0
   //0050BCFC
-
     for I := 0 to CheckListBox1.Items.Count - 1 do//0050BD22
     begin//2
       //0050BD25
       CheckListBox1.Checked[I] := True;
     end;//2
-
   if (CheckListBox1.Items.Count > 0) then
   begin//1
     //0050BD4D
@@ -139,16 +117,11 @@ var
   I:integer;
 begin//0
   //0050BD60
-
-
     for I := 0 to CheckListBox1.Items.Count - 1 do//0050BD86
     begin//2
       //0050BD89
-
       CheckListBox1.Checked[I] := False;
     end;//2
-
-
   if (CheckListBox1.Items.Count > 0) then
   begin//1
     //0050BDB1
@@ -163,8 +136,9 @@ var
   buf:string;
 begin//0
   //0050BDC4
-    buf := f2F8.GetPeriodName(TabControl1.TabIndex + 1);
-	K:= f2F8.GetNbreModules(TabControl1.TabIndex + 1);
+    //0050BDFC
+    buf:= f2F8.GetPeriodeName(TabControl1.TabIndex + 1);
+	K:= f2F8.NbreModules(TabControl1.TabIndex + 1);
     case K of
       0:
       begin//3
@@ -190,24 +164,16 @@ var
   buf:string;
 begin//0
   //0050BFA8
-
     //0050BFC8
     CheckListBox1.Items.Clear;
     SpeedButton1.Enabled := False;
-    
-    
-      for I := 1 to f2F8.GetNbreModules(TabControl1.TabIndex + 1) do//0050C027
+      for I := 1 to f2F8.NbreModules(TabControl1.TabIndex + 1) do//0050C027
       begin//3
         //0050C02E
-        f2F8.GetModuleName__v( TabControl1.TabIndex + 1, buf, I);
-        CheckListBox1.Items.Add(buf);
+        CheckListBox1.Items.Add(f2F8.GetTitleModule( TabControl1.TabIndex + 1, I));
       end;//3
-    
-    
     sub_0050BDC4;
-
     //0050C0AD
-    
 end;//0
 
 //0050C0C4
@@ -217,7 +183,6 @@ var
 begin//0
   //0050C0C4
   //push EBP
-  
   if (Application.MessageBox('Supprimer les séries de notes sélectionnées ?','Carnet de Notes version Personnelle' , $24{36}) = 6) then
   begin//1
     //0050C0F1  
@@ -240,14 +205,13 @@ begin//0
             for L := 1 to TabControl1.TabIndex do//0050C1A9
             begin//6
               //0050C1AE
-              S := S + f2F8.GetNbreModules(L) ;
+              S := S + f2F8.NbreModules(L) ;
             end;//6
-			f2F8._InsertColone(TabControl1.TabIndex + 1, S + J);
+			f2F8.DeleteColoneData(TabControl1.TabIndex + 1, S + J);
 			CheckListBox1.Items.Delete(J - 1);
 			Break;
 		  end;
         end;//4
-     
     end;//2
    end;
   TabControl1Change(Sender);
@@ -265,12 +229,9 @@ begin//0
     for I := 0 to CheckListBox1.Items.Count - 1 do//0050C2ED
     begin//2
       //0050C2F0
-
       if (CheckListBox1.Checked[I] ) then 
 		b := true;
     end;//2
-
-
   SpeedButton1.Enabled := b;
 end;//0
 

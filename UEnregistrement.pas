@@ -1,63 +1,60 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 3:28 lundi, août 27, 2018    *
-* The disassembly process : 100%                            *
+* Decompiled by HOUIDEF AEK v 19/12/2021                   *
+* The disassembly process : 100%                           *
 ************************************************************}
 unit UEnregistrement;
 
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes,Registry, URegistry,unit51;
+Forms, Windows,  SysUtils, Classes,Registry, URegistry,UGenCle;
 
-    function _GetUtilisateurs:TStringlist;//004982F8
-    procedure SetUsersList(Value:TStrings);//00498460
+    function GetUtilisateurs:TStringlist;//004982F8
+    procedure SetUtilisateurs(Value:TStrings);//00498460
     function GetUsersList:TStringlist;//0049856C
     procedure GetNomUtilisateurEnregistrement(NumUser:dword; var NomUser:String);//004986C0
     procedure GetCleEnregistrement(NumUser:dword; var CleUser:String);//0049878C
-    procedure SetUserReg(User:dword; Value:String);//0049884C
-    procedure SetCleReg(User:dword; Value:String);//00498978
-    function _IsRegistred:boolean;//00498A40
+    procedure SetUserReg(a:dword; b:String);//0049884C
+    procedure SetCleReg(a:dword; b:String);//00498978
+    function IsRegistred:boolean;//00498A40
     function NbrUtilisateursEnregistres:dword;//00498B20
-    procedure DeleteUser(User:dword);//00498BFC
+    procedure DeleteUser(Value:dword);//00498BFC
 
 implementation
 
 //004982F8
-function _GetUtilisateurs:TStringlist;
+function GetUtilisateurs:TStringlist;
 var
-  StringList:TStringList;
+  TUsers:TStringList;
   Registry : TRegistry;
 begin//0
   //004982F8
-    StringList := TStringList.Create;
-    StringList.Sorted := True;
+    TUsers := TStringList.Create;
+    TUsers.Sorted := True;
     Registry := TRegistry.Create;
     Registry.RootKey:= HKEY_CURRENT_USER;
     if (Registry.KeyExists('Software\Carnet de Notes 2.x\Utilisateurs')) then
     begin//2
       //0049834E
       Registry.OpenKey('Software\Carnet de Notes 2.x\Utilisateurs', True);
-      Registry.GetValueNames(StringList);
+      Registry.GetValueNames(TUsers);
     end//2
     else
     begin//2
       //00498367
       Registry.RootKey := $80000002;
       Registry.OpenKey('SOFTWARE\Microsoft\Windows\CurrentVersion', False);
-      if (Registry.ValueExists('RegisteredOwner')) then
-      begin//3
-        //00498391
-        StringList.Add(Registry.ReadString('RegisteredOwner'));
-      end;//3
+      if (Registry.ValueExists('RegisteredOwner')) then        //00498391
+        TUsers.Add(Registry.ReadString('RegisteredOwner'));
     end;//2
     Registry.CloseKey;
     Registry.Free;
-  result := StringList;
+    result := TUsers;
 end;//0
 
 //00498460
-procedure SetUsersList(Value:TStrings);
+procedure SetUtilisateurs(Value:TStrings);
 var
     Registry:TRegistry;
 	I:integer;
@@ -75,7 +72,6 @@ begin//0
         Registry.WriteString(Value[I], '');
     Registry.CloseKey;
     Registry.Free;
-    //0049851E
 end;//0
 
 
@@ -131,30 +127,28 @@ end;//0
 
 
 //0049884C
-procedure SetUserReg(User:dword; Value:String);
+procedure SetUserReg(a:dword; b:String);
 begin//0
   //0049884C
-    if (User = 1) then//00498876
-      SetValueRegString('nomUtilisateurEnregistrement', Value, '\Enregistrement')
+    if (a = 1) then//00498876
+      SetValueRegString('nomUtilisateurEnregistrement', b, '\Enregistrement')
     else//0049888C
-      SetValueRegString('nomUtilisateurEnregistrement' + IntToStr(User), Value, '\Enregistrement');
+      SetValueRegString('nomUtilisateurEnregistrement' + IntToStr(a), b, '\Enregistrement');
     SetValueRegString('nombreUtilisateursEnregistres', IntToStr(NbrUtilisateursEnregistres + 1), '\Enregistrement');
-    //004988F4
 end;//0
 
 //00498978
-procedure SetCleReg(User:dword; Value:String);
+procedure SetCleReg(a:dword; b:String);
 begin//0
   //00498978
-    if (User = 1) then//004989A2
-      SetValueRegString('cleEnregistrement', Value, '\Enregistrement')
+    if (a = 1) then//004989A2
+      SetValueRegString('cleEnregistrement', b, '\Enregistrement')
 	else
-      SetValueRegString('cleEnregistrement' + IntToStr(User), Value, '\Enregistrement');
-    //004989F1
+      SetValueRegString('cleEnregistrement' + IntToStr(a), b, '\Enregistrement');
 end;//0
 
 //00498A40
-function _IsRegistred:boolean;
+function IsRegistred:boolean;
 var
  NumUser:integer; 
  CleUser,NomUser : string;
@@ -194,7 +188,7 @@ end;//0
 
 
 //00498BFC
-procedure DeleteUser(User:dword);
+procedure DeleteUser(Value:dword);
 var
   TUser,TCle : TStringList;
   text:string;
@@ -207,7 +201,7 @@ begin//0
       for I := 1 to NbrUtilisateursEnregistres do//00498C43
       begin//3
         //00498C48
-        if (User = I) then Continue;
+        if (Value = I) then Continue;
         GetNomUtilisateurEnregistrement(I, text);
         TUser.Add(text);
         GetCleEnregistrement(I, text);
@@ -225,7 +219,6 @@ begin//0
       end;//3
     TUser.Destroy;
     TCle.Destroy;
-    //00498D21
 end;//0
 
 end.

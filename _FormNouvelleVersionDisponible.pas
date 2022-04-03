@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 12:08 mercredi, août 29, 2018*
+* Decompiled by HOUIDEF AEK v 12:08 mercredi, août 29, 2018*
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormNouvelleVersionDisponible;
@@ -29,7 +29,7 @@ type
   var 
     FormNouvelleVersionDisponible:TFormNouvelleVersionDisponible;
 implementation
-    uses Unit111;
+    uses UBiblio;
 {$R *.DFM}
 
 //0060ACEC
@@ -49,7 +49,7 @@ procedure TFormNouvelleVersionDisponible.FormShow(Sender:TObject);
 begin//0
   //0060AD88
   
-  CheckBox1.Checked := sub_004BB6C8 Xor true;
+  CheckBox1.Checked := GetRappelMiseAJourDisponible Xor true;
   Caption := 'Carnet de Notes version Personnelle 2.9a';
   siteWeb.Caption := 'http://www.carnetdenotes.com';
 end;//0
@@ -66,7 +66,7 @@ end;//0
 procedure TFormNouvelleVersionDisponible.CheckBox1Click(Sender:TObject);
 begin//0
   //0060AE64
-  sub_004BB694(CheckBox1.Checked Xor true);
+  SetRappelMiseAJourDisponible(CheckBox1.Checked Xor true);
 end;//0
 
 

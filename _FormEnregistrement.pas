@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 3:28 lundi, août 27, 2018    *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
 * The disassembly process : 100%                            *
 ************************************************************}
 unit _FormEnregistrement;
@@ -8,7 +8,7 @@ unit _FormEnregistrement;
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, StdCtrls, Buttons, ExtCtrls,UEnregistrement,Unit51;
+Forms, Windows,  SysUtils, Classes, StdCtrls, Buttons, ExtCtrls,UEnregistrement,UGenCle;
 
 type
   TFormEnregistrement = class(TForm)
@@ -36,7 +36,7 @@ type
   var
     FormEnregistrement:TFormEnregistrement;
 implementation
-
+     uses constantes,UnitePrincipale;
 {$R *.DFM}
 
 //00553718
@@ -80,17 +80,17 @@ begin//0
         SetUserReg(I, Edit2.Text);
         SetCleReg(I, Edit3.Text);
         StringList{ESI} := TStringList.Create;
-        StringList.AddStrings(_GetUtilisateurs);
+        StringList.AddStrings(GetUtilisateurs);
         if (StringList.IndexOf(Edit2.Text) + 1 = 0) then//0055399F
           StringList.Add(Edit2.Text);
-        SetUsersList(StringList);
+        SetUtilisateurs(StringList);
         StringList.Destroy;
         Application.MessageBox('Merci de votre soutien !!!'+#13+#10+#13+#10+
 							   'Vous êtes maintenant un utilisateur enregistré et vous bénéficiez des mises à jour et des nouvelles versions gratuitement.'
 								+#13+#10+#13+#10+'N''oubliez pas que votre clé d''enregistrement est personnelle et ne peut être cédée.', 
 								'Carnet de Notes version Personnelle', $40{64});
-        //gvar_00617903 := 255;
-        //{gvar_006184E0}FormCarnetDeNotes2.Caption := 'Carnet de Notes version Personnelle 2.9a';
+        gvar_00617903 := 255;
+        {gvar_006184E0}FormCarnetDeNotes2.Caption := 'Carnet de Notes version Personnelle 2.9a';
         ListBoxUtilisateurs.Clear;
         for NumUser := 1 to NbrUtilisateursEnregistres do //00553A1A
         begin//00553A1F
@@ -115,7 +115,7 @@ end;//0
 procedure TFormEnregistrement.FormKeyPress(Sender:TObject; var Key:Char);
 begin//0
   //00553C78
-  if (Key = char($1B)) then 
+  if (Key = #27) then 
      ModalResult := 2;
 end;//0
 
@@ -142,8 +142,8 @@ begin//0
         end;//4
         if (ListBoxUtilisateurs.Items.Count = 0) then
         begin//00553D61
-          //gvar_00617903 := 3;
-          //gvar_006184E0.Text := 'Carnet de Notes version Personnelle - Version non enregistrée';
+          gvar_00617903 := 3;
+          {gvar_006184E0} FormCarnetDeNotes2.Caption := 'Carnet de Notes version Personnelle - Version non enregistrée';
         end;//3
 	 end;
     end;//2

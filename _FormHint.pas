@@ -1,7 +1,7 @@
 {************************************************************
 * File             : _FormHint                              *  
 * Version          : V0.03 build 1                          *
-* Decompiled by    : Houidef AEK                            * 
+* Decompiled by    : HOUIDEF AEK                            * 
 * Update           : 20:48 jeudi, septembre 13, 2018        *
 * The disassembly process : 100%                            *
 ************************************************************}
@@ -29,7 +29,7 @@ type
     procedure FormClick(Sender:TObject);//004CABE0
     procedure FormShow(Sender:TObject);//004CABE8
   public
-    f2F0:dword;//f2F0
+    IdHint:dword;//f2F0
   end;
 var 
    FormHint:TFormHint; //gvar_00617CE8
@@ -55,7 +55,7 @@ begin//0
   Top := lvar_10.y;
   Width := 10;
   Height := 10;
-  case f2F0 of
+  case IdHint of
     3:
     begin//004CAC67
       if (Label1.Width + Label1.Left > Width) then //004CAC81

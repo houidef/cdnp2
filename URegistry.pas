@@ -1,7 +1,8 @@
-{***************************************
-* Version Original V0.01
-* Decompiled by Houidef AEK v.16:39 mardi 20 février 2018
-***************************************}
+{***********************************************************
+* Version Original V0.03 build 1                           *
+* Decompiled by HOUIDEF AEK v 12:20 mercredi, août 29, 2018*
+* The disassembly process : 100%                            *
+************************************************************}
 unit URegistry;
 
 interface
@@ -11,15 +12,15 @@ Forms, Windows,  SysUtils, Classes , Registry;
 
     function GetValueRegColor(a:AnsiString; b:dword):dword;//004970D8
     function GetValueRegBool(x:AnsiString; y:boolean):boolean;//004971A0
-    function GetValueRegInt(x:AnsiString; y:dword):byte;//00497268
-    procedure GetValueRegString(Value:String; DefaultValue:String; Key:String; var ReadValue:string);//0049733C
-    procedure SetValueReg1(a:string; b:integer);//00497438
+    function GetValueRegInt(x:String; y:dword;Z:boolean):byte;//00497268
+    procedure GetValueRegString(x:String; y:String; z:String;var t:string);//0049733C
+    procedure SetValueRegColor_(a:string; b:integer);//00497438
     procedure SetValueRegBool(a:string; b:Boolean);//004974F0
-    function SetValueRegInt(a:AnsiString; b:dword):dword;//004975A8
-    procedure SetValueRegString(Value:AnsiString; WriteValue:AnsiString; Key:AnsiString);//00497660
-    procedure SetValueRegChemin(a:ShortString);//00497740
-    procedure GetValueRegChemin(var a:String);//0049782C
-    function GetLogDrives:TStringList;//00497908
+    function SetValueRegInt(a:AnsiString; b:dword;c:boolean):dword;//004975A8
+    procedure SetValueRegString(a:AnsiString; b:AnsiString; c:AnsiString);//00497660
+    procedure SetChemin(a:String);//00497740
+    function GetChemin:String;//0049782C
+    function GetDrives_:TStringList;//00497908
 
 implementation
 
@@ -61,7 +62,7 @@ end;//0
 
 
 //00497268
-function GetValueRegInt(x:AnsiString; y:dword):byte;
+function GetValueRegInt(x:String; y:dword;Z:boolean):byte;
 var
 	Registry :TRegistry;
 begin//0
@@ -79,26 +80,29 @@ end;
 
 
 //0049733C
-procedure GetValueRegString(Value:String; DefaultValue:String; Key:String; var ReadValue:string);
+procedure GetValueRegString(x:String; y:String; z:String; var t:string);
 var
  Registry :TRegistry;
 begin//0
   //0049733C
     Registry := TRegistry.Create;
     Registry.RootKey := HKEY_CURRENT_USER;
-    Registry.OpenKey('Software\Carnet de Notes 2.x' + Key, True);
-    if (Registry.ValueExists(Value) ) then //004973BF
-      ReadValue := Registry.ReadString(Value)
-    else //004973CD
-      ReadValue := DefaultValue;
-
+    Registry.OpenKey('Software\Carnet de Notes 2.x' + z, True);
+    if (Registry.ValueExists(x) ) then
+    begin//004973BF
+      t := Registry.ReadString(x);
+    end//2
+    else
+    begin//004973CD
+      t := y;
+    end;//2
     Registry.CloseKey;
     Registry.Free;
 end;//0
 
 
 //00497438
-procedure SetValueReg1(a:string; b:integer);
+procedure SetValueRegColor_(a:string; b:integer);
 var
   Registry : TRegistry;
 begin//0
@@ -128,7 +132,7 @@ end;//0
 
 
 //004975A8
-function SetValueRegInt(a:AnsiString; b:dword):dword;
+function SetValueRegInt(a:String; b:dword;c:boolean):dword;
 var
   Registry:TRegistry;
 begin//0
@@ -142,20 +146,20 @@ end;//0
 
 
 //00497660
-procedure SetValueRegString(Value:AnsiString; WriteValue:AnsiString; Key:AnsiString);
+procedure SetValueRegString(a:AnsiString; b:AnsiString; c:AnsiString);
 var
   Registry:TRegistry;
 begin//0
     Registry := TRegistry.Create;
-    Registry.RootKey := HKEY_CURRENT_USER;
-    Registry.OpenKey('Software\Carnet de Notes 2.x' + Key, True);
-    Registry.WriteString(Value, WriteValue);
+    Registry.RootKey :=HKEY_CURRENT_USER;
+    Registry.OpenKey('Software\Carnet de Notes 2.x' + c, True);
+    Registry.WriteString(a, b);
     Registry.CloseKey;
     Registry.Free;
 end;//0
 
 //00497740
-procedure SetValueRegChemin(a:ShortString);
+procedure SetChemin(a:String);
 var
   Registry:TRegistry;
 begin//0
@@ -169,49 +173,59 @@ end;//0
 
 
 //0049782C
-procedure GetValueRegChemin(var a:String);
+function GetChemin:String;
 var
   Registry:TRegistry;
 begin//0
   //0049782C
+  //push ESI
+  //ESI := a;
     Registry := TRegistry.Create;
     Registry.RootKey := HKEY_CURRENT_USER;
     Registry.OpenKey('Software\Carnet de Notes 2.x', True);
-    if (Registry.ValueExists('Chemin')) then//0049787B
-      a := Registry.ReadString('Chemin')
-    else//0049789B
-      a := ''; 
+    if (Registry.ValueExists('Chemin')) then
+    begin//0049787B
+      result := Registry.ReadString('Chemin');
+    end//2
+    else
+    begin//0049789B
+      result := ''; 
+    end;//2
     Registry.CloseKey;
     Registry.Free;
 end;//0
 
 
 //00497908
-function GetLogDrives:TStringList;
+function GetDrives_:TStringList;
 var
- StringList : TStringList;
+ StrList : TStringList;
  lvar_C : string;
  I:integer;
- Drives : dword;
+ Drives : set of 0..25;
 begin//0
   //00497908
     //00497922
-    StringList := TStringList.Create;
+    StrList := TStringList.Create;
 	integer(Drives) := GetLogicalDrives;
     if (integer(Drives) <> 0) then
     begin//0049793A
 		for I := 0 to 25 do
 		begin//00497944
-		  if ( (Drives and (1 shl i))<>0) then
+		  if (I <= 31) then
 		  begin//0049794B
+			if (I in Drives) then Continue;
 			lvar_C := char(I + 97) + ':\';
-			
+			if (GetDriveTypeA(PChar(lvar_C)) = 0) then
+			begin//00497986 
+				   //error!		
+			end;//4
 			if (GetDriveTypeA(PChar(lvar_C)) <> 2) then Continue;
-			StringList.add(UpperCase(char(I + 97)));
+			StrList.add(UpperCase(char(I + 97)));
 		  end;//3
 		end;//2
 	end;//2
-    result := StringList;
+    result := StrList;
 end;//0
 
 end.

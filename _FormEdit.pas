@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 3:28 lundi, août 27, 2018    *
+* Decompiled by HOUIDEF AEK v 3:28 lundi, août 27, 2018    *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormEdit;
@@ -23,8 +23,8 @@ type
     procedure SpeedButton2Click(Sender:TObject);//004CA934
   public
     f2DC:byte;//f2DC
-    f2E0:String;//f2E0
-    f2E4:byte;//f2E4
+    FEditText:String;//f2E0
+    FEditModificate:Boolean;//f2E4
     constructor Create(Owner:TComponent; T:string; S:String; a:dword);//004CA62C
   end;
   var
@@ -40,8 +40,8 @@ begin//0
     //004CA662
     inherited Create(Owner);
     f2DC := a;
-    f2E0 := S;
-    f2E4 := 1;
+    FEditText := S;
+    FEditModificate := true;
     Caption := T;
     Edit1.Text := S;
     Edit1.SelectAll;
@@ -92,9 +92,9 @@ begin//0
         end;//4
       end;//3
       
-      if (f2E4 <> 0) then 
+      if (FEditModificate) then 
       if (CanClose) then
-      if (Edit1.Text = f2E0) then //004CA865
+      if (Edit1.Text = FEditText) then //004CA865
         ModalResult := 2
       else
 		CanClose := True;

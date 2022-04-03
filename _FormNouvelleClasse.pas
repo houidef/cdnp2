@@ -1,14 +1,13 @@
-{***********************************************************
-* Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v2021-05-16 @ 05:37 PM         *
-* The disassembly process : 100%                           *
-************************************************************}
+{***************************************
+* Version Original V0.01
+* Decompiled by HOUIDEF AEK v.11.02.2018
+***************************************}
 unit _FormNouvelleClasse;
 
 interface
 
 uses
-Forms, Windows,  SysUtils, Classes, ExtCtrls, StdCtrls, Buttons,UFichierCdn,_FormOptions;
+Forms, Windows,  SysUtils, Classes, ExtCtrls, StdCtrls, Buttons,UFichierCdn,_FormOptions,dialogs;
 
 type
   TFormNouvelleClasse = class(TForm)
@@ -48,46 +47,50 @@ type
     procedure SpeedButton2Click(Sender:TObject);//00532744
     procedure SpeedButton1Click(Sender:TObject);//005326C4
   public
-    FCdn : TFichierCdn ;//f338
-    f33C : Boolean;//f33C
-    constructor Create(AOwner: TComponent;Logo:TImage;S:String; FCdn : TFichierCdn);//00531FC0
+    f338:TFichierCdn;//f338
+    f33C:boolean;//f33C
+    constructor Create(AOwner:TComponent; d:TFichierCdn; S:string; Logo:TImage; u:boolean);//00531FC0
   end;
   var
    FormNouvelleClasse:TFormNouvelleClasse;
 implementation
-   uses Unit111,UEnregistrement;
+     uses UBiblio,UEnregistrement;
 {$R *.DFM}
 
 //00531FC0
-constructor TFormNouvelleClasse.Create(AOwner: TComponent;Logo:TImage;S:String; FCdn : TFichierCdn);
-begin
- inherited Create(AOwner);
- Image1.Picture := Logo.Picture;
- Self.FCdn := FCdn;
- Caption := S;
-end;
+ 
+constructor TFormNouvelleClasse.Create(AOwner:TComponent; d:TFichierCdn; S:string; Logo:TImage; u:boolean);
+begin//0
+  //00531FC0
+    //00531FEE
+    inherited Create(AOwner);
+    Image1.Picture := Logo.Picture;
+    f338 := d;
+    Caption := S;
+    f33C := u;
+    //00532036
+ end;
 
 //00532064
 procedure TFormNouvelleClasse.FormShow(Sender:TObject);
 var
-  Buf :string;
+  buf :string;
 begin//0
   //00532064
-  try
     //005320BA
-    ComboBoxUtilisateurs.Enabled := FCdn.IsPersonnelleVersion();
-    SpeedButton2.Enabled := FCdn.IsPersonnelleVersion();
-    EditClasse.Enabled := FCdn.IsPersonnelleVersion();
-    EditEtablissement.Enabled := FCdn.IsPersonnelleVersion();
-    ComboBoxMatiere.Enabled := FCdn.IsPersonnelleVersion();
-    SpeedButton5.Enabled := FCdn.IsPersonnelleVersion();
-    EditAnneeScolaire.Enabled := FCdn.IsPersonnelleVersion();
-    EditClasse.Text := FCdn.GetClasseName();
-    EditEtablissement.Text := FCdn.GetEtablissment();
-    EditAnneeScolaire.Text := FCdn.GetYear();
-    EditRemarque.Text := FCdn.GetRemarque();
-    ComboBoxMatiere.Items := GetMatieres();
-    ComboBoxMatiere.Text := FCdn.GetMatiereName();
+    ComboBoxUtilisateurs.Enabled := f338.IsVersionPersonnelle;
+    SpeedButton2.Enabled :=f338.IsVersionPersonnelle;
+    EditClasse.Enabled :=f338.IsVersionPersonnelle;
+    EditEtablissement.Enabled :=f338.IsVersionPersonnelle;
+    ComboBoxMatiere.Enabled :=f338.IsVersionPersonnelle;
+    SpeedButton5.Enabled :=f338.IsVersionPersonnelle;
+    EditAnneeScolaire.Enabled :=f338.IsVersionPersonnelle;
+    EditClasse.Text := f338.GetClasseName;
+    EditEtablissement.Text :=f338.GetEtablissment;
+    EditAnneeScolaire.Text := f338.GetYear;
+    EditRemarque.Text := f338.GetRemarque;
+    ComboBoxMatiere.Items := GetMatieres;
+    ComboBoxMatiere.Text := f338.GetMatiereName;
     if (f33C) then
     begin//2
       //00532252
@@ -97,31 +100,28 @@ begin//0
     else
     begin//2
       //0053227B
-      ComboBoxOrganisationAnnee.Items.Add(FCdn.GetTypePeriode);
-      ComboBoxOrganisationAnnee.Enabled := False;
-      FCdn.GetTypeBulletins_(buf);
-      ComboBoxBulletins.Items.Add(buf);
-      ComboBoxBulletins.Enabled := False;
-      SpeedButton1.Enabled := False;
+      ComboBoxOrganisationAnnee.Items.Add(f338.GetTypePeriode);
+      ComboBoxOrganisationAnnee.Enabled :=False;
+      ComboBoxBulletins.Items.Add(f338.GetBulletinsTitle);
+      ComboBoxBulletins.Enabled :=False;
+      SpeedButton1.Enabled :=False;
     end;//2
     ComboBoxOrganisationAnnee.ItemIndex := 0;
     ComboBoxBulletins.ItemIndex := 0;
-    ComboBoxUtilisateurs.Items := _GetUtilisateurs;
+    ComboBoxUtilisateurs.Items := GetUtilisateurs;
     if (f33C = false) then
     begin//2
       //0053234D
-      if (ComboBoxUtilisateurs.Items.IndexOf(FCdn.GetEnseignant) = 0) then
+      if (ComboBoxUtilisateurs.Items.IndexOf(f338.GetEnseignant) + 1 = 0) then
       begin//3
         //0053238B
-        ComboBoxUtilisateurs.Items.Add(FCdn.GetEnseignant);
+        ComboBoxUtilisateurs.Items.Add(f338.GetEnseignant);
       end;//3
-      ComboBoxUtilisateurs.ItemIndex := ComboBoxUtilisateurs.Items.IndexOf(FCdn.GetEnseignant);
-      Exit;
-    end;//2
+      ComboBoxUtilisateurs.ItemIndex := ComboBoxUtilisateurs.Items.IndexOf(f338.GetEnseignant);
+    end//2
+	else 
     ComboBoxUtilisateurs.ItemIndex := 0;
-  finally//1
     //0053240E
-  end;//1
 end;//0
 
 
@@ -129,48 +129,44 @@ end;//0
 procedure TFormNouvelleClasse.FormHide(Sender:TObject);
 begin//0
   //00532434
-  try
     //00532482
-    if (ModalResult <> 1) then Exit;
-    if (f33C = false) then Exit;
-    FCdn.SetEnseignant(ComboBoxUtilisateurs.Items[ComboBoxUtilisateurs.ItemIndex]);
-    FCdn.setClasseName(EditClasse.Text);
-    FCdn.setEtablissment(EditEtablissement.Text);
-    FCdn.setRemarque(EditRemarque.Text);
-    FCdn.SetYear(EditAnneeScolaire.Text);
-    FCdn.setMatiere(ComboBoxMatiere.Text);
-    FCdn.SetAutreInfo(ComboBoxBulletins.Items[ComboBoxBulletins.ItemIndex], ComboBoxOrganisationAnnee.Items[ComboBoxOrganisationAnnee.ItemIndex]);
-  finally//1
-    //00532683
-  end;//1
+    if (ModalResult = 1) then 
+    if (f33C) then 
+	begin
+		f338.SetEnseignant(ComboBoxUtilisateurs.Items[ComboBoxUtilisateurs.ItemIndex]);
+		f338.SetClasseName(EditClasse.Text);
+		f338.SetEtablissment(EditEtablissement.Text);
+		f338.SetRemarque(EditRemarque.Text);
+		f338.SetYear(EditAnneeScolaire.Text);
+		f338.SetMatiere(ComboBoxMatiere.Text);
+		f338.SetBulletinsPeriode(ComboBoxOrganisationAnnee.Items[ComboBoxOrganisationAnnee.ItemIndex], ComboBoxBulletins.Items[ComboBoxBulletins.ItemIndex]);
+    end;
+	//00532683
 end;//0
-
 
 //005326C4
 procedure TFormNouvelleClasse.SpeedButton1Click(Sender:TObject);
 begin//0
   //005326C4
-  FormOptions := TFormOptions.Create(Self,Image1);
+  {gvar_00617D64}FormOptions := TFormOptions.Create(Self, Image1);
   FormOptions.PageControl1.ActivePage := FormOptions.TabSheet9;
   FormOptions.ShowModal;
-  FormOptions.Destroy();
+  FormOptions.Destroy;
   ComboBoxOrganisationAnnee.Items := GetPeriodes;
   ComboBoxOrganisationAnnee.ItemIndex := 0;
 end;//0
-
 
 //00532744
 procedure TFormNouvelleClasse.SpeedButton2Click(Sender:TObject);
 begin//0
   //00532744
-  FormOptions := TFormOptions.Create(Self,Image1);
+  {gvar_00617D64}FormOptions := TFormOptions.Create(Self, Image1);
   FormOptions.PageControl1.ActivePage := FormOptions.TabSheet8;
   FormOptions.ShowModal;
-  FormOptions.Destroy();
-  ComboBoxUtilisateurs.Items := _GetUtilisateurs;
+  FormOptions.Destroy;
+  ComboBoxUtilisateurs.Items := GetUtilisateurs;
   ComboBoxUtilisateurs.ItemIndex := 0;
 end;//0
-
 
 //005327C4
 procedure TFormNouvelleClasse.SpeedButton4Click(Sender:TObject);
@@ -186,25 +182,25 @@ end;
 
 //005327DC
 procedure TFormNouvelleClasse.FormKeyPress(Sender:TObject; var Key:Char);
-begin
+begin//0
   //005327DC
   if (Key = #13) then//005327E1
     ModalResult := 1
-  else
+  else 
   if (Key = #27) then 
-       ModalResult := 2;
-end;
+    ModalResult := 2;
+end;//0
+
 
 //005327FC
 procedure TFormNouvelleClasse.SpeedButton5Click(Sender:TObject);
 begin//0
   //005327FC
-  FormOptions := TFormOptions.Create(Self,Image1);
+  {gvar_00617D64}FormOptions := TFormOptions.Create(Self, Image1);
   FormOptions.PageControl1.ActivePage := FormOptions.TabSheet17;
   FormOptions.ShowModal;
-  FormOptions.Destroy();
+  FormOptions.Destroy;
   ComboBoxMatiere.Items := GetMatieres;
 end;//0
-
 
 end.

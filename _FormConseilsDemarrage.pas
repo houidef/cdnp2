@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 13:58 samedi, août 25, 2018  *
+* Decompiled by HOUIDEF AEK v 13:58 samedi, août 25, 2018  *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormConseilsDemarrage;
@@ -36,7 +36,7 @@ type
   var 
     FormConseilsDemarrage:TFormConseilsDemarrage;
 implementation
-		uses _Unit146;
+		uses UConseil;
 {$R *.DFM}
 
 //00547730
@@ -60,10 +60,10 @@ var
   lvar_10:AnsiString;
 begin//0
     //00547826
-    CheckBox1.Checked := sub_00501C44;
+    CheckBox1.Checked := GetAfficherConseils;
     getConseil(lvar_4); 
     Label2.Caption := lvar_4;
-    numeroConseilEnCours(lvar_C);
+    GetNumeroConseilEnCours(lvar_C);
     nombreConseils(lvar_10);
     Label3.Caption:= lvar_C + '/' + lvar_10;
 end;
@@ -73,8 +73,8 @@ procedure TFormConseilsDemarrage.FormHide(Sender:TObject);
 var
   lvar_4:AnsiString;
 begin//0
-    afficherConseils(CheckBox1.Checked);
-    sub_00501CB4(lvar_4);
+    SetafficherConseils(CheckBox1.Checked);
+    IncNumeroConseilEnCours(lvar_4);
 end;
 
 //00547910
@@ -92,9 +92,9 @@ var
   lvar_10:AnsiString;
 begin
     //00547932
-    sub_00501D14(lvar_4);
+    DecNumeroConseilEnCours(lvar_4);
     Label2.Caption := lvar_4;
-    numeroConseilEnCours(lvar_C);
+    GetNumeroConseilEnCours(lvar_C);
     nombreConseils(lvar_10);
     Label3.Caption := lvar_C + '/' + lvar_10;
 end;
@@ -108,9 +108,9 @@ var
   lvar_10:AnsiString;
 begin
     //005479CE
-    sub_00501CB4(lvar_4);
+    IncNumeroConseilEnCours(lvar_4);
     Label2.Caption := lvar_4;
-    numeroConseilEnCours(lvar_C);
+    GetNumeroConseilEnCours(lvar_C);
     nombreConseils(lvar_10);
     Label3.Caption:=lvar_C + '/' + lvar_10;
 

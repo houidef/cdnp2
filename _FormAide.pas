@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 14:57 jeudi, août 23, 2018   *
+* Decompiled by HOUIDEF AEK v 14:57 jeudi, août 23, 2018   *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormAide;
@@ -17,7 +17,7 @@ type
     Bevel1:TBevel;//f2D4
     LabelAide:TLabel;//f2D8
     procedure SpeedButtonFermerClick(Sender:TObject);//00536EE4
-    constructor Create(AOwner: TComponent; b:string; c:string; d:dword);//00536DD4
+    constructor Create(AOwner: TComponent; AideTitle:string; AideCaption:string; AideHeight:dword);//00536DD4
   end;
 var
   FormAide:TFormAide;
@@ -26,22 +26,16 @@ implementation
 {$R *.DFM}
 
 //00536DD4
-constructor TFormAide.Create(AOwner: TComponent; b:string; c:string; d:dword);
+constructor TFormAide.Create(AOwner: TComponent; AideTitle:string; AideCaption:string; AideHeight:dword);
 begin//0
-  //00536DD4
-    //00536E16
     inherited Create(AOwner);
-    Caption := ' ' + b;
-    LabelAide.Caption := c;
-    LabelAide.Height := d;
-    Height := d + $53;
-
-    SpeedButtonFermer.Top := SpeedButtonFermer.Height + d;
+    Caption := ' ' + AideTitle;
+    LabelAide.Caption := AideCaption;
+    LabelAide.Height := AideHeight;
+    Height := AideHeight + 83;
+    SpeedButtonFermer.Top := SpeedButtonFermer.Height + AideHeight;
     Color := $E2FFFF;
-
     //00536E99
-    //lvar_8 := '';
-
 end;//0
 
 //00536EE4

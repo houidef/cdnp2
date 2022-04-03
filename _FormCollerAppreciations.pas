@@ -1,6 +1,6 @@
 {***********************************************************
 * Version Original V0.03 build 1                           *
-* Decompiled by Houidef AEK v 14:57 jeudi, août 23, 2018   *
+* Decompiled by HOUIDEF AEK v 14:57 jeudi, août 23, 2018   *
 * The disassembly process : 100%                           *
 ************************************************************}
 unit _FormCollerAppreciations;
@@ -50,7 +50,7 @@ begin//0
 
   f2FC := F;
   Image1.Picture := logo.Picture;
-  CheckListBox1.Items := f2FC.GetPeriodesList_;
+  CheckListBox1.Items := f2FC.GetPeriodeNameList;
 
 end;//0
 
@@ -155,14 +155,13 @@ begin//0
         //00534043
         if (CheckListBox1.Checked[I - 1]) then 
 
-          for J := 1 to f2FC.EleveCount do //00534074
+          for J := 1 to f2FC.NbreEleves do //00534074
           begin//5
             //0053407B
             if (CheckBox1.Checked <> False) then
             begin//6
               //0053408D
-              f2FC.GetEleveName(J, buf);
-              InclurePointVergule := buf + ';';
+              InclurePointVergule := f2FC.GetEleveName(J) + ';';
               Inclure := ';';
             end//6
             else
@@ -175,17 +174,17 @@ begin//0
 
             text := text + InclurePointVergule;
 
-            if (f2FC.BulletinsCount > 0) then 
-            for K := 1 to f2FC.BulletinsCount do
+            if (f2FC.GetbulletinsCount > 0) then 
+            for K := 1 to f2FC.GetbulletinsCount do
             begin//6
               //005340FA
-              if (K <> f2FC.BulletinsCount) then//00534105
+              if (K <> f2FC.GetbulletinsCount) then//00534105
                 EndLine := Inclure
               else//00534112
                 //EDX := $5341FC;
                 EndLine := #13+#10;
 
-              f2FC.GetAppreciations(I, J, K, buf);
+              f2FC.GetApreciations(I, J, K, buf);
 
               text := text + buf + EndLine;
             end;//6

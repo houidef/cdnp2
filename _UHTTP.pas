@@ -59,7 +59,6 @@ begin//0
 		  if (GetFileVersionInfo(PChar(FileName), Wnd, InfoSize, VerBuf)) then
 		  begin//3
 			//004B61E4
-			//EBX := 'FileDescription';
 			for I := 1 to 8 do
 			begin//4
 			  //004B61EE
@@ -86,7 +85,6 @@ end;//0
 function VerificationMiseAJour__(AOwner: TComponent; URL:String; var versioninfo1:string; var versioninfo2:string):boolean;
 begin//0
   try
-    //004B6373
     result := VerificationMiseAJour(AOwner,URL, versioninfo1, URL, '', '', '', '');
   finally//1
     //004B6396
@@ -108,9 +106,7 @@ begin//0
     //004B63FC
     result := false;
     FileVersions := GetFileVersion(Application.ExeName);
-	showmessage('Version:'#10#13+FileVersions.text);
     Ver := FileVersions[2];
-	showmessage('Version:'#10#13+Ver);
     IdHTTP1 := TIdHTTP.Create(Nil);
     IdHTTP1.ReadTimeout := 2000;
     try
@@ -136,7 +132,6 @@ begin//0
       try
         //004B655C
         Resp.Text := IdHTTP1.Get(URL);
-		showmessage(Resp.Text);
         LatestVersion := Resp.Values['LatestVersion'];
         result := not (AnsiSameText(LatestVersion, Ver));
         UpdateURL := Resp.Values['UpdateURL'];

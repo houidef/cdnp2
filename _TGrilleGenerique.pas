@@ -16,13 +16,13 @@ type
    // procedure DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);override;
   public
     FPeriode:byte;//f2D8
-    FichierCdn : TFichierCdn;// f2DC:dword;//f2DC
+    FichierCdn : TFichierCdn;// f2DC
     FeuilleClasseHandle:HWND;//f2E0
     FGrilleType:byte;//f2E4
 	constructor Create(AOwner: TComponent;b:pointer; FeuilleClasse:TComponent; FichierCdn : TFichierCdn; Periode:byte);//004CA034
-	procedure EvOnSelectCell(Sender: TObject; ACol,
+	procedure EvOnSelectCell_(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);//004CA398
-	procedure EvOnDrawCell(Sender: TObject; ACol, ARow: Integer;
+	procedure EvOnDrawCell_(Sender: TObject; ACol, ARow: Integer;
      Rect: TRect; State: TGridDrawState);
 	procedure EvOnTopLeftChanged(Sender: TObject);
   end;
@@ -41,8 +41,8 @@ begin
   Visible := False;
   Align := alClient;  //5
   //DefaultDrawing := False;
-  OnDrawCell :=  EvOnDrawCell;
-  OnSelectCell := EvOnSelectCell;
+  OnDrawCell :=  EvOnDrawCell_;
+  OnSelectCell := EvOnSelectCell_;
   OnTopLeftChanged := EvOnTopLeftChanged;
   Options := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goTabs];//$080F;
   Self.FichierCdn := FichierCdn;   
@@ -50,7 +50,7 @@ begin
 end;
 
 //004CA104
-procedure TGrilleGeneriqueCarnetDeNotes.EvOnDrawCell(Sender: TObject; ACol, ARow: Integer;
+procedure TGrilleGeneriqueCarnetDeNotes.EvOnDrawCell_(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);
 var
   I:integer;
@@ -138,7 +138,7 @@ begin//0
 end;
 
 //004CA398
-procedure TGrilleGeneriqueCarnetDeNotes.EvOnSelectCell(Sender: TObject; ACol,
+procedure TGrilleGeneriqueCarnetDeNotes.EvOnSelectCell_(Sender: TObject; ACol,
   ARow: Integer; var CanSelect: Boolean);
 begin
 

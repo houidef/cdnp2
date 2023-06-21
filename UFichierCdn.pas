@@ -69,7 +69,7 @@ type
     function GetPeriodeName(a:dword):string;//004BE9EC
     function GetPeriodeNameList:TStringList;//004BEA4C
     function GetEleveList:TStringList;//004BEAC4
-    function NbreModules(y:byte):integer;//004BEAD0
+    function NbrSerieNotes(y:byte):integer;//004BEAD0
     function GetDataCols(I:dword; J:dword):TStrings;//004BEB40
     function GetData(Periode:dword; ACol:dword; ARow:dword):string;//004BEC04
     function GetTitleModule(Periode:dword; NumModule:integer):string;//004BED04 Determine le Nom de Module
@@ -89,7 +89,7 @@ type
     procedure SetRemarque(a:String);//004BF0A0
     procedure DataClear;//004BF0D4
     procedure SetBulletinsPeriode(TypePeriode:String; BulletinsTitle:string);//004BF258
-    procedure SetPeriodeTraiteList(StringList:TStringList);//004BF544
+    procedure SetPeriodeTraiteList(StringList:TStringList);//004Bf544
     procedure CreerListeEleves(a:TStringList);//004BF64C
     procedure SetData_V1(Periode:dword; Intitule:string; NoteSur:string; Coefficient:string; CompteDansMoy:string; DateJ:string; Commentaire:string; TypeNote:string; OralEcrit:boolean);//004BF7F0
     procedure DeleteColoneData(a:dword; b:dword);//004BFC58
@@ -174,6 +174,8 @@ type
     procedure CalcMoyBrute___Vx04(ARow:dword; Arrondir:dword; c:string);//004C9708
 	procedure CalcMoyBrute___Vx05(Sender:TObject; e1:Word; i:Word; j:dword);
 	procedure Comparer_(Sender:TObject; e1:Word; i:Word; j:dword; Result:integer);
+	//code Ajouter par Houidef Aek 06/04/2022
+	function GetEleveNameComplet(I:integer):string;
 	end;
 
 
@@ -308,7 +310,7 @@ end;//0
 
 
 //004BEAD0
-function TFichierCdn.NbreModules(y:byte):integer; //Nbre des Modules dans chaque Periode
+function TFichierCdn.NbrSerieNotes(y:byte):integer; //Nbre des Modules dans chaque Periode
 begin//0
   //004BEAD0..004BEAE9
     result :=  StrToInt(FModulesPerPeriode[y - 1]);
@@ -568,7 +570,7 @@ begin//0
     FModified := true;
 end;//0
 
-//004BF544
+//004Bf544
 procedure TFichierCdn.SetPeriodeTraiteList(StringList:TStringList);
 var
  k,I:integer;
@@ -653,12 +655,12 @@ begin//0
     //004BF8B6
     TotalModules := 0;
 	for I := 1 to NbrePeriodes do //004BF8D7
-		TotalModules := TotalModules + NbreModules(I) ;
+		TotalModules := TotalModules + NbrSerieNotes(I) ;
     FData.ColCount := TotalModules + 1;
     FData.RowCount := NbreEleves + IdNbrEleves__;
     Modules := 0;
 	for I := 1 to Periode do  //004BF94B
-		Modules := Modules + NbreModules(I);
+		Modules := Modules + NbrSerieNotes(I);
     if (Modules > 0) then
 		for I := TotalModules downto Modules + 1 do //004BF97F
           FData.Cols[I] := FData.Cols[I-1]
@@ -730,11 +732,11 @@ begin//0
       for I := 1 to b - 1 do//004BFF07
       begin//3
         //004BFF0C
-        lvar_4 := NbreModules(I) + lvar_4;
+        lvar_4 := NbrSerieNotes(I) + lvar_4;
       end;//3
     c := c + lvar_4;
     DeleteColoneData(b, c); 
-    K := NbreModules(d);
+    K := NbrSerieNotes(d);
       //004BFF84
       for I := 1 to NbreEleves do
       begin//3
@@ -820,9 +822,9 @@ begin//0
         end;//5
         for I := 1 to NbrePeriodes do //004C04D7
         begin//004C04DE
-            FluxCdn.WriteInFile(IntToStr(NbreModules(I)), True);
-            if (NbreModules(I) <= 0) then Continue;
-            for J := 1 to NbreModules(I) do
+            FluxCdn.WriteInFile(IntToStr(NbrSerieNotes(I)), True);
+            if (NbrSerieNotes(I) <= 0) then Continue;
+            for J := 1 to NbrSerieNotes(I) do
             begin//004C0536
               FluxCdn.WriteInFile( GetTitleModule(I, J),True);
               if (NbreEleves > 0) then
@@ -1231,7 +1233,7 @@ begin//0
     begin//004C218F
       Total := 0;
       Somme := 0;        
-        for I := 1 to NbreModules(Periode) do  //004C21BF
+        for I := 1 to NbrSerieNotes(Periode) do  //004C21BF
         begin//004C21C9
           if (GetCompteMoyenne(Periode, I) = 'oui') then
           begin//004C2208
@@ -1405,7 +1407,7 @@ var
 begin//0
   //004C2E60
     //004C2EAB
-      for I := 1 to NbreModules(Periode)  do//004C2EDB
+      for I := 1 to NbrSerieNotes(Periode)  do//004C2EDB
       begin//3
         //004C2EE5
         if (GetCompteMoyenne(Periode, I) = 'oui') then
@@ -1454,7 +1456,7 @@ begin//0
       result := TStringList.Create;
       result.Sorted := True;
       result.Duplicates := dupIgnore;
-        for I := 1 to NbreModules(Periode) do//004C31BD
+        for I := 1 to NbrSerieNotes(Periode) do//004C31BD
         begin//4
           //004C31C2
           result.Add(GetDataTypeNote(Periode, I));
@@ -1468,7 +1470,7 @@ begin//0
 		  for I := 1 to NbrePeriodes do //004C3227
 		  begin//3
 			//004C322E
-			for J := 1 to  NbreModules(I) do
+			for J := 1 to  NbrSerieNotes(I) do
 			begin//4
 			  //004C3241
 			  result.Add(GetDataTypeNote(I, J));
@@ -1516,7 +1518,7 @@ begin//0
           for I := 1 to NbrePeriodes do//004C3451
           begin//5
             //004C3458
-            for J := 1 to NbreModules(I) do
+            for J := 1 to NbrSerieNotes(I) do
             begin//6
               //004C3472
               if (GetCompteMoyenne(I, J) = 'oui') then
@@ -2020,7 +2022,7 @@ begin//0
   //004C4790
   result := 0;
     for I := 1 to NbrePeriodes do //004C47A7
-      result := result  + NbreModules(I);
+      result := result  + NbrSerieNotes(I);
 end;//0
 
 
@@ -2174,7 +2176,7 @@ begin//0
             if (Moy <> '') then 
 			begin
 			    Moy1 := Moy;
-				ESI.Add(GetEleveName(I) + ' -> ' + Moy1);
+				StringSort.Add(GetEleveName(I) + ' -> ' + Moy1);
 			end;
           end//5
           else
@@ -2184,7 +2186,7 @@ begin//0
             if (Moy <> '') then 
 			begin
 			    Moy1 := Moy;
-				ESI.Add(GetEleveName(I) + ' -> ' + Moy1);
+				StringSort.Add(GetEleveName(I) + ' -> ' + Moy1);
 			end;
           end;//5
         end;//4
@@ -2225,7 +2227,7 @@ begin//0
 	NoteBasse := MoyennesSur;
 	N := 0;
 	//1- Determiner le NumModule !
-    for I:=1 to  NbreModules(Periode) do //lvar_34
+    for I:=1 to  NbrSerieNotes(Periode) do //lvar_34
     begin//004C548F
       try
         //004C54A7
@@ -2267,7 +2269,7 @@ begin//0
 	N :=0;
      NumModule := 0;
     moyennesSur := GetMoyennesSur;
-	  for I := 1 to NbreModules(Periode) do//004C5743
+	  for I := 1 to NbrSerieNotes(Periode) do//004C5743
 	  begin
 		  try
 			//004C575B
@@ -2303,7 +2305,7 @@ var
 begin//0
      Modules:=0;	
       for I := 1 to periode - 1 do//004C5E52
-        Modules := Modules + NbreModules(I);
+        Modules := Modules + NbrSerieNotes(I);
     f940[14 * (Modules + ACol - 1) + ARow - 1] := value;
 end;//0
 
@@ -2317,7 +2319,7 @@ begin//0
     Modules := 0;
        //Determiner l'index(periode,ACol,Info) = 14*(ACol-1)+14*Modules(ACol-1,1,Periode-1)+Info - 1
       for I := 1 to Periode - 1 do//004C5F44
-        Modules := Modules + NbreModules(I);
+        Modules := Modules + NbrSerieNotes(I);
     result := f940[14 * (Modules + ACol - 1) + Info - 1];
 end;//0
 
@@ -2386,7 +2388,7 @@ begin//0
   //004C63C8
 	for K:=1 to 14 do 
 	  for Periodes := 1 to NbrePeriodes  do //004C63E8
-		for Module := 1 to NbreModules(Periodes) do//004C640F
+		for Module := 1 to NbrSerieNotes(Periodes) do//004C640F
 		  SetAttributs1(Periodes,Module,K, true); //004C644F
 		//004C6456	
 	for Periodes := 1 to NbrePeriodes  do //004C63E8
@@ -3089,7 +3091,7 @@ begin//0
     //004C8FED
     Somme := 0;
     Total := 0;
-      for I := 1 to NbreModules(Periode)  do//004C901D
+      for I := 1 to NbrSerieNotes(Periode)  do//004C901D
       begin//3
         //004C9027
         if (GetCompteMoyenne(Periode, I) = 'oui') then
@@ -3146,7 +3148,7 @@ begin//0
     //004C9301
     Somme := 0;
 	Total := 0;
-      for I := 1 to NbreModules(Periode)  do
+      for I := 1 to NbrSerieNotes(Periode)  do
       begin//3
         //004C933B
         if (GetCompteMoyenne(Periode, I) = 'oui') then
@@ -3293,4 +3295,20 @@ begin//0
     TStringList(e1)[i] := TStringList(e1)[j];
     TStringList(e1)[j]  := S;
 end;//0
+
+function TFichierCdn.GetEleveNameComplet(I:integer):string;
+var
+  datenais : string;
+begin
+	result:=GetEleveName(I);
+	datenais :=GetDateNais(I);
+	if ((Trim(datenais) <> '') and GetAfficherDatesDeNaissance) then//004F5DD6
+	begin//6
+	//004F5DDF
+	result := result + ' (' + datenais + ')';
+	end;//6
+	if (IsRedoublant(I) and GetAfficherR) then //004F5E34
+	result := result + ' (R)';
+end;
+
 end.

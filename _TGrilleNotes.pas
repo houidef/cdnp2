@@ -77,7 +77,7 @@ var
  lvar_5C : TRect;
 begin//0
   //005422CC
-    EvOnDrawCell(Sender, ACol, ARow, ARect, AState);
+    EvOnDrawCell_(Sender, ACol, ARow, ARect, AState);
     Canvas.Font.Style := []{gvar_005428A4};
     if (FichierCdn.NbreEleves + IdMoyenne_ = ARow) then //00542388
       Canvas.Font.Style := [fsBold]{gvar_005428A8};
@@ -191,7 +191,7 @@ begin//0
   SendMessageA(FeuilleClasseHandle, $401, ARow, 0);
   Options := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goTabs];{gvar_00542A1C}; ////$080F;
  //005429BA  
-    if (((ACol < FichierCdn.NbreModules(FPeriode)+ 1) and (ARow < FichierCdn.NbreEleves+ 1)) or (ARow = FichierCdn.NbreEleves + IdCommentaire))then
+    if (((ACol < FichierCdn.NbrSerieNotes(FPeriode)+ 1) and (ARow < FichierCdn.NbreEleves+ 1)) or (ARow = FichierCdn.NbreEleves + IdCommentaire))then
 	begin//005429DA
 		Options  := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine,goEditing, goTabs]; //$C0F;//gvar_00542A20;
 		CanSelect := True;
@@ -205,8 +205,6 @@ var
  text:string;
  lvar_8,lvar_C : TStringList;
 begin//0
-  //005440D4
-    //005440F9
     KI := FichierCdn.NbrePeriodes + 2;//ESI
     if (Message.ItemID = 0) then
     begin//2
@@ -614,27 +612,22 @@ end;//0
 procedure TGrilleNotesCarnetDeNotes.EvSetTitleModules(var Message:TMsg);
 var 
   I:integer;
+  b:boolean;
 begin//0
+//error here
 	FPeriode:=Message.Message;  //periode
-    RowCount := FichierCdn.NbreEleves + IdNbrEleves__;
-    
-    if (FichierCdn.NbreModules(FPeriode) > 0) then
-    begin//0054657F
-      ColCount := FichierCdn.NbreModules(FPeriode);
-    end//2
-    else
-    begin//0054658A
-      ColCount := 1;
-    end;//2
-    
-      for I := 1 to FichierCdn.NbreModules(FPeriode) do //005465B1
-      begin //005465B9
-        Cols[I - 1] :=  FichierCdn.GetDataCols(FPeriode, I);
-        Cols[I - 1].Strings[0] := FichierCdn.GetTitleModule(FPeriode, I) + ' (sur ' + FichierCdn.GetDateNoteSur(FPeriode, I) + ')' ;
-        SendMessageA(Handle, $407, I - 1, 0);
-      end;//3
-	
-    Visible := ((FichierCdn.NbreModules(FPeriode) = 0) Xor true);
+	RowCount := FichierCdn.NbreEleves + IdNbrEleves__;
+	if (FichierCdn.NbrSerieNotes(FPeriode) > 0) then//0054657F
+		ColCount := FichierCdn.NbrSerieNotes(FPeriode)
+	else//0054658A
+		ColCount := 1;
+	for I := 1 to FichierCdn.NbrSerieNotes(FPeriode) do //005465B1
+	begin //005465B9
+		Cols[I - 1] :=  FichierCdn.GetDataCols(FPeriode, I);
+		Cols[I - 1].Strings[0] := FichierCdn.GetTitleModule(FPeriode, I) + ' (sur ' + FichierCdn.GetDateNoteSur(FPeriode, I) + ')' ;
+		SendMessageA(Handle, $407, I - 1, 0);
+	end;//3
+	Visible := (FichierCdn.NbrSerieNotes(FPeriode) <> 0);
 end;
 
 //0054672C
@@ -752,7 +745,7 @@ begin//0
       Selection := R;
       SendMessageA(FeuilleClasseHandle, $401, ARow, ACol);
     end;//2
-    I := FichierCdn.NbreModules(FPeriode) - 1;//ESI
+    I := FichierCdn.NbrSerieNotes(FPeriode) - 1;//ESI
     J := FichierCdn.NbreEleves;
     if (ACol <= 255) then
     begin//2

@@ -62,7 +62,7 @@ begin//0
     Image1.Picture := logo.Picture;
     f314 := F;
     TabControl1.Tabs := F.GetPeriodeNameList;
-      for I := 1 to F.NbreModules(TabControl1.TabIndex + 1) do //0051187D
+      for I := 1 to F.NbrSerieNotes(TabControl1.TabIndex + 1) do //0051187D
       begin//3
         //00511884
         ListBox2.Items.Add(F.GetTitleModule( TabControl1.TabIndex + 1, I));
@@ -84,7 +84,7 @@ var
   b:boolean;
 begin//0
     ListBox2.Items.Clear;
-      for I := 1 to f314.NbreModules(TabControl1.TabIndex + 1) do//005119DE
+      for I := 1 to f314.NbrSerieNotes(TabControl1.TabIndex + 1) do//005119DE
       begin//3
         //005119E5
         ListBox2.Items.Add(f314.GetTitleModule(TabControl1.TabIndex + 1, I));
@@ -205,7 +205,7 @@ begin//0
 											f314.GetDataCommentaire(f318, I), 
 											f314.GetDataTypeNote(f318, I), 
 											f314.GetOralEcrit(f318, I) = 'Oral');
-          J := f314.NbreModules(f318);   
+          J := f314.NbrSerieNotes(f318);   
         end;//4
         f314.SetPeriodeTraiteList_H03(f318, J,buf6);
         if (CheckBox2.Enabled) then

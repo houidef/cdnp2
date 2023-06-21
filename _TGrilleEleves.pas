@@ -104,8 +104,6 @@ var
   EleveName,buf1:string;
   I:integer;
 begin//0
-  //004D162C
-    //004D167C
     if (Message.ItemID = 1) then
     begin//004D1687
       if (MessageBoxA(0, PChar('Supprimer "' + FichierCdn.GetEleveName(FIdNumEleve) + '" de la liste des élèves ?'),'Suppression d''un élève' , 36) = 6) then
@@ -199,7 +197,7 @@ begin//0
 			lvar_18 := '';
 			  for I:=1 to FichierCdn.NbrePeriodes do //004D1F63
 			  begin
-				  if (FichierCdn.NbreModules(I) > 0) then
+				  if (FichierCdn.NbrSerieNotes(I) > 0) then
 				  begin//004D1F82
 					;
 					lvar_18 := lvar_18 + FichierCdn.GetMoyennePeriode(I, ARow, GetArrondirMoyennes) + ' - ';
@@ -207,7 +205,7 @@ begin//0
 				  else//004D1FE3
 					lvar_18 := lvar_18 + '? - '; //$4D2338;
 			  end;	  
-            if (FichierCdn.NbreModules(FichierCdn.NbrePeriodes) > 0) then
+            if (FichierCdn.NbrSerieNotes(FichierCdn.NbrePeriodes) > 0) then
             begin//004D200C
               lvar_18 := lvar_18 + FichierCdn.GetMoyennePeriode(FichierCdn.NbrePeriodes, ARow, GetArrondirMoyennes);
             end//6
@@ -271,7 +269,7 @@ procedure TGrilleElevesCarnetDeNotes.EvOnDrawCell(Sender: TObject; ACol, ARow: I
   Rect: TRect; State: TGridDrawState);//(a:pointer; b:pointer; c:pointer; d:pointer; e:pointer);
 begin//0
   //004D292C
-    EvOnDrawCell(Sender,ACol, ARow, Rect, State);
+    EvOnDrawCell_(Sender,ACol, ARow, Rect, State);
     Canvas.FillRect(Rect);
     Canvas.TextOut(Rect.Left + 2, Rect.Top + 2, Cells[ACol, ARow]);
     SendMessageA(FeuilleClasseHandle, 1042, Width, 0);
@@ -283,7 +281,6 @@ var
  count,I : integer;
  buf,EleveName :string;
 begin//0
-  //004D2398..004D23CE
     Count := FichierCdn.NbreEleves;
     RowCount:= Count + IdNbrEleves__;
     Cols[1].Clear;

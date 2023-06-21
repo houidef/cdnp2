@@ -15,24 +15,23 @@ type
   //protected
     //procedure DrawCell(ACol, ARow: Longint; ARect: TRect; AState: TGridDrawState);override; //supprimer le
   public
-    f2E8:dword;//f2E8
-    f2EC:String;//f2EC
-	procedure sub_004F5EF4(Sender:TObject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
-    procedure sub_004F5FC4(var Message:TMsg); message $403;//
-	procedure sub_004F5FF8(Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
-    procedure sub_004F5CB0(var Message:TMsg); message $404;//004F5CB0
-	procedure sub_004F6080(var a:string); //004F6080
+    FRow:dword;//f2E8
+    FTitleCaption:String;//f2EC
+	procedure EvOnDrawCell(Sender:TObject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+    procedure EvEvenemtsChart(var Message:TMsg); message $403;//
+	procedure EvOnSelectCell(Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
+    procedure EvSetTitle(var Message:TMsg); message $404;//004F5CB0
+	function GetTitleCaption:string; //004F6080
     constructor Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);//004F5B4C
   end;
 
 
 implementation
    uses UBiblio;
+   
 //004F5B4C
 constructor TGrilleElevesGrapheCarnetDeNotes.Create(AOwner:TComponent; FeuilleClasse:TComponent; Periode:byte; FichierCdn:TFichierCdn);
 begin//0
-  //004F5B4C
-    //004F5B71
     FGrilleType := 0;
     inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
     ScrollBars := ssNone;
@@ -44,26 +43,24 @@ begin//0
     DefaultRowHeight :=18;
     ColWidths[0] := 18;
     //DefaultDrawing := False;
-	OnDrawCell :=sub_004F5EF4;
-	OnSelectCell := sub_004F5FF8;
-    f2E8 := 1;
+	OnDrawCell :=EvOnDrawCell;
+	OnSelectCell := EvOnSelectCell;
+    FRow := 1;
    SendMessageA(Handle, $404, 0, 0);
     if (FichierCdn.NbreEleves <> 0) then
     begin//2//004F5C3A
-      f2EC := Cells[1, 1];
+      FTitleCaption := Cells[1, 1];
       SendMessageA(FeuilleClasseHandle, $413, 1, 1);
     end;//2
 end;
 
 //004F5CB0
-procedure TGrilleElevesGrapheCarnetDeNotes.sub_004F5CB0(var Message:TMsg);
+procedure TGrilleElevesGrapheCarnetDeNotes.EvSetTitle(var Message:TMsg);
 var 
  IRowCount :integer;
  lvar_8,Buf : string;
  I : integer;
 begin//0
-  //004F5CB0
-    //004F5CE6
     IRowCount := FichierCdn.NbreEleves;
     if (IRowCount <> 0) then
     begin//004F5CFE
@@ -90,31 +87,28 @@ begin//0
       end;//3
     end;//2
     Visible := (IRowCount > 0);
-  //004F5E83
 end;
 
 //004F5FC4
-procedure TGrilleElevesGrapheCarnetDeNotes.sub_004F5FC4(var Message:TMsg);
+procedure TGrilleElevesGrapheCarnetDeNotes.EvEvenemtsChart(var Message:TMsg);
 begin//0
-  //004F5FC4
-  FPeriode := Message.Message;//ECX
-  SendMessageA(FeuilleClasseHandle, $413, FPeriode, f2E8);
+  FPeriode := Message.Message;
+  SendMessageA(FeuilleClasseHandle, $413, FPeriode, FRow);
 end;//0
 
 
 //004F6080
-procedure TGrilleElevesGrapheCarnetDeNotes.sub_004F6080(var a:string);
+function TGrilleElevesGrapheCarnetDeNotes.GetTitleCaption:string;
 begin//0
   //004F6080
-  a := f2EC;
+  result := FTitleCaption;
 end;
 
-procedure TGrilleelevesgrapheCarnetDeNotes.sub_004F5FF8(Sender:TObject; ACol:integer; ARow:Integer; var CanSelect:Boolean);
+//004F5FF8
+procedure TGrilleelevesgrapheCarnetDeNotes.EvOnSelectCell(Sender:TObject; ACol:integer; ARow:Integer; var CanSelect:Boolean);
 begin//0
-  //004F5FF8
-    //004F6012
-    f2E8 := ARow;
-    f2EC := Cells[1, ARow];
+    FRow := ARow;
+    FTitleCaption := Cells[1, ARow];
     SendMessageA(FeuilleClasseHandle, $413, FPeriode, ARow);
     CanSelect := True;
 end;//0
@@ -122,10 +116,10 @@ end;//0
 
 
 //004F5EF4
-procedure TGrilleelevesgrapheCarnetDeNotes.sub_004F5EF4(Sender:TObject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
+procedure TGrilleelevesgrapheCarnetDeNotes.EvOnDrawCell(Sender:TObject; ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
 begin//0
   //004F5EF4
-    EvOnDrawCell(Sender, ACol, ARow, ARect, AState);
+    EvOnDrawCell_(Sender, ACol, ARow, ARect, AState);
     Canvas.FillRect(ARect);
     Canvas.TextOut(ARect.Left + 2, ARect.Top + 2, Cells[ACol, ARow]);
     SendMessageA(FeuilleClasseHandle, $412, Width, 0);
@@ -135,7 +129,7 @@ procedure TGrilleElevesGrapheCarnetDeNotes.DrawCell(ACol, ARow: Longint; ARect: 
 begin
     inherited DrawCell(ACol, ARow, ARect, AState);
 	//Canvas.TextOut(ARect.Left + 2, ARect.Top + 2, Cells[ACol, ARow]);	
-	sub_004F5EF4(self,ACol, ARow, ARect, AState);
+	EvOnDrawCell(self,ACol, ARow, ARect, AState);
 end;}
 
 end.

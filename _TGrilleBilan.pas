@@ -64,13 +64,11 @@ var
   buf,buf1,lvar_250,lvar_150:string;
   EDI,Strlist : TStringlist;
 begin//0
-	//004CB4D4
-	//004CB4F9
 	sub_004CCCB8;
 	FPeriode := Msg.message;
     NbPeriodes := FichierCdn.NbrePeriodes();//get Nbre Periodes
     if ( FPeriode <= NbPeriodes) then //004CB557
-      Visible := (FichierCdn.NbreModules(FPeriode) = 0) Xor True
+      Visible := (FichierCdn.NbrSerieNotes(FPeriode) = 0) Xor True
     else//004CB575
       Visible := (FichierCdn.IndexModule = 0) Xor True;
     if (Visible = False) then Exit;
@@ -360,8 +358,6 @@ var
    Buf : string;
    lvar_4 : string;
 begin//0
-  //004CCCB8
-    //004CCCEE
     IRowCount := byte(FichierCdn.NbreEleves);
     Cols[1].Clear;
     Cells[1, 0] :=  'Noms et prénoms';
@@ -395,8 +391,6 @@ var
   I,RowCount,M,N,Ni,Nt : integer;
   Somme,Somme2,Coefficient, NoteSur,Val,Min,Max,lvar_28 :real;
 begin//0
-  //004CD0B0
-    //004CD108
     RowCount := FichierCdn.NbreEleves;
     Cells[a + 1, RowCount + IdMin_ - 1 ] :=  '';
     Cells[a + 1, RowCount + IdMax_ - 1] := '';
@@ -472,7 +466,6 @@ begin//0
 		begin
 			try
 			  //004CD5EA
-			  //push EAX
 			  if (Val > StrToFloat(Cells[a + 1, I])) then
 			  begin//5
 				//004CD62C
@@ -531,8 +524,6 @@ var
   K:integer;
   buf:string;
 begin//0
-  //004CEAA0
-    //004CEAC2
     I := false;
     J := false;
     case Message.ItemID of

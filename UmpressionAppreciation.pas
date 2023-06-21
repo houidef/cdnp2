@@ -14,7 +14,7 @@ type
   TImpressionAppreciation = class(TImpression)
     constructor Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);
     procedure sub_00521464(a:dword; b:dword; c:dword; d:dword; e:boolean);//00521464
-    function sub_00521708:dword;//00521708
+    function GetNbrPageAppreciation:dword;//00521708
     function sub_00521834:dword;//00521834
     function sub_0052199C:dword;//0052199C
     procedure sub_00521AB0(a:dword);//00521AB0
@@ -35,9 +35,9 @@ begin//0
   //00521360
     //0052138E
     inherited create(FichierCdn,Canvas,EnteteDePage,BasDePage,e,f,g,Font);
-    Printer.Title := 'Carnet de Notes version Personnelle - ' + f3C.GetClasseName;
+    Printer.Title := 'Carnet de Notes version Personnelle - ' + FCdn.GetClasseName;
     Printer.BeginDoc;
-    f30 := sub_00521708;
+    FNbrPageV := GetNbrPageAppreciation;
     //00521405
 end;//0
 
@@ -141,31 +141,31 @@ begin//0
 end;//0
 
 //00521708
-function TImpressionAppreciation.sub_00521708:dword;
+function TImpressionAppreciation.GetNbrPageAppreciation:dword;
 var
   I,J,K,L :integer;
 begin//0
   //00521708
-  SetLength(f50, 1);
+  SetLength(FNbrCellInTab, 1);
   I := 0;
   J := 0;
-  f50[0] := 1;
-  L := sub_0052199C Div (f24 - sub_00519AF8(GetImpressionDatesDeNaissanceAppreciations, GetImpressionRAppreciations) - sub_00522F88);
+  FNbrCellInTab[0] := 1;
+  L := sub_0052199C Div (Fwidth - GetMaxTailleColonne(GetImpressionDatesDeNaissanceAppreciations, GetImpressionRAppreciations) - sub_00522F88);
   if (L = 0) then //00521783
     result := 0
   else 
   begin
-	K := f3C.GetbulletinsCount;
+	K := FCdn.GetbulletinsCount;
 	while (J < K) do
 	begin//1
 		//0052179F
 		//0052179F
 		I := I + 1;//ESI
-		SetLength(f50,{1,}  I + 1);
-		f50[I] := f50[I - 1] + L;
+		SetLength(FNbrCellInTab,{1,}  I + 1);
+		FNbrCellInTab[I] := FNbrCellInTab[I - 1] + L;
 		J := J + L;
 	end;//1
-	f50[I] := K + 1;//EDX
+	FNbrCellInTab[I] := K + 1;//EDX
 	result := I;
   end;
 end;//0
@@ -179,16 +179,16 @@ begin//0
   //00521834
     //00521864
     Val := 0;
-    if (f3C.GetbulletinsCount > 0) then
+    if (FCdn.GetbulletinsCount > 0) then
     begin//2
-      for I := 1 to f3C.GetbulletinsCount do//00521887
+      for I := 1 to FCdn.GetbulletinsCount do//00521887
       begin//3
         //0052188C
-        f3C.GetNomsbulletins(I, buf);
-        if (f40.TextWidth(' ' + buf + ' ') > Val) then 
+        FCdn.GetNomsbulletins(I, buf);
+        if (FCanvas.TextWidth(' ' + buf + ' ') > Val) then 
 		begin
-			f3C.GetNomsbulletins(I, buf);
-			Val := f40.TextWidth(' ' + buf + ' ');
+			FCdn.GetNomsbulletins(I, buf);
+			Val := FCanvas.TextWidth(' ' + buf + ' ');
 		end;
       end;//3
     end;//2
@@ -205,15 +205,15 @@ begin//0
   //0052199C
     //005219BC
     Val := 0;
-      for I := 1 to f3C.NbreEleves  do//005219DC
+      for I := 1 to FCdn.NbreEleves  do//005219DC
       begin//3
         //005219E6
-        for J := 1 to f3C.GetbulletinsCount do
+        for J := 1 to FCdn.GetbulletinsCount do
         begin//4
           //005219FD
-          f3C.GetApreciations(f2C, I, J, buf);
-          if (f40.TextWidth(buf) > Val) then 
-			Val := f40.TextWidth(buf);
+          FCdn.GetApreciations(FIdPeriode, I, J, buf);
+          if (FCanvas.TextWidth(buf) > Val) then 
+			Val := FCanvas.TextWidth(buf);
         end;//4
       end;//3
     if (sub_00521834 > Val) then //00521A7B
@@ -232,9 +232,9 @@ begin//0
       FormProgression.Show;
     FormProgression.Caption := 'Préparation de l''impression en cours ... page ' + IntToStr(FormProgression.ProgressBar1.Position) + '/' + IntToStr(FormProgression.ProgressBar1.Max - 1);
     FormProgression.ProgressBar1.Position := FormProgression.ProgressBar1.Position + 1;
-    sub_00519534;
+    ImpEnteteBasDePage;
     sub_00521C10(a);
-    sub_0051954C;
+    ImpEnteteBasDePage2;
     //00521BAD
 end;//0
 
@@ -253,20 +253,20 @@ begin//0
   //00521C10
     //00521C36
     lvar_14 := sub_0052199C;
-    lvar_18 := f40.TextHeight('ALEXANDRE') + 4;
-    lvar_C := f50[a] - f50[a - 1];
-    lvar_24 := sub_00519AF8(GetImpressionDatesDeNaissanceAppreciations, GetImpressionRAppreciations);
-    lvar_10 := f3C.NbreEleves;
-    lvar_2C := sub_00519E58 + $14{20};//EAX
-    lvar_90 := f24 - sub_00522F04(a);
+    lvar_18 := FCanvas.TextHeight('ALEXANDRE') + 4;
+    lvar_C := FNbrCellInTab[a] - FNbrCellInTab[a - 1];
+    lvar_24 := GetMaxTailleColonne(GetImpressionDatesDeNaissanceAppreciations, GetImpressionRAppreciations);
+    lvar_10 := FCdn.NbreEleves;
+    lvar_2C := GetTopTableau + $14{20};//EAX
+    lvar_90 := Fwidth - sub_00522F04(a);
     lvar_30 := TRUNC(lvar_90 / 2) {Sar $1F};
-    lvar_90 := f28 - lvar_2C;
+    lvar_90 := FHeight - lvar_2C;
     lvar_34 := TRUNC(lvar_90 / 2) {Sar $1F};
     StrList := TStringList.Create;
-      for lvar_20 := 1 to f3C.NbreEleves  do//00521D87
+      for lvar_20 := 1 to FCdn.NbreEleves  do//00521D87
       begin//3
         //00521D91
-        StrList.Add(f3C.GetMoyennePeriode(f2C, lvar_20, GetArrondirMoyennes));
+        StrList.Add(FCdn.GetMoyennePeriode(FIdPeriode, lvar_20, GetArrondirMoyennes));
       end;//3
     lvar_5C := GetPeriodeMax(StrList);
     lvar_60 := GetPeriodeMin(StrList);
@@ -303,27 +303,27 @@ begin//0
           lvar_54 := '+ basse';
         end;//4
       end;//3
-      DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 5);
+      DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 5);
     end;//2
     lvar_1C := 1;
       
-      for lvar_7C := f50[a - 1] to f50[a] - 1 do//00521FB8
+      for lvar_7C := FNbrCellInTab[a - 1] to FNbrCellInTab[a] - 1 do//00521FB8
       begin//3
         //00521FBC
         lvar_8C.Left := sub_00522F88 + lvar_30 + lvar_24 + (lvar_1C - 1) * lvar_14;//EAX
         lvar_8C.Top := lvar_34;
         lvar_8C.Right := lvar_8C.Left + lvar_14;//EAX
         lvar_8C.Bottom := lvar_8C.Top + lvar_18;//EAX
-        f3C.GetNomsbulletins(f50[a - 1], buf);
+        FCdn.GetNomsbulletins(FNbrCellInTab[a - 1], buf);
         lvar_54 := ' ' + buf + ' ';
         lvar_1C := lvar_1C + 1;
-        DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
+        DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
       end;//3
-    lvar_48 := f3C.NbreEleves;
-    if (f34) then
+    lvar_48 := FCdn.NbreEleves;
+    if (FImprNbrEleve) then
     begin//2
       //005220DE
-      lvar_44 := f40.TextWidth(' ' + IntToStr(lvar_48) + ' ');
+      lvar_44 := FCanvas.TextWidth(' ' + IntToStr(lvar_48) + ' ');
     end//2
     else
     begin//2
@@ -335,7 +335,7 @@ begin//0
       for lvar_20 := 1 to lvar_48 do
       begin//3
         //0052213C
-        if (f34 ) then
+        if (FImprNbrEleve ) then
         begin//4
           //00522149
           if (lvar_20 - 1 - 9 < 0) then
@@ -354,25 +354,25 @@ begin//0
           lvar_8C.Right := lvar_8C.Left + lvar_44;//EAX
           lvar_8C.Bottom := lvar_8C.Top + lvar_18;//EAX
           lvar_54 := lvar_58;
-          DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
+          DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
           lvar_8C.Left := lvar_30 + lvar_44;//EAX
           lvar_8C.Top := K;//EBX
           lvar_8C.Right := lvar_8C.Left + lvar_24 + lvar_44;//EAX
           lvar_8C.Bottom := lvar_8C.Top + lvar_18;//EAX
-          if ((f3C.IsRedoublant(lvar_20)) and (GetImpressionRAppreciations))then//0052229E
+          if ((FCdn.IsRedoublant(lvar_20)) and (GetImpressionRAppreciations))then//0052229E
           begin//5
               //005222A7
-              lvar_68 := f3C.GetEleveName(lvar_20) + ' (R)';
+              lvar_68 := FCdn.GetEleveName(lvar_20) + ' (R)';
           end//5
           else
           begin//5
             //005222EF
-            lvar_68:=f3C.GetEleveName(lvar_20);
+            lvar_68:=FCdn.GetEleveName(lvar_20);
           end;//5
           if (GetImpressionDatesDeNaissanceAppreciations ) then
           begin//5
             //0052232C
-            lvar_50:=f3C.GetDateNais(lvar_20);
+            lvar_50:=FCdn.GetDateNais(lvar_20);
             if (Trim(lvar_50) <> '') then
             begin//6
               //00522373
@@ -389,7 +389,7 @@ begin//0
             //005223B3
             lvar_54 := ' ' + lvar_68 + ' ';
           end;//5
-          DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
+          DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
         end//4
         else
         begin//4
@@ -398,20 +398,20 @@ begin//0
           lvar_8C.Top := lvar_18 * lvar_20 + lvar_34;//EAX
           lvar_8C.Right := lvar_8C.Left + lvar_24;//EAX
           lvar_8C.Bottom := lvar_8C.Top + lvar_18;//EAX
-          if ((f3C.IsRedoublant(lvar_20) ) and (GetImpressionRAppreciations )) then//0052246E
+          if ((FCdn.IsRedoublant(lvar_20) ) and (GetImpressionRAppreciations )) then//0052246E
           begin//5
               //00522477
-              lvar_68 :=f3C.GetEleveName(lvar_20) + ' (R)';
+              lvar_68 :=FCdn.GetEleveName(lvar_20) + ' (R)';
           end//5
           else
           begin//5
             //005224BF
-            lvar_68 := f3C.GetEleveName(lvar_20);
+            lvar_68 := FCdn.GetEleveName(lvar_20);
           end;//5
           if (GetImpressionDatesDeNaissanceAppreciations ) then
           begin//5
             //005224FC
-            lvar_50:=f3C.GetDateNais(lvar_20);
+            lvar_50:=FCdn.GetDateNais(lvar_20);
             if (Trim(lvar_50) <> '') then
             begin//6
               //00522543
@@ -428,7 +428,7 @@ begin//0
             //00522583
             lvar_54 := ' ' + lvar_68 + ' ';
           end;//5
-          DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
+          DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
         end;//4
         lvar_90 := sub_00522F88;
         lvar_4C := TRUNC(lvar_90 / 4);
@@ -440,12 +440,12 @@ begin//0
           lvar_8C.Top := lvar_18 * lvar_20 + lvar_34;//EAX
           lvar_8C.Right := lvar_8C.Left + lvar_4C;//EAX
           lvar_8C.Bottom := lvar_8C.Top + lvar_18;//EAX
-          f40.Font.Color := 0;
+          FCanvas.Font.Color := 0;
           case lvar_1C of
             1:
             begin//6
               //0052269B
-              lvar_54 := f3C.GetMoyennePeriode(f2C, lvar_20, GetArrondirMoyennes);
+              lvar_54 := FCdn.GetMoyennePeriode(FIdPeriode, lvar_20, GetArrondirMoyennes);
             end;//6
             2:
             begin//6
@@ -473,7 +473,7 @@ begin//0
               if (lvar_54 = 'abs') Or (lvar_54 = '') then
               begin//7
                 //00522737
-                f40.Font.Color := 0;
+                FCanvas.Font.Color := 0;
               end//7
               else
               begin//7
@@ -487,7 +487,7 @@ begin//0
                   if (lvar_78 < 0) Or (lvar_78 > lvar_90) then
                   begin//9
                     //00522791
-                    f40.Font.Color := GetColor4Note;;
+                    FCanvas.Font.Color := GetColor4Note;;
                   end//9
                   else
                   begin//9
@@ -499,7 +499,7 @@ begin//0
                       if (lvar_90 / 2 < lvar_78) then
                       begin//11
                         //005227D5
-                        f40.Font.Color := GetColor1Note;
+                        FCanvas.Font.Color := GetColor1Note;
                       end//11
                       else
                       begin//11
@@ -517,7 +517,7 @@ begin//0
                         if (lvar_1BC <= lvar_78) then
                         begin//12
                           //00522828
-                          f40.Font.Color := GetColor3Note;
+                          FCanvas.Font.Color := GetColor3Note;
                         end//12
                         else
                         begin//12
@@ -527,7 +527,7 @@ begin//0
                       else
                       begin//11
                         //0052283F??? And ???
-                        f40.Font.Color := GetColor2Note;
+                        FCanvas.Font.Color := GetColor2Note;
                       end;//11
                     end;//10
                   end;//9
@@ -537,19 +537,19 @@ begin//0
               end;//7
             end;//6
           end;//5
-          DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 5);
+          DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 5);
         end;//4
         lvar_1C := 1;
-          for I := f50[a - 1] to f50[a] - 1 do//005228F0
+          for I := FNbrCellInTab[a - 1] to FNbrCellInTab[a] - 1 do//005228F0
           begin//5
             //005228F1
             lvar_8C.Left := sub_00522F88 + lvar_30 + lvar_24 + (lvar_1C - 1) * lvar_14;//EAX
             lvar_8C.Top :=  lvar_18 * lvar_20 + lvar_34;//EAX
             lvar_8C.Right := lvar_8C.Left + lvar_14;//EAX
             lvar_8C.Bottom := lvar_8C.Top + lvar_18;//EAX
-            f3C.GetApreciations(f2C, lvar_20, f50[a - 1], buf);
+            FCdn.GetApreciations(FIdPeriode, lvar_20, FNbrCellInTab[a - 1], buf);
             lvar_54 := ' ' + buf + ' ';
-            DrawTextA(f40.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
+            DrawTextA(FCanvas.Handle, PChar(lvar_54), Length(lvar_54), lvar_8C, 4);
           end;//5
       
       for lvar_7C := 0 to lvar_10 + 1 do//00522A44
@@ -558,24 +558,24 @@ begin//0
         if (lvar_7C = 0) then
         begin//4
           //00522A4E
-          f40.MoveTo(lvar_30 + lvar_24, lvar_34);
-          f40.LineTo(lvar_30 + lvar_28, lvar_34);
+          FCanvas.MoveTo(lvar_30 + lvar_24, lvar_34);
+          FCanvas.LineTo(lvar_30 + lvar_28, lvar_34);
         end//4
         else
         begin//4
           //00522A86
-          f40.MoveTo(lvar_30, lvar_7C * lvar_18 + lvar_34);
-          f40.LineTo(lvar_30 + lvar_28, lvar_7C * lvar_18 + lvar_34);
+          FCanvas.MoveTo(lvar_30, lvar_7C * lvar_18 + lvar_34);
+          FCanvas.LineTo(lvar_30 + lvar_28, lvar_7C * lvar_18 + lvar_34);
         end;//4
       end;//3
-      for lvar_1C := 0 to f3C.GetbulletinsCount + lvar_C + 4 - 1 do//00522AFF
+      for lvar_1C := 0 to FCdn.GetbulletinsCount + lvar_C + 4 - 1 do//00522AFF
       begin//3
         //00522B0A
         if (lvar_1C = 0) then
         begin//4
           //00522B10
-          f40.MoveTo(lvar_30, lvar_34 + lvar_18);
-          f40.LineTo(lvar_30, lvar_34 + lvar_3C);
+          FCanvas.MoveTo(lvar_30, lvar_34 + lvar_18);
+          FCanvas.LineTo(lvar_30, lvar_34 + lvar_3C);
         end//4
         else
         begin//4
@@ -583,8 +583,8 @@ begin//0
           if (lvar_1C = 1) then
           begin//5
             //00522B51
-            f40.MoveTo(lvar_30 + lvar_24, lvar_34);
-            f40.LineTo(lvar_30 + lvar_24, lvar_34 + lvar_3C);
+            FCanvas.MoveTo(lvar_30 + lvar_24, lvar_34);
+            FCanvas.LineTo(lvar_30 + lvar_24, lvar_34 + lvar_3C);
           end//5
           else
           begin//5
@@ -593,24 +593,24 @@ begin//0
             begin//6
               //00522B9C  
              // EAX := TRUNC(sub_00522F88 / 4) * (lvar_1C - 1) ;
-              f40.MoveTo((lvar_30 + lvar_24 + lvar_1E8) {sar $1F}, lvar_34);
+              FCanvas.MoveTo((lvar_30 + lvar_24 + lvar_1E8) {sar $1F}, lvar_34);
               //EAX := TRUNC(sub_00522F88 / 4)*(lvar_1C - 1);
-              f40.LineTo((lvar_30 + lvar_24 + lvar_1EC){sar $1F}, lvar_34 + lvar_3C);
+              FCanvas.LineTo((lvar_30 + lvar_24 + lvar_1EC){sar $1F}, lvar_34 + lvar_3C);
             end//6
             else
             begin//6
               //00522C9F
-              f40.MoveTo(sub_00522F88 + lvar_30 + lvar_24 + (lvar_1C - 5) * lvar_14, lvar_34);
-              f40.LineTo(sub_00522F88 + lvar_30 + lvar_24 + (lvar_1C - 5) * lvar_14, lvar_34 + lvar_3C);
+              FCanvas.MoveTo(sub_00522F88 + lvar_30 + lvar_24 + (lvar_1C - 5) * lvar_14, lvar_34);
+              FCanvas.LineTo(sub_00522F88 + lvar_30 + lvar_24 + (lvar_1C - 5) * lvar_14, lvar_34 + lvar_3C);
             end;//6
           end;//5
         end;//4
       end;//3
-    if (f34) then 
+    if (FImprNbrEleve) then 
 	begin
-		lvar_44 := f40.TextWidth(' ' + IntToStr(lvar_48) + ' ');
-		f40.MoveTo(lvar_30 + lvar_44, lvar_34 + lvar_18);
-		f40.LineTo(lvar_30 + lvar_44, (lvar_48 + 1) * lvar_18 + lvar_34);
+		lvar_44 := FCanvas.TextWidth(' ' + IntToStr(lvar_48) + ' ');
+		FCanvas.MoveTo(lvar_30 + lvar_44, lvar_34 + lvar_18);
+		FCanvas.LineTo(lvar_30 + lvar_44, (lvar_48 + 1) * lvar_18 + lvar_34);
 	end;
   end;
     //00522E0E
@@ -620,14 +620,14 @@ end;//0
 function TImpressionAppreciation.sub_00522F04(a:dword):dword;
 begin//0
   //00522F04
-  result := sub_0052199C * (f50[a] - f50[a - 1]) + sub_00519AF8(GetImpressionDatesDeNaissanceAppreciations, GetImpressionRAppreciations) + sub_00522F88;//EDI
+  result := sub_0052199C * (FNbrCellInTab[a] - FNbrCellInTab[a - 1]) + GetMaxTailleColonne(GetImpressionDatesDeNaissanceAppreciations, GetImpressionRAppreciations) + sub_00522F88;//EDI
 end;//0
 
 //00522F88
 function TImpressionAppreciation.sub_00522F88:dword;
 begin//0
   //00522F88
-  result := 4 * sub_00519AA8(f40, ' + haute ');
+  result := 4 * GetTailleText(FCanvas, ' + haute ');
 end;//0
 destructor TImpressionAppreciation.Destroy;
 begin//0

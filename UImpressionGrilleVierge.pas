@@ -9,20 +9,21 @@ interface
 
 uses
   SysUtils, Windows, Classes, Graphics, Printers,  UImpression, UFichierCdn, UInclureImpression, 
-  UBlocTexte,_FormProgression,Dialogs,Forms,UBiblio;
+  UBlocTexte,_FormProgression,Dialogs,Forms,UBiblio,UViewer,Preview;
 
 type
   TImpressionGrilleVierge = class(TImpression)
   public
-    f54:String;//f54
-    constructor Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);//00523FFC
-    procedure sub_0052309C(a:dword);//0052309C
-    function sub_00523FE0:dword;//00523FE0
-    procedure sub_00524130(a:dword; b:dword; c:dword; d:dword; OrdreInverse:boolean);//00524130
-    function sub_005243D4:dword;//005243D4
-    function sub_005243EC:dword;//005243EC
-    procedure sub_00524480(a:dword);//00524480
-    function sub_005245A0(a:dword):dword;//005245A0
+    FMargePers:String;//FMargePers
+	FPrintPreview :TPrintPreview;
+    constructor Create(MyPageBounds : TRect;FichierCdn:TFichierCdn; PrintPreview :TPrintPreview; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);//00523FFC
+    procedure DrawContentInCanvas(IdPage:dword);//0052309C
+    function GetMargePers:dword;//00523FE0
+    procedure GeneratePages(MinPage:dword; MaxPage:dword; NbrExemplaires:dword; Parite:dword; OrdreInverse:boolean);//00524130
+    function GetLargeurColonne__:dword;//005243D4
+    function GetNbrPageGrilleVierge:dword;//005243EC
+    procedure DrawInCanvas(IdPage:dword);//00524480
+    function GetTabWidth(IdPage:dword):dword;//005245A0
 	destructor Destroy;
 end;
 
@@ -30,465 +31,442 @@ end;
 implementation
 
 //0052309C
-procedure TImpressionGrilleVierge.sub_0052309C(a:dword);
+procedure TImpressionGrilleVierge.DrawContentInCanvas(IdPage:dword);
 var
-  lvar_38,lvar_10,ESI,lvar_8,lvar_1C,lvar_C,lvar_20, lvar_30,lvar_24,lvar_8C: integer;
-  lvar_28,lvar_2C,lvar_74,lvar_84,lvar_80,lvar_7C, lvar_44,lvar_40,lvar_18:integer;
-  lvar_78,lvar_14,lvar_3C:integer;
-  lvar_4C,lvar_50,lvar_1A0,lvar_54,lvar_A0,lvar_48 : string;
-  lvar_88 : TRect;
+  VNbrLigneBasTableau,VLargeurColonne__,TextHeight,NbrColonnes_,TailleColonne,TableauWidth, TopTableau,TableauHeight: integer;
+  MargeWidth_,MargeHeight_,K,lvar_84,lvar_80,lvar_7C, NbreEleves,MyText,I:integer;
+  J,L,lvar_3C:integer;
+  TextAfficher,lvar_50,text,lvar_54,lvar_A0,lvar_48 : string;
+  TextRect : TRect;
 begin//0
-  //0052309C
-    //005230C1
-    lvar_38 := sub_00519E00;
-    lvar_10 := sub_005243D4;
-    ESI := f40.TextHeight('ALEXANDRE') + 4;//ESI
-    lvar_8 := f50[a] - f50[a - 1];
-    lvar_1C := sub_00519AF8(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge);
-    lvar_C := f3C.NbreEleves ;
-    lvar_20 := sub_005245A0(a);
-    lvar_30 := sub_00519E58;
-    lvar_24 := ESI * lvar_38 + lvar_30 + 20;//EAX
-    lvar_8C := f24 - lvar_20;
-    lvar_28 := TRUNC(lvar_8C / 2);
-    lvar_8C := f28 - lvar_24;
-    lvar_2C := TRUNC(lvar_8C / 2);
-      for lvar_74 := 1 to f50[a - 1] - f50[a] - 1  do//0052323B
+   FCanvas := FPrintPreview.Canvas;
+    VNbrLigneBasTableau := NbrLigneBasTableau;
+    VLargeurColonne__ := GetLargeurColonne__;
+    TextHeight := FCanvas.TextHeight('ALEXANDRE') + 4;
+    NbrColonnes_ := FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1];
+    TailleColonne := GetMaxTailleColonne(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge);
+    TableauWidth := GetTabWidth(IdPage);
+    TopTableau := GetTopTableau;
+    TableauHeight := TextHeight * VNbrLigneBasTableau + TopTableau + 20;//EAX
+    MargeWidth_ := MargeLeft;//TRUNC((FWidth - TableauWidth) / 2);
+    MargeHeight_ := TRUNC((FHeight - TableauHeight) / 2);
+      for K := 1 to FNbrCellInTab[IdPage - 1] - FNbrCellInTab[IdPage] - 1  do//0052323B
       begin//3
         //0052323F
-        lvar_88.left := lvar_28 + lvar_1C + (lvar_74 - 1) * lvar_10;
-        lvar_88.Top := lvar_2C;
-        lvar_88.Right := lvar_88.left + lvar_10;
-        lvar_88.bottom := lvar_88.Top + ESI;
-        lvar_4C := '';
-        DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 5);
+        TextRect.left := MargeWidth_ + TailleColonne + (K - 1) * VLargeurColonne__;
+        TextRect.Top := MargeHeight_;
+        TextRect.Right := TextRect.left + VLargeurColonne__;
+        TextRect.bottom := TextRect.Top + TextHeight;
+        TextAfficher := '';
+        DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 5);
       end;//3
-    lvar_44 := f3C.NbreEleves ;
-    if (f34 ) then
-    begin//2
-      //005232FA
-      lvar_40 := f40.TextWidth(' ' + IntToStr(lvar_44) + ' ');
-    end//2
-    else
-    begin//2
-      //0052333B
-      lvar_40 := 0;
-    end;//2
-    if (lvar_44 > 0) then
-    begin//2
-      //0052334B
-      for lvar_18 := 1 to lvar_44 do
-      begin//3
+	
+    NbreEleves := FCdn.NbreEleves ;
+    if (FImprNbrEleve ) then //005232FA
+      MyText := FCanvas.TextWidth(' ' + IntToStr(NbreEleves) + ' ')
+    else MyText := 0;
+	 DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 5);
+	 
+    for I := 1 to NbreEleves do
+    begin//3
         //00523355
-        if (f34 ) then
+        if (FImprNbrEleve ) then
         begin//4
           //0052335F
-          if (lvar_18 - 1 - 9 < 0) then
-          begin//5
-            //00523368
-            lvar_50 := '  ' + IntToStr(lvar_18) + ' ';
-          end//5
-          else
-          begin//5
-            //00523395
-            lvar_50 := ' ' + IntToStr(lvar_18) + ' ';
-          end;//5
-          lvar_88.Left := lvar_28;
-          lvar_88.Top := lvar_18 * ESI + lvar_2C;//EDI
-          lvar_88.Right := lvar_88.Left + lvar_40;//EAX
-          lvar_88.Bottom := lvar_88.Top + ESI;//EAX
-          lvar_4C := lvar_50;
-          DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 4);
-          lvar_88.Left := lvar_28 + lvar_40;//EAX
-          lvar_88.Top := lvar_18 * ESI + lvar_2C;
-          lvar_88.Right := lvar_88.Left + lvar_1C + lvar_40;
-          lvar_88.Bottom := lvar_88.Top + ESI;
-          if ((f3C.IsRedoublant(lvar_18)) and GetimpressionRGrilleVierge) then//005234A3
-          begin//5
-              //005234AC
-              lvar_1A0 := f3C.GetEleveName(lvar_18);
-              lvar_54  := lvar_1A0 + ' (R)';
-          end//5
-          else
-          begin//5
-            //005234F0
-            lvar_54:=f3C.GetEleveName(lvar_18);
-          end;//5
+          if (I - 1 < 9) then //00523368
+            lvar_50 := '  ' + IntToStr(I) + ' '
+          else //00523395
+            lvar_50 := ' ' + IntToStr(I) + ' ';
+
+          TextRect.Left := MargeWidth_;
+          TextRect.Top := I * TextHeight + MargeHeight_;//EDI
+          TextRect.Right := TextRect.Left + MyText;//EAX
+          TextRect.Bottom := TextRect.Top + TextHeight;//EAX
+          TextAfficher := lvar_50;
+          DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 4);
+          TextRect.Left := MargeWidth_ + MyText;//EAX
+          TextRect.Top := I * TextHeight + MargeHeight_;
+          TextRect.Right := TextRect.Left + TailleColonne + MyText;
+          TextRect.Bottom := TextRect.Top + TextHeight;
+          if ((FCdn.IsRedoublant(I)) and GetimpressionRGrilleVierge) then//005234A3
+              lvar_54  := FCdn.GetEleveName(I) + ' (R)'
+          else //005234F0
+            lvar_54:=FCdn.GetEleveName(I);
           if (GetImpressionDatesDeNaissanceGrilleVierge) then
           begin//5
             //00523529
-            lvar_1A0:=f3C.GetDateNais(lvar_18);
-            if (Trim(lvar_1A0) <> '') then
-            begin//6
-              //0052356C
-              lvar_4C := ' ' + lvar_54 + ' (' + lvar_1A0 + ')';
-            end//6
-            else
-            begin//6
-              //00523590
-              lvar_4C := ' ' + lvar_54 + ' ';
-            end;//6
+            text:=FCdn.GetDateNais(I);
+            if (Trim(text) <> '') then//0052356C
+              TextAfficher := ' ' + lvar_54 + ' (' + text + ')'
+            else//00523590
+              TextAfficher := ' ' + lvar_54 + ' ';
           end//5
-          else
-          begin//5
-            //005235AC
-            lvar_4C := ' ' + lvar_54 + ' ';
-          end;//5
-           DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 4);
+          else //005235AC
+            TextAfficher := ' ' + lvar_54 + ' ';
+           
+		   DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 4);
         end//4
         else
         begin//4
           //005235F4
-          lvar_88.Left := lvar_28;//lvar_28
-          lvar_88.Top := ESI * lvar_18 + lvar_2C;//EAX
-          lvar_88.Right := lvar_88.Left + lvar_1C;//EAX
-          lvar_88.Bottom := lvar_88.Top + ESI;//EAX
-          if ((f3C.IsRedoublant(lvar_18)) and GetimpressionRGrilleVierge) then//0052365A
-          begin//5
-              //00523663
-              lvar_1A0:= f3C.GetEleveName(lvar_18);
-              lvar_54 := lvar_1A0 + '(R)';
-          end//5
+          TextRect.Left := MargeWidth_;
+          TextRect.Top := TextHeight * I + MargeHeight_;
+          TextRect.Right := TextRect.Left + TailleColonne;
+          TextRect.Bottom := TextRect.Top + TextHeight;
+          if ((FCdn.IsRedoublant(I)) and GetimpressionRGrilleVierge) then//0052365A
+				lvar_54 := FCdn.GetEleveName(I) + '(R)'
           else
-          begin//5
-            //005236A7
-            lvar_54:=f3C.GetEleveName(lvar_18);
-          end;//5
+                lvar_54:=FCdn.GetEleveName(I);
           if (GetImpressionDatesDeNaissanceGrilleVierge ) then
           begin//5
             //005236E0
-            lvar_1A0:=f3C.GetDateNais(lvar_18);
-            if ( Trim(lvar_1A0) <> '') then
-            begin//6
-              //00523723
-              lvar_4C := ' ' + lvar_54 + ' (' + lvar_1A0 + ')';
-            end//6
-            else
-            begin//6
-              //00523747
-              lvar_4C := ' ' + lvar_54 + ' ';
-            end;//6
+            text:=FCdn.GetDateNais(I);
+            if ( Trim(text) <> '') then//00523723
+              TextAfficher := ' ' + lvar_54 + ' (' + text + ')'
+            else//00523747
+              TextAfficher := ' ' + lvar_54 + ' ';
           end//5
-          else
-          begin//5
-            //00523763
-            lvar_4C := ' ' + lvar_54 + ' ';
-          end;//5
-          DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 4);
+          else//00523763
+            TextAfficher := ' ' + lvar_54 + ' ';
+          DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 4);
         end;//4
         //005237ED
-        for lvar_78 := 1 to  f50[a] - 1 - f50[a - 1] do
+        for J := 1 to  FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1] - 1 do
           begin//5
             //005237F1
-            lvar_88.Left := lvar_28 + lvar_1C + (lvar_78 - 1) * lvar_10;
-            lvar_88.Top := ESI * lvar_18 + lvar_2C;
-            lvar_88.Right := lvar_88.Left + lvar_10;//EAX
-            lvar_88.Bottom := lvar_88.Top + ESI;//EAX
-            lvar_4C := '';
-            DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 5);
+            TextRect.Left := MargeWidth_ + TailleColonne + (J - 1) * VLargeurColonne__;
+            TextRect.Top := TextHeight * I + MargeHeight_;
+            TextRect.Right := TextRect.Left + VLargeurColonne__;
+            TextRect.Bottom := TextRect.Top + TextHeight;
+            TextAfficher := '';
+            DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 5);
           end;//5
-      end;//3
-    end;//2
-	
+    end;//3
+ 
     lvar_3C := 0;
-    if (lvar_38 > 0) then
+    if (VNbrLigneBasTableau > 0) then
     begin//2
       //005238C4
-        for lvar_14 := 0 to f4C.f8.count - 1 do//005238E1
+        for L := 0 to FInclureImpression.f8.count - 1 do//005238E1
         begin//4
           //005238EC
-          f4C.fc[lvar_14] := false;  
-          lvar_88.Left := lvar_28;//lvar_28
-          lvar_88.Top := ESI * (f3C.NbreEleves + lvar_3C + 1) + lvar_2C + 20;//EAX
-          lvar_88.Right := lvar_88.Left + lvar_1C;//EAX
-          lvar_88.Bottom := lvar_88.Top + ESI;//EAX
-          lvar_4C := ' ' + f4C.f8[lvar_14] + ' ';
-          DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 4);
+          FInclureImpression.fc[L] := false;  
+          TextRect.Left := MargeWidth_;
+          TextRect.Top := TextHeight * (FCdn.NbreEleves + lvar_3C + 1) + MargeHeight_ + 20;
+          TextRect.Right := TextRect.Left + TailleColonne;
+          TextRect.Bottom := TextRect.Top + TextHeight;
+          TextAfficher := ' ' + FInclureImpression.f8[L] + ' ';
+          DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 4);
             //00523A1C
-            for lvar_78 := 1 to f50[a] - 1 - f50[a - 1] do
+            for J := 1 to FNbrCellInTab[IdPage] - 1 - FNbrCellInTab[IdPage - 1] do
             begin//6
               //00523A20
-              lvar_88.Left := lvar_28 + lvar_1C + (lvar_78 - 1) * lvar_10;//EAX
-              lvar_88.Top := ESI * (f3C.NbreEleves + lvar_3C + 1) + lvar_2C + 20;//EAX
-              lvar_88.Right := lvar_88.Left + lvar_10;//EAX
-              lvar_88.Bottom := lvar_88.Top + ESI;//EAX
-              lvar_4C := '';
-              DrawTextA(f40.Handle, PChar(lvar_4C), Length(lvar_4C), lvar_88, 5);
+              TextRect.Left := MargeWidth_ + TailleColonne + (J - 1) * VLargeurColonne__;
+              TextRect.Top := TextHeight * (NbreEleves + lvar_3C + 1) + MargeHeight_ + 20;
+              TextRect.Right := TextRect.Left + VLargeurColonne__;
+              TextRect.Bottom := TextRect.Top + TextHeight;
+              TextAfficher := '';
+              DrawTextA(FCanvas.Handle, PChar(TextAfficher), Length(TextAfficher), TextRect, 5);
             end;//6
           lvar_3C := lvar_3C + 1;
         end;//4
     end;//2
       
-      for lvar_14 := 0 to lvar_C + 1 do//00523B2C
+      for L := 0 to   NbreEleves + 1 do//00523B2C
       begin//3
         //00523B37
-        if (lvar_14 = 0) then
+        {if (L = 0) then
         begin//4
           //00523B3D
-          f40.MoveTo(lvar_28 + lvar_1C, lvar_2C);
-          f40.LineTo(lvar_28 + lvar_20, lvar_2C);
+          FCanvas.MoveTo(MargeWidth_ + TailleColonne, MargeHeight_);
+          FCanvas.LineTo(MargeWidth_ + TableauWidth, MargeHeight_);
         end//4
         else
         begin//4
           //00523B6F
-          f40.MoveTo(lvar_28, lvar_14 * ESI + lvar_2C);
-          f40.LineTo(lvar_28 + lvar_20, lvar_14 * ESI + lvar_2C);
-        end;//4
+		}
+          FCanvas.MoveTo(MargeWidth_, L * TextHeight + MargeHeight_);
+          FCanvas.LineTo(MargeWidth_ + TableauWidth, L * TextHeight + MargeHeight_);
+        //end;//4
       end;//3
-    if (lvar_38 > 0) then
+    if (VNbrLigneBasTableau > 0) then
     begin//2
       //00523BBC
-      if (lvar_38 >= 0) then
+      if (VNbrLigneBasTableau >= 0) then
       begin//3
-        for lvar_14 := 0 to lvar_38 - 1 do//00523BC7
+        for L := 0 to VNbrLigneBasTableau - 0*1 do//00523BC7
         begin//4
           //00523BD2
-          f40.MoveTo(lvar_28, (f3C.NbreEleves + 1 + lvar_14) * ESI + lvar_2C + 20);
-          f40.LineTo(lvar_28 + lvar_20, (f3C.NbreEleves + 1 + lvar_14) * ESI + lvar_2C + 20);
+          FCanvas.MoveTo(MargeWidth_, (FCdn.NbreEleves + 1 + L) * TextHeight + MargeHeight_ + 20);
+          FCanvas.LineTo(MargeWidth_ + TableauWidth, (FCdn.NbreEleves + 1 + L) * TextHeight + MargeHeight_ + 20);
         end;//4
       end;//3
     end;//2
       
-      for lvar_74 := 0 to lvar_8 + 1 do//00523C8F
+      for K := 0 to NbrColonnes_ + 1 do//00523C8F
       begin//3
         //00523C95
-        if (lvar_74 = 0) then
+        if (K = 0) then
         begin//4
           //00523C99
-          f40.MoveTo(lvar_28, lvar_2C + ESI);
-          f40.LineTo(lvar_28, lvar_2C + lvar_30);
+          FCanvas.MoveTo(MargeWidth_, MargeHeight_ + TextHeight);
+          FCanvas.LineTo(MargeWidth_, MargeHeight_ + TopTableau);
         end//4
         else
         begin//4
           //00523CCD
-          if (lvar_74 = 1) then
+          if (K = 1) then
           begin//5
             //00523CD2
-            f40.MoveTo(lvar_28 + lvar_1C, lvar_2C);
-            f40.LineTo(lvar_28 + lvar_1C, lvar_2C + lvar_30);
+            FCanvas.MoveTo(MargeWidth_ + TailleColonne, MargeHeight_);
+            FCanvas.LineTo(MargeWidth_ + TailleColonne, MargeHeight_ + TopTableau);
           end//5
           else
           begin//5
             //00523D0E
-            f40.MoveTo(lvar_28 + lvar_1C + (lvar_74 - 1) * lvar_10, lvar_2C);
-            f40.LineTo(lvar_28 + lvar_1C + (lvar_74 - 1) * lvar_10, lvar_2C + lvar_30);
+            FCanvas.MoveTo(MargeWidth_ + TailleColonne + (K - 1) * VLargeurColonne__, MargeHeight_);
+            FCanvas.LineTo(MargeWidth_ + TailleColonne + (K - 1) * VLargeurColonne__, MargeHeight_ + TopTableau);
           end;//5
         end;//4
       end;//3
-    if (lvar_38 > 0) then
+    if (VNbrLigneBasTableau > 0) then
     begin//2
       //00523D9C
         //00523DB1
-        for lvar_74 := 0 to lvar_8 + 1  do
+        for K := 0 to NbrColonnes_ + 1  do
         begin//4
           //00523DB7
-          if (lvar_74 = 0) then
+          if (K = 0) then
           begin//5
             //00523DBB
-            f40.MoveTo(lvar_28, lvar_2C + lvar_30 + 20);
-            f40.LineTo(lvar_28, lvar_2C + lvar_24);
+            FCanvas.MoveTo(MargeWidth_, MargeHeight_ + TopTableau + 20);
+            FCanvas.LineTo(MargeWidth_, MargeHeight_ + TableauHeight);
           end//5
           else
           begin//5
             //00523DFA
-            f40.MoveTo(lvar_28 + lvar_1C + (lvar_74 - 1) * lvar_10, lvar_2C + lvar_30 + 20);
-            f40.LineTo(lvar_28 + lvar_1C + (lvar_74 - 1) * lvar_10, lvar_2C + lvar_24);
+            FCanvas.MoveTo(MargeWidth_ + TailleColonne + (K - 1) * VLargeurColonne__, MargeHeight_ + TopTableau + 20);
+            FCanvas.LineTo(MargeWidth_ + TailleColonne + (K - 1) * VLargeurColonne__, MargeHeight_ + TableauHeight);
           end;//5
         end;//4
     end;//2
-    if (f34) then 
+    if (FImprNbrEleve) then 
 	begin
-		lvar_40 := f40.TextWidth(' ' + IntToStr(lvar_44) + ' ');
-		f40.MoveTo(lvar_28 + lvar_40, lvar_2C + ESI);
-		f40.LineTo(lvar_28 + lvar_40, (lvar_44 + 1) * ESI + lvar_2C);
+		MyText := FCanvas.TextWidth(' ' + IntToStr(NbreEleves) + ' ');
+		FCanvas.MoveTo(MargeWidth_ + MyText, MargeHeight_ + TextHeight);
+		FCanvas.LineTo(MargeWidth_ + MyText, (NbreEleves + 1) * TextHeight + MargeHeight_);
 	end;
 	
     //00523F3F
 end;//0
 
 //00523FE0
-function TImpressionGrilleVierge.sub_00523FE0:dword;
+function TImpressionGrilleVierge.GetMargePers:dword;
 begin//0
   //00523FE0
-  result := f40.TextWidth(f54) + 4;//EAX
+  result := FCanvas.TextWidth(FMargePers) + 4;//EAX
 end;//0
 
 //00523FFC
-constructor TImpressionGrilleVierge.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);
+constructor TImpressionGrilleVierge.Create(MyPageBounds : TRect;FichierCdn:TFichierCdn; PrintPreview :TPrintPreview ; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);
 var
  buf :string;
  i :integer;
+ OneCM: TPoint;
 begin//0
-  //00523FFC
-    //0052402B
-    inherited create(FichierCdn,Canvas,EnteteDePage,BasDePage,e,f,g,Font);
-    f54 := '';
+    inherited create(FichierCdn,PrintPreview.Canvas,EnteteDePage,BasDePage,e,f,g,Font);
+    FMargePers := '';
       for I := 1 to e do//0052405D
-      begin//3
-        //0052405D
-        f54 := f54 + ' ';
-      end;//3
-    Printer.Title := 'Carnet de Notes version Personnelle - ' + f3C.GetClasseName;
-    Printer.BeginDoc;
-    f30 := sub_005243EC;
+        FMargePers := FMargePers + ' ';
+	FCanvas := PrintPreview.Canvas;
+    FPrintPreview := PrintPreview;
+    //FPrintPreview.Title := 'Carnet de Notes version Personnelle - ' + FCdn.GetClasseName;
+    //FPrintPreview.BeginDoc;
+    FNbrPageV := GetNbrPageGrilleVierge;
     //005240C1
+	//------------------------
+	(*
+	MargeLeft := 0;//MyPageBounds.Left;
+	Marge_Top := 0;//MyPageBounds.Top;
+	MargeRight  := 0;//MyPageBounds.Right;
+	MargeButtom := 0;//MyPageBounds.Bottom;
+	MargeWidth := 0;//MargeRight - MargeLeft - Printer.TableauWidth;
+	MargeHeight := 0;//MargeButtom - Marge_Top - Printer.TableauHeight;
+	Fwidth := 7637;//MyPageBounds.Left;//round((MyPageBounds.Right-MyPageBounds.Left)/2); //7637
+	FHeight := 21160;//(MyPageBounds.Bottom-MyPageBounds.Top);
+	*)
+	//---------------------
 end;//0
 
 //00524130
-procedure TImpressionGrilleVierge.sub_00524130(a:dword; b:dword; c:dword; d:dword; OrdreInverse:boolean);
+procedure TImpressionGrilleVierge.GeneratePages(MinPage:dword; MaxPage:dword; NbrExemplaires:dword; Parite:dword; OrdreInverse:boolean);
 var
-S,lvar_C,I: integer;
+S,P,I: integer;
 begin//0
   //00524130
-  if (a > b) then
-  begin//1
-    //00524146
-    S := b;
-    b := a;
-    a := S;
-  end;//1
-    for lvar_C := 1 to c do //00524159
-    begin//2
-      //00524163
-      FormProgression{gvar_00617DE4} := TFormProgression.Create(Nil);
-      FormProgression.ProgressBar1.Min := a;
-      FormProgression.ProgressBar1.Max := b + 1;
-      FormProgression.ProgressBar1.Step := 1;
-      FormProgression.ProgressBar1.Position := a - 1;
-      if (OrdreInverse = false) then
-      begin//3
-        //005241CC
-          for I := a to b  do//005241D9
-          begin//5
-            //005241DA
-            case d of
-              0:
-              begin//7
-                //005241F0
-                sub_00524480( a);
-                if (lvar_C * a <> b * c) then 
-                Printer.NewPage;
-              end;//7
-              1:
-              begin//7
-                //0052422B
-                if (a mod 2 - 1 = 0) then
-                begin//8
-                  //0052423C
-                  sub_00524480(a);
-                  if (lvar_C * a <> b * c) then 
-                  Printer.NewPage;
-                end;//8
-              end;//7
-              2:
-              begin//7
-                //00524270
-                if (a mod 2 = 0) then 
-				begin
-					sub_00524480( a);
-					if (lvar_C * a <> b * c) then 
-						Printer.NewPage;
-              end;//7
-            end;//6
-          end;//5
-        end;//4
-      end//3
-      else
-      begin//3
-        //005242C1
-          //005242CE
-          for I := b to a  do
-          begin//5
-            //005242CF
-            case d of
-              0:
-              begin//7
-                //005242E5
-                sub_00524480(b);
-                if (lvar_C * b <> a * c) then 
-					Printer.NewPage;
-              end;//7
-              1:
-              begin//7
-                //0052431F
-                if (b mod 2 - 1 = 0) then
-                begin//8
-                  //00524330
-                  sub_00524480(b);
-                  if (lvar_C * b <> a * c) then 
-					Printer.NewPage;
-                end;//8
-              end;//7
-              2:
-              begin//7
-                //00524363
-                if (b mod 2 = 0) then
-				begin
-					sub_00524480( b);
-					if (lvar_C * b <> a * c) then 
-					Printer.NewPage;
-				end;
-              end;//7
-            end;//6
-          end;//5
-        end;//4
-      end;//3
-      FormProgression.Destroy;
+  FPrintPreview.BeginDoc;
+  try
+	if (MinPage > MaxPage) then 
+	begin//1
+		//00524146
+		S := MaxPage;
+		MaxPage := MinPage;
+		MinPage := S;
+	end;//1
+		
+	for P := 1 to NbrExemplaires do //00524159
+	begin//2
+		  //00524163
+		  (*FormProgression:= TFormProgression.Create(Nil);
+		  FormProgression.ProgressBar1.Min := MinPage;
+		  FormProgression.ProgressBar1.Max := MaxPage + 1;
+		  FormProgression.ProgressBar1.Step := 1;
+		  FormProgression.ProgressBar1.Position := MinPage - 1;
+		  *)
+		  if (not(OrdreInverse)) then
+		  begin//3
+			//005241CC
+			  for I := MinPage to MaxPage  do//005241D9
+			  begin//5
+				//005241DA
+				case Parite of
+				  0:
+				  begin//7
+					//005241F0
+					DrawInCanvas( MinPage);
+					if (P * MinPage <> MaxPage * NbrExemplaires) then 
+					FPrintPreview.NewPage;
+				  end;//7
+				  1:
+				  begin//7
+					//0052422B
+					if (MinPage mod 2 = 1) then
+					begin//8
+					  //0052423C
+					  DrawInCanvas(MinPage);
+					  if (P * MinPage <> MaxPage * NbrExemplaires) then 
+					  FPrintPreview.NewPage;
+					end;//8
+				  end;//7
+				  2:
+				  begin//7
+					//00524270
+					if (MinPage mod 2 = 0) then 
+					begin
+						DrawInCanvas( MinPage);
+						if (P * MinPage <> MaxPage * NbrExemplaires) then 
+							FPrintPreview.NewPage;
+				    end;//7
+				   end;//6
+			  end;//5
+			  
+			end;//4
+		  end//3
+		  else
+		  begin//3
+			//005242C1
+			  //005242CE
+			  for I := MaxPage to MinPage  do
+			  begin//5
+				//005242CF
+				case Parite of
+				  0:
+				  begin//7
+					//005242E5
+					DrawInCanvas(MaxPage);
+					if (P * MaxPage <> MinPage * NbrExemplaires) then 
+						FPrintPreview.NewPage;
+				  end;//7
+				  1:
+				  begin//7
+					//0052431F
+					if (MaxPage mod 2 - 1 = 0) then
+					begin//8
+					  //00524330
+					  DrawInCanvas(MaxPage);
+					  if (P * MaxPage <> MinPage * NbrExemplaires) then 
+						FPrintPreview.NewPage;
+					end;//8
+				  end;//7
+				  2:
+				  begin//7
+					//00524363
+					if (MaxPage mod 2 = 0) then
+					begin
+						DrawInCanvas( MaxPage);
+						if (P * MaxPage <> MinPage * NbrExemplaires) then 
+						FPrintPreview.NewPage;
+					end;
+				  end;//7
+				end;//6
+			  end;//5
+			end;//4
+		  end;//3
+
+      //FormProgression.Destroy;
+	 finally
+	 
+      FPrintPreview.EndDoc;
+    end;
   
 end;//0
 
 //005243D4
-function TImpressionGrilleVierge.sub_005243D4:dword;
+function TImpressionGrilleVierge.GetLargeurColonne__:dword;
 begin//0
   //005243D4
-  sub_00523FE0;
-  result := f14;
+  result := {GetMargePers+}MargeLeft;
 end;//0
 
 //005243EC
-function TImpressionGrilleVierge.sub_005243EC:dword;
+function TImpressionGrilleVierge.GetNbrPageGrilleVierge:dword;
 var
   K:integer;
 begin//0
   //005243EC
-  K:=(f24 - sub_00519AF8(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge)) Div sub_005243D4;
+  K:=(Fwidth - GetMaxTailleColonne(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge)-4*MargeLeft) Div GetLargeurColonne__;
   if (K = 0) then //00524426
     result := 0
   else 
   begin
-	SetLength(f50, 2);
-  f50[0] := 1;
-  f50[1] := K + 1;//ESI
+	SetLength(FNbrCellInTab, 2);
+    FNbrCellInTab[0] := 1;
+    FNbrCellInTab[1] := K + 1;//<==
 	result := 1;
   end;
 end;//0
 
 //00524480
-procedure TImpressionGrilleVierge.sub_00524480(a:dword);
+procedure TImpressionGrilleVierge.DrawInCanvas(IdPage:dword);
 begin//0
   //00524480
     //0052449C
     Application.ProcessMessages;
-    if (FormProgression.Visible = False) then//005244B5
+    (*if (FormProgression.Visible = False) then//005244B5
       FormProgression.Show;
     FormProgression.Caption := 'Préparation de l''impression en cours ... page ' + IntToStr(FormProgression.ProgressBar1.Position);
     FormProgression.ProgressBar1.Position := FormProgression.ProgressBar1.Position + 1;
-    sub_00519534;
-    sub_0052309C(a);
-    sub_0051954C;
+	*)
+   // ImpEnteteBasDePage;
+    DrawContentInCanvas(IdPage);
+   // ImpEnteteBasDePage2;
     //0052454A
 end;//0
 
 //005245A0
-function TImpressionGrilleVierge.sub_005245A0(a:dword):dword;
+function TImpressionGrilleVierge.GetTabWidth(IdPage:dword):dword;
 begin//0
   //005245A0
-  result := sub_005243D4 * (f50[a] - f50[a - 1]) + sub_00519AF8(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge);
+  //error here :
+  //showmessage('1:'+inttostr( GetLargeurColonne__ ));
+  //showmessage('2:'+inttostr( (FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1])));
+  result := GetLargeurColonne__ * (FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1]) + GetMaxTailleColonne(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge);
+  //showmessage('3:'+inttostr( GetMaxTailleColonne(GetImpressionDatesDeNaissanceGrilleVierge, GetimpressionRGrilleVierge)));
+  //showmessage('4:'+inttostr(result));
 end;//0
 destructor TImpressionGrilleVierge.Destroy;
 begin//0
-
-  Printer.EndDoc;
+  //FPrintPreview.EndDoc;
   inherited  Destroy;
 end;//0
 

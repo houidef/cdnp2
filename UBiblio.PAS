@@ -106,7 +106,7 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, dialogs, URegistry,Registry
 	procedure SetAfficherOngletsClasses(a:Boolean);//004BB81C
 	function GetAfficherOngletsClasses:boolean;//004BB84C
 	function GetcouleurFenetreInfo:TColor;//004BB87C
-	function sub_004BB8AC:TColor;//004BB8AC
+	function GetColorVersCiel:TColor;//004BB8AC
 	procedure SetCouleurFenetreInfo(a:TColor);//004BB8B4
 	procedure SetafficherFenetreInfo(a:Boolean);//004BB8E0
 	procedure SetAfficherR(a:Boolean);//004BB90C
@@ -126,25 +126,25 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, dialogs, URegistry,Registry
 	procedure SetcouleurFinDegrade(a:TColor);//004BBB4C
 	function GetcouleurDebutDegrade:TColor;//004BBB78
 	function GetcouleurFinDegrade:TColor;//004BBBA8
-	function sub_004BBBD8:TColor;//004BBBD8
-	function sub_004BBBE0:TColor;//004BBBE0
+	function GetColorJauneCiel:TColor;//004BBBD8
+	function GetColorRougeCiel:TColor;//004BBBE0
 	procedure SetcouleurEleve(a:TColor);//004BBBE8
 	procedure SetcouleurMax(a:TColor);//004BBC10
 	procedure SetcouleurMin(a:TColor);//004BBC34
 	procedure SetcouleurMoyenne(a:TColor);//004BBC58
 	function GetCouleurEleve:TColor;//004BBC80
-	function sub_004BBCAC:TColor;//004BBCAC
+	function GetColorBlueCiel:TColor;//004BBCAC
 	function GetcouleurMax:TColor;//004BBCB4
-	function sub_004BBCDC:TColor;//004BBCDC
+	function GetColorRouge:TColor;//004BBCDC
 	function GetCouleurMin:TColor;//004BBCE4
-	function sub_004BBD0C:TColor;//004BBD0C
-	function sub_004BBD14:TColor;//004BBD14
-	function sub_004BBD40:TColor;//004BBD40
+	function GetColorNoir:TColor;//004BBD0C
+	function GetcouleurMoyenne:TColor;//004BBD14
+	function GetColorVer:TColor;//004BBD40
 	procedure SetCouleurMurBas(a:TColor);//004BBD48
 	function GetCouleurMurBas:TColor;//004BBD70
-	function sub_004BBD9C:TColor;//004BBD9C
+	function GetColorBlanc:TColor;//004BBD9C
 	procedure SetCouleurMurGauche(a:TColor);//004BBDA4
-	function sub_004BBDD0:TColor;//004BBDD0
+	function GetColorBlanc2:TColor;//004BBDD0
 	procedure SetGrapheLigneEleve(a:Boolean);//004BBDD8
 	procedure SetGrapheLigneMax(a:Boolean);//004BBE04
 	procedure SetGrapheLigneMin__(a:Boolean);//004BBE2C
@@ -154,7 +154,7 @@ Forms, Windows,  SysUtils, Classes, Graphics, Menus, dialogs, URegistry,Registry
 	function GetGrapheLigneMin:boolean;//004BBED4
 	function GetgrapheLigneMoyenne:boolean;//004BBEFC
 	procedure SetOngletsGraphes_(a:Integer);//004BBF28
-	function GetOngletsGraphes_:dword;//004BBF54
+	function GetOngletsGraphes_:dword;//004BBf54
 	procedure SetimpressionCouleurNote_(a:Boolean);//004BBF88
 	function GetimpressionCouleurNote_:boolean;//004BBFB8
 	procedure SetnumeroterElevesGrilleVierge(a:Boolean);//004BBFE8
@@ -702,7 +702,7 @@ end;//0
 //004BA108
 function GetColorMurGauche:TColor;
 begin
- result := GetValueRegColor('couleurMurGauche', sub_004BBDD0);
+ result := GetValueRegColor('couleurMurGauche', GetColorBlanc2);
 end;
 
 //004BA138
@@ -1473,11 +1473,11 @@ end;//0
 //004BB87C
 function GetcouleurFenetreInfo:TColor;
 begin//0
- result := GetValueRegColor('couleurFenetreInfo', sub_004BB8AC{,0});
+ result := GetValueRegColor('couleurFenetreInfo', GetColorVersCiel{,0});
 end;//0
 
 //004BB8AC
-function sub_004BB8AC:TColor;
+function GetColorVersCiel:TColor;
 begin
 	result := $0C8FFC8;
 end;
@@ -1602,24 +1602,24 @@ end;//0
 //004BBB78
 function GetcouleurDebutDegrade:TColor;
 begin//0
-  result := GetValueRegColor('couleurDebutDegrade', sub_004BBBD8);
+  result := GetValueRegColor('couleurDebutDegrade', GetColorJauneCiel);
 end;//0
 
 
 //004BBBA8
 function GetcouleurFinDegrade:TColor;
 begin//0
-  result := GetValueRegColor('couleurFinDegrade', sub_004BBBE0);
+  result := GetValueRegColor('couleurFinDegrade', GetColorRougeCiel);
 end;//0
 
 //004BBBD8
-function sub_004BBBD8:TColor;
+function GetColorJauneCiel:TColor;
 begin
 	result := $0FFFF80;
 end;
 
 //004BBBE0
-function sub_004BBBE0:TColor;
+function GetColorRougeCiel:TColor;
 begin
 	result := $0FF8080;
 end;
@@ -1654,12 +1654,12 @@ end;//0
 //004BBC80
 function GetCouleurEleve:TColor;
 begin//0
- result := GetValueRegColor('couleurEleve',  sub_004BBCAC{,0});
+ result := GetValueRegColor('couleurEleve',  GetColorBlueCiel{,0});
 end;//0
 
 
 //004BBCAC
-function sub_004BBCAC:TColor;
+function GetColorBlueCiel:TColor;
 begin
 	result := $0FFFF;
 end;
@@ -1667,11 +1667,11 @@ end;
 //004BBCB4
 function GetcouleurMax:TColor;
 begin
- result := GetValueRegColor('couleurMax',  sub_004BBCDC{,0});
+ result := GetValueRegColor('couleurMax',  GetColorRouge{,0});
 end;
 
 //004BBCDC
-function sub_004BBCDC:TColor;
+function GetColorRouge:TColor;
 begin
 result := $0FF0000;
 end;
@@ -1679,24 +1679,24 @@ end;
 //004BBCE4
 function GetCouleurMin:TColor;
 begin
-result := GetValueRegColor('couleurMin',sub_004BBD0C{,0});
+result := GetValueRegColor('couleurMin',GetColorNoir{,0});
 end;
 
 //004BBD0C
-function sub_004BBD0C:TColor;
+function GetColorNoir:TColor;
 begin
  result := $0FF;
 end;
 
 //004BBD14
-function sub_004BBD14:TColor;
+function GetcouleurMoyenne:TColor;
 begin//0
- result := GetValueRegColor('couleurMoyenne',sub_004BBD40{,0});
+ result := GetValueRegColor('couleurMoyenne',GetColorVer{,0});
 end;//0
 
 
 //004BBD40
-function sub_004BBD40:TColor;
+function GetColorVer:TColor;
 begin
 	result := $80FF80;
 end;
@@ -1711,11 +1711,11 @@ end;//0
 //004BBD70
 function GetCouleurMurBas:TColor;
 begin
- result := GetValueRegColor('couleurMurBas',sub_004BBD9C);
+ result := GetValueRegColor('couleurMurBas',GetColorBlanc);
 end;
 
 //004BBD9C
-function sub_004BBD9C:TColor;
+function GetColorBlanc:TColor;
 begin
 	result := $0FFFFFF;
 end;
@@ -1728,7 +1728,7 @@ end;//0
 
 
 //004BBDD0
-function sub_004BBDD0:TColor;
+function GetColorBlanc2:TColor;
 begin
 	result := $0FFFFFF;
 end;
@@ -1793,10 +1793,10 @@ begin//0
   SetValueRegInt('ongletsGraphes', a, False);
 end;//0
 
-//004BBF54
+//004BBf54
 function GetOngletsGraphes_:dword;
 begin//0
- //004BBF54
+ //004BBf54
  result := GetValueRegInt('ongletsGraphes', 0, false);
 end;//0
 
@@ -2402,6 +2402,7 @@ function GetimpressionRGrilleVierge:boolean;
 begin
 result := GetValueRegBool('impressionRGrilleVierge', true{,0});
 end;
+
 INITIALIZATION
 Finalization
   SetHistorique(GetHistorique);

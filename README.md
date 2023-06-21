@@ -3,9 +3,8 @@ Carnet de Note des professeurs de la formation professionelle
 
 دفتر نقاط خاص باساتذة التكوين المهني 
 
-Programmation :  HOUIDEF ABDELKADER (C) 2021
-Email : Houidefaek@gmail.com
+Programmation : HOUIDEF ABDELKADER
 
-Version : V0.02 2021
+Version : V1.01 2022
 
 مهدى مجانا الى روح الفقيدة الغالية : هويدف فاطمة 

@@ -81,7 +81,7 @@ begin//0
     ComboBox1.ItemIndex := 0;
     ComboBox2.Items := GetTypesdenotes;
     ComboBox2.ItemIndex := 0;
-      for I := 1 to f330.NbreModules(TabControl1.TabIndex + 1) do //0050FAFA
+      for I := 1 to f330.NbrSerieNotes(TabControl1.TabIndex + 1) do //0050FAFA
       begin//3
         //0050FB01
         ListBox2.Items.Add(f330.GetTitleModule( TabControl1.TabIndex + 1, I));
@@ -112,7 +112,7 @@ begin//0
   //0050FC18
     //0050FC38
     ListBox2.Items.Clear;
-      for I := 1 to f330.NbreModules(TabControl1.TabIndex + 1) do//0050FC8A
+      for I := 1 to f330.NbrSerieNotes(TabControl1.TabIndex + 1) do//0050FC8A
       begin//3
         //0050FC91 
         ListBox2.Items.Add(f330.GetTitleModule(TabControl1.TabIndex + 1, I));
@@ -379,7 +379,7 @@ begin//0
                 for J:= 1 to f730[I - 1] - 1 do//00510965
                 begin//8
                   //0051096D
-                  lvar_C := lvar_C + f330.NbreModules(J) ;
+                  lvar_C := lvar_C + f330.NbrSerieNotes(J) ;
                 end;//8
               f730[I - 1] := f334[I - 1] + lvar_C;
             end;//6
@@ -455,7 +455,7 @@ begin//0
               end;//7
             end;//6
             lvar_18.Free;
-            f330.SetAbs(ComboBox1.ItemIndex + 1, f330.NbreModules(ComboBox1.ItemIndex + 1), I, lvar_42C);
+            f330.SetAbs(ComboBox1.ItemIndex + 1, f330.NbrSerieNotes(ComboBox1.ItemIndex + 1), I, lvar_42C);
           end;//5 
         if (lvar_D) then
         begin//4

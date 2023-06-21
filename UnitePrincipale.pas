@@ -494,7 +494,7 @@ procedure TFormCarnetDeNotes2.EvenemtsSave;
 var
  I:integer;
 begin//0
-  //0060CABC
+  exit;
     for I:=0 to MDIChildCount-1 do //0060CAE5
        SendMessageA(MDIChildren[I].Handle, $40D, 0, 0);
 end;//0
@@ -542,7 +542,7 @@ end;//0
 //0060CC64
 procedure TFormCarnetDeNotes2.EvRefreshHistroqiueMainMenu;
 begin//0
-  //0060CC64
+  exit;
   RefreshHistroqiueMainMenu(MainMenuPrincipal, 0, Self, Ouvrir1Click);
 end;//0
 
@@ -598,8 +598,7 @@ var
   Buf,buf0,buf1,lvar_4:string;
   filename:string;
 begin//0
-  //0060D048
-    //0060D07E
+  exit;
     OngletsClasses.Visible := GetAfficherOngletsClasses;
     case GetOngletClasses of
       0:

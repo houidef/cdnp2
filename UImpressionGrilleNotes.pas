@@ -9,19 +9,20 @@ interface
 
 uses
 Forms, Windows,  SysUtils, Classes, UImpression, UFichierCdn, 
-UBlocTexte, Graphics, Printers,
- _FormProgression, UInclureImpression, dialogs;
+UBlocTexte, Graphics, Printers,_FormProgression, UInclureImpression, 
+dialogs,UViewer,Preview;
 
 type
   TImpressionGrilleNotes = class(TImpression)
-	constructor Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);//0051BC40
-	procedure sub_0051A184(b:dword);//0051A184
+    FPrintPreview :TPrintPreview;
+	constructor Create(FichierCdn:TFichierCdn; PrintPreview :TPrintPreview; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);//0051BC40
+	procedure DrawContentInCanvas(IdPage:dword);//0051A184
     function sub_0051BB60:dword;//0051BB60
-    procedure sub_0051BD4C(Min:dword; Max:dword; Nbr_Exp:dword; d:dword; e:boolean);//0051BD4C
-    function sub_0051BFF0:dword;//0051BFF0
-    function sub_0051C60C:byte;//0051C60C //Calcul le Nbr de page 
-    procedure sub_0051C774(Num_Page:dword);//0051C774
-    function sub_0051C894(b:dword):dword;//0051C894
+    procedure GeneratePages(Min:dword; Max:dword; Nbr_Exp:dword; d:dword; e:boolean);//0051BD4C
+    function GetTaillePage:dword;//0051BFF0
+    function Get_NbrPageV:byte;//0051C60C //Calcul le Nbr de page 
+    procedure DrawInCanvas(Num_Page:dword);//0051C774
+    function sub_0051C894(IdPage:dword):dword;//0051C894
 	destructor Destroy;
   end;
 
@@ -30,67 +31,54 @@ implementation
    uses UBiblio,PeriodeCalc;
 //0051A184
 //imprimer les notes des etudiants
-procedure TImpressionGrilleNotes.sub_0051A184(b:dword);
+procedure TImpressionGrilleNotes.DrawContentInCanvas(IdPage:dword);
 var
 R:TRect;
-text,buf,lvar_60:string;
-lvar_44,lvar_20,lvar_28,lvar_3C,lvar_2C,lvar_30,lvar_88,lvar_38:integer;
+text,buf,EleveName:string;
+lvar_44,RTailleColonne,lvar_28,lvar_3C,lvar_2C,RMargeLeft,lvar_88,lvar_38:integer;
 RWITH,RHEIGHT,RTOP,NbrCell,NumModule,I,J,K,C,L :integer;
-lvar_4C,lvar_50,lvar_48,lvar_10,lvar_C:integer;
+lvar_4C,lvar_50,lvar_48,NbreEleves,lvar_C:integer;
 lvar_80,lvar_70:Real;
 lvar_84 : TStringList;
 begin//0
-  //0051A184
-    //0051A1AA
-    lvar_44 := sub_00519E00;
-    RWITH := sub_0051BFF0;
-    RHEIGHT{lvar_18} := f40.TextHeight('ALEXANDRE')+ 4;
-    lvar_C := f50[b] - f50[b - 1];
-    lvar_20 := sub_00519AF8(GetImpressionDatesDeNaissanceSeriesDeNotes, GetImpressionRSeriesDeNotes); //la taille de 2eme colone 'Noms&prenom etudiant'
-    lvar_10 := f3C.NbreEleves;
-    lvar_28 := sub_0051C894(b);
-    lvar_3C := sub_00519E58;
-    lvar_2C := RHEIGHT * lvar_44 + lvar_3C + $14{20};//EAX
-    lvar_30 := TRUNC((f24 - lvar_28) / 2) ;
-    RTOP := TRUNC((f28 - lvar_2C) / 2) ;
+    FCanvas := FPrintPreview.Canvas;
+    lvar_44 := NbrLigneBasTableau;
+    RWITH := GetTaillePage;
+    RHEIGHT := FCanvas.TextHeight('ALEXANDRE')+ 4;
+    lvar_C := FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1];
+    RTailleColonne := GetMaxTailleColonne(GetImpressionDatesDeNaissanceSeriesDeNotes, GetImpressionRSeriesDeNotes); //la taille de 2eme colone 'Noms&prenom etudiant'
+    NbreEleves := FCdn.NbreEleves;
+    lvar_28 := sub_0051C894(IdPage);
+    lvar_3C := GetTopTableau;
+    lvar_2C := RHEIGHT * lvar_44 + lvar_3C + 20;//EAX
+    RMargeLeft :=  MargeLeft; //TRUNC((Fwidth - lvar_28) / 2) ;
+    RTOP := TRUNC((FHeight - lvar_2C) / 2) ;
     NbrCell := 1;//NbrCell = lvar_38
-      lvar_88 := f50[b]- f50[b - 1];
-      for NumModule := 0 to f50[b] - f50[b - 1] - 1 do //0051A345
-      begin//3
-        //0051A34F
-        R.left := lvar_30 + lvar_20 + (NbrCell - 1) * RWITH;
-        R.Top := RTOP;
-        R.right := R.left + RWITH;
-        R.bottom := R.Top + RHEIGHT;
-        if (f3C.NbreModules(f2C)  >= NumModule) then
-        begin//4
-          //0051A3E2
-         text := f3C.GetTitleModule(f2C, NumModule+1);
-        end//4
-        else
-        begin//4
-          //0051A427
-          text := 'Moyennes';
-        end;//4
-        DrawTextA(f40.Handle, PChar(text), Length(text), R, 5);
-        NbrCell := NbrCell + 1;
-      end;//3
-    lvar_50 := f3C.NbreEleves;
-    if (f34) then
-    begin//2
-      //0051A496
-      lvar_4C := f40.TextWidth(' ' + IntToStr(lvar_50) + ' ');
-    end//2
+	lvar_88 := FNbrCellInTab[IdPage]- FNbrCellInTab[IdPage - 1];
+	for NumModule := 0 to FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1] - 1 do //0051A345
+	begin//3
+		//0051A34F
+		R.left := RMargeLeft + RTailleColonne + (NbrCell - 1) * RWITH;
+		R.Top := RTOP;
+		R.right := R.left + RWITH;
+		R.bottom := R.Top + RHEIGHT;
+		if (FCdn.NbrSerieNotes(FIdPeriode)  >= NumModule) then
+			 text := FCdn.GetTitleModule(FIdPeriode, NumModule+1)
+		else
+			 text := 'Moyennes';
+		DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 5);
+		NbrCell := NbrCell + 1;
+	end;//3
+    lvar_50 := FCdn.NbreEleves;
+    if (FImprNbrEleve) then
+      lvar_4C := FCanvas.TextWidth(' ' + IntToStr(lvar_50) + ' ')
     else
-    begin//2
-      //0051A4DA
       lvar_4C := 0;
-    end;//2/
       //lvar_88 := lvar_50;
-      for {lvar_1C}I := 1 to lvar_50 do//0051A4EA
+      for I := 1 to lvar_50 do//0051A4EA
       begin//3
         //0051A4F7
-        if (f34) then
+        if (FImprNbrEleve) then
         begin//4
           //0051A504
           if (I - 10 < 0) then//0051A50D
@@ -98,113 +86,90 @@ begin//0
           else//0051A53A
             text := ' ' + IntToStr(I) + ' ';
 
-          R.Left := lvar_30;
+          R.Left := RMargeLeft;
           R.Top := RHEIGHT * I + RTOP;
           R.Right := R.Left + lvar_4C;//EAX
           R.Bottom := R.Top + RHEIGHT;
-          DrawTextA(f40.Handle, PChar(text), Length(text), R, 4);
-          R.Left := lvar_30 + lvar_4C;//EAX
+          DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 4);
+          R.Left := RMargeLeft + lvar_4C;//EAX
           R.Top := RHEIGHT * I + RTOP;//EAX
-          R.Right := R.Left + lvar_20 + lvar_4C;//EAX
+          R.Right := R.Left + RTailleColonne + lvar_4C;//EAX
           R.Bottom := R.Top + RHEIGHT;//EAX
-          if (f3C.IsRedoublant(I)) and (GetImpressionRSeriesDeNotes) then//0051A675 redoublant and imprRedoublant
-          begin//5
-              //0051A67E
-              lvar_60 := f3C.GetEleveName(I) + ' (R)';
-          end//5
+          if (FCdn.IsRedoublant(I)) and (GetImpressionRSeriesDeNotes) then//0051A675 redoublant and imprRedoublant
+              EleveName := FCdn.GetEleveName(I) + ' (R)'
           else
-          begin//5
-			lvar_60 := f3C.GetEleveName(I);
-          end;//5
+			  EleveName := FCdn.GetEleveName(I);
+
           if (GetImpressionDatesDeNaissanceSeriesDeNotes) then
           begin//5
             //0051A703
-            buf:=f3C.GetDateNais(I);
+            buf:=FCdn.GetDateNais(I);
             if (Trim(buf) <> '') then
-            begin//6
-              //0051A74A
-              text := ' ' + lvar_60 + ' (' + buf + ')';
-            end//6
+              text := ' ' + EleveName + ' (' + buf + ')'
             else
-            begin//6
-              //0051A76E
-              text := ' ' + lvar_60 + ' ';
-            end;//6
+              text := ' ' + EleveName + ' ';
           end//5
           else
           begin//5
             //0051A78A
-            text := ' ' + lvar_60 + ' ';
+            text := ' ' + EleveName + ' ';
           end;//5
-          DrawTextA(f40.Handle, PChar(text), Length(text), R, 4);
+          DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 4);
         end//4
         else
         begin//4
           //0051A7D5
-          R.Left := lvar_30;
+          R.Left := RMargeLeft;
           R.Top := RHEIGHT * I + RTOP;
-          R.Right := R.Left + lvar_20;
+          R.Right := R.Left + RTailleColonne;
           R.Bottom := R.Top + RHEIGHT;
-          if (f3C.IsRedoublant(I) and GetImpressionRSeriesDeNotes) then//0051A848
-          begin//5
-              //0051A851
-              lvar_60 := f3C.GetEleveName(I) + ' (R)';
-          end//5
+          if (FCdn.IsRedoublant(I) and GetImpressionRSeriesDeNotes) then//0051A848
+              EleveName := FCdn.GetEleveName(I) + ' (R)'
           else
-          begin//5
-            //0051A899
-			lvar_60 := f3C.GetEleveName(I);
-          end;//5
+			EleveName := FCdn.GetEleveName(I);
           
           if (GetImpressionDatesDeNaissanceSeriesDeNotes) then
           begin//5
             //0051A8D6
-            buf:=f3C.GetDateNais(I);
+            buf:=FCdn.GetDateNais(I);
             if (Trim(buf) <> '') then
-            begin//6
-              //0051A91D
-              text := ' ' + lvar_60 + ' (' + buf + ')';
-            end//6
+              text := ' ' + EleveName + ' (' + buf + ')'
             else
-            begin//6
-              //0051A941
-              text := ' ' + lvar_60 + ' ';
-            end;//6
+              text := ' ' + EleveName + ' ';
+
           end//5
           else
-          begin//5
-            //0051A95D
-            text := ' ' + lvar_60 + ' ';
-          end;//5
-          DrawTextA(f40.Handle, PChar(text), Length(text), R, 4);
+            text := ' ' + EleveName + ' ';
+
+          DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 4);
         end;//4
 		//-----------------------------------------------------------
         NbrCell := 1;
-		//lvar_8C :=  f50[b - 1];
-          for J := 1{0} to f50[b] {- 1} - f50[b - 1] do //0051A9F2
+		//lvar_8C :=  FNbrCellInTab[IdPage - 1];
+          for J := 1{0} to FNbrCellInTab[IdPage] {- 1} - FNbrCellInTab[IdPage - 1] do //0051A9F2
           begin//5
             //0051A9FC
 
-            R.Left := lvar_30 + lvar_20 + (NbrCell - 1) * RWITH{lvar_14};
+            R.Left := RMargeLeft + RTailleColonne + (NbrCell - 1) * RWITH{lvar_14};
             R.Top := RHEIGHT * I + RTOP{lvar_34};//EAX
             R.Right := R.Left + RWITH;//EAX
             R.Bottom := R.Top + RHEIGHT;//EAX
-            if (f3C.NbreModules(f2C) >= J) then
-              text := f3C.Get_Sum(f2C, J, I)
+            if (FCdn.NbrSerieNotes(FIdPeriode) >= J) then
+              text := FCdn.Get_Sum(FIdPeriode, J, I)
             else//0051AAF4
-              text := f3C.GetMoyennePeriode(f2C, I, GetArrondirMoyennes);
+              text := FCdn.GetMoyennePeriode(FIdPeriode, I, GetArrondirMoyennes);
             if (GetimpressionCouleurNote_) then //0051AB46
               if (text = 'abs') Or (text = '') then//0051AB5B
-                f40.font.Color := 0
+                FCanvas.font.Color := 0
               else
               begin//7
                 //0051AB70
                 try
                   //0051AB7E
-                  if (f3C.NbreModules(f2C) >= J) then
+                  if (FCdn.NbrSerieNotes(FIdPeriode) >= J) then
                   begin//9
                     //0051ABA6
-                    lvar_70 := StrToFloat(f3C.GetDateNoteSur(f2C,J));
+                    lvar_70 := StrToFloat(FCdn.GetDateNoteSur(FIdPeriode,J));
                   end//9
                   else
                   begin//9
@@ -216,7 +181,7 @@ begin//0
                   if ( lvar_80< 0) Or (lvar_70 < 0) then //!!!!!!!
                   begin//9
                     //0051AC39
-                    f40.font.Color := GetColor4Note;
+                    FCanvas.font.Color := GetColor4Note;
                   end//9
                   else
                   begin//9
@@ -227,7 +192,7 @@ begin//0
                       if (lvar_80 <0 ) then
                       begin//11
                         //0051AC74
-                        f40.font.Color:= GetColor1Note;
+                        FCanvas.font.Color:= GetColor1Note;
                       end//11
                       else
                       begin//11
@@ -247,7 +212,7 @@ begin//0
                         {if ( >= ) then
                         begin//12
                           //0051ACB1
-                          f40.font.Color:=GetColor3Note;
+                          FCanvas.font.Color:=GetColor3Note;
                         end//12
                         else
                         begin//12
@@ -257,7 +222,7 @@ begin//0
                       else
                       begin//11
                         //0051ACC8??? And ???
-                       // f40.font.Color := EDX;
+                       // FCanvas.font.Color := EDX;
                       end;//11
                     end;//10
                   end;//9
@@ -265,8 +230,8 @@ begin//0
                   //0051ACEC
                 end;//8
               end;//7
-           DrawTextA(f40.Handle, PChar(text), Length(text), R, 5);
-            f40.font.Color := 0;
+           DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 5);
+            FCanvas.font.Color := 0;
             NbrCell := NbrCell + 1;
           end;//5
       end;//3
@@ -275,99 +240,99 @@ begin//0
     if (lvar_44 > 0) then
     begin//2
       //0051AD65
-        for K := 0 to f4C.f8.count - 1 do//0051AD85
+        for K := 0 to FInclureImpression.f8.count - 1 do//0051AD85
         begin//4
           //0051AD8E
-          if (f4C.fC[K])then
+          if (FInclureImpression.fC[K])then
 		  begin
-			R.Left := lvar_30;
-			R.Top := RHEIGHT * (f3C.NbreEleves + lvar_48 + 1) + RTOP + $14{20};//EAX
-			R.Right := R.Left + lvar_20;
+			R.Left := RMargeLeft;
+			R.Top := RHEIGHT * (FCdn.NbreEleves + lvar_48 + 1) + RTOP + $14{20};//EAX
+			R.Right := R.Left + RTailleColonne;
 			R.Bottom := R.Top + RHEIGHT;
-			text := ' ' + f4C.f8[K] {+ lvar_1CC  }+ ' ';
-			DrawTextA(f40.Handle, PChar(text), Length(text), R, 4);
+			text := ' ' + FInclureImpression.f8[K] {+ lvar_1CC  }+ ' ';
+			DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 4);
 			NbrCell := 1;
             
-            for {lvar_24}J := {f50[b - 1]}1 to f50[b] {- 1} - f50[b - 1] do//0051AED6
+            for {lvar_24}J := {FNbrCellInTab[IdPage - 1]}1 to FNbrCellInTab[IdPage] {- 1} - FNbrCellInTab[IdPage - 1] do//0051AED6
             begin//6
               //0051AEE0
-              R.Left := lvar_30 + lvar_20 + (NbrCell - 1) * RWITH;//EAX
-              R.Top := RHEIGHT * (f3C.NbreEleves + lvar_48 + 1) + RTOP + $14{20};//EAX
+              R.Left := RMargeLeft + RTailleColonne + (NbrCell - 1) * RWITH;//EAX
+              R.Top := RHEIGHT * (FCdn.NbreEleves + lvar_48 + 1) + RTOP + $14{20};//EAX
               R.Right := R.Left + RWITH;
               R.Bottom := R.Top + RHEIGHT;
-              if (J <= f3C.NbreModules(f2C)) then
+              if (J <= FCdn.NbrSerieNotes(FIdPeriode)) then
               begin//7
                 //0051AFC0
                 case K of  //EBX
                   0:
                   begin//9
                     //0051B00A
-                    text := f3C.GetNombreElevePresents(f2C, J);
+                    text := FCdn.GetNombreElevePresents(FIdPeriode, J);
                   end;//9
                   1:
                   begin//9
                     //0051B052
-                    text := f3C.GetMinNote__(f2C, J);
+                    text := FCdn.GetMinNote__(FIdPeriode, J);
                   end;//9
                   2:
                   begin//9
                     //0051B09A
-                    text := f3C.GetMaxNote__(f2C, J);
+                    text := FCdn.GetMaxNote__(FIdPeriode, J);
                   end;//9
                   3:
                   begin//9
                     //0051B0E2
-                    text := f3C.GetMoyenne___(f2C, J);
+                    text := FCdn.GetMoyenne___(FIdPeriode, J);
                   end;//9
                   4:
                   begin//9
                     //0051B12A
-                    text := f3C.GetEcartType(f2C, J);
+                    text := FCdn.GetEcartType(FIdPeriode, J);
                   end;//9
                   5:
                   begin//9
                     //0051B172
-                    text := f3C.GetPersentNotesInfMoyenne(f2C, J);
+                    text := FCdn.GetPersentNotesInfMoyenne(FIdPeriode, J);
                   end;//9
                   6:
                   begin//9
                     //0051B1BA
-                    text := f3C.GetPersentNotesInfMoyenneClasse(f2C, J);
+                    text := FCdn.GetPersentNotesInfMoyenneClasse(FIdPeriode, J);
                   end;//9
                   7:
                   begin//9
                     //0051B202
-                    text := f3C.GetDateNoteSur( f2C, J);
+                    text := FCdn.GetDateNoteSur( FIdPeriode, J);
                   end;//9
                   8:
                   begin//9
                     //0051B24A
-                    text := f3C.Get_Coefficient(f2C, J);
+                    text := FCdn.Get_Coefficient(FIdPeriode, J);
                   end;//9
                   9:
                   begin//9
                     //0051B292
-                    text := f3C.GetCompteMoyenne(f2C, J);
+                    text := FCdn.GetCompteMoyenne(FIdPeriode, J);
                   end;//9
                   10:
                   begin//9
                     //0051B2DA
-                    text := f3C.GetDataDate(f2C, J);
+                    text := FCdn.GetDataDate(FIdPeriode, J);
                   end;//9
                   11:
                   begin//9
                     //0051B322
-                    text := f3C.GetDataCommentaire(f2C, J);
+                    text := FCdn.GetDataCommentaire(FIdPeriode, J);
                   end;//9
                   12:
                   begin//9
                     //0051B36A
-                    text := f3C.GetDataTypeNote(f2C, J);
+                    text := FCdn.GetDataTypeNote(FIdPeriode, J);
                   end;//9
                   13:
                   begin//9
                     //0051B3B2
-                    text := f3C.GetOralEcrit(f2C, J);
+                    text := FCdn.GetOralEcrit(FIdPeriode, J);
                   end;//9
                 end;//8
               end//7
@@ -375,11 +340,11 @@ begin//0
               begin//7
                 //0051B3FA
                 lvar_84 := TStringList.Create;
-                  for C := 1 to f3C.NbreEleves do//0051B423
+                  for C := 1 to FCdn.NbreEleves do//0051B423
                   begin//9
                     //0051B42A
 					;
-                    lvar_84.add(f3C.GetMoyennePeriode(f2C, C, GetArrondirMoyennes));
+                    lvar_84.add(FCdn.GetMoyennePeriode(FIdPeriode, C, GetArrondirMoyennes));
                   end;//9
                
                 case K of //EBX
@@ -426,7 +391,7 @@ begin//0
                 end;//8
                 lvar_84.destroy;
               end;//7
-              DrawTextA(f40.Handle, PChar(text), Length(text), R, 5);
+              DrawTextA(FCanvas.Handle, PChar(text), Length(text), R, 5);
               NbrCell := NbrCell + 1;
             end;//6
           lvar_48 := lvar_48 + 1;
@@ -435,20 +400,20 @@ begin//0
     end;//2
 	//--------------------------------------------------------------------- 
 	//impr lignes horisontals 1ere tableau
-	  for K := 0 to lvar_10 + 1 {+1} do //0051B634
+	  for K := 0 to NbreEleves + 1 {+1} do //0051B634
 	  begin//3
 		//0051B63D
 		if (K = 0) then //EBX
 		begin//4
 		  //0051B641
-		  f40.MoveTo(lvar_30 + lvar_20, RTOP);
-		  f40.LineTo(lvar_30 + lvar_28, RTOP);
+		  FCanvas.MoveTo(RMargeLeft + RTailleColonne, RTOP);
+		  FCanvas.LineTo(RMargeLeft + lvar_28, RTOP);
 		end//4
 		else
 		begin//4
 		  //0051B679
-		  f40.MoveTo(lvar_30, K * RHEIGHT + RTOP);
-		  f40.LineTo(lvar_30 + lvar_28, K * RHEIGHT + RTOP);
+		  FCanvas.MoveTo(RMargeLeft, K * RHEIGHT + RTOP);
+		  FCanvas.LineTo(RMargeLeft + lvar_28, K * RHEIGHT + RTOP);
 		end;//4
 	  end;//3
       //0051B6E4
@@ -456,8 +421,8 @@ begin//0
         for K := 0 to lvar_44 + 1 do //0051B6EF
         begin//4
           //0051B6F8
-          f40.MoveTo(lvar_30, (f3C.NbreEleves + 1 + K) * RHEIGHT+ RTOP + $14{20});
-          f40.LineTo( lvar_30 + lvar_28, (f3C.NbreEleves + 1 + K) * RHEIGHT + RTOP + $14{20});
+          FCanvas.MoveTo(RMargeLeft, (FCdn.NbreEleves + 1 + K) * RHEIGHT+ RTOP + $14{20});
+          FCanvas.LineTo( RMargeLeft + lvar_28, (FCdn.NbreEleves + 1 + K) * RHEIGHT + RTOP + $14{20});
         end;//4
       //impr lignes vericales de 1ere tableau
       for K := 0 to lvar_C + 1 {+1}  do //0051B7C2
@@ -466,8 +431,8 @@ begin//0
         if (K = 0) then
         begin//4
           //0051B7CF
-          f40.MoveTo(lvar_30, RTOP + RHEIGHT);
-          f40.LineTo(lvar_30, RTOP + lvar_3C);
+          FCanvas.MoveTo(RMargeLeft, RTOP + RHEIGHT);
+          FCanvas.LineTo(RMargeLeft, RTOP + lvar_3C);
         end//4
         else
         begin//4
@@ -475,14 +440,14 @@ begin//0
           if (K = 1) then
           begin//5
             //0051B80F
-            f40.MoveTo(lvar_30 + lvar_20, RTOP);
-            f40.LineTo(lvar_30 + lvar_20, RTOP + lvar_3C);
+            FCanvas.MoveTo(RMargeLeft + RTailleColonne, RTOP);
+            FCanvas.LineTo(RMargeLeft + RTailleColonne, RTOP + lvar_3C);
           end//5
           else
           begin//5
             //0051B854
-            f40.MoveTo(lvar_30 + lvar_20 + (K - 1) * RWITH, RTOP);
-            f40.LineTo(lvar_30 + lvar_20 + (K - 1) * RWITH, RTOP + lvar_3C);
+            FCanvas.MoveTo(RMargeLeft + RTailleColonne + (K - 1) * RWITH, RTOP);
+            FCanvas.LineTo(RMargeLeft + RTailleColonne + (K - 1) * RWITH, RTOP + lvar_3C);
           end;//5
         end;//4
       end;//3
@@ -496,22 +461,22 @@ begin//0
 		  if (K = 0) then
 		  begin//5
 			//0051B90D
-			f40.MoveTo(lvar_30, RTOP + lvar_3C + $14{20});
-			f40.LineTo(lvar_30, RTOP + lvar_2C);
+			FCanvas.MoveTo(RMargeLeft, RTOP + lvar_3C + $14{20});
+			FCanvas.LineTo(RMargeLeft, RTOP + lvar_2C);
 		  end//5
 		  else
 		  begin//5
 			//0051B952
-			f40.MoveTo(lvar_30 + lvar_20 + (K - 1) * RWITH, RTOP + lvar_3C + $14{20});
-			f40.LineTo(lvar_30 + lvar_20 + (K - 1) * RWITH, RTOP + lvar_2C);
+			FCanvas.MoveTo(RMargeLeft + RTailleColonne + (K - 1) * RWITH, RTOP + lvar_3C + $14{20});
+			FCanvas.LineTo(RMargeLeft + RTailleColonne + (K - 1) * RWITH, RTOP + lvar_2C);
 		  end;//5
 		end;//4
     end;//2
-    if (f34) then
+    if (FImprNbrEleve) then
 	begin
-		lvar_4C := f40.TextWidth(' ' + IntToStr(lvar_50) + ' ');
-		f40.MoveTo(lvar_30 + lvar_4C, RTOP + RHEIGHT);
-		f40.LineTo(lvar_30 + lvar_4C, (lvar_50 + 1) * RHEIGHT + RTOP);
+		lvar_4C := FCanvas.TextWidth(' ' + IntToStr(lvar_50) + ' ');
+		FCanvas.MoveTo(RMargeLeft + lvar_4C, RTOP + RHEIGHT);
+		FCanvas.LineTo(RMargeLeft + lvar_4C, (lvar_50 + 1) * RHEIGHT + RTOP);
 	end;
 end;//0
 
@@ -525,40 +490,44 @@ begin//0
   //0051BB60
     //0051BB80
       res := 0;
-      for I := 1 to f3C.NbreModules(f2C) do //0051BBAF
+      for I := 1 to FCdn.NbrSerieNotes(FIdPeriode) do //0051BBAF
       begin//3
         //0051BBB6
-        buf := f3C.GetTitleModule(f2C, I);
-        if (f40.TextWidth(buf) > res) then 
-			res := f40.TextWidth(buf);
+        buf := FCdn.GetTitleModule(FIdPeriode, I);
+        if (FCanvas.TextWidth(buf) > res) then 
+			res := FCanvas.TextWidth(buf);
       end;//3
     result := res + 4;//EBX
 end;//0
 
 //0051BC40
-constructor TImpressionGrilleNotes.Create(FichierCdn:TFichierCdn; Canvas:TCanvas; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);
+constructor TImpressionGrilleNotes.Create(FichierCdn:TFichierCdn; PrintPreview :TPrintPreview; EnteteDePage:TEnteteBasDePage; BasDePage:TEnteteBasDePage; e:dword; f:TInclureImpression; g:boolean; Font:TFont);
 var
  Buf:string;
 begin//0
   //0051BC40
     //0051BC72
-    inherited create(FichierCdn, Canvas, EnteteDePage, BasDePage, e, f, g,Font);
-    //f4C := f;
-    Printer.Title := 'Carnet de Notes version Personnelle - ' + f3C.GetClasseName;
-    Printer.BeginDoc;
-    f30 := sub_0051C60C; //initiliser le Nbr de page vertical
+    inherited create(FichierCdn, PrintPreview.Canvas, EnteteDePage, BasDePage, e, f, g,Font);
+	FCanvas := PrintPreview.Canvas;
+	FPrintPreview := PrintPreview;
+    //FInclureImpression := f;
+    //Printer.Title := 'Carnet de Notes version Personnelle - ' + FCdn.GetClasseName;
+    //Printer.BeginDoc;
+    FNbrPageV := Get_NbrPageV; //initiliser le Nbr de page vertical
 end;//0
 
 
 //0051BD4C
 //Min : Page minimun
 //Max : Page maximun
-procedure TImpressionGrilleNotes.sub_0051BD4C(Min:dword; Max:dword; Nbr_Exp:dword; d:dword; e:boolean);
+procedure TImpressionGrilleNotes.GeneratePages(Min:dword; Max:dword; Nbr_Exp:dword; d:dword; e:boolean);
 var
   I,J:integer;
   x:dword;
 begin//0
   //0051BD4C
+  FPrintPreview.BeginDoc;
+  //FPrintPreview.Canvas.TextOut(0,0,'Hello');
   if (Min > Max) then
   begin//0051BD62
     X := Max;
@@ -569,11 +538,14 @@ begin//0
     for J := 1 to Nbr_Exp do //0051BD75 imprimer toutes les pages exemplaires
     begin//2
       //0051BD7F
-      {gvar_00617DE4} FormProgression:= TFormProgression.Create(Nil);
+	  {
+      FormProgression:= TFormProgression.Create(Nil);
       FormProgression.ProgressBar1.Min := Min;
       FormProgression.ProgressBar1.Max := Max + 1;
       FormProgression.ProgressBar1.Step := 1;
       FormProgression.ProgressBar1.Position := Min - 1;
+	  }
+	  
       if (e = false) then
       begin//0051BDE8
           for I := Min to Max do //0051BDF5
@@ -581,27 +553,27 @@ begin//0
             case d of
               0:
               begin//0051BE0C
-                sub_0051C774(Min);
-                if (J * Min <> Max * Nbr_Exp) then 
-                   Printer.NewPage;
+                DrawInCanvas(I);
+                if (J * I < Max * Nbr_Exp) then 
+                    FPrintPreview.NewPage;
               end;//7
               1:
               begin//0051BE47
-                if (Min mod 2 = 1) then
+                if (I mod 2 = 1) then
                 begin//8
                   //0051BE58
-                  sub_0051C774(Min);
-                  if (J * Min <> Max * Nbr_Exp) then 
-                  Printer.NewPage;
+                  DrawInCanvas(I);
+                  if (J * I < Max * Nbr_Exp) then 
+                   FPrintPreview.NewPage;
                 end;//8
               end;//7
               2:
               begin//0051BE8C
-                if (Min mod 2 = 0) then 
+                if (I mod 2 = 0) then 
 				begin
-					sub_0051C774(Min);
-					if (J * Min <> Max * Nbr_Exp) then 
-					Printer.NewPage;
+					DrawInCanvas(I);
+					if (J * I < Max * Nbr_Exp) then 
+					 FPrintPreview.NewPage;
 				end;
               end;//7
             end;//6
@@ -615,17 +587,17 @@ begin//0
             case d of
               0:
               begin//0051BF01
-                sub_0051C774(Max);
+                DrawInCanvas(Max);
                 if (J * Max <> Min * Nbr_Exp) then 
-                Printer.NewPage;
+                 FPrintPreview.NewPage;
               end;//7
               1:
               begin//0051BF3B
                 if (Max mod 2 - 1 = 0) then
                 begin//0051BF4C
-                  sub_0051C774(Max);
+                  DrawInCanvas(Max);
                   if (J * Max <> Min * Nbr_Exp) then 
-                  Printer.NewPage;
+                   FPrintPreview.NewPage;
                 end;//8
               end;//7
               2:
@@ -633,21 +605,22 @@ begin//0
                 //0051BF7F
                 if (Max mod 2 = 0) then 
 				begin
-					sub_0051C774(Max);
+					DrawInCanvas(Max);
 					if (J * Max <> Min * Nbr_Exp) then 
-					Printer.NewPage;
+					 FPrintPreview.NewPage;
 				end;
               end;//7
             end;//6
           end;//5
       end;//3
-      FormProgression.Destroy;
+     // FormProgression.Destroy;
     end;//2
+	FPrintPreview.EndDoc;
 end;//0
 
 
 //0051BFF0
-function TImpressionGrilleNotes.sub_0051BFF0:dword;
+function TImpressionGrilleNotes.GetTaillePage:dword;
 var
  Max,Res,ACol,I:integer;
  buf:string;
@@ -656,81 +629,81 @@ begin//0
     //0051C012
     Max := 0;
     Res := 0;
-    if (sub_00519E00 > 0) then // Nbre des lignes ajoutés apres le tableau!
+    if (NbrLigneBasTableau > 0) then // Nbre des lignes ajoutés apres le tableau!
     begin//2
       //0051C025
-        for I := 0 to f4C.f8.count - 1 do//0051C042
+        for I := 0 to FInclureImpression.f8.count - 1 do//0051C042
         begin//4
           //0051C04D
-          if (f4C.fC[I])then 
-			  for ACol := 1 to f3C.NbreModules(f2C)  do
+          if (FInclureImpression.fC[I])then 
+			  for ACol := 1 to FCdn.NbrSerieNotes(FIdPeriode)  do
 			  begin//5
 				//0051C09F
 				case I of
 				  0: //Nombre d'élèves présents
 				  begin//7
 					//0051C0E6
-					Res := sub_00519AA8(f40,f3C.GetNombreElevePresents(f2C, ACol));
+					Res := GetTailleText(FCanvas,FCdn.GetNombreElevePresents(FIdPeriode, ACol));
 				  end;//7
 				  1://Min
 				  begin//7
 					//0051C137
-					Res := sub_00519AA8(f40, f3C.GetMinNote__(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetMinNote__(FIdPeriode, ACol));
 				  end;//7
 				  2://Max
 				  begin//7
 					//0051C18E
-					Res := sub_00519AA8(f40, f3C.GetMaxNote__(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetMaxNote__(FIdPeriode, ACol));
 				  end;//7
 				  3://Moyenne
 				  begin//7
 					//0051C1E5
-					Res := sub_00519AA8(f40, f3C.GetMoyenne___(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetMoyenne___(FIdPeriode, ACol));
 				  end;//7
 				  4://Ecart type
 				  begin//7
 					//0051C23C
-					Res := sub_00519AA8(f40, f3C.GetEcartType(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetEcartType(FIdPeriode, ACol));
 				  end;//7
 				  5://% notes < moyenne
 				  begin//7
 					//0051C293
-					Res := sub_00519AA8(f40, f3C.GetPersentNotesInfMoyenne(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetPersentNotesInfMoyenne(FIdPeriode, ACol));
 				  end;//7
 				  6://% notes < moyenne classe
 				  begin//7
 					//0051C2EA
-					Res := sub_00519AA8(f40, f3C.GetPersentNotesInfMoyenneClasse(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetPersentNotesInfMoyenneClasse(FIdPeriode, ACol));
 				  end;//7
 				  7://Noté sur
 				  begin//7
 					//0051C341
-					Res := sub_00519AA8(f40, f3C.GetDateNoteSur(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetDateNoteSur(FIdPeriode, ACol));
 				  end;//7
 				  8://Coefficient
 				  begin//7
 					//0051C398
-					Res := sub_00519AA8(f40, f3C.Get_Coefficient(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.Get_Coefficient(FIdPeriode, ACol));
 				  end;//7
 				  9://Compte dans la moyenne
 				  begin//7
 					//0051C3EF
-					Res := sub_00519AA8(f40, f3C.GetCompteMoyenne(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetCompteMoyenne(FIdPeriode, ACol));
 				  end;//7
 				  10://Date
 				  begin//7
 					//0051C446
-					Res := sub_00519AA8(f40, f3C.GetDataDate(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetDataDate(FIdPeriode, ACol));
 				  end;//7
 				  11://Commentaire
 				  begin//7
 					//0051C49D
-					Res := sub_00519AA8(f40, f3C.GetDataCommentaire(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetDataCommentaire(FIdPeriode, ACol));
 				  end;//7
 				  12://Type de notes
 				  begin//7
 					//0051C4F1
-					Res := sub_00519AA8(f40, f3C.GetDataTypeNote(f2C, ACol));
+					Res := GetTailleText(FCanvas, FCdn.GetDataTypeNote(FIdPeriode, ACol));
 				  end;//7
 				end;//6
 				if (Res > Max) then
@@ -741,7 +714,7 @@ begin//0
     else
     begin//2
       //0051C563
-      Max := sub_00519AA8(f40, '10,00');
+      Max := GetTailleText(FCanvas, '10,00');
     end;//2
     Res := sub_0051BB60;
 	
@@ -750,7 +723,7 @@ begin//0
     if (GetimpressionColonneMoyenne) then
     begin//2
       //0051C58C
-      Res := sub_00519AA8(f40, ' Moyennes ');
+      Res := GetTailleText(FCanvas, ' Moyennes ');
       if (Res > Max) then
       begin//3
         //0051C5A1
@@ -762,65 +735,65 @@ begin//0
 end;//0
 
 //0051C60C
-function TImpressionGrilleNotes.sub_0051C60C:byte; //Calcul le Nbr de page verticale 
+function TImpressionGrilleNotes.Get_NbrPageV:byte; //Calcul le Nbr de page verticale 
 var
- NbCell,I,J,lvar_18:integer;
+ NbCell,I,J,NbrSerieNotes:integer;
 begin//0
   //0051C60C
-  SetLength(f50, 1);
-  f50[0] := 1;  
+  SetLength(FNbrCellInTab, 1);
+  FNbrCellInTab[0] := 1;  
   //GetImpressionDatesDeNaissanceSeriesDeNotes:imprime date naissance
   //GetImpressionRSeriesDeNotes:imprime (R) 
-  //f24: Printer.PageWidth
-  NbCell :=  (f24 - sub_00519AF8(GetImpressionDatesDeNaissanceSeriesDeNotes,GetImpressionRSeriesDeNotes)) div sub_0051BFF0; //Nbre de cell par page
+  //Fwidth: Printer.TableauWidth
+  NbCell :=  4;//(Fwidth - GetMaxTailleColonne(GetImpressionDatesDeNaissanceSeriesDeNotes,GetImpressionRSeriesDeNotes)-4*MargeLeft) div GetTaillePage; //Nbre de cell par page
   if (NbCell = 0) then //0051C67B error!
     result := 0
   else 
   begin
 	  if (GetimpressionColonneMoyenne) then //0051C68B test if impressionColonneMoyenne
-		lvar_18 := f3C.NbreModules(f2C) + 1 //Nbre des Modules dans chaque Periode
+		NbrSerieNotes := FCdn.NbrSerieNotes(FIdPeriode) + 1 //Nbre des Modules dans chaque Periode
 	  else//0051C6B7
-		lvar_18 := f3C.NbreModules(f2C) ;
+		NbrSerieNotes := FCdn.NbrSerieNotes(FIdPeriode) ;
 	  J:=0;
 	  I:=0;
 	  repeat //0051C6DC
 		  J := J + 1;
-		  SetLength(f50,J+1);
-		  f50[J] := f50[J - 1] + NbCell;
+		  SetLength(FNbrCellInTab,J+1);
+		  FNbrCellInTab[J] := FNbrCellInTab[J - 1] + NbCell;
 		  I:=I+NbCell;
-	  until(I>=lvar_18);
-	  f50[J] := lvar_18 + 1;//EDX
+	  until(I>=NbrSerieNotes);
+	  FNbrCellInTab[J] := NbrSerieNotes + 1;//EDX
 	  Result := J;
 	end;
 end;//0
 
 
 //0051C774
-procedure TImpressionGrilleNotes.sub_0051C774(Num_Page:dword);
+procedure TImpressionGrilleNotes.DrawInCanvas(Num_Page:dword);
 begin//0
   //0051C774
-    {Application.ProcessMessages;
-    if (FormProgression.Visible = False) then//0051C7A9
+    Application.ProcessMessages;
+    {if (FormProgression.Visible = False) then//0051C7A9
       FormProgression.Show;
 
     FormProgression.Caption := 'Préparation de l''impression en cours ... page ' + IntToStr(FormProgression.ProgressBar1.Position);
     FormProgression.ProgressBar1.Position := FormProgression.ProgressBar1.Position + 1;}
-    sub_00519534; //imprimer EnteteBasDePage
-    sub_0051A184(Num_Page);
-    sub_0051954C;//imprimer EnteteBasDePage
+    //ImpEnteteBasDePage; //imprimer EnteteBasDePage
+    DrawContentInCanvas(Num_Page);
+    //ImpEnteteBasDePage2;//imprimer EnteteBasDePage
 end;//0
 
 
 //0051C894
-function TImpressionGrilleNotes.sub_0051C894(b:dword):dword;
+function TImpressionGrilleNotes.sub_0051C894(IdPage:dword):dword;
 begin//0
   //0051C894
-  result := sub_0051BFF0 * (f50[b] - f50[b - 1]) + sub_00519AF8(GetImpressionDatesDeNaissanceSeriesDeNotes, GetImpressionRSeriesDeNotes);
+  result := GetTaillePage * (FNbrCellInTab[IdPage] - FNbrCellInTab[IdPage - 1]) + GetMaxTailleColonne(GetImpressionDatesDeNaissanceSeriesDeNotes, GetImpressionRSeriesDeNotes);
 end;//0
 
 destructor TImpressionGrilleNotes.Destroy;
 begin//0
-  Printer.EndDoc;
+  //Printer.EndDoc;
   inherited  Destroy;
 end;//0
 

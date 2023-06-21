@@ -67,17 +67,17 @@ begin//0
     f310 := F;
     //ComboBox1.Items := gvar_006184E0.ActiveMDIChild.TabControlGrillesNotes{f328}.f210;
     ComboBox1.ItemIndex := 0;
-      for I := 1 to f310.NbreModules(1) do //0050AA1A
+      for I := 1 to f310.NbrSerieNotes(1) do //0050AA1A
       begin//0050AA21
         ListBox1.Items.Add(f310.GetTitleModule(1, I));
       end;//3
     ComboBox2.Items := ComboBox1.Items;
     ComboBox2.ItemIndex := 0;
    // lvar_10 := f310;
-    if (f310.NbreModules(ComboBox2.ItemIndex + 1) > 0) then
+    if (f310.NbrSerieNotes(ComboBox2.ItemIndex + 1) > 0) then
     begin//2
       //0050AACF
-      for I := 1 to f310.NbreModules(ComboBox2.ItemIndex + 1) do
+      for I := 1 to f310.NbrSerieNotes(ComboBox2.ItemIndex + 1) do
       begin//3
         //0050AAD6
         ListBox2.Items.Add(f310.GetTitleModule(ComboBox2.ItemIndex + 1, I));
@@ -107,7 +107,7 @@ begin//0
   //0050AC1C
     //0050AC3C
     ListBox1.Items.Clear;
-      for I := 1 to f310.NbreModules(ComboBox1.ItemIndex + 1) do//0050AC8E
+      for I := 1 to f310.NbrSerieNotes(ComboBox1.ItemIndex + 1) do//0050AC8E
       begin//3
         //0050AC95
         ListBox1.Items.Add(f310.GetTitleModule( ComboBox1.ItemIndex + 1, I));
@@ -138,7 +138,7 @@ begin//0
   //0050ADB0
     //0050ADD0
     ListBox2.Items.Clear;
-      for I := 1 to f310.NbreModules(ComboBox2.ItemIndex + 1) do//0050AE22
+      for I := 1 to f310.NbrSerieNotes(ComboBox2.ItemIndex + 1) do//0050AE22
       begin//3
         //0050AE29
        ListBox2.Items.Add(f310.GetTitleModule(ComboBox2.ItemIndex + 1, I));
@@ -273,7 +273,7 @@ K:integer;
 begin//0
   //0050B494
     //0050B4AE
-	K := f310.NbreModules(ComboBox1.ItemIndex + 1);
+	K := f310.NbrSerieNotes(ComboBox1.ItemIndex + 1);
     case K of
       0:
       begin//3
@@ -288,7 +288,7 @@ begin//0
       else 
         Label3.Caption := IntToStr(K) + ' séries de notes';
 	end;//2
-	K := f310.NbreModules(ComboBox2.ItemIndex + 1);
+	K := f310.NbrSerieNotes(ComboBox2.ItemIndex + 1);
     case K of
       0:
       begin//3

@@ -17,13 +17,4 @@ object FormPatientez: TFormPatientez
   Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
-  object ProgressBar1: TProgressBar
-    Left = 5
-    Top = 6
-    Width = 297
-    Height = 16
-    Min = 0
-    Max = 100
-    TabOrder = 0
-  end
 end

@@ -42,28 +42,24 @@ var
   I:integer;
 begin
  //004CF0A8
- inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
- FGrilleType:=2;
- 
-  SetLength(f2f4,FichierCdn.NbrePeriodes*4);
-  //FOwner := FOwner + _DynArr_121_2;
-    for I := 0 to FichierCdn.NbrePeriodes*4 -1 do
-    begin//004CF134
-      f2F4[I] := TStringList.Create;
-    end;//2
-
-  FixedRows := 1;
-  FixedCols := 0;
-  ColCount :=4;
-  DefaultRowHeight := 18;
-  //DefaultDrawing := False;
-  OnDrawCell :=  EvOnDrawCell;
-  OnMouseDown := EvOnMouseDown;
-  Options := Options + [goRowSelect];
-
-  DrawMyColumn;
-    for I := 1 to FichierCdn.NbreEleves do //004CF1E0
-      RemplireMyColumn(1, I);
+	inherited Create(AOwner,0,FeuilleClasse,FichierCdn,Periode);
+	FGrilleType:=2;
+	SetLength(f2f4,FichierCdn.NbrePeriodes*4);
+	for I := 0 to FichierCdn.NbrePeriodes*4 -1 do
+	begin//004CF134
+		f2F4[I] := TStringList.Create;
+	end;//2
+	FixedRows := 1;
+	FixedCols := 0;
+	ColCount :=4;
+	DefaultRowHeight := 18;
+	//DefaultDrawing := False;
+	OnDrawCell :=  EvOnDrawCell;
+	OnMouseDown := EvOnMouseDown;
+	Options := Options + [goRowSelect];
+	DrawMyColumn;
+	for I := 1 to FichierCdn.NbreEleves do //004CF1E0  Error here!
+	  RemplireMyColumn(1, I);
 end;
 
 //004CF21C
@@ -241,8 +237,6 @@ var
  lvar_4 : string;
  lvar_C : TStringList;
 begin//0
-  //004CFC74
-    //004CFCBB
     if (Message.ItemID < 5) then
     begin//2
       //004CFCC8
@@ -439,11 +433,12 @@ end;
 //004D08DC
 function TGrilleMoyennesCarnetDeNotes.RemplireMyColumn(Periode:dword; ARow:dword):dword;
 begin//0
-    Visible := ((FichierCdn.NbreModules(FPeriode) = 0) Xor true);
+    Visible := (FichierCdn.NbrSerieNotes(FPeriode) <> 0) ;
     Cells[0, ARow] := FichierCdn.CalcMoyBrute(Periode, ARow);
     Cells[1, ARow] := FichierCdn.CalcMoyBrute_V03(Periode, ARow, GetArrondirMoyennes);
     Cells[2, ARow] := FichierCdn.GetPointsPlusMoins__V00(Periode, ARow);
     Cells[3, ARow] := FichierCdn.GetMoyennePeriode(Periode, ARow, GetArrondirMoyennes);
+	
 end;//0
 
 
@@ -454,7 +449,6 @@ var
  I:integer;
  Count : integer;
 begin//0
-  //004D0A5C
   FPeriode := Msg.Message; //Periode
   if (FichierCdn.GetPeriodeTraite(Msg.Message)) then // test si periode est deja traité
   begin//004D0A92 
@@ -492,7 +486,7 @@ begin//0
 		  Cols[lvar_18 - lvar_18] := f2f4[I];
 		end;//2}
 	  
-	  Visible := (FichierCdn.NbreModules(FPeriode) = 0) Xor true;
+	  Visible := (FichierCdn.NbrSerieNotes(FPeriode) = 0) Xor true;
   end;
 end;//0
 
@@ -501,14 +495,14 @@ begin
     inherited DrawCell(ACol, ARow, ARect, AState);
 	EvOnDrawCell(self,ACol,ARow,ARect, AState);	
 end;}
+
+//004D03C8
 procedure TGrilleMoyennesCarnetDeNotes.EvOnDrawCell(Sender:TObject;ACol:Longint; ARow:Longint; ARect:TRect; AState:TGridDrawState);
 var
    R:TRect;
    Valeur:Real;
 begin//0
-  //004D03C8
-    //004D0402
-    EvOnDrawCell(Self, ACol, ARow ,ARect , AState);
+    EvOnDrawCell_(Self, ACol, ARow ,ARect , AState);
     Canvas.Font.Style := [];//gvar_004D0720;
     Canvas.Font.Color := 0;
     if (GetColorationNote) then

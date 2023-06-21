@@ -428,7 +428,7 @@ begin//0
             2:
             begin//6
               //005527E2
-              for lvar_18 := 1 to f368[J].NbreModules(I) do
+              for lvar_18 := 1 to f368[J].NbrSerieNotes(I) do
               begin//7
                 //00552826
                 lvar_32C := f368[J].GetDateNoteSur(I,lvar_18);

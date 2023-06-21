@@ -77,7 +77,7 @@ begin//0
     Image1.Picture := logo.Picture;
     f334 := F;
     TabControl1.Tabs := F.GetPeriodeNameList;
-      for I := 1 to f334.NbreModules(TabControl1.TabIndex + 1) do //0050C8CA
+      for I := 1 to f334.NbrSerieNotes(TabControl1.TabIndex + 1) do //0050C8CA
       begin//3
         //0050C8D1
         ListBoxSeries.Items.Add(f334.GetTitleModule(TabControl1.TabIndex + 1, I));
@@ -104,7 +104,7 @@ begin//0
     //0050C9D4
     ListBoxSeries.Clear;
       //0050CA20
-      for I := 1 to f334.NbreModules(  TabControl1.TabIndex + 1) do
+      for I := 1 to f334.NbrSerieNotes(  TabControl1.TabIndex + 1) do
       begin//3
         //0050CA27
         ListBoxSeries.Items.Add(f334.GetTitleModule(TabControl1.TabIndex + 1, I));
@@ -377,7 +377,7 @@ procedure TFormInformationsSeriesDeNotes.sub_0050E1D8;
 var
 k:integer;
 begin//0
-	k:=f334.NbreModules( TabControl1.TabIndex + 1);
+	k:=f334.NbrSerieNotes( TabControl1.TabIndex + 1);
     case k of
       0:
       begin//3

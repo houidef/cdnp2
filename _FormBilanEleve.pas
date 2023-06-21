@@ -177,7 +177,7 @@ begin//0
     f304.Add(f300.GetPeriodeName( b )+ ' - ' + f300.GetMatiereName);
     f304.Add('------------------------------------------------------------------------------');
    
-      for I := 1 to f300.NbreModules(b)  do//00534AA4
+      for I := 1 to f300.NbrSerieNotes(b)  do//00534AA4
       begin//3
         //00534AAC
         text := f300.GetTitleModule(b, I) + ' : ' + f300.Get_Sum(b, I, a) + '/' + f300.GetDateNoteSur(b, I);
@@ -188,7 +188,7 @@ begin//0
           text := text + ' (non compté dans la moyenne)';
         end;//4
         f304.Add(text + ' (Min. ' + f300.GetMinNote__(b,I) + ' - Moy. ' + f300.GetMoyenne___(b, I) + ' - Max. ' + f300.GetMaxNote__(b,I) + ')');
-        if (I <> f300.NbreModules(b)) then
+        if (I <> f300.NbrSerieNotes(b)) then
 			f304.Add('');
       end;//3
     f304.Add('------------------------------------------------------------------------------');

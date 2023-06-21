@@ -12,7 +12,7 @@ Forms, Windows,  SysUtils, Classes, ExtCtrls, Buttons, Dialogs,
 StdCtrls, CheckLst, Tabs, Graphics, UFichierCdn, UBlocTexte,
 UImpressionGrilleNotes, Printers ,UBiblio, _FormConfirmerImpression,
 UEnregistrement, UImpressionGrilleBilan, UmpressionAppreciation, 
-UImpressionGrilleVierge;
+UImpressionGrilleVierge,UViewer;
 
 type
   TFormImprimer = class(TForm)
@@ -69,17 +69,17 @@ type
     procedure CheckListBoxPeriodesClickCheck(Sender:TObject);//00525734
     procedure TabSet1Change(Sender: TObject; NewTab: Integer; var AllowChange: Boolean);//00525450
   public
-    f370:TFont;//f370
-    f374:TFichierCdn;//f374
-    f378:TStringList;//f378
+    FFont:TFont;//f370
+    FCdn:TFichierCdn;//f374
+    FStringList:TStringList;//f378
     destructor Destroy; virtual;//0052561C
     constructor Create(Aowner:TComponent; FichierCdn:TFichierCdn; logo:Timage);//00524C1C
-    procedure sub_00525464;//00525464
-    procedure sub_00525794(a:dword);//00525794
-    procedure sub_005257AC(a:dword);//005257AC
-    procedure sub_0052588C(a:dword; b:dword);//0052588C
-    procedure sub_005262DC(a:dword);//005262DC
-    procedure sub_005262F8;//005262F8
+    procedure CopyFromFcdn;//00525464
+    procedure DrawContentInCanvas(Id_Periode:dword);//00525794
+    procedure ImprGrilleBilan(Id_Periode:dword);//005257AC
+    procedure Imprimer_(GrilleType:dword; Id_Periode:dword);//0052588C
+    procedure ImprAppreciation(Id_Periode:dword);//005262DC
+    procedure ImprGrilleVierge ;//005262F8
   end;
 var 
   FormImprimer :TFormImprimer; {gvar_00617E04} 
@@ -93,19 +93,19 @@ var
   I,J:integer;
 begin//0
     inherited Create(Aowner);
-    f374 := FichierCdn{d};
+    FCdn := FichierCdn{d};
     Image1.Picture := logo.Picture;
-    f370 := TFont.Create;
-    f370.Name := GetNomPolice();
-    f370.Size := GetTaillePolice();
+    FFont := TFont.Create;
+    FFont.Name := GetNomPolice();
+    FFont.Size := GetTaillePolice();
     Panel1.Color := $E2FFFF;
-    Label3.Caption := f370.Name + ' (' + IntToStr(f370.Size) + ')';
+    Label3.Caption := FFont.Name + ' (' + IntToStr(FFont.Size) + ')';
     FontDialog1.Font.Name := 'Times New Roman';
     FontDialog1.Font.Size := 9;
-    CheckListBoxPeriodes.Items := f374.GetPeriodeNameList;
+    CheckListBoxPeriodes.Items := FCdn.GetPeriodeNameList;
     for I := 0 to CheckListBoxPeriodes.Items.Count-1 do //00524D71
     begin//00524D77
-	    J:= f374.NbreModules(I+1);
+	    J:= FCdn.NbrSerieNotes(I+1);
         if (J = 0) then//00524DA6
           CheckListBoxPeriodes.Items.Strings[I] := CheckListBoxPeriodes.Items[I] + ' (aucune série de notes)'
         else//00524DE4
@@ -115,16 +115,16 @@ begin//0
             CheckListBoxPeriodes.Items.Strings[I] := CheckListBoxPeriodes.Items[I] + ' (' + IntToStr(J) + ' séries de notes)';
     end;//3
     ComboBox1.ItemIndex := 0;
-    f378 := TStringList.Create;
-    sub_00525464;
-    ComboBoxEnteteGauche.Items := f378;
-    ComboBoxEnteteCentre.Items := f378;
-    ComboBoxEnteteDroite.Items := f378;
-    ComboBoxBasdepageGauche.Items := f378;
-    ComboBoxBasdepageDroite.Items := f378;
-    ComboBoxEnteteGauche.text := f374.GetMatiereName;
-    ComboBoxEnteteCentre.text := f374.GetClasseName;
-    ComboBoxEnteteDroite.text := f374.GetYear;
+    FStringList := TStringList.Create;
+    CopyFromFcdn;
+    ComboBoxEnteteGauche.Items := FStringList;
+    ComboBoxEnteteCentre.Items := FStringList;
+    ComboBoxEnteteDroite.Items := FStringList;
+    ComboBoxBasdepageGauche.Items := FStringList;
+    ComboBoxBasdepageDroite.Items := FStringList;
+    ComboBoxEnteteGauche.text := FCdn.GetMatiereName;
+    ComboBoxEnteteCentre.text := FCdn.GetClasseName;
+    ComboBoxEnteteDroite.text := FCdn.GetYear;
     ComboBoxBasdepageGauche.text := TimeToStr(Time);
     ComboBoxBasdepageDroite.text := DateToStr(Date);  
 end;//0
@@ -153,7 +153,7 @@ begin
       MessageBoxA(0, 'Aucune période sélectionnée !', 'Carnet de Notes version Personnelle', 16);
       Exit;
     end;//2
-    sub_00525794(F);
+    DrawContentInCanvas(F);
   end;
   if (ComboBox1.ItemIndex  = 1) then
   begin//00525183
@@ -166,7 +166,7 @@ begin
     if (F = 0) then //005251CE
       MessageBoxA(0, 'Aucune période sélectionnée !', 'Carnet de Notes version Personnelle', 16)
 	else 
-      sub_005257AC(F);
+      ImprGrilleBilan(F);
   end;//1
   
   if (ComboBox1.ItemIndex = 2) then
@@ -181,10 +181,10 @@ begin
     if (F = 0) then//0052524A
       MessageBoxA(0, 'Aucune période sélectionnée !', 'Carnet de Notes version Personnelle', 16)
     else 
-      sub_005262DC(F);
+      ImprAppreciation(F);
   end;//1
   if (ComboBox1.ItemIndex = 3) then //00525285
-    sub_005262F8;
+    ImprGrilleVierge ;
 
   if (CheckBox1.Checked ) then //0052529E
     Close;
@@ -243,42 +243,37 @@ begin
 end;
 
 //00525464
-procedure TFormImprimer.sub_00525464;
+procedure TFormImprimer.CopyFromFcdn;
 var
   buf:string;
   I:integer;
 begin//0
-  //00525464
-    //005254A6
-    f378.add(f374.GetClasseName);
-    f378.add(f374.GetMatiereName);
-    f378.add(f374.GetEnseignant);
-    f378.add(f374.GetYear);
+    FStringList.add(FCdn.GetClasseName);
+    FStringList.add(FCdn.GetMatiereName);
+    FStringList.add(FCdn.GetEnseignant);
+    FStringList.add(FCdn.GetYear);
 
-      for I := 1 to f374.NbrePeriodes do//00525563
+      for I := 1 to FCdn.NbrePeriodes do//00525563
       begin//3
         //0052556A
-        f378.add(f374.GetPeriodeName(I));
+        FStringList.add(FCdn.GetPeriodeName(I));
       end;//3
-    f378.add(DateToStr(Date));
-    f378.add(TimeToStr(Time));
+    FStringList.add(DateToStr(Date));
+    FStringList.add(TimeToStr(Time));
 end;//0
 
 //0052561C
 destructor TFormImprimer.Destroy;
 begin//0
-  //0052561C
-    //00525640
     SetBasDePageGauche(ComboBoxBasdepageGauche.Text);
     SetBasDePageDroite(ComboBoxBasdepageDroite.Text);
     SetEnTeteGauche(ComboBoxEnteteGauche.Text);
     SetEnTeteCentre(ComboBoxEnteteCentre.Text);
     SetEnTeteDroite(ComboBoxEnteteDroite.Text);
-    SetNomPolice(f370.Name);
-    SetTaillePolice(f370.Size);
-    f378.destroy;
+    SetNomPolice(FFont.Name);
+    SetTaillePolice(FFont.Size);
+    FStringList.destroy;
     inherited Destroy;
-
 end;//0
 
 
@@ -287,43 +282,36 @@ procedure TFormImprimer.CheckListBoxPeriodesClickCheck(Sender:TObject);
 var
   I:integer;
 begin//0
-  //00525734
-
-
     for I := 0 to CheckListBoxPeriodes.Items.Count - 1 do//0052575A
     begin//2
       //0052575D
-
       if (CheckListBoxPeriodes.ItemIndex <> I) then 
       if (CheckListBoxPeriodes.Checked[I] ) then 
 		CheckListBoxPeriodes.Checked[I] := False;
     end;//2
-
 end;//0
 
 
 //00525794
-procedure TFormImprimer.sub_00525794(a:dword); //Impression Grille Notes
+procedure TFormImprimer.DrawContentInCanvas(Id_Periode:dword); //Impression Grille Notes
 begin//0
   //00525794
-  sub_0052588C(0, a);
+  Imprimer_(0, Id_Periode);
 end;//0
 
 
 
 //005257AC
-procedure TFormImprimer.sub_005257AC(a:dword); //Impression Grille Bilan
+procedure TFormImprimer.ImprGrilleBilan(Id_Periode:dword); //Impression Grille Bilan
 begin//0
   //005257AC
-  sub_0052588C(1, a);
+  Imprimer_(1, Id_Periode);
 end;//0
 
 
 //005257C4
 procedure TFormImprimer.BitBtn1Click(Sender:TObject);
 begin//0
-  //005257C4
-
   {gvar_00617D64}FormOptions := TFormOptions.Create(Self, Image1);
   FormOptions.PageControl1.ActivePage := FormOptions.TabSheet3;
   case ComboBox1.ItemIndex of
@@ -360,94 +348,103 @@ begin
 end;
 
 //0052588C
-procedure TFormImprimer.sub_0052588C(a:dword; b:dword);
+procedure TFormImprimer.Imprimer_(GrilleType:dword; Id_Periode:dword);
 var
  EnteteDePage : TEnteteBasDePage;
  BasDePage : TEnteteBasDePage;
- lvar_18 : TImpressionGrilleNotes;
- lvar_1C : TImpressionGrilleBilan;
- lvar_20 : TImpressionAppreciation;
- lvar_24 : TImpressionGrilleVierge;
+ VImpressionGrilleNotes : TImpressionGrilleNotes;
+ VImpressionGrilleBilan : TImpressionGrilleBilan;
+ VImpressionAppreciation : TImpressionAppreciation;
+ VImpressionGrilleVierge : TImpressionGrilleVierge;
 begin//0
- //0052588C
-    //005258BE
-    if (a = 0) then
+    MainForm := TMainForm.Create(self);
+	MainForm.parent := self.parent;
+	MainForm.GeneratePages;
+    if (GrilleType = 0) then
     begin//005258D6
-      if (f374.NbreModules(b) = 0) then
+      if (FCdn.NbrSerieNotes(Id_Periode) = 0) then
       begin//005258E8
         MessageBoxA(0, 'Aucune série de notes pour cette période !', 'Carnet de Notes version Personnelle', $10{16});
         Exit;
       end;//3
-    end;//2
+    end;
     EnteteDePage := TEnteteBasDePage.Create(TBlocTexte.Create(ComboBoxEnteteGauche.Text,CheckBoxEnTeteGauche.Checked),
 								     TBlocTexte.Create(ComboBoxEnteteCentre.Text,CheckBoxEnTeteCentre.Checked),
 								     TBlocTexte.Create(ComboBoxEnteteDroite.Text,CheckBoxEnTeteDroite.Checked));
     BasDePage := TEnteteBasDePage.Create(TBlocTexte.Create(ComboBoxBasdepageGauche.Text,CheckBoxBasdepageGauche.Checked),
 									 TBlocTexte.Create(ComboBoxBasdepageCentre.Text,CheckBoxBasdepageCentre.Checked), 
 								     TBlocTexte.Create(ComboBoxBasdepageDroite.Text,CheckBoxBasdepageDroite.Checked));
-    case a of
+    case GrilleType of
       0://00525A5C        
-        lvar_18 := TImpressionGrilleNotes.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, GetSeriesdeNotes(0), GetNumeroterElevesSeriesDeNotes,f370);
+        VImpressionGrilleNotes := TImpressionGrilleNotes.Create(FCdn, MainForm.PrintPreview,EnteteDePage , BasDePage, Id_Periode, GetSeriesdeNotes(0), GetNumeroterElevesSeriesDeNotes,FFont);
       1://00525AA1
-        lvar_1C := TImpressionGrilleBilan.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, b, GetSeriesdeNotes(1), GetNumeroterElevesBilans,f370);
-
+        VImpressionGrilleBilan := TImpressionGrilleBilan.Create(FCdn, Printer.Canvas,EnteteDePage , BasDePage, Id_Periode, GetSeriesdeNotes(1), GetNumeroterElevesBilans,FFont);
       2://00525AE3
-        lvar_20 := TImpressionAppreciation.Create(f374, Printer.Canvas,EnteteDePage{EDI} , BasDePage{lvar_14}, b{lvar_1},Nil ,GetNumeroterElevesAppreciations,f370);
-
+        VImpressionAppreciation := TImpressionAppreciation.Create(FCdn, Printer.Canvas,EnteteDePage , BasDePage, Id_Periode,Nil ,GetNumeroterElevesAppreciations,FFont);
       3://00525B1D        
-        lvar_24 := TImpressionGrilleVierge.Create(f374, Printer.Canvas,EnteteDePage , BasDePage, 0,GetSeriesdeNotes(2), GetnumeroterElevesGrilleVierge, f370);
-
+        VImpressionGrilleVierge := TImpressionGrilleVierge.Create(MainForm.PageBoundsAfterMargin,FCdn, MainForm.PrintPreview,EnteteDePage , BasDePage, 0,GetSeriesdeNotes(2), GetnumeroterElevesGrilleVierge, FFont);
     end;//2
-
-    {gvar_00617DF4}FormConfirmerImpression := TFormConfirmerImpression.Create(Self);
-    FormConfirmerImpression.f30C := 1;
-    FormConfirmerImpression.f314 := 1;
-    case a of
+    (*
+    FormConfirmerImpression := TFormConfirmerImpression.Create(Self);
+    FormConfirmerImpression.FNbrPageMin := 1;
+    FormConfirmerImpression.FMinPage := 1;
+    case GrilleType of
       0://00525BAC
-        FormConfirmerImpression.f310 := lvar_18.sub_00519A90; //Error d'impression & Nbr de page imprimer
+        FormConfirmerImpression.NbrPage := VImpressionGrilleNotes.GetNbrPage; //Error d'impression & Nbr de page imprimer
       1://00525BC4
-        FormConfirmerImpression.f310 := lvar_1C.sub_00519A90;
+        FormConfirmerImpression.NbrPage := VImpressionGrilleBilan.GetNbrPage;
       2://00525BDC
-        FormConfirmerImpression.f310 := lvar_20.sub_00519A90;
+        FormConfirmerImpression.NbrPage := VImpressionAppreciation.GetNbrPage;
       3://00525BF4
-        FormConfirmerImpression.f310 := lvar_24.sub_00519A90;
+        FormConfirmerImpression.NbrPage := VImpressionGrilleVierge.GetNbrPage;
     end;//2
-    FormConfirmerImpression.f318 := FormConfirmerImpression.f310;
-    if (FormConfirmerImpression.f310 = 0) then //00525C36
+    FormConfirmerImpression.FMaxPage := FormConfirmerImpression.NbrPage;
+	
+    if (FormConfirmerImpression.NbrPage = 0) then //00525C36
       MessageBoxA(0, 'Impossible d''imprimer. La largeur d''une colonne ne tient pas sur une page !'+#13+#10+'Si vous êtes en mode portrait, essayez le mode paysage.', 'Carnet de Notes version Personnelle', $10{16})
     else
     begin//00525C4E
-      if (FormConfirmerImpression.f310 = -1) then //00525C57
+      if (FormConfirmerImpression.NbrPage = -1) then //00525C57
         MessageBoxA(0, 'Impossible d''imprimer. La hauteur d''une colonne ne tient pas sur une page !'+#13+#10+'Si vous êtes en mode paysage, essayez le mode portrait et/ou une fonte plus petite.', 'Carnet de Notes version Personnelle', $10{16})
       else
       begin//00525C6F
         FormConfirmerImpression.ShowModal;
         if (FormConfirmerImpression.ModalResult = 1) then
         begin//00525C92
-		   
-          case a of
+          case GrilleType of
             0://00525CAF
-              lvar_18.sub_0051BD4C(FormConfirmerImpression.f314, FormConfirmerImpression.f318, FormConfirmerImpression.f31C, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
+              VImpressionGrilleNotes.GeneratePages(FormConfirmerImpression.FMinPage, FormConfirmerImpression.FMaxPage, FormConfirmerImpression.NbrExemplaires, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
             1://00525D0E
-              lvar_1C.sub_0051CAF8(FormConfirmerImpression.f314, FormConfirmerImpression.f318, FormConfirmerImpression.f31C, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
+              VImpressionGrilleBilan.sub_0051CAF8(FormConfirmerImpression.FMinPage, FormConfirmerImpression.FMaxPage, FormConfirmerImpression.NbrExemplaires, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
             2://00525D6D
-              lvar_20.sub_00521464(FormConfirmerImpression.f314, FormConfirmerImpression.f318, FormConfirmerImpression.f31C, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
+              VImpressionAppreciation.sub_00521464(FormConfirmerImpression.FMinPage, FormConfirmerImpression.FMaxPage, FormConfirmerImpression.NbrExemplaires, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
             3://00525DC9
-              lvar_24.sub_00524130(FormConfirmerImpression.f314, FormConfirmerImpression.f318, FormConfirmerImpression.f31C, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
+              VImpressionGrilleVierge.GeneratePages(FormConfirmerImpression.FMinPage, FormConfirmerImpression.FMaxPage, FormConfirmerImpression.NbrExemplaires, FormConfirmerImpression.RadioGroupParite.ItemIndex, FormConfirmerImpression.CheckBoxOrdreInverse.Checked);
            end;//5
         end;//4
       end;//3
     end;//2
-    FormConfirmerImpression.Destroy;
-	case a of
-	0:
-	  lvar_18.destroy;
-	1:
-	  lvar_1C.destroy;
-	2:
-	  lvar_20.destroy;
-	3:
-	  lvar_24.destroy;
+	*)
+	
+	case GrilleType of
+	 0:VImpressionGrilleNotes.GeneratePages(1,  3, 1, 1, false);
+	 //1:
+	 //2:
+	 3:VImpressionGrilleVierge.GeneratePages(1,  1, 1, 1, false);
+	end;
+	{
+    MainForm.PrintPreview.begindoc;
+	MainForm.PrintPreview.Canvas.TextOut(0,0,'Hello');
+	MainForm.PrintPreview.enddoc;
+	}
+	
+	MainForm.showmodal();
+    //FormConfirmerImpression.Destroy;
+	case GrilleType of
+	0: VImpressionGrilleNotes.destroy;
+	1: VImpressionGrilleBilan.destroy;
+	2: VImpressionAppreciation.destroy;
+	3: VImpressionGrilleVierge.destroy;
    end;//5
 end;
 
@@ -456,20 +453,16 @@ procedure TFormImprimer.ComboBox1Change(sender:TObject);
 var
    I,lvar_4:integer;
 begin//0
-  //00526028
-    //00526048
-
     case ComboBox1.ItemIndex of
       0:
       begin//3
         //00526071
-        
-        //lvar_8 := f374;
-		  CheckListBoxPeriodes.Items:=f374.GetPeriodeNameList;
+        //lvar_8 := FCdn;
+		  CheckListBoxPeriodes.Items:=FCdn.GetPeriodeNameList;
           for I := 0 to CheckListBoxPeriodes.Items.count -1 do//005260B2
           begin//5
             //005260B8
-            lvar_4 := f374.NbreModules(I + 1) ;
+            lvar_4 := FCdn.NbrSerieNotes(I + 1) ;
             if (lvar_4 = 0) then //005260E7
               CheckListBoxPeriodes.Items[I ] :=CheckListBoxPeriodes.Items[I] + ' (aucune série de notes)'
             else//00526125
@@ -477,39 +470,30 @@ begin//0
                 CheckListBoxPeriodes.Items[I] :=CheckListBoxPeriodes.Items[I] + ' (1 série de notes)'
               else //00526166
                 CheckListBoxPeriodes.Items[I] := CheckListBoxPeriodes.Items[I] + ' (' + IntToStr(lvar_4) + ' séries de notes)';
-
- 
           end;//5
-          
       end;//3
       1:
       begin//3
         //005261C6
         CheckListBoxPeriodes.Items.Clear;
-        CheckListBoxPeriodes.Items := f374.GetPeriodeNameList;
+        CheckListBoxPeriodes.Items := FCdn.GetPeriodeNameList;
         CheckListBoxPeriodes.Items.Add('Sur l''année');
       end;//3
       2:
-      begin//3
-        //00526207
-        CheckListBoxPeriodes.Items := f374.GetPeriodeNameList;
-        
+      begin//00526207
+        CheckListBoxPeriodes.Items := FCdn.GetPeriodeNameList;
       end;//3
       3:
-      begin//3
-        //00526223
+      begin//00526223
         CheckListBoxPeriodes.Items.Clear;
       end;//3
     end;//2
-
-    //00526241
-
 end;//0
 
 //005262DC
-procedure TFormImprimer.sub_005262DC(a:dword); //Impression Appreciation
+procedure TFormImprimer.ImprAppreciation(Id_Periode:dword); //Impression Appreciation
 begin//005262DC
-  sub_0052588C(2, a);
+  Imprimer_(2, Id_Periode);
 end;//0
 
 
@@ -523,10 +507,10 @@ end;//0
 
 
 //005262F8
-procedure TFormImprimer.sub_005262F8; // Impression Grille Vierge 
+procedure TFormImprimer.ImprGrilleVierge ; // Impression Grille Vierge 
 begin//0
   //005262F8
-  sub_0052588C(3, 1);
+  Imprimer_(3, 1);
 end;//0
 
 
@@ -540,12 +524,9 @@ begin//0
   //00526304
     //0052631E
     if (FontDialog1.Execute ) then//0052632D
-      f370 := FontDialog1.Font;
+      FFont := FontDialog1.Font;
 
-    Label3.Caption := f370.Name + ' (' + IntToStr(f370.Size) + ')';
-
-    //00526395
-
+    Label3.Caption := FFont.Name + ' (' + IntToStr(FFont.Size) + ')';
 end;//0
 
 //005263D0

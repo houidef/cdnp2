@@ -393,7 +393,7 @@ begin//0
     CouleurNotesEleve.SelectionColor := GetCouleurEleve;
     CouleurMinimumClasse.SelectionColor := GetCouleurMin;
     CouleurMaximumClasse.SelectionColor := GetcouleurMax;
-    CouleurMoyenneClasse.SelectionColor := sub_004BBD14;
+    CouleurMoyenneClasse.SelectionColor := GetcouleurMoyenne;
     CouleurMurGauche.SelectionColor := GetColorMurGauche;
     CouleurMurBas.SelectionColor := GetCouleurMurBas;
     CheckBox17.Checked :=GetGrapheLigneEleve;
@@ -1632,14 +1632,14 @@ end;//0
 procedure TFormOptions.CouleurFondFenetreInfosDefaultSelect(sender:Tobject);
 begin//0
   //00508900
-  CouleurFondFenetreInfos.SelectionColor :=sub_004BB8AC;
+  CouleurFondFenetreInfos.SelectionColor :=GetColorVersCiel;
 end;//0
 
 //00508918
 procedure TFormOptions.CouleurNotesEleveDefaultSelect(sender:Tobject);
 begin//0
   //00508918
-  CouleurNotesEleve.SelectionColor := sub_004BBCAC;
+  CouleurNotesEleve.SelectionColor := GetColorBlueCiel;
 end;//0
 
 
@@ -1647,7 +1647,7 @@ end;//0
 procedure TFormOptions.CouleurMinimumClasseDefaultSelect(sender:Tobject);
 begin//0
   //00508930
-  CouleurMinimumClasse.SelectionColor := sub_004BBD0C;
+  CouleurMinimumClasse.SelectionColor := GetColorNoir;
 end;//0
 
 
@@ -1655,21 +1655,21 @@ end;//0
 procedure TFormOptions.CouleurMaximumClasseDefaultSelect(Sender:TObject);
 begin//0
   //00508948
-  CouleurMaximumClasse.SelectionColor :=sub_004BBCDC;
+  CouleurMaximumClasse.SelectionColor :=GetColorRouge;
 end;//0
 
 //00508960
 procedure TFormOptions.CouleurMoyenneClasseDefaultSelect(Sender:TObject);
 begin//0
   //00508960
-  CouleurMoyenneClasse.SelectionColor := sub_004BBD40;
+  CouleurMoyenneClasse.SelectionColor :=GetColorVer;
 end;//0
 
 //00508978
 procedure TFormOptions.CouleurDebutDegradeDefaultSelect(Sender:TObject);
 begin//0
   //00508978
-  CouleurDebutDegrade.SelectionColor := sub_004BBBD8;
+  CouleurDebutDegrade.SelectionColor := GetColorJauneCiel;
 end;//0
 
 
@@ -1677,7 +1677,7 @@ end;//0
 procedure TFormOptions.CouleurFinDegradeDefaultSelect(Sender:TObject);
 begin//0
   //00508990
-  CouleurFinDegrade.SelectionColor := sub_004BBBE0;
+  CouleurFinDegrade.SelectionColor := GetColorRougeCiel;
 end;//0
 
 
@@ -1685,7 +1685,7 @@ end;//0
 procedure TFormOptions.CouleurMurGaucheDefaultSelect;
 begin//0
   //005089A8
-  CouleurMurGauche.SelectionColor := sub_004BBDD0;
+  CouleurMurGauche.SelectionColor := GetColorBlanc2;
 end;//0
 
 
@@ -1693,7 +1693,7 @@ end;//0
 procedure TFormOptions.CouleurMurBasDefaultSelect(Sender:TObject);
 begin//0
   //005089C0
-  CouleurMurBas.SelectionColor := sub_004BBD9C;
+  CouleurMurBas.SelectionColor := GetColorBlanc;
 end;//0
 
 

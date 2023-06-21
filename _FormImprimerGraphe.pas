@@ -27,7 +27,7 @@ type
     procedure SpeedButton5Click(Sender:TObject);//00533910
   public
     f2F0:  TCustomTeePanel;//f2F0
-    constructor Create(Owner:TComponent;Chart:TChart; logo:Timage; c:string);//005337F0
+    constructor Create(Owner:TComponent;Chart:TChart; logo:Timage; title:string);//005337F0
   end;
   var
     FormImprimerGraphe:TFormImprimerGraphe;
@@ -36,14 +36,10 @@ implementation
 {$R *.DFM}
 
 //005337F0
-constructor TFormImprimerGraphe.Create(Owner:TComponent;Chart:TChart; logo:Timage; c:string);
+constructor TFormImprimerGraphe.Create(Owner:TComponent;Chart:TChart; logo:Timage; title:string);
 begin//0
-  //005337F0
-
-    //00533828
     inherited Create(Owner);
-    Caption := Caption + ' ' + c;
-    
+    Caption := Caption + ' ' + title;
     f2F0 := Chart;
     Image1.Picture := logo.Picture;
     Chart.CopyToClipboardBitmap;

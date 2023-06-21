@@ -39,11 +39,11 @@ type
     procedure UpDown1Click(Sender:TObject; Button: TUDBtnType);//00520F8C
     procedure RadioButton2Click(Sender:TObject);//00520F50
   public
-    f30C:dword;//f30C
-    f310:dword;  //f310  Nbr total des pages
-    f314:Integer;//f314  Min page
-    f318:Integer;//f318  Max page
-    f31C:Integer;//f31C  Nbr exemplaire
+    FNbrPageMin:dword;//f30C
+    NbrPage:dword;  //f310  Nbr total des pages
+    FMinPage:Integer;//f314  Min page
+    FMaxPage:Integer;//f318  Max page
+    NbrExemplaires:Integer;//f31C  Nbr exemplaire
   end;
   var
     FormConfirmerImpression:TFormConfirmerImpression;
@@ -56,18 +56,15 @@ procedure TFormConfirmerImpression.FormShow(Sender:TObject);
 var
   lvar_4:AnsiString;
 begin//0
-  //00520CDC
-    //00520CF2
-    UpDown1.Min := f30C;// +$8000{32768}+ $FFFF8000{-32768};
-    UpDown1.Max := f310;// + $8000{32768} + $FFFF8000{-32768}
+    UpDown1.Min := FNbrPageMin;
+    UpDown1.Max := NbrPage;
     UpDown1.Position := 1;
     Edit1.Text := '1';
-    UpDown2.Min := f30C;// +$8000{32768}+ $FFFF8000{-32768};
-    UpDown2.Max := f310;// + $8000{32768} + $FFFF8000{-32768}
-    UpDown2.Position:= f310;// + $8000{32768} + $FFFF8000{-32768} 
-    Edit2.Text:= IntToStr(f310);
+    UpDown2.Min := FNbrPageMin;
+    UpDown2.Max := NbrPage;
+    UpDown2.Position:= NbrPage;
+    Edit2.Text:= IntToStr(NbrPage);
     Edit3.Text := '1';
-
 end;//0
 
 //00520E3C
@@ -77,23 +74,19 @@ var
   lvar_8:AnsiString;
   lvar_C:AnsiString;
 begin//0
-  //00520E3C
-    //00520E56
     if (RadioButton1.Checked) then
     begin//2
       //00520E68
-      f314 := 1; // min page = 1
-      f318 := f310;
+      FMinPage := 1; // min page = 1
+      FMaxPage := NbrPage;
     end;//2
     if (RadioButton2.Checked) then
     begin//2
       //00520E90
-      f314 := StrToInt(Edit1.Text);
-      f318 := StrToInt(Edit2.Text);
+      FMinPage := StrToInt(Edit1.Text);
+      FMaxPage := StrToInt(Edit2.Text);
     end;//2
-
-    f31C := StrToInt(Edit3.Text);
-
+    NbrExemplaires := StrToInt(Edit3.Text);
 end;//0
 
 
@@ -101,8 +94,8 @@ end;//0
 procedure TFormConfirmerImpression.RadioButton1Click(Sender:TObject);
 begin//0
   //00520F0C
-  UpDown1.Enabled := RadioButton1.Checked Xor true;
-  UpDown2.Enabled := RadioButton1.Checked Xor true;
+  UpDown1.Enabled := not(RadioButton1.Checked);
+  UpDown2.Enabled := not(RadioButton1.Checked);
 end;//0
 
 //00520F50
@@ -116,54 +109,35 @@ end;//0
 //00520F8C
 procedure TFormConfirmerImpression.UpDown1Click(Sender:TObject; Button: TUDBtnType);
 begin//0
-  //00520F8C
-    //00520FB0
     if (Button = btNext{0}) then//00520FB4
-      if (StrToInt(Edit1.Text) < f310) then //00520FD2
+      if (StrToInt(Edit1.Text) < NbrPage) then //00520FD2
         Edit1.Text := IntToStr(StrToInt(Edit1.Text) + 1);
-
 
     if (Button = btPrev{1}) then 
     if (StrToInt(Edit1.Text) - 1 > 0) then//00521024
       Edit1.Text := IntToStr(StrToInt(Edit1.Text) - 1);
-
-
-    //00521065
-
 end;//0
 
 //005210A4
 procedure TFormConfirmerImpression.UpDown2Click(Sender:TObject; Button: TUDBtnType);
 begin//0
-  //005210A4
-    //005210C8
     if (Button = btNext{0}) then//005210CC
-      if ( StrToInt(Edit2.text) < f310) then//005210EA
+      if ( StrToInt(Edit2.text) < NbrPage) then//005210EA
         Edit2.text:=IntToStr(StrToInt(Edit2.text) + 1);
-
 
     if (Button = btPrev{1}) then 
     if (StrToInt(Edit2.text) - 1 > 0) then//0052113C
       Edit2.text :=IntToStr(StrToInt(Edit2.text) - 1);
-
-
-    //0052117D
-
 end;//0
 
 //005211BC
 procedure TFormConfirmerImpression.UpDown3Click(Sender:TObject; Button:TUDBtnType);
 begin//0
-  //005211BC
-    //005211DC
-    if (Button = btNext{0}) then//005211E0
+    if (Button = btNext) then//005211E0
       Edit3.text :=IntToStr(StrToInt(Edit3.text) + 1);
 
-    if (Button = btPrev{1}) then
+    if (Button = btPrev) then
 		Edit3.text := IntToStr(StrToInt(Edit3.text) - 1);
-
-    //0052125A
-
 end;//0
 
 //0052128C
